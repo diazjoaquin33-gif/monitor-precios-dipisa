@@ -22,14 +22,14 @@ PRODUCTOS = [
         "sku_nombre": "Doble Hoja 22m 40 un",
         "retailer": "Santa Isabel",
         "metros_totales": 880,
-        "url": "https://www.santaisabel.cl/papel-higienico-noble-doble-hoja-22-m-40-un-1960588/p"
+        "url": "https://www.santaisabel.cl/ph-doble-hoja-noble-dh-40-rollos-1960588/p"
     },
     {
         "marca": "Confort",
         "sku_nombre": "Doble Hoja 22m 40 un",
         "retailer": "Santa Isabel",
         "metros_totales": 880,
-        "url": "https://www.santaisabel.cl/papel-higienico-confort-doble-hoja-22-m-40-un-1997284/p"
+        "url": "https://www.santaisabel.cl/ph-doble-hoja-noble-dh-40-rollos-1960588/p"
     }
 ]
 
