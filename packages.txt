@@ -1,1 +1,4 @@
 chromium
+libgbm-dev
+libnss3
+libasound2
