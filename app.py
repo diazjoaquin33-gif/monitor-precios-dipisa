@@ -1,6 +1,5 @@
 import streamlit as st
 import json
-import re
 import urllib.parse
 import requests
 
@@ -10,12 +9,14 @@ st.set_page_config(
     layout="wide"
 )
 
+# SKUs y Product IDs exactos de Santa Isabel
 PRODUCTOS = [
     {
         "marca": "Noble",
         "sku_nombre": "Doble Hoja 23m 4 un",
         "retailer": "Santa Isabel",
         "metros_totales": 92,
+        "sku_id": "1859328",
         "url": "https://www.santaisabel.cl/papel-higienico-doble-hoja-23-m-4-un-1859328/p"
     },
     {
@@ -23,6 +24,7 @@ PRODUCTOS = [
         "sku_nombre": "Doble Hoja 22m 40 un",
         "retailer": "Santa Isabel",
         "metros_totales": 880,
+        "sku_id": "1960588",
         "url": "https://www.santaisabel.cl/ph-doble-hoja-noble-dh-40-rollos-1960588/p"
     },
     {
@@ -30,92 +32,56 @@ PRODUCTOS = [
         "sku_nombre": "Doble Hoja 22m 40 un",
         "retailer": "Santa Isabel",
         "metros_totales": 880,
+        "sku_id": "1997284",
         "url": "https://www.santaisabel.cl/papel-higienico-confort-dh-22mt-40un-1997284/p"
     }
 ]
 
-def extraer_precios_html(html_text):
-    """Extrae con precisión el precio de oferta y el precio tachado (normal)."""
-    precio_oferta = None
-    precio_normal = None
-
-    # 1. Búsqueda estructurada en el JSON del estado VTEX
+def obtener_datos_vtex(sku_id):
+    """Consulta la API de catálogo de VTEX usando un puente proxy para evitar bloqueos de IP."""
+    target_url = f"https://www.santaisabel.cl/api/catalog_system/pub/products/search?fq=skuId:{sku_id}"
+    proxy_url = f"https://api.allorigins.win/get?url={urllib.parse.quote(target_url)}"
+    
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    }
+    
     try:
-        state_match = re.search(r'__STATE__\s*=\s*(\{.*?\});?</script>', html_text, re.DOTALL)
-        if state_match:
-            state_data = json.loads(state_match.group(1))
-            for key, val in state_data.items():
-                if isinstance(val, dict):
-                    # VTEX guarda precios de lista y oferta en commertialOffer o seller
-                    p_price = int(val.get("Price", val.get("price", 0)))
-                    p_list = int(val.get("ListPrice", val.get("listPrice", 0)))
-                    p_spot = int(val.get("spotPrice", 0))
-                    p_no_dcto = int(val.get("PriceWithoutDiscount", 0))
-
-                    candidatos_oferta = [p for p in [p_spot, p_price] if p > 500]
-                    candidatos_normal = [p for p in [p_list, p_no_dcto, p_price] if p > 500]
-
-                    if candidatos_oferta:
-                        precio_oferta = min(candidatos_oferta)
-                    if candidatos_normal:
-                        precio_normal = max(candidatos_normal)
-
-                    if precio_oferta and precio_normal and precio_normal > precio_oferta:
-                        break
+        # Intento 1: Vía proxy
+        r = requests.get(proxy_url, headers=headers, timeout=8)
+        if r.status_code == 200:
+            raw_text = r.json().get("contents", "")
+            data = json.loads(raw_text)
+            if data and len(data) > 0:
+                offer = data[0]["items"][0]["sellers"][0]["commertialOffer"]
+                precio_oferta = int(offer.get("Price", 0))
+                precio_normal = int(offer.get("ListPrice", precio_oferta))
+                return precio_oferta, precio_normal
     except Exception:
         pass
 
-    # 2. Respaldo: Extracción de todos los montos en formato CLP ($X.XXX)
-    precios_encontrados = re.findall(r'\$\s?([0-9]{1,3}(?:\.[0-9]{3})+)', html_text)
-    if precios_encontrados:
-        valores = sorted(list(set([int(p.replace(".", "")) for p in precios_encontrados if int(p.replace(".", "")) >= 1000])))
-        if valores:
-            if not precio_oferta or precio_oferta == 0:
-                precio_oferta = valores[0]  # El menor es la oferta real
-            
-            # Si solo se había detectado un precio, buscar el precio mayor (tachado)
-            if not precio_normal or precio_normal <= precio_oferta:
-                if len(valores) > 1:
-                    precio_normal = valores[-1]  # El mayor de la página es el precio original
-                else:
-                    precio_normal = precio_oferta
+    try:
+        # Intento 2: Directo
+        r = requests.get(target_url, headers=headers, timeout=5)
+        if r.status_code == 200:
+            data = r.json()
+            if data and len(data) > 0:
+                offer = data[0]["items"][0]["sellers"][0]["commertialOffer"]
+                precio_oferta = int(offer.get("Price", 0))
+                precio_normal = int(offer.get("ListPrice", precio_oferta))
+                return precio_oferta, precio_normal
+    except Exception:
+        pass
 
-    return precio_oferta, precio_normal
+    return None, None
 
 @st.cache_data(ttl=1800)
 def consultar_precios_en_vivo():
     resultados = []
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-        "Accept-Language": "es-CL,es;q=0.9"
-    }
 
     for prod in PRODUCTOS:
-        precio_oferta = None
-        precio_normal = None
-        html_content = ""
+        precio_oferta, precio_normal = obtener_datos_vtex(prod["sku_id"])
 
-        # Intento directo
-        try:
-            r = requests.get(prod["url"], headers=headers, timeout=5)
-            if r.status_code == 200:
-                html_content = r.text
-                precio_oferta, precio_normal = extraer_precios_html(html_content)
-        except Exception:
-            pass
-
-        # Intento vía proxy si hay bloqueo
-        if not precio_oferta or precio_oferta == 0:
-            try:
-                proxy_url = f"https://api.allorigins.win/get?url={urllib.parse.quote(prod['url'])}"
-                r = requests.get(proxy_url, headers=headers, timeout=10)
-                if r.status_code == 200:
-                    html_content = r.json().get("contents", "")
-                    precio_oferta, precio_normal = extraer_precios_html(html_content)
-            except Exception:
-                pass
-
-        # Normalización y cálculo de métricas
         if precio_oferta and precio_oferta > 0:
             if not precio_normal or precio_normal < precio_oferta:
                 precio_normal = precio_oferta
