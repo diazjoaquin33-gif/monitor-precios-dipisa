@@ -8,7 +8,10 @@ st.set_page_config(page_title="Dipisa & Ovella - Pricing", page_icon="📊", lay
 
 # Clave de Gemini (en local o desde secrets de la nube)
 # Obtiene la clave de forma segura desde Streamlit o variable de entorno
-GEMINI_API_KEY = st.secrets.get("AQ.Ab8RN6KD-zhxdVKVlWX-VOL76k0k_WlcGMv8JVqUC5z4E-KCqg", "")
+import os
+
+# Lee la clave desde la configuración segura de Streamlit o del sistema
+GEMINI_API_KEY = st.secrets.get("GEMINI_API_KEY", os.environ.get("GEMINI_API_KEY", ""))
 
 # Lista de productos
 PRODUCTOS = [
