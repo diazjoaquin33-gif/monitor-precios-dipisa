@@ -35,59 +35,50 @@ PRODUCTOS = [
 ]
 
 def extraer_precios_html(html_text):
-    """Extrae precio normal, precio oferta y promociones desde el estado VTEX o metadatos."""
+    """Extrae con precisión el precio de oferta y el precio tachado (normal)."""
     precio_oferta = None
     precio_normal = None
 
-    # 1. Búsqueda profunda en el estado reactivo de VTEX (__STATE__)
+    # 1. Búsqueda estructurada en el JSON del estado VTEX
     try:
         state_match = re.search(r'__STATE__\s*=\s*(\{.*?\});?</script>', html_text, re.DOTALL)
         if state_match:
             state_data = json.loads(state_match.group(1))
             for key, val in state_data.items():
-                if isinstance(val, dict) and "commertialOffer" in key:
-                    p_price = int(val.get("Price", 0))
-                    p_list = int(val.get("ListPrice", p_price))
-                    p_spot = int(val.get("spotPrice", p_price))
+                if isinstance(val, dict):
+                    # VTEX guarda precios de lista y oferta en commertialOffer o seller
+                    p_price = int(val.get("Price", val.get("price", 0)))
+                    p_list = int(val.get("ListPrice", val.get("listPrice", 0)))
+                    p_spot = int(val.get("spotPrice", 0))
+                    p_no_dcto = int(val.get("PriceWithoutDiscount", 0))
 
-                    p_final = min([p for p in [p_spot, p_price] if p > 0]) if (p_spot or p_price) else p_price
-                    if p_final > 0:
-                        precio_oferta = p_final
-                        precio_normal = p_list if p_list > 0 else precio_oferta
+                    candidatos_oferta = [p for p in [p_spot, p_price] if p > 500]
+                    candidatos_normal = [p for p in [p_list, p_no_dcto, p_price] if p > 500]
+
+                    if candidatos_oferta:
+                        precio_oferta = min(candidatos_oferta)
+                    if candidatos_normal:
+                        precio_normal = max(candidatos_normal)
+
+                    if precio_oferta and precio_normal and precio_normal > precio_oferta:
                         break
     except Exception:
         pass
 
-    # 2. Respaldo por JSON-LD
-    if not precio_oferta:
-        try:
-            ld_blocks = re.findall(r'<script type="application/ld\+json">(.*?)</script>', html_text, re.DOTALL)
-            for block in ld_blocks:
-                data = json.loads(block)
-                if "offers" in data:
-                    offers = data["offers"]
-                    if isinstance(offers, list):
-                        offers = offers[0]
-                    p = float(offers.get("price", offers.get("lowPrice", 0)))
-                    high_p = float(offers.get("highPrice", p))
-                    if p > 0:
-                        precio_oferta = int(p)
-                        precio_normal = int(high_p) if high_p > p else int(p)
-                        break
-        except Exception:
-            pass
-
-    # 3. Respaldo por búsqueda de patrones numéricos de precios en HTML
-    if not precio_oferta:
-        precios = re.findall(r'\$\s?([0-9]{1,3}(?:\.[0-9]{3})+)', html_text)
-        if precios:
-            valores = sorted(list(set([int(p.replace(".", "")) for p in precios if int(p.replace(".", "")) > 500])))
-            if len(valores) == 1:
-                precio_oferta = valores[0]
-                precio_normal = valores[0]
-            elif len(valores) >= 2:
-                precio_oferta = valores[0]  # El menor es la oferta
-                precio_normal = valores[-1] # El mayor suele ser el precio de lista
+    # 2. Respaldo: Extracción de todos los montos en formato CLP ($X.XXX)
+    precios_encontrados = re.findall(r'\$\s?([0-9]{1,3}(?:\.[0-9]{3})+)', html_text)
+    if precios_encontrados:
+        valores = sorted(list(set([int(p.replace(".", "")) for p in precios_encontrados if int(p.replace(".", "")) >= 1000])))
+        if valores:
+            if not precio_oferta or precio_oferta == 0:
+                precio_oferta = valores[0]  # El menor es la oferta real
+            
+            # Si solo se había detectado un precio, buscar el precio mayor (tachado)
+            if not precio_normal or precio_normal <= precio_oferta:
+                if len(valores) > 1:
+                    precio_normal = valores[-1]  # El mayor de la página es el precio original
+                else:
+                    precio_normal = precio_oferta
 
     return precio_oferta, precio_normal
 
@@ -113,7 +104,7 @@ def consultar_precios_en_vivo():
         except Exception:
             pass
 
-        # Intento por proxy si la conexión directa no trae el HTML completo
+        # Intento vía proxy si hay bloqueo
         if not precio_oferta or precio_oferta == 0:
             try:
                 proxy_url = f"https://api.allorigins.win/get?url={urllib.parse.quote(prod['url'])}"
@@ -124,6 +115,7 @@ def consultar_precios_en_vivo():
             except Exception:
                 pass
 
+        # Normalización y cálculo de métricas
         if precio_oferta and precio_oferta > 0:
             if not precio_normal or precio_normal < precio_oferta:
                 precio_normal = precio_oferta
@@ -134,7 +126,7 @@ def consultar_precios_en_vivo():
             if descuento > 0:
                 estado = f"🔥 {descuento}% DCTO"
             else:
-                estado = "Disponible"
+                estado = "Normal"
 
             resultados.append({
                 "marca": prod["marca"],
@@ -225,8 +217,8 @@ columnas_mostrar = [
         "Marca": d["marca"], 
         "SKU": d["sku"], 
         "Metros": f"{d['metros_totales']} m", 
-        "Precio Normal": d["precio_normal"], 
-        "Precio Oferta": d["precio_oferta"], 
+        "Precio Normal (Tachado)": d["precio_normal"], 
+        "Precio Oferta (Cobro)": d["precio_oferta"], 
         "$/Metro": d["precio_metro"], 
         "Estado": d["estado"]
     }
