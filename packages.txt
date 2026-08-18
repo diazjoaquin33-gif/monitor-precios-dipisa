@@ -1,4 +1,3 @@
-chromium
-libgbm-dev
-libnss3
-libasound2
+streamlit
+playwright
+google-genai
