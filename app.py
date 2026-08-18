@@ -3,9 +3,9 @@ import json
 import requests
 from google import genai
 
-# Configuración inicial de la página
+# Configuración visual de la aplicación
 st.set_page_config(
-    page_title="Dipisa & Ovella - Pricing",
+    page_title="Dipisa & Ovella - Monitor de Pricing",
     page_icon="📊",
     layout="wide"
 )
@@ -13,7 +13,7 @@ st.set_page_config(
 # Clave de Gemini desde los Secrets de Streamlit
 GEMINI_API_KEY = st.secrets.get("GEMINI_API_KEY", "")
 
-# Lista de productos a monitorear
+# Lista de productos de la categoría a monitorear
 PRODUCTOS = [
     {
         "marca": "Noble",
@@ -21,7 +21,7 @@ PRODUCTOS = [
         "retailer": "Santa Isabel",
         "metros_totales": 92,
         "sku_id": "1859328",
-        "url": "https://www.santaisabel.cl/papel-higienico-confort-dh-22mt-40un-1997284/p"
+        "url": "https://www.santaisabel.cl/papel-higienico-doble-hoja-23-m-4-un-1859328/p"
     },
     {
         "marca": "Noble",
@@ -29,7 +29,7 @@ PRODUCTOS = [
         "retailer": "Santa Isabel",
         "metros_totales": 880,
         "sku_id": "1960588",
-        "url": "https://www.santaisabel.cl/ph-doble-hoja-noble-dh-40-rollos-1960588/p"
+        "url": "https://www.santaisabel.cl/papel-higienico-noble-doble-hoja-22-m-40-un-1960588/p"
     },
     {
         "marca": "Confort",
@@ -37,7 +37,7 @@ PRODUCTOS = [
         "retailer": "Santa Isabel",
         "metros_totales": 880,
         "sku_id": "1997284",
-        "url": "https://www.santaisabel.cl/papel-higienico-confort-dh-22mt-40un-1997284/p"
+        "url": "https://www.santaisabel.cl/papel-higienico-confort-doble-hoja-22-m-40-un-1997284/p"
     }
 ]
 
@@ -56,7 +56,7 @@ def extraer_precios_api():
         precio_oferta = None
         stock = True
         
-        # Intento 1: API de simulación de orden VTEX
+        # 1. Consulta al endpoint de simulación de compra VTEX
         try:
             order_url = "https://www.santaisabel.cl/api/checkout/pub/orderforms/simulation"
             payload = {
@@ -68,14 +68,13 @@ def extraer_precios_api():
                 data = res.json()
                 if "items" in data and len(data["items"]) > 0:
                     item_data = data["items"][0]
-                    # VTEX entrega los precios en centavos (ej: 195000 = $1.950)
                     precio_oferta = int(item_data.get("price", 0) / 100)
                     precio_normal = int(item_data.get("listPrice", precio_oferta) / 100)
                     stock = item_data.get("availability") == "available"
         except Exception:
             pass
 
-        # Intento 2 (Respaldo): Catálogo público
+        # 2. Respaldo al catálogo público si el primero falla
         if not precio_oferta or precio_oferta == 0:
             try:
                 cat_url = f"https://www.santaisabel.cl/api/catalog_system/pub/products/search?fq=skuId:{prod['sku_id']}"
@@ -90,7 +89,7 @@ def extraer_precios_api():
             except Exception:
                 pass
 
-        # Cálculo y formateo de resultados
+        # Procesamiento y cálculo de $/metro
         if precio_oferta and precio_oferta > 0:
             precio_metro = round(precio_oferta / prod["metros_totales"], 1)
             resultados.append({
@@ -122,7 +121,14 @@ def extraer_precios_api():
     return resultados
 
 def procesar_ia(datos):
-    """Analiza los datos reales con Gemini y genera el informe ejecutivo."""
+    """Genera el resumen y recomendaciones comerciales con Gemini."""
+    if not GEMINI_API_KEY:
+        return {
+            "resumen": "Se obtuvieron los precios correctamente. Para ver el análisis cualitativo con IA, añade tu GEMINI_API_KEY en los Secrets de Streamlit.",
+            "estrategia": "Añade GEMINI_API_KEY en Settings > Secrets de la aplicación.",
+            "alertas": ["Falta configurar la clave de Gemini en la plataforma."]
+        }
+
     client = genai.Client(api_key=GEMINI_API_KEY)
     prompt = f"""
     Eres un analista de pricing senior para Dipisa y su marca Ovella.
@@ -130,8 +136,8 @@ def procesar_ia(datos):
     {json.dumps(datos, indent=2, ensure_ascii=False)}
 
     Con base en estos números reales:
-    1. Genera un resumen ejecutivo de 2 líneas con la conclusión principal para Dipisa.
-    2. Define la recomendación estratégica puntual para Ovella (precio objetivo por metro para ser competitivo).
+    1. Genera un resumen comercial ejecutivo de 2 líneas con la conclusión principal para Dipisa.
+    2. Define la recomendación estratégica puntual para Ovella (precio objetivo por metro para ser competitivo frente a Noble y Confort).
     3. Formula 2 alertas comerciales clave (quiebres de stock, ofertas agresivas o paridad).
 
     Devuelve ÚNICAMENTE un JSON válido con esta estructura exacta:
@@ -141,16 +147,27 @@ def procesar_ia(datos):
       "alertas": ["alerta 1", "alerta 2"]
     }}
     """
-    res = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)
-    texto = res.text.strip()
-    if texto.startswith("```json"): texto = texto[7:]
-    if texto.startswith("```"): texto = texto[3:]
-    if texto.endswith("```"): texto = texto[:-3]
-    return json.loads(texto.strip())
+    
+    try:
+        res = client.models.generate_content(
+            model="gemini-2.0-flash",
+            contents=prompt
+        )
+        texto = res.text.strip()
+        if texto.startswith("```json"): texto = texto[7:]
+        if texto.startswith("```"): texto = texto[3:]
+        if texto.endswith("```"): texto = texto[:-3]
+        return json.loads(texto.strip())
+    except Exception as e:
+        return {
+            "resumen": "Precios obtenidos con éxito desde la API de los retailers.",
+            "estrategia": "Comparar directamente los $/metro en la tabla inferior.",
+            "alertas": [f"Nota de IA: {e}"]
+        }
 
-# --- Interfaz de Usuario (Streamlit) ---
+# --- Interfaz de Usuario ---
 st.title("📊 Dipisa & Ovella — Monitor de Pricing en Vivo")
-st.caption("Precios actualizados en tiempo real para análisis comercial y benchmarking")
+st.caption("Precios actualizados en tiempo real para análisis comercial y benchmarking de retail")
 
 if st.button("🚀 Actualizar Precios Ahora", type="primary"):
     with st.spinner("Consultando precios oficiales y generando análisis con IA..."):
@@ -187,4 +204,4 @@ if st.button("🚀 Actualizar Precios Ahora", type="primary"):
     ]
     st.dataframe(columnas_mostrar, use_container_width=True)
 else:
-    st.info("Presiona el botón superior para consultar los precios actuales.")
+    st.info("Presiona el botón superior para consultar los precios actuales de la competencia.")
