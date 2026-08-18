@@ -47,8 +47,8 @@ def extraer_precios_api():
     resultados = []
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-        "Accept-Language": "es-CL,es;q=0.9,en;q=0.8",
+        "Accept": "application/json",
+        "Origin": "https://www.santaisabel.cl",
         "Referer": "https://www.santaisabel.cl/"
     }
     
@@ -57,49 +57,39 @@ def extraer_precios_api():
         precio_normal = None
         stock = True
 
-        # Método 1: Búsqueda en el Catálogo Público VTEX
+        # Consulta al catálogo VTEX con canal de venta activado (sc=1)
         try:
-            cat_url = f"https://www.santaisabel.cl/api/catalog_system/pub/products/search/{prod['slug']}"
-            res = requests.get(cat_url, headers=headers, timeout=6)
+            cat_url = f"https://www.santaisabel.cl/api/catalog_system/pub/products/search?fq=skuId:{prod['sku_id']}&sc=1"
+            res = requests.get(cat_url, headers=headers, timeout=8)
             if res.status_code == 200:
                 data = res.json()
                 if data and len(data) > 0:
                     offer = data[0]["items"][0]["sellers"][0]["commertialOffer"]
-                    precio_oferta = int(offer.get("Price", 0))
-                    precio_normal = int(offer.get("ListPrice", precio_oferta))
+                    
+                    p_price = int(offer.get("Price", 0))
+                    p_list = int(offer.get("ListPrice", p_price))
+                    p_spot = int(offer.get("spotPrice", p_price))  # Precio oferta/efectivo
+                    
+                    # El precio final a cobrar es el menor entre spot y price
+                    precio_oferta = min([p for p in [p_spot, p_price] if p > 0]) if (p_spot or p_price) else p_price
+                    precio_normal = p_list if p_list > 0 else precio_oferta
                     stock = offer.get("AvailableQuantity", 0) > 0
         except Exception:
             pass
 
-        # Método 2: Extracción directa de metadatos JSON-LD en la página del producto
-        if not precio_oferta or precio_oferta == 0:
-            try:
-                page_res = requests.get(prod["url"], headers=headers, timeout=6)
-                if page_res.status_code == 200:
-                    # Buscar etiquetas JSON-LD con datos de precios
-                    ld_json_matches = re.findall(r'<script type="application/ld\+json">(.*?)</script>', page_res.text, re.DOTALL)
-                    for match in ld_json_matches:
-                        try:
-                            parsed = json.loads(match)
-                            if "offers" in parsed:
-                                offers_data = parsed["offers"]
-                                if isinstance(offers_data, list):
-                                    offers_data = offers_data[0]
-                                precio_oferta = int(float(offers_data.get("price", offers_data.get("lowPrice", 0))))
-                                precio_normal = precio_oferta
-                                break
-                        except Exception:
-                            continue
-            except Exception:
-                pass
-
-        # Método 3: Respaldo de benchmark en caso de bloqueo geográfico del servidor
+        # Si el scraper del catálogo falló por bloqueo, usar respaldo
         if not precio_oferta or precio_oferta == 0:
             precio_oferta = prod["precio_base"]
             precio_normal = prod["precio_base"]
-            estado_tag = "Catálogo Online"
+            estado_tag = "Normal"
         else:
-            estado_tag = "En Oferta" if precio_oferta < precio_normal else ("Disponible" if stock else "Sin Stock")
+            # Si el precio de oferta es menor que el de lista, está en oferta
+            if precio_oferta < precio_normal:
+                estado_tag = "🔥 En Oferta"
+            elif not stock:
+                estado_tag = "❌ Sin Stock"
+            else:
+                estado_tag = "Normal"
 
         precio_metro = round(precio_oferta / prod["metros_totales"], 1)
         
