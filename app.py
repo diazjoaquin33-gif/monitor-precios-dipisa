@@ -150,7 +150,7 @@ def procesar_ia(datos):
     
     try:
         res = client.models.generate_content(
-            model="gemini-2.0-flash",
+            model="gemini-3.6-flash",
             contents=prompt
         )
         texto = res.text.strip()
