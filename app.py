@@ -1,19 +1,14 @@
 import streamlit as st
 import json
+import requests
+from bs4 import BeautifulSoup
 from google import genai
-from playwright.sync_api import sync_playwright
 
-# Configuración visual de la página
 st.set_page_config(page_title="Dipisa & Ovella - Pricing", page_icon="📊", layout="wide")
 
-# Clave de Gemini (en local o desde secrets de la nube)
-# Obtiene la clave de forma segura desde Streamlit o variable de entorno
-import os
+# Clave de Gemini desde Secrets de Streamlit
+GEMINI_API_KEY = st.secrets.get("GEMINI_API_KEY", "")
 
-# Lee la clave desde la configuración segura de Streamlit o del sistema
-GEMINI_API_KEY = st.secrets.get("GEMINI_API_KEY", os.environ.get("GEMINI_API_KEY", ""))
-
-# Lista de productos
 PRODUCTOS = [
     {
         "marca": "Noble",
@@ -27,68 +22,58 @@ PRODUCTOS = [
         "sku_nombre": "Doble Hoja 22m 40 un",
         "retailer": "Santa Isabel",
         "metros_totales": 880,
-        "url": "https://www.santaisabel.cl/ph-doble-hoja-noble-dh-40-rollos-1960588/p"
+        "url": "https://www.santaisabel.cl/papel-higienico-noble-doble-hoja-22-m-40-un-1960588/p"
     },
     {
         "marca": "Confort",
         "sku_nombre": "Doble Hoja 22m 40 un",
         "retailer": "Santa Isabel",
         "metros_totales": 880,
-        "url": "https://www.santaisabel.cl/ph-doble-hoja-noble-dh-40-rollos-1960588/p"
+        "url": "https://www.santaisabel.cl/papel-higienico-confort-doble-hoja-22-m-40-un-1997284/p"
     }
 ]
 
-import os
-import subprocess
-from playwright.sync_api import sync_playwright
-
 def extraer_precios():
-    # Instalar Chromium automáticamente si estamos en Streamlit Cloud
-    try:
-        subprocess.run(["playwright", "install", "chromium"], check=True)
-    except Exception as e:
-        st.warning(f"Aviso de instalación: {e}")
-
     resultados = []
-    with sync_playwright() as p:
-        # Argumentos necesarios para servidores Linux en la nube
-        browser = p.chromium.launch(
-            headless=True,
-            args=["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"]
-        )
-        page = browser.new_page()
-        for prod in PRODUCTOS:
-            try:
-                page.goto(prod["url"], timeout=45000)
-                page.wait_for_timeout(3000)
-                texto = page.inner_text("body")
-                resultados.append({
-                    "marca": prod["marca"],
-                    "sku": prod["sku_nombre"],
-                    "retailer": prod["retailer"],
-                    "metros_totales": prod["metros_totales"],
-                    "url": prod["url"],
-                    "texto_capturado": texto[:2000]
-                })
-            except Exception:
-                resultados.append({
-                    "marca": prod["marca"],
-                    "sku": prod["sku_nombre"],
-                    "retailer": prod["retailer"],
-                    "metros_totales": prod["metros_totales"],
-                    "url": prod["url"],
-                    "texto_capturado": "ERROR_O_SIN_STOCK"
-                })
-        browser.close()
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    }
+    
+    for prod in PRODUCTOS:
+        try:
+            res = requests.get(prod["url"], headers=headers, timeout=15)
+            soup = BeautifulSoup(res.text, "html.parser")
+            
+            # Extraer solo el texto visible relevante
+            texto_limpio = " ".join(soup.stripped_strings)[:3000]
+            
+            resultados.append({
+                "marca": prod["marca"],
+                "sku": prod["sku_nombre"],
+                "retailer": prod["retailer"],
+                "metros_totales": prod["metros_totales"],
+                "url": prod["url"],
+                "texto_capturado": texto_limpio
+            })
+        except Exception as e:
+            resultados.append({
+                "marca": prod["marca"],
+                "sku": prod["sku_nombre"],
+                "retailer": prod["retailer"],
+                "metros_totales": prod["metros_totales"],
+                "url": prod["url"],
+                "texto_capturado": f"ERROR_AL_CONSULTAR: {e}"
+            })
     return resultados
 
 def procesar_ia(datos):
     client = genai.Client(api_key=GEMINI_API_KEY)
     prompt = f"""
-    Analiza estos datos de e-commerce en vivo:
+    Eres un analista de pricing senior para Dipisa y su marca Ovella.
+    A continuación tienes datos extraídos en vivo desde los e-commerce:
     {json.dumps(datos, indent=2, ensure_ascii=False)}
 
-    Devuelve ÚNICAMENTE un JSON válido con esta estructura exacta:
+    Tu tarea es analizar los datos y devolver ÚNICAMENTE un objeto JSON válido con esta estructura exacta:
     {{
       "resumen": "Resumen ejecutivo de 2 líneas para Dipisa/Ovella.",
       "estrategia": "Acción sugerida para Ovella.",
@@ -119,7 +104,7 @@ st.title("📊 Dipisa & Ovella — Monitor de Pricing en Vivo")
 st.caption("Consulta de precios en tiempo real para el equipo comercial")
 
 if st.button("🚀 Actualizar Precios Ahora", type="primary"):
-    with st.spinner("Consultando los supermercados en vivo y procesando con Gemini..."):
+    with st.spinner("Consultando supermercados y analizando con IA..."):
         datos = extraer_precios()
         analisis = procesar_ia(datos)
 
