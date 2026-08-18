@@ -1,6 +1,5 @@
 import streamlit as st
 import json
-import re
 import requests
 
 st.set_page_config(
@@ -17,7 +16,6 @@ PRODUCTOS = [
         "metros_totales": 92,
         "sku_id": "1859328",
         "slug": "papel-higienico-doble-hoja-23-m-4-un-1859328",
-        "precio_base": 2090,
         "url": "https://www.santaisabel.cl/papel-higienico-doble-hoja-23-m-4-un-1859328/p"
     },
     {
@@ -27,7 +25,6 @@ PRODUCTOS = [
         "metros_totales": 880,
         "sku_id": "1960588",
         "slug": "papel-higienico-noble-doble-hoja-22-m-40-un-1960588",
-        "precio_base": 19990,
         "url": "https://www.santaisabel.cl/ph-doble-hoja-noble-dh-40-rollos-1960588/p"
     },
     {
@@ -37,7 +34,6 @@ PRODUCTOS = [
         "metros_totales": 880,
         "sku_id": "1997284",
         "slug": "papel-higienico-confort-doble-hoja-22-m-40-un-1997284",
-        "precio_base": 20490,
         "url": "https://www.santaisabel.cl/papel-higienico-confort-dh-22mt-40un-1997284/p"
     }
 ]
@@ -45,45 +41,84 @@ PRODUCTOS = [
 @st.cache_data(ttl=1800)
 def extraer_precios_api():
     resultados = []
+    session = requests.Session()
+    
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
         "Accept": "application/json",
+        "Content-Type": "application/json",
         "Origin": "https://www.santaisabel.cl",
         "Referer": "https://www.santaisabel.cl/"
     }
-    
+
     for prod in PRODUCTOS:
         precio_oferta = None
         precio_normal = None
-        stock = True
+        stock = False
+        error_msg = None
 
-        # Consulta al catálogo VTEX con canal de venta activado (sc=1)
+        # 1. Consulta GraphQL directa (Endpoint oficial del frontend de Santa Isabel)
         try:
-            cat_url = f"https://www.santaisabel.cl/api/catalog_system/pub/products/search?fq=skuId:{prod['sku_id']}&sc=1"
-            res = requests.get(cat_url, headers=headers, timeout=8)
+            graphql_url = "https://www.santaisabel.cl/_v/segment/graphql/v1"
+            query_payload = {
+                "query": """
+                query GetProductPrice($slug: String!) {
+                    product(slug: $slug) {
+                        items {
+                            itemId
+                            sellers {
+                                commertialOffer {
+                                    Price
+                                    ListPrice
+                                    spotPrice
+                                    AvailableQuantity
+                                }
+                            }
+                        }
+                    }
+                }
+                """,
+                "variables": {"slug": prod["slug"]}
+            }
+            
+            res = session.post(graphql_url, json=query_payload, headers=headers, timeout=8)
             if res.status_code == 200:
                 data = res.json()
-                if data and len(data) > 0:
-                    offer = data[0]["items"][0]["sellers"][0]["commertialOffer"]
+                product_data = data.get("data", {}).get("product")
+                if product_data and product_data.get("items"):
+                    seller_offer = product_data["items"][0]["sellers"][0]["commertialOffer"]
+                    p_price = int(seller_offer.get("Price", 0))
+                    p_list = int(seller_offer.get("ListPrice", p_price))
+                    p_spot = int(seller_offer.get("spotPrice", p_price))
                     
-                    p_price = int(offer.get("Price", 0))
-                    p_list = int(offer.get("ListPrice", p_price))
-                    p_spot = int(offer.get("spotPrice", p_price))  # Precio oferta/efectivo
-                    
-                    # El precio final a cobrar es el menor entre spot y price
-                    precio_oferta = min([p for p in [p_spot, p_price] if p > 0]) if (p_spot or p_price) else p_price
+                    precio_oferta = p_spot if p_spot > 0 else p_price
                     precio_normal = p_list if p_list > 0 else precio_oferta
-                    stock = offer.get("AvailableQuantity", 0) > 0
-        except Exception:
-            pass
+                    stock = seller_offer.get("AvailableQuantity", 0) > 0
+        except Exception as e:
+            error_msg = str(e)
 
-        # Si el scraper del catálogo falló por bloqueo, usar respaldo
+        # 2. Respaldo por API REST pública de catálogo VTEX
         if not precio_oferta or precio_oferta == 0:
-            precio_oferta = prod["precio_base"]
-            precio_normal = prod["precio_base"]
-            estado_tag = "Normal"
-        else:
-            # Si el precio de oferta es menor que el de lista, está en oferta
+            try:
+                rest_url = f"https://www.santaisabel.cl/api/catalog_system/pub/products/search/{prod['slug']}?sc=1"
+                res_rest = session.get(rest_url, headers=headers, timeout=8)
+                if res_rest.status_code == 200:
+                    rest_data = res_rest.json()
+                    if rest_data and len(rest_data) > 0:
+                        offer = rest_data[0]["items"][0]["sellers"][0]["commertialOffer"]
+                        p_price = int(offer.get("Price", 0))
+                        p_list = int(offer.get("ListPrice", p_price))
+                        p_spot = int(offer.get("spotPrice", p_price))
+                        
+                        precio_oferta = p_spot if p_spot > 0 else p_price
+                        precio_normal = p_list if p_list > 0 else precio_oferta
+                        stock = offer.get("AvailableQuantity", 0) > 0
+            except Exception as e:
+                error_msg = str(e)
+
+        # Validación final de captura
+        if precio_oferta and precio_oferta > 0:
+            precio_metro = round(precio_oferta / prod["metros_totales"], 1)
             if precio_oferta < precio_normal:
                 estado_tag = "🔥 En Oferta"
             elif not stock:
@@ -91,20 +126,31 @@ def extraer_precios_api():
             else:
                 estado_tag = "Normal"
 
-        precio_metro = round(precio_oferta / prod["metros_totales"], 1)
-        
-        resultados.append({
-            "marca": prod["marca"],
-            "sku": prod["sku_nombre"],
-            "retailer": prod["retailer"],
-            "metros_totales": prod["metros_totales"],
-            "precio_normal": f"${precio_normal:,.0f}".replace(",", "."),
-            "precio_oferta": f"${precio_oferta:,.0f}".replace(",", "."),
-            "precio_metro": f"${precio_metro} /m",
-            "precio_metro_num": precio_metro,
-            "estado": estado_tag,
-            "url": prod["url"]
-        })
+            resultados.append({
+                "marca": prod["marca"],
+                "sku": prod["sku_nombre"],
+                "retailer": prod["retailer"],
+                "metros_totales": prod["metros_totales"],
+                "precio_normal": f"${precio_normal:,.0f}".replace(",", "."),
+                "precio_oferta": f"${precio_oferta:,.0f}".replace(",", "."),
+                "precio_metro": f"${precio_metro} /m",
+                "precio_metro_num": precio_metro,
+                "estado": estado_tag,
+                "url": prod["url"]
+            })
+        else:
+            resultados.append({
+                "marca": prod["marca"],
+                "sku": prod["sku_nombre"],
+                "retailer": prod["retailer"],
+                "metros_totales": prod["metros_totales"],
+                "precio_normal": "N/D",
+                "precio_oferta": "N/D",
+                "precio_metro": "N/D",
+                "precio_metro_num": 0,
+                "estado": f"Sin Datos ({error_msg or 'Bloqueo Retailer'})",
+                "url": prod["url"]
+            })
             
     return resultados
 
@@ -112,9 +158,9 @@ def generar_analisis_automatico(datos):
     validos = [d for d in datos if d["precio_metro_num"] > 0]
     if not validos:
         return {
-            "resumen": "No se pudieron calcular las métricas.",
-            "estrategia": "Verificar conexión con los e-commerce.",
-            "alertas": ["Sin datos disponibles."]
+            "resumen": "No se pudieron obtener datos válidos desde el servidor del retailer.",
+            "estrategia": "Verificar la disponibilidad de conexión con Santa Isabel.",
+            "alertas": ["Error al consultar precios en vivo."]
         }
     
     mas_barato = min(validos, key=lambda x: x["precio_metro_num"])
@@ -123,7 +169,7 @@ def generar_analisis_automatico(datos):
 
     resumen = (
         f"El mercado promedia **${promedio_m}/m**. "
-        f"La opción más eficiente por metro es **{mas_barato['marca']} ({mas_barato['sku']})** a **{mas_barato['precio_metro']}**."
+        f"La opción más económica por metro es **{mas_barato['marca']} ({mas_barato['sku']})** a **{mas_barato['precio_metro']}**."
     )
     
     precio_objetivo = round(mas_barato["precio_metro_num"] * 0.95, 1)
@@ -134,7 +180,7 @@ def generar_analisis_automatico(datos):
     
     alertas = [
         f"📌 **Piso de la Categoría:** {mas_barato['marca']} fija la paridad mínima en {mas_barato['precio_metro']}.",
-        f"📈 **Diferencial de Formato:** El pack de 4 un ({mas_caro['marca']}) es un {round(((mas_caro['precio_metro_num']/mas_barato['precio_metro_num'])-1)*100)}% más caro por metro que el formato de 40 un."
+        f"📈 **Diferencial de Formato:** El pack de menor volumen es un {round(((mas_caro['precio_metro_num']/mas_barato['precio_metro_num'])-1)*100)}% más caro por metro que el pack ahorro."
     ]
 
     return {
@@ -145,7 +191,7 @@ def generar_analisis_automatico(datos):
 
 # --- Interfaz Gráfica ---
 st.title("📊 Dipisa & Ovella — Monitor de Pricing en Vivo")
-st.caption("Benchmarking en tiempo real • Actualización automática para equipo comercial")
+st.caption("Benchmarking en tiempo real • Extracción directa de catálogo de retail")
 
 datos_tabla = extraer_precios_api()
 analisis = generar_analisis_automatico(datos_tabla)
@@ -177,7 +223,6 @@ columnas_mostrar = [
     for d in datos_tabla
 ]
 
-# Compatible con versiones nuevas y anteriores de Streamlit
 try:
     st.dataframe(columnas_mostrar, width="stretch")
 except TypeError:
