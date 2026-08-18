@@ -1,4 +1,5 @@
 import streamlit as st
+import json
 import requests
 
 st.set_page_config(
@@ -6,6 +7,9 @@ st.set_page_config(
     page_icon="📊",
     layout="wide"
 )
+
+# Pega aquí la URL que te entregó Google Apps Script
+PUENTE_URL = "https://script.google.com/macros/s/AKfycbw6EL_nzt7CuFUJAWj1i04_xWXwOKTX6VXHeYZDp2-rYa9AJLyflIQ3oD6PDIbqsWDT/exec"
 
 PRODUCTOS = [
     {
@@ -34,96 +38,32 @@ PRODUCTOS = [
     }
 ]
 
-def obtener_precios_simulacion(session, sku_ids):
-    """Consulta la API de simulación de orden VTEX para obtener precios de lista y oferta de todos los SKUs."""
-    url = "https://www.santaisabel.cl/api/checkout/pub/orderforms/simulation?sc=1"
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-        "Origin": "https://www.santaisabel.cl",
-        "Referer": "https://www.santaisabel.cl/"
-    }
-    
-    payload = {
-        "items": [{"id": str(sku_id), "quantity": 1, "seller": "1"} for sku_id in sku_ids],
-        "country": "CHL"
-    }
-    
-    precios_map = {}
-    try:
-        res = session.post(url, json=payload, headers=headers, timeout=10)
-        if res.status_code == 200:
-            data = res.json()
-            for item in data.get("items", []):
-                item_id = str(item.get("id"))
-                # Los precios de VTEX simulation vienen en centavos (ej: 1077300 = $10.773)
-                p_cobro = int(item.get("price", 0) / 100)
-                p_lista = int(item.get("listPrice", p_cobro) / 100)
-                precios_map[item_id] = {
-                    "precio_oferta": p_cobro,
-                    "precio_normal": p_lista if p_lista > 0 else p_cobro,
-                    "stock": item.get("availability") == "available"
-                }
-    except Exception:
-        pass
-        
-    return precios_map
-
-def obtener_precios_catalogo_fallback(session, sku_id):
-    """Método secundario por endpoint de catálogo público si la simulación falla."""
-    url = f"https://www.santaisabel.cl/api/catalog_system/pub/products/search?fq=skuId:{sku_id}&sc=1"
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-        "Accept": "application/json"
-    }
-    try:
-        res = session.get(url, headers=headers, timeout=8)
-        if res.status_code == 200:
-            data = res.json()
-            if data and len(data) > 0:
-                offer = data[0]["items"][0]["sellers"][0]["commertialOffer"]
-                p_price = int(offer.get("Price", 0))
-                p_list = int(offer.get("ListPrice", p_price))
-                p_spot = int(offer.get("spotPrice", p_price))
-                
-                p_oferta = p_spot if p_spot > 0 else p_price
-                p_normal = p_list if p_list > 0 else p_oferta
-                return {
-                    "precio_oferta": p_oferta,
-                    "precio_normal": p_normal,
-                    "stock": offer.get("AvailableQuantity", 0) > 0
-                }
-    except Exception:
-        pass
-    return None
-
 @st.cache_data(ttl=1800)
 def consultar_precios_en_vivo():
     resultados = []
-    session = requests.Session()
-    
-    # Obtener cookie de sesión base
-    try:
-        session.get("https://www.santaisabel.cl/", timeout=5)
-    except Exception:
-        pass
-
-    sku_ids = [p["sku_id"] for p in PRODUCTOS]
-    datos_simulacion = obtener_precios_simulacion(session, sku_ids)
 
     for prod in PRODUCTOS:
-        sku_id = prod["sku_id"]
-        info_precio = datos_simulacion.get(sku_id)
+        precio_oferta = None
+        precio_normal = None
+        stock = True
 
-        # Si no vino en la simulación por lote, intentar consulta individual
-        if not info_precio or info_precio.get("precio_oferta", 0) == 0:
-            info_precio = obtener_precios_catalogo_fallback(session, sku_id)
+        try:
+            res = requests.get(f"{PUENTE_URL}?sku={prod['sku_id']}", timeout=10)
+            if res.status_code == 200:
+                data = res.json()
+                if isinstance(data, list) and len(data) > 0:
+                    offer = data[0]["items"][0]["sellers"][0]["commertialOffer"]
+                    p_price = int(offer.get("Price", 0))
+                    p_list = int(offer.get("ListPrice", p_price))
+                    p_spot = int(offer.get("spotPrice", p_price))
 
-        if info_precio and info_precio.get("precio_oferta", 0) > 0:
-            precio_oferta = info_precio["precio_oferta"]
-            precio_normal = info_precio["precio_normal"]
-            
+                    precio_oferta = min([p for p in [p_spot, p_price] if p > 0]) if (p_spot or p_price) else p_price
+                    precio_normal = p_list if p_list > 0 else precio_oferta
+                    stock = offer.get("AvailableQuantity", 0) > 0
+        except Exception:
+            pass
+
+        if precio_oferta and precio_oferta > 0:
             if precio_normal < precio_oferta:
                 precio_normal = precio_oferta
 
@@ -132,10 +72,10 @@ def consultar_precios_en_vivo():
 
             if descuento > 0:
                 estado = f"🔥 {descuento}% DCTO"
-            elif not info_precio.get("stock", True):
+            elif not stock:
                 estado = "❌ Sin Stock"
             else:
-                estado = "Normal"
+                estado = "Disponible"
 
             resultados.append({
                 "marca": prod["marca"],
@@ -169,9 +109,9 @@ def calcular_resumen_comercial(datos):
     validos = [d for d in datos if d["precio_metro_num"] > 0]
     if not validos:
         return {
-            "resumen": "No se pudieron obtener datos desde el e-commerce.",
-            "estrategia": "Verificar disponibilidad del servidor.",
-            "alertas": ["Error al consultar precios en vivo."]
+            "resumen": "Configura la URL de Google Apps Script para comenzar a recibir precios en vivo.",
+            "estrategia": "Verificar enlace del puente.",
+            "alertas": ["Sin datos en vivo."]
         }
 
     mas_barato = min(validos, key=lambda x: x["precio_metro_num"])
@@ -202,7 +142,7 @@ def calcular_resumen_comercial(datos):
 
 # --- Interfaz Gráfica ---
 st.title("📊 Dipisa & Ovella — Monitor de Pricing en Vivo")
-st.caption("Benchmarking en tiempo real • Extracción directa de checkout")
+st.caption("Benchmarking en tiempo real • 100% Automático y libre de límites")
 
 datos_tabla = consultar_precios_en_vivo()
 analisis = calcular_resumen_comercial(datos_tabla)
