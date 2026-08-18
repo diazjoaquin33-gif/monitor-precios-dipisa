@@ -1,5 +1,7 @@
 import streamlit as st
 import json
+import re
+import urllib.parse
 import requests
 
 st.set_page_config(
@@ -14,8 +16,6 @@ PRODUCTOS = [
         "sku_nombre": "Doble Hoja 23m 4 un",
         "retailer": "Santa Isabel",
         "metros_totales": 92,
-        "sku_id": "1859328",
-        "slug": "papel-higienico-doble-hoja-23-m-4-un-1859328",
         "url": "https://www.santaisabel.cl/papel-higienico-doble-hoja-23-m-4-un-1859328/p"
     },
     {
@@ -23,8 +23,6 @@ PRODUCTOS = [
         "sku_nombre": "Doble Hoja 22m 40 un",
         "retailer": "Santa Isabel",
         "metros_totales": 880,
-        "sku_id": "1960588",
-        "slug": "papel-higienico-noble-doble-hoja-22-m-40-un-1960588",
         "url": "https://www.santaisabel.cl/ph-doble-hoja-noble-dh-40-rollos-1960588/p"
     },
     {
@@ -32,99 +30,87 @@ PRODUCTOS = [
         "sku_nombre": "Doble Hoja 22m 40 un",
         "retailer": "Santa Isabel",
         "metros_totales": 880,
-        "sku_id": "1997284",
-        "slug": "papel-higienico-confort-doble-hoja-22-m-40-un-1997284",
         "url": "https://www.santaisabel.cl/papel-higienico-confort-dh-22mt-40un-1997284/p"
     }
 ]
 
-@st.cache_data(ttl=1800)
-def extraer_precios_api():
-    resultados = []
-    session = requests.Session()
+def extraer_precios_html(html_text):
+    """Extrae precio oferta y precio normal analizando el HTML renderizado."""
+    precio_oferta = None
+    precio_normal = None
     
+    # 1. Buscar en bloques de metadatos JSON-LD
+    try:
+        ld_blocks = re.findall(r'<script type="application/ld\+json">(.*?)</script>', html_text, re.DOTALL)
+        for block in ld_blocks:
+            data = json.loads(block)
+            if "offers" in data:
+                offers = data["offers"]
+                if isinstance(offers, list):
+                    offers = offers[0]
+                p = float(offers.get("price", offers.get("lowPrice", 0)))
+                if p > 0:
+                    precio_oferta = int(p)
+                    precio_normal = int(offers.get("highPrice", precio_oferta))
+                    break
+    except Exception:
+        pass
+
+    # 2. Buscar patrones de precios en el texto ($XX.XXX)
+    if not precio_oferta:
+        precios_encontrados = re.findall(r'\$\s?([0-9]{1,3}(?:\.[0-9]{3})+)', html_text)
+        if precios_encontrados:
+            valores = [int(p.replace(".", "")) for p in precios_encontrados if int(p.replace(".", "")) > 500]
+            if valores:
+                precio_oferta = min(valores)
+                precio_normal = max(valores)
+
+    return precio_oferta, precio_normal
+
+@st.cache_data(ttl=1800)
+def consultar_precios_en_vivo():
+    resultados = []
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-        "Origin": "https://www.santaisabel.cl",
-        "Referer": "https://www.santaisabel.cl/"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
     }
 
     for prod in PRODUCTOS:
         precio_oferta = None
         precio_normal = None
-        stock = False
-        error_msg = None
+        html_content = ""
 
-        # 1. Consulta GraphQL directa (Endpoint oficial del frontend de Santa Isabel)
+        # Intento A: Consulta directa
         try:
-            graphql_url = "https://www.santaisabel.cl/_v/segment/graphql/v1"
-            query_payload = {
-                "query": """
-                query GetProductPrice($slug: String!) {
-                    product(slug: $slug) {
-                        items {
-                            itemId
-                            sellers {
-                                commertialOffer {
-                                    Price
-                                    ListPrice
-                                    spotPrice
-                                    AvailableQuantity
-                                }
-                            }
-                        }
-                    }
-                }
-                """,
-                "variables": {"slug": prod["slug"]}
-            }
-            
-            res = session.post(graphql_url, json=query_payload, headers=headers, timeout=8)
-            if res.status_code == 200:
-                data = res.json()
-                product_data = data.get("data", {}).get("product")
-                if product_data and product_data.get("items"):
-                    seller_offer = product_data["items"][0]["sellers"][0]["commertialOffer"]
-                    p_price = int(seller_offer.get("Price", 0))
-                    p_list = int(seller_offer.get("ListPrice", p_price))
-                    p_spot = int(seller_offer.get("spotPrice", p_price))
-                    
-                    precio_oferta = p_spot if p_spot > 0 else p_price
-                    precio_normal = p_list if p_list > 0 else precio_oferta
-                    stock = seller_offer.get("AvailableQuantity", 0) > 0
-        except Exception as e:
-            error_msg = str(e)
+            r = requests.get(prod["url"], headers=headers, timeout=5)
+            if r.status_code == 200:
+                html_content = r.text
+                precio_oferta, precio_normal = extraer_precios_html(html_content)
+        except Exception:
+            pass
 
-        # 2. Respaldo por API REST pública de catálogo VTEX
+        # Intento B: Si hay bloqueo de IP en la nube, usar el puente proxy
         if not precio_oferta or precio_oferta == 0:
             try:
-                rest_url = f"https://www.santaisabel.cl/api/catalog_system/pub/products/search/{prod['slug']}?sc=1"
-                res_rest = session.get(rest_url, headers=headers, timeout=8)
-                if res_rest.status_code == 200:
-                    rest_data = res_rest.json()
-                    if rest_data and len(rest_data) > 0:
-                        offer = rest_data[0]["items"][0]["sellers"][0]["commertialOffer"]
-                        p_price = int(offer.get("Price", 0))
-                        p_list = int(offer.get("ListPrice", p_price))
-                        p_spot = int(offer.get("spotPrice", p_price))
-                        
-                        precio_oferta = p_spot if p_spot > 0 else p_price
-                        precio_normal = p_list if p_list > 0 else precio_oferta
-                        stock = offer.get("AvailableQuantity", 0) > 0
-            except Exception as e:
-                error_msg = str(e)
+                proxy_url = f"https://api.allorigins.win/get?url={urllib.parse.quote(prod['url'])}"
+                r = requests.get(proxy_url, headers=headers, timeout=10)
+                if r.status_code == 200:
+                    html_content = r.json().get("contents", "")
+                    precio_oferta, precio_normal = extraer_precios_html(html_content)
+            except Exception:
+                pass
 
-        # Validación final de captura
+        # Procesar y formatear fila
         if precio_oferta and precio_oferta > 0:
+            if not precio_normal or precio_normal < precio_oferta:
+                precio_normal = precio_oferta
+
             precio_metro = round(precio_oferta / prod["metros_totales"], 1)
-            if precio_oferta < precio_normal:
-                estado_tag = "🔥 En Oferta"
-            elif not stock:
-                estado_tag = "❌ Sin Stock"
+            descuento = round((1 - (precio_oferta / precio_normal)) * 100) if precio_normal > precio_oferta else 0
+
+            if descuento > 0:
+                estado = f"🔥 {descuento}% DCTO"
             else:
-                estado_tag = "Normal"
+                estado = "Disponible"
 
             resultados.append({
                 "marca": prod["marca"],
@@ -135,7 +121,7 @@ def extraer_precios_api():
                 "precio_oferta": f"${precio_oferta:,.0f}".replace(",", "."),
                 "precio_metro": f"${precio_metro} /m",
                 "precio_metro_num": precio_metro,
-                "estado": estado_tag,
+                "estado": estado,
                 "url": prod["url"]
             })
         else:
@@ -148,39 +134,39 @@ def extraer_precios_api():
                 "precio_oferta": "N/D",
                 "precio_metro": "N/D",
                 "precio_metro_num": 0,
-                "estado": f"Sin Datos ({error_msg or 'Bloqueo Retailer'})",
+                "estado": "Reintentar",
                 "url": prod["url"]
             })
-            
+
     return resultados
 
-def generar_analisis_automatico(datos):
+def calcular_resumen_comercial(datos):
     validos = [d for d in datos if d["precio_metro_num"] > 0]
     if not validos:
         return {
-            "resumen": "No se pudieron obtener datos válidos desde el servidor del retailer.",
-            "estrategia": "Verificar la disponibilidad de conexión con Santa Isabel.",
-            "alertas": ["Error al consultar precios en vivo."]
+            "resumen": "No se pudieron obtener precios en este momento. Presiona el botón de recarga.",
+            "estrategia": "Verificar conexión.",
+            "alertas": ["Sin datos en vivo."]
         }
-    
+
     mas_barato = min(validos, key=lambda x: x["precio_metro_num"])
     mas_caro = max(validos, key=lambda x: x["precio_metro_num"])
     promedio_m = round(sum(d["precio_metro_num"] for d in validos) / len(validos), 1)
 
     resumen = (
-        f"El mercado promedia **${promedio_m}/m**. "
-        f"La opción más económica por metro es **{mas_barato['marca']} ({mas_barato['sku']})** a **{mas_barato['precio_metro']}**."
+        f"El precio promedio de mercado se sitúa en **${promedio_m}/m**. "
+        f"La opción más económica por metro es **{mas_barato['marca']} ({mas_barato['sku']})** con **{mas_barato['precio_metro']}**."
     )
-    
+
     precio_objetivo = round(mas_barato["precio_metro_num"] * 0.95, 1)
     estrategia = (
-        f"Para posicionar a **Ovella** como líder de conveniencia en retail, el precio objetivo sugerido debe ser inferior a "
-        f"**${precio_objetivo}/m** frente a los formatos familiares de 880m."
+        f"Para que **Ovella** lidere en competitividad frente a la competencia, el precio objetivo sugerido debe ser igual o inferior a "
+        f"**${precio_objetivo}/m** frente a los formatos familiares."
     )
-    
+
     alertas = [
-        f"📌 **Piso de la Categoría:** {mas_barato['marca']} fija la paridad mínima en {mas_barato['precio_metro']}.",
-        f"📈 **Diferencial de Formato:** El pack de menor volumen es un {round(((mas_caro['precio_metro_num']/mas_barato['precio_metro_num'])-1)*100)}% más caro por metro que el pack ahorro."
+        f"📌 **Piso de Categoría:** {mas_barato['marca']} marca el precio mínimo en {mas_barato['precio_metro']}.",
+        f"📈 **Diferencial de Formato:** El formato unitario ({mas_caro['marca']}) cuesta un {round(((mas_caro['precio_metro_num']/mas_barato['precio_metro_num'])-1)*100)}% más por metro que el pack ahorro."
     ]
 
     return {
@@ -191,10 +177,10 @@ def generar_analisis_automatico(datos):
 
 # --- Interfaz Gráfica ---
 st.title("📊 Dipisa & Ovella — Monitor de Pricing en Vivo")
-st.caption("Benchmarking en tiempo real • Extracción directa de catálogo de retail")
+st.caption("Benchmarking en tiempo real • 100% Automático y autónomo")
 
-datos_tabla = extraer_precios_api()
-analisis = generar_analisis_automatico(datos_tabla)
+datos_tabla = consultar_precios_en_vivo()
+analisis = calcular_resumen_comercial(datos_tabla)
 
 col1, col2 = st.columns([2, 1])
 with col1:
