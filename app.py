@@ -38,10 +38,24 @@ PRODUCTOS = [
     }
 ]
 
+import os
+import subprocess
+from playwright.sync_api import sync_playwright
+
 def extraer_precios():
+    # Instalar Chromium automáticamente si estamos en Streamlit Cloud
+    try:
+        subprocess.run(["playwright", "install", "chromium"], check=True)
+    except Exception as e:
+        st.warning(f"Aviso de instalación: {e}")
+
     resultados = []
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
+        # Argumentos necesarios para servidores Linux en la nube
+        browser = p.chromium.launch(
+            headless=True,
+            args=["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"]
+        )
         page = browser.new_page()
         for prod in PRODUCTOS:
             try:
