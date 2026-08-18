@@ -35,35 +35,59 @@ PRODUCTOS = [
 ]
 
 def extraer_precios_html(html_text):
-    """Extrae precio oferta y precio normal analizando el HTML renderizado."""
+    """Extrae precio normal, precio oferta y promociones desde el estado VTEX o metadatos."""
     precio_oferta = None
     precio_normal = None
-    
-    # 1. Buscar en bloques de metadatos JSON-LD
+
+    # 1. Búsqueda profunda en el estado reactivo de VTEX (__STATE__)
     try:
-        ld_blocks = re.findall(r'<script type="application/ld\+json">(.*?)</script>', html_text, re.DOTALL)
-        for block in ld_blocks:
-            data = json.loads(block)
-            if "offers" in data:
-                offers = data["offers"]
-                if isinstance(offers, list):
-                    offers = offers[0]
-                p = float(offers.get("price", offers.get("lowPrice", 0)))
-                if p > 0:
-                    precio_oferta = int(p)
-                    precio_normal = int(offers.get("highPrice", precio_oferta))
-                    break
+        state_match = re.search(r'__STATE__\s*=\s*(\{.*?\});?</script>', html_text, re.DOTALL)
+        if state_match:
+            state_data = json.loads(state_match.group(1))
+            for key, val in state_data.items():
+                if isinstance(val, dict) and "commertialOffer" in key:
+                    p_price = int(val.get("Price", 0))
+                    p_list = int(val.get("ListPrice", p_price))
+                    p_spot = int(val.get("spotPrice", p_price))
+
+                    p_final = min([p for p in [p_spot, p_price] if p > 0]) if (p_spot or p_price) else p_price
+                    if p_final > 0:
+                        precio_oferta = p_final
+                        precio_normal = p_list if p_list > 0 else precio_oferta
+                        break
     except Exception:
         pass
 
-    # 2. Buscar patrones de precios en el texto ($XX.XXX)
+    # 2. Respaldo por JSON-LD
     if not precio_oferta:
-        precios_encontrados = re.findall(r'\$\s?([0-9]{1,3}(?:\.[0-9]{3})+)', html_text)
-        if precios_encontrados:
-            valores = [int(p.replace(".", "")) for p in precios_encontrados if int(p.replace(".", "")) > 500]
-            if valores:
-                precio_oferta = min(valores)
-                precio_normal = max(valores)
+        try:
+            ld_blocks = re.findall(r'<script type="application/ld\+json">(.*?)</script>', html_text, re.DOTALL)
+            for block in ld_blocks:
+                data = json.loads(block)
+                if "offers" in data:
+                    offers = data["offers"]
+                    if isinstance(offers, list):
+                        offers = offers[0]
+                    p = float(offers.get("price", offers.get("lowPrice", 0)))
+                    high_p = float(offers.get("highPrice", p))
+                    if p > 0:
+                        precio_oferta = int(p)
+                        precio_normal = int(high_p) if high_p > p else int(p)
+                        break
+        except Exception:
+            pass
+
+    # 3. Respaldo por búsqueda de patrones numéricos de precios en HTML
+    if not precio_oferta:
+        precios = re.findall(r'\$\s?([0-9]{1,3}(?:\.[0-9]{3})+)', html_text)
+        if precios:
+            valores = sorted(list(set([int(p.replace(".", "")) for p in precios if int(p.replace(".", "")) > 500])))
+            if len(valores) == 1:
+                precio_oferta = valores[0]
+                precio_normal = valores[0]
+            elif len(valores) >= 2:
+                precio_oferta = valores[0]  # El menor es la oferta
+                precio_normal = valores[-1] # El mayor suele ser el precio de lista
 
     return precio_oferta, precio_normal
 
@@ -71,7 +95,8 @@ def extraer_precios_html(html_text):
 def consultar_precios_en_vivo():
     resultados = []
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        "Accept-Language": "es-CL,es;q=0.9"
     }
 
     for prod in PRODUCTOS:
@@ -79,7 +104,7 @@ def consultar_precios_en_vivo():
         precio_normal = None
         html_content = ""
 
-        # Intento A: Consulta directa
+        # Intento directo
         try:
             r = requests.get(prod["url"], headers=headers, timeout=5)
             if r.status_code == 200:
@@ -88,7 +113,7 @@ def consultar_precios_en_vivo():
         except Exception:
             pass
 
-        # Intento B: Si hay bloqueo de IP en la nube, usar el puente proxy
+        # Intento por proxy si la conexión directa no trae el HTML completo
         if not precio_oferta or precio_oferta == 0:
             try:
                 proxy_url = f"https://api.allorigins.win/get?url={urllib.parse.quote(prod['url'])}"
@@ -99,7 +124,6 @@ def consultar_precios_en_vivo():
             except Exception:
                 pass
 
-        # Procesar y formatear fila
         if precio_oferta and precio_oferta > 0:
             if not precio_normal or precio_normal < precio_oferta:
                 precio_normal = precio_oferta
@@ -214,7 +238,7 @@ try:
 except TypeError:
     st.dataframe(columnas_mostrar, use_container_width=True)
 
-col_btn1, col_btn2 = st.columns([1, 4])
+col_btn1, _ = st.columns([1, 4])
 with col_btn1:
     if st.button("🔄 Forzar Recarga"):
         st.cache_data.clear()
