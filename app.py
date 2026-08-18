@@ -33,38 +33,181 @@ PRODUCTOS = [
     }
 ]
 
-def extraer_precios():
+import streamlit as st
+import json
+import requests
+from google import genai
+
+st.set_page_config(page_title="Dipisa & Ovella - Pricing", page_icon="📊", layout="wide")
+
+GEMINI_API_KEY = st.secrets.get("GEMINI_API_KEY", "")
+
+PRODUCTOS = [
+    {
+        "marca": "Noble",
+        "sku_nombre": "Doble Hoja 23m 4 un",
+        "retailer": "Santa Isabel",
+        "metros_totales": 92,
+        "sku_id": "1859328",
+        "url": "https://www.santaisabel.cl/papel-higienico-doble-hoja-23-m-4-un-1859328/p"
+    },
+    {
+        "marca": "Noble",
+        "sku_nombre": "Doble Hoja 22m 40 un",
+        "retailer": "Santa Isabel",
+        "metros_totales": 880,
+        "sku_id": "1960588",
+        "url": "https://www.santaisabel.cl/papel-higienico-noble-doble-hoja-22-m-40-un-1960588/p"
+    },
+    {
+        "marca": "Confort",
+        "sku_nombre": "Doble Hoja 22m 40 un",
+        "retailer": "Santa Isabel",
+        "metros_totales": 880,
+        "sku_id": "1997284",
+        "url": "https://www.santaisabel.cl/papel-higienico-confort-doble-hoja-22-m-40-un-1997284/p"
+    }
+]
+
+def extraer_precios_api():
     resultados = []
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+        "Accept": "application/json",
+        "Origin": "https://www.santaisabel.cl",
+        "Referer": "https://www.santaisabel.cl/"
     }
     
     for prod in PRODUCTOS:
+        precio_normal = None
+        precio_oferta = None
+        stock = True
+        
+        # Intento 1: API directa de simulación de orden VTEX
         try:
-            res = requests.get(prod["url"], headers=headers, timeout=15)
-            soup = BeautifulSoup(res.text, "html.parser")
-            
-            # Extraer solo el texto visible relevante
-            texto_limpio = " ".join(soup.stripped_strings)[:3000]
-            
+            order_url = "https://www.santaisabel.cl/api/checkout/pub/orderforms/simulation"
+            payload = {
+                "items": [{"id": prod["sku_id"], "quantity": 1, "seller": "1"}],
+                "country": "CHL"
+            }
+            res = requests.post(order_url, json=payload, headers=headers, timeout=8)
+            if res.status_code == 200:
+                data = res.json()
+                if "items" in data and len(data["items"]) > 0:
+                    item_data = data["items"][0]
+                    # VTEX entrega los valores en centavos (ej: 195000 = $1.950)
+                    precio_oferta = int(item_data.get("price", 0) / 100)
+                    precio_normal = int(item_data.get("listPrice", precio_oferta) / 100)
+                    stock = item_data.get("availability") == "available"
+        except Exception:
+            pass
+
+        # Intento 2 (Respaldo): Catálogo público
+        if not precio_oferta or precio_oferta == 0:
+            try:
+                cat_url = f"https://www.santaisabel.cl/api/catalog_system/pub/products/search?fq=skuId:{prod['sku_id']}"
+                res = requests.get(cat_url, headers=headers, timeout=8)
+                if res.status_code == 200:
+                    data = res.json()
+                    if data and len(data) > 0:
+                        offer = data[0]["items"][0]["sellers"][0]["commertialOffer"]
+                        precio_oferta = int(offer.get("Price", 0))
+                        precio_normal = int(offer.get("ListPrice", precio_oferta))
+                        stock = offer.get("AvailableQuantity", 0) > 0
+            except Exception:
+                pass
+
+        # Formatear resultados
+        if precio_oferta and precio_oferta > 0:
+            precio_metro = round(precio_oferta / prod["metros_totales"], 1)
             resultados.append({
                 "marca": prod["marca"],
                 "sku": prod["sku_nombre"],
                 "retailer": prod["retailer"],
                 "metros_totales": prod["metros_totales"],
-                "url": prod["url"],
-                "texto_capturado": texto_limpio
+                "precio_normal": f"${precio_normal:,}".replace(",", "."),
+                "precio_oferta": f"${precio_oferta:,}".replace(",", "."),
+                "precio_metro": f"${precio_metro} /m",
+                "precio_metro_num": precio_metro,
+                "estado": "En Oferta" if precio_oferta < precio_normal else ("Disponible" if stock else "Sin Stock"),
+                "url": prod["url"]
             })
-        except Exception as e:
+        else:
             resultados.append({
                 "marca": prod["marca"],
                 "sku": prod["sku_nombre"],
                 "retailer": prod["retailer"],
                 "metros_totales": prod["metros_totales"],
-                "url": prod["url"],
-                "texto_capturado": f"ERROR_AL_CONSULTAR: {e}"
+                "precio_normal": "N/D",
+                "precio_oferta": "N/D",
+                "precio_metro": "N/D",
+                "precio_metro_num": 0,
+                "estado": "Error de Conexión",
+                "url": prod["url"]
             })
+            
     return resultados
+
+def procesar_ia(datos):
+    client = genai.Client(api_key=GEMINI_API_KEY)
+    prompt = f"""
+    Eres un analista de pricing senior para Dipisa y su marca Ovella.
+    A continuación tienes la lista de precios reales extraídos en vivo desde los retailers:
+    {json.dumps(datos, indent=2, ensure_ascii=False)}
+
+    Con base en estos números reales:
+    1. Genera un resumen ejecutivo de 2 líneas con la conclusión principal para Dipisa.
+    2. Define la recomendación estratégica puntual para Ovella (precio objetivo por metro para ser competitivo).
+    3. Formula 2 alertas comerciales clave (quiebres, ofertas agresivas o paridad).
+
+    Devuelve ÚNICAMENTE un JSON válido con esta estructura exacta:
+    {{
+      "resumen": "texto",
+      "estrategia": "texto",
+      "alertas": ["alerta 1", "alerta 2"]
+    }}
+    """
+    res = client.models.generate_content(model="gemini-3.6-flash", contents=prompt)
+    texto = res.text.strip()
+    if texto.startswith("```json"): texto = texto[7:]
+    if texto.startswith("```"): texto = texto[3:]
+    if texto.endswith("```"): texto = texto[:-3]
+    return json.loads(texto.strip())
+
+# --- Interfaz Gráfica ---
+st.title("📊 Dipisa & Ovella — Monitor de Pricing en Vivo")
+st.caption("Precios actualizados en tiempo real para análisis comercial")
+
+if st.button("🚀 Actualizar Precios Ahora", type="primary"):
+    with st.spinner("Obteniendo precios de Santa Isabel y generando análisis..."):
+        datos_tabla = extraer_precios_api()
+        analisis = procesar_ia(datos_tabla)
+
+    st.success("¡Datos actualizados con éxito!")
+    
+    col1, col2 = st.columns([2, 1])
+    with col1:
+        st.subheader("💡 Resumen Comercial")
+        st.write(analisis.get("resumen", ""))
+        st.info(f"**Estrategia Ovella:** {analisis.get('estrategia', '')}")
+    
+    with col2:
+        st.subheader("⚠️ Alertas")
+        for a in analisis.get("alertas", []):
+            st.warning(a)
+
+    st.subheader("📋 Tabla de Precios y $/Metro")
+    
+    # Mostrar tabla limpia
+    columnas_mostrar = [
+        {"Retailer": d["retailer"], "Marca": d["marca"], "SKU": d["sku"], 
+         "Metros": f"{d['metros_totales']} m", "Precio Normal": d["precio_normal"], 
+         "Precio Oferta": d["precio_oferta"], "$/Metro": d["precio_metro"], "Estado": d["estado"]}
+        for d in datos_tabla
+    ]
+    st.dataframe(columnas_mostrar, use_container_width=True)
+else:
+    st.info("Presiona el botón superior para consultar los precios actuales.")
 
 def procesar_ia(datos):
     client = genai.Client(api_key=GEMINI_API_KEY)
