@@ -66,6 +66,17 @@ alvi:
   # retailers sin membresía.
   patron_precio_oferta: 'Precio regular\s*\$([\d.,]+)'
 
+tottus:
+  nombre: "Tottus"
+  metodo: playwright_text
+  # Verificado 19/08/2026: tottus.cl usa un desafío JS de Cloudflare
+  # ("Just a moment...") ante requests simples; un navegador headless
+  # (Playwright) sí lo pasa. El precio se muestra como "$ 7.790" (con
+  # espacio) seguido de "UN" y el % de descuento; el precio normal aparece
+  # después de "(...por MT)".
+  patron_precio_oferta: '\$\s*([\d.,]+)\s*\nUN\s*\n-\d+%'
+  patron_precio_normal: 'por MT\)\s*\n\$\s*([\d.,]+)'
+
 # Para agregar una tienda nueva:
 # 1. Abre una página de producto de esa tienda y mira si el precio aparece en el
 #    HTML crudo sin JS (clic derecho > "Ver código fuente", Ctrl+F "price" o el

@@ -82,9 +82,10 @@ Líder (`super.lider.cl`) devuelve una página de verificación
 ("Robot or human?") en vez del HTML del producto ante un request simple —
 no es un tema de headers, es bot-detection activa. Está deshabilitado en
 `retailers.yaml` hasta evaluar una fuente de datos alternativa. Unimarc
-presenta un problema similar y todavía no está configurado. Alvi también
-bloquea requests simples (Akamai), pero un navegador headless sí pasa —
-está configurado con `metodo: playwright_text`.
+presenta un problema similar y todavía no está configurado. Alvi (Akamai) y
+Tottus (desafío JS de Cloudflare) también bloquean requests simples, pero un
+navegador headless sí pasa en ambos — están configurados con
+`metodo: playwright_text`.
 
 ## Despliegue (para que el equipo la use sin depender de una persona)
 
