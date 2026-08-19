@@ -53,6 +53,14 @@ def cargar_config():
     return productos, retailers
 
 
+def _fragmento_diagnostico(texto: str) -> str:
+    """Devuelve un fragmento corto y limpio del HTML recibido, para ver en el
+    mensaje de error si el sitio devolvió la página real o un bloqueo/captcha."""
+    limpio = re.sub(r"<[^>]+>", " ", texto)  # quita tags para que se lea
+    limpio = re.sub(r"\s+", " ", limpio).strip()
+    return limpio[:180]
+
+
 def _consultar_meta_tag(url: str, patron_precio: str, patron_disp: str, intentos: int = 3):
     """Lee precio desde meta tags del HTML crudo (rápido, sin navegador)."""
     for intento in range(1, intentos + 1):
@@ -61,7 +69,8 @@ def _consultar_meta_tag(url: str, patron_precio: str, patron_disp: str, intentos
             if res.status_code == 200:
                 m = re.search(patron_precio, res.text)
                 if not m:
-                    return None, True, "No se encontró el precio en el HTML (¿cambió el sitio?)"
+                    frag = _fragmento_diagnostico(res.text)
+                    return None, True, f"No se encontró el precio. Recibido: \"{frag}\""
                 precio = float(m.group(1).replace(".", "").replace(",", "."))
 
                 disponible = True
@@ -96,7 +105,8 @@ def _consultar_text_pattern(url: str, cfg: dict, intentos: int = 3):
             if res.status_code == 200:
                 m_oferta = re.search(patron_oferta, res.text)
                 if not m_oferta:
-                    return None, None, True, "No se encontró el precio en el HTML (¿cambió el sitio?)"
+                    frag = _fragmento_diagnostico(res.text)
+                    return None, None, True, f"No se encontró el precio. Recibido: \"{frag}\""
                 precio_oferta = float(m_oferta.group(1).replace(".", "").replace(",", ""))
 
                 precio_normal = precio_oferta
