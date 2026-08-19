@@ -5,6 +5,8 @@ import requests
 import re
 import time
 import random
+import subprocess
+import sys
 from pathlib import Path
 
 st.set_page_config(
@@ -16,6 +18,21 @@ st.set_page_config(
 BASE_DIR = Path(__file__).parent
 PRODUCTOS_PATH = BASE_DIR / "productos.csv"
 RETAILERS_PATH = BASE_DIR / "retailers.yaml"
+
+
+@st.cache_resource
+def asegurar_chromium_instalado():
+    """Instala el navegador headless de Playwright la primera vez que arranca la
+    app en el servidor (Streamlit Cloud no lo trae preinstalado). cache_resource
+    hace que esto corra una sola vez por instancia, no en cada refresh."""
+    try:
+        subprocess.run(
+            [sys.executable, "-m", "playwright", "install", "chromium"],
+            check=True, capture_output=True, timeout=300,
+        )
+        return True
+    except Exception as e:
+        return f"No se pudo instalar Chromium: {str(e)[:200]}"
 
 HEADERS = {
     "User-Agent": (
@@ -64,6 +81,41 @@ def _consultar_meta_tag(url: str, patron_precio: str, patron_disp: str, intentos
                 return None, False, f"Error de conexión: {str(e)[:100]}"
             time.sleep(random.uniform(1.5, 3) * intento)
     return None, False, "Bloqueado tras varios intentos (403/429)"
+
+
+def _consultar_text_pattern(url: str, cfg: dict, intentos: int = 3):
+    """Lee precio oferta y normal buscando dos patrones de texto en el HTML crudo
+    (sin meta tags, sin navegador). Útil para sitios Next.js con SSR que ya traen
+    ambos precios en el texto renderizado desde el servidor."""
+    patron_oferta = cfg["patron_precio_oferta"]
+    patron_normal = cfg.get("patron_precio_normal")
+
+    for intento in range(1, intentos + 1):
+        try:
+            res = requests.get(url, headers=HEADERS, timeout=12)
+            if res.status_code == 200:
+                m_oferta = re.search(patron_oferta, res.text)
+                if not m_oferta:
+                    return None, None, True, "No se encontró el precio en el HTML (¿cambió el sitio?)"
+                precio_oferta = float(m_oferta.group(1).replace(".", "").replace(",", ""))
+
+                precio_normal = precio_oferta
+                if patron_normal:
+                    m_normal = re.search(patron_normal, res.text)
+                    if m_normal:
+                        precio_normal = float(m_normal.group(1).replace(".", "").replace(",", ""))
+
+                return precio_oferta, precio_normal, True, None
+            elif res.status_code in (403, 429):
+                time.sleep(random.uniform(2, 4) * intento)
+                continue
+            else:
+                return None, None, False, f"HTTP {res.status_code}"
+        except requests.RequestException as e:
+            if intento == intentos:
+                return None, None, False, f"Error de conexión: {str(e)[:100]}"
+            time.sleep(random.uniform(1.5, 3) * intento)
+    return None, None, False, "Bloqueado tras varios intentos (403/429)"
 
 
 def _consultar_playwright(url: str, cfg: dict, intentos: int = 3):
@@ -117,13 +169,19 @@ def consultar_precios_en_vivo(_productos_hash: str):
     productos, retailers_cfg = cargar_config()
     resultados = []
 
+    usa_playwright = any(cfg.get("metodo") == "playwright" for cfg in retailers_cfg.values())
+    if usa_playwright:
+        resultado_instalacion = asegurar_chromium_instalado()
+        if resultado_instalacion is not True:
+            st.warning(f"⚠️ {resultado_instalacion} — los retailers con Playwright pueden fallar.")
+
     for _, prod in productos.iterrows():
         retailer_key = prod["retailer"]
         cfg = retailers_cfg.get(retailer_key)
 
         if cfg is None:
             resultados.append({**prod.to_dict(), "precio_normal_num": 0, "precio_oferta_num": 0,
-                                "estado": f"Retailer '{retailer_key}' no está en config/retailers.yaml"})
+                                "estado": f"Retailer '{retailer_key}' no está en retailers.yaml"})
             continue
 
         if cfg["metodo"] == "meta_tag":
@@ -131,6 +189,8 @@ def consultar_precios_en_vivo(_productos_hash: str):
                 prod["url"], cfg["selector_precio"], cfg.get("selector_disponibilidad")
             )
             precio_normal = precio
+        elif cfg["metodo"] == "text_pattern":
+            precio, precio_normal, disponible, error = _consultar_text_pattern(prod["url"], cfg)
         elif cfg["metodo"] == "playwright":
             precio, precio_normal, disponible, error = _consultar_playwright(prod["url"], cfg)
         else:
