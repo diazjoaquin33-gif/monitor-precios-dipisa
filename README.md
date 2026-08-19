@@ -31,9 +31,14 @@ Edita `retailers.yaml` — cada tienda define un `metodo`:
 - **text_pattern**: busca el precio como texto plano en el HTML crudo (sin
   meta tags), útil en sitios con SSR real (Next.js) que ya renderizan el
   precio desde el servidor.
-- **playwright**: renderiza con navegador headless. Necesario cuando el precio
-  no está en el HTML crudo. No garantiza pasar protecciones anti-bot activas
-  (ver nota sobre Líder abajo).
+- **playwright**: renderiza con navegador headless y lee el precio con un
+  selector CSS. Necesario cuando el precio no está en el HTML crudo. No
+  garantiza pasar protecciones anti-bot activas (ver nota sobre Líder abajo).
+  Frágil si el sitio usa clases CSS autogeneradas que cambian en cada deploy.
+- **playwright_text**: como `playwright`, pero busca el precio con un patrón
+  de texto sobre el contenido ya renderizado en vez de un selector CSS — más
+  robusto contra sitios que regeneran sus clases CSS en cada deploy (ej.
+  Alvi, con Next.js/CSS modules).
 
 El archivo `retailers.yaml` trae comentarios con el paso a paso para agregar
 un retailer nuevo.
@@ -48,7 +53,9 @@ Líder (`super.lider.cl`) devuelve una página de verificación
 ("Robot or human?") en vez del HTML del producto ante un request simple —
 no es un tema de headers, es bot-detection activa. Está deshabilitado en
 `retailers.yaml` hasta evaluar una fuente de datos alternativa. Unimarc
-presenta un problema similar y todavía no está configurado.
+presenta un problema similar y todavía no está configurado. Alvi también
+bloquea requests simples (Akamai), pero un navegador headless sí pasa —
+está configurado con `metodo: playwright_text`.
 
 ## Despliegue (para que el equipo la use sin depender de una persona)
 

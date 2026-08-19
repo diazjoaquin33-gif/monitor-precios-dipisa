@@ -174,12 +174,63 @@ def _consultar_playwright(url: str, cfg: dict, intentos: int = 3):
     return None, None, False, "Falla desconocida"
 
 
+def _consultar_playwright_text(url: str, cfg: dict, intentos: int = 3):
+    """Como _consultar_playwright, pero busca el precio con un patrón de texto
+    (patron_precio_oferta / patron_precio_normal) sobre el texto ya renderizado
+    por el navegador, en vez de un selector CSS. Es más robusto en sitios cuyo
+    framework (ej. Next.js) genera nombres de clase distintos en cada deploy,
+    donde un selector CSS se rompe solo, pero el texto visible no cambia."""
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError:
+        return None, None, False, "Playwright no está instalado (ver requirements.txt)"
+
+    patron_oferta = cfg["patron_precio_oferta"]
+    patron_normal = cfg.get("patron_precio_normal")
+
+    for intento in range(1, intentos + 1):
+        try:
+            with sync_playwright() as p:
+                browser = p.chromium.launch(headless=True)
+                context = browser.new_context(
+                    user_agent=HEADERS["User-Agent"], locale="es-CL",
+                    viewport={"width": 1366, "height": 768},
+                )
+                page = context.new_page()
+                page.goto(url, timeout=20000, wait_until="networkidle")
+                time.sleep(random.uniform(1.0, 2.0))
+                texto = page.inner_text("body")
+                browser.close()
+
+            m_oferta = re.search(patron_oferta, texto)
+            if not m_oferta:
+                frag = _fragmento_diagnostico(texto)
+                if intento == intentos:
+                    return None, None, True, f"No se encontró el precio. Recibido: \"{frag}\""
+                time.sleep(random.uniform(2, 4) * intento)
+                continue
+            precio_oferta = float(m_oferta.group(1).replace(".", "").replace(",", "."))
+
+            precio_normal = precio_oferta
+            if patron_normal:
+                m_normal = re.search(patron_normal, texto)
+                if m_normal:
+                    precio_normal = float(m_normal.group(1).replace(".", "").replace(",", "."))
+
+            return precio_oferta, precio_normal, True, None
+        except Exception as e:
+            if intento == intentos:
+                return None, None, False, f"Error Playwright: {str(e)[:100]}"
+            time.sleep(random.uniform(2, 4) * intento)
+    return None, None, False, "Falla desconocida"
+
+
 @st.cache_data(ttl=1800)
 def consultar_precios_en_vivo(productos_hash: str):
     productos, retailers_cfg = cargar_config()
     resultados = []
 
-    usa_playwright = any(cfg.get("metodo") == "playwright" for cfg in retailers_cfg.values())
+    usa_playwright = any(cfg.get("metodo") in ("playwright", "playwright_text") for cfg in retailers_cfg.values())
     if usa_playwright:
         resultado_instalacion = asegurar_chromium_instalado()
         if resultado_instalacion is not True:
@@ -203,6 +254,8 @@ def consultar_precios_en_vivo(productos_hash: str):
             precio, precio_normal, disponible, error = _consultar_text_pattern(prod["url"], cfg)
         elif cfg["metodo"] == "playwright":
             precio, precio_normal, disponible, error = _consultar_playwright(prod["url"], cfg)
+        elif cfg["metodo"] == "playwright_text":
+            precio, precio_normal, disponible, error = _consultar_playwright_text(prod["url"], cfg)
         else:
             precio, precio_normal, disponible, error = None, None, False, f"Método desconocido: {cfg['metodo']}"
 

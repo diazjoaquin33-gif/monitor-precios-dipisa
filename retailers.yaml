@@ -8,9 +8,16 @@
 #   - text_pattern: busca dos precios (oferta y normal) directo en el texto del
 #     HTML crudo, sin meta tags. Funciona en sitios con SSR real (ej. Next.js)
 #     que ya traen ambos precios renderizados desde el servidor.
-#   - playwright: renderiza con navegador headless (más lento, requiere
-#     packages.txt adicional en el despliegue). Reservado para cuando un sitio
-#     no expone el precio ni en meta tags ni en texto plano.
+#   - playwright: renderiza con navegador headless y lee el precio con un
+#     selector CSS (más lento, requiere packages.txt adicional en el
+#     despliegue). Frágil si el sitio usa clases CSS autogeneradas que
+#     cambian en cada deploy (ej. Next.js/CSS modules) — en ese caso usar
+#     playwright_text en vez de este.
+#   - playwright_text: igual que playwright (navegador headless, pasa
+#     protecciones anti-bot básicas tipo Akamai/Cloudflare), pero busca el
+#     precio con un patrón de texto sobre el texto visible ya renderizado,
+#     no con un selector CSS. Usa las mismas claves patron_precio_oferta /
+#     patron_precio_normal que text_pattern.
 #
 # IMPORTANTE: nunca apuntar a endpoints tipo /api/... de un retailer sin revisar
 # antes su robots.txt — varios los bloquean explícitamente para bots, aunque
@@ -48,6 +55,16 @@ jumbo:
 # unimarc: PENDIENTE — el sitio bloquea requests directos (bot detection activa,
 # no es solo falta de headers). Necesita revisión aparte: probablemente Playwright
 # + headers más elaborados, o puede seguir bloqueando igual. No agregar todavía.
+
+alvi:
+  nombre: "Alvi"
+  metodo: playwright_text
+  # Verificado 18/08/2026: alvi.cl bloquea requests HTTP simples con un muro
+  # anti-bot de Akamai, pero un navegador headless (Playwright) sí pasa.
+  # Además tiene "Precio regular" y "Precio socio" (con Club Alvi) por
+  # separado — se monitorea el precio regular para comparar 1 a 1 con
+  # retailers sin membresía.
+  patron_precio_oferta: 'Precio regular\s*\$([\d.,]+)'
 
 # Para agregar una tienda nueva:
 # 1. Abre una página de producto de esa tienda y mira si el precio aparece en el
