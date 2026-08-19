@@ -1,6 +1,8 @@
 import streamlit as st
-import json
 import requests
+import re
+import time
+import random
 
 st.set_page_config(
     page_title="Dipisa & Ovella — Monitor de Pricing",
@@ -8,8 +10,29 @@ st.set_page_config(
     layout="wide"
 )
 
-# Pega aquí la URL que te entregó Google Apps Script
-PUENTE_URL = "https://script.google.com/macros/s/AKfycbw6EL_nzt7CuFUJAWj1i04_xWXwOKTX6VXHeYZDp2-rYa9AJLyflIQ3oD6PDIbqsWDT/exec"
+# ---------------------------------------------------------------------------
+# Ya NO se usa Google Apps Script como puente. El precio se lee directo desde
+# el HTML de la página de producto: los sitios VTEX (como Santa Isabel) traen
+# el precio en meta tags Open Graph incluso sin ejecutar JavaScript, ej:
+#   <meta property="product:price:amount" content="1950"/>
+#   <meta property="product:availability" content="in stock"/>
+# Esto es más simple y más rápido que scraping con navegador o que depender
+# de un intermediario externo.
+# ---------------------------------------------------------------------------
+
+HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept-Language": "es-CL,es;q=0.9",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+}
+
+# Patrones de meta tags a buscar en el HTML (algunos sitios VTEX varían el nombre)
+PATRON_PRECIO = re.compile(r'property="product:price:amount"\s+content="([\d.,]+)"')
+PATRON_PRECIO_ALT = re.compile(r'content="([\d.,]+)"\s+property="product:price:amount"')
+PATRON_DISPONIBILIDAD = re.compile(r'property="product:availability"\s+content="([^"]+)"')
 
 PRODUCTOS = [
     {
@@ -38,44 +61,62 @@ PRODUCTOS = [
     }
 ]
 
+
+def _extraer_precio(html: str):
+    m = PATRON_PRECIO.search(html) or PATRON_PRECIO_ALT.search(html)
+    if not m:
+        return None
+    texto = m.group(1).replace(".", "").replace(",", ".")
+    try:
+        return float(texto)
+    except ValueError:
+        return None
+
+
+def _extraer_disponibilidad(html: str) -> bool:
+    m = PATRON_DISPONIBILIDAD.search(html)
+    if not m:
+        return True  # si no viene el tag, asumimos disponible por defecto
+    return "in stock" in m.group(1).lower()
+
+
+def _consultar_producto(prod: dict, intentos: int = 3):
+    for intento in range(1, intentos + 1):
+        try:
+            res = requests.get(prod["url"], headers=HEADERS, timeout=12)
+            if res.status_code == 200:
+                precio = _extraer_precio(res.text)
+                disponible = _extraer_disponibilidad(res.text)
+                if precio is not None:
+                    return precio, disponible, None
+                return None, False, "No se encontró el precio en el HTML (¿cambió el sitio?)"
+            elif res.status_code in (403, 429):
+                # posible bloqueo: esperar más y reintentar con backoff
+                time.sleep(random.uniform(2, 4) * intento)
+                continue
+            else:
+                return None, False, f"HTTP {res.status_code}"
+        except requests.RequestException as e:
+            if intento == intentos:
+                return None, False, f"Error de conexión: {str(e)[:100]}"
+            time.sleep(random.uniform(1.5, 3) * intento)
+    return None, False, "Bloqueado tras varios intentos (403/429)"
+
+
 @st.cache_data(ttl=1800)
 def consultar_precios_en_vivo():
     resultados = []
 
     for prod in PRODUCTOS:
-        precio_oferta = None
-        precio_normal = None
-        stock = True
-
-        try:
-            res = requests.get(f"{PUENTE_URL}?sku={prod['sku_id']}", timeout=10)
-            if res.status_code == 200:
-                data = res.json()
-                if isinstance(data, list) and len(data) > 0:
-                    offer = data[0]["items"][0]["sellers"][0]["commertialOffer"]
-                    p_price = int(offer.get("Price", 0))
-                    p_list = int(offer.get("ListPrice", p_price))
-                    p_spot = int(offer.get("spotPrice", p_price))
-
-                    precio_oferta = min([p for p in [p_spot, p_price] if p > 0]) if (p_spot or p_price) else p_price
-                    precio_normal = p_list if p_list > 0 else precio_oferta
-                    stock = offer.get("AvailableQuantity", 0) > 0
-        except Exception:
-            pass
+        precio_oferta, stock, error = _consultar_producto(prod)
+        # jitter entre productos para no disparar requests en ráfaga
+        time.sleep(random.uniform(0.8, 1.8))
 
         if precio_oferta and precio_oferta > 0:
-            if precio_normal < precio_oferta:
-                precio_normal = precio_oferta
-
+            precio_normal = precio_oferta  # el meta tag solo trae precio final; sin descuento detectable por esta vía
             precio_metro = round(precio_oferta / prod["metros_totales"], 1)
-            descuento = round((1 - (precio_oferta / precio_normal)) * 100) if precio_normal > precio_oferta else 0
 
-            if descuento > 0:
-                estado = f"🔥 {descuento}% DCTO"
-            elif not stock:
-                estado = "❌ Sin Stock"
-            else:
-                estado = "Disponible"
+            estado = "Disponible" if stock else "❌ Sin Stock"
 
             resultados.append({
                 "marca": prod["marca"],
@@ -99,18 +140,19 @@ def consultar_precios_en_vivo():
                 "precio_oferta": "N/D",
                 "precio_metro": "N/D",
                 "precio_metro_num": 0,
-                "estado": "Sin Conexión",
+                "estado": f"Sin Conexión ({error})" if error else "Sin Conexión",
                 "url": prod["url"]
             })
 
     return resultados
 
+
 def calcular_resumen_comercial(datos):
     validos = [d for d in datos if d["precio_metro_num"] > 0]
     if not validos:
         return {
-            "resumen": "Configura la URL de Google Apps Script para comenzar a recibir precios en vivo.",
-            "estrategia": "Verificar enlace del puente.",
+            "resumen": "No se pudo obtener ningún precio en esta corrida. Revisa el detalle de error en la columna Estado.",
+            "estrategia": "Verificar conectividad o si los sitios cambiaron su estructura HTML.",
             "alertas": ["Sin datos en vivo."]
         }
 
@@ -132,6 +174,7 @@ def calcular_resumen_comercial(datos):
     alertas = [
         f"📌 **Piso de Categoría:** {mas_barato['marca']} marca el precio mínimo en {mas_barato['precio_metro']}.",
         f"📈 **Diferencial de Formato:** El formato unitario ({mas_caro['marca']}) cuesta un {round(((mas_caro['precio_metro_num']/mas_barato['precio_metro_num'])-1)*100)}% más por metro que el pack ahorro."
+        if mas_barato["precio_metro_num"] > 0 else "Sin datos suficientes para comparar formatos."
     ]
 
     return {
@@ -140,9 +183,10 @@ def calcular_resumen_comercial(datos):
         "alertas": alertas
     }
 
+
 # --- Interfaz Gráfica ---
 st.title("📊 Dipisa & Ovella — Monitor de Pricing en Vivo")
-st.caption("Benchmarking en tiempo real • 100% Automático y libre de límites")
+st.caption("Benchmarking en tiempo real • lectura directa del HTML, sin intermediarios")
 
 datos_tabla = consultar_precios_en_vivo()
 analisis = calcular_resumen_comercial(datos_tabla)
@@ -162,13 +206,13 @@ st.subheader("📋 Tabla Comparativa de Precios y $/Metro")
 
 columnas_mostrar = [
     {
-        "Retailer": d["retailer"], 
-        "Marca": d["marca"], 
-        "SKU": d["sku"], 
-        "Metros": f"{d['metros_totales']} m", 
-        "Precio Normal (Tachado)": d["precio_normal"], 
-        "Precio Oferta (Cobro)": d["precio_oferta"], 
-        "$/Metro": d["precio_metro"], 
+        "Retailer": d["retailer"],
+        "Marca": d["marca"],
+        "SKU": d["sku"],
+        "Metros": f"{d['metros_totales']} m",
+        "Precio Normal (Tachado)": d["precio_normal"],
+        "Precio Oferta (Cobro)": d["precio_oferta"],
+        "$/Metro": d["precio_metro"],
         "Estado": d["estado"]
     }
     for d in datos_tabla
