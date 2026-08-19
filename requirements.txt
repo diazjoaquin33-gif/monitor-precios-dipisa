@@ -1,2 +1,5 @@
-streamlit
-requests
+streamlit>=1.35
+pandas>=2.0
+pyyaml>=6.0
+requests>=2.31
+playwright>=1.44
