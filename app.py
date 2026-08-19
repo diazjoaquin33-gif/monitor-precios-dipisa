@@ -14,8 +14,8 @@ st.set_page_config(
 )
 
 BASE_DIR = Path(__file__).parent
-PRODUCTOS_PATH = BASE_DIR / "config" / "productos.csv"
-RETAILERS_PATH = BASE_DIR / "config" / "retailers.yaml"
+PRODUCTOS_PATH = BASE_DIR / "productos.csv"
+RETAILERS_PATH = BASE_DIR / "retailers.yaml"
 
 HEADERS = {
     "User-Agent": (
