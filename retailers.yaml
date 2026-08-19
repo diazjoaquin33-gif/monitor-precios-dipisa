@@ -1,0 +1,42 @@
+# Configuración de tiendas/retailers a monitorear.
+#
+# Cada tienda define un "metodo":
+#   - meta_tag: lectura rápida y liviana del <meta property="product:price:amount">
+#     en el HTML crudo (funciona en tiendas VTEX como las de Cencosud: Santa Isabel,
+#     Jumbo, Paris). Solo trae el precio final, no distingue oferta de precio normal.
+#   - playwright: renderiza la página con navegador headless y lee el precio desde
+#     selectores CSS del DOM. Más lento, pero necesario cuando el precio no está en
+#     el HTML crudo, o cuando se necesita precio normal Y precio oferta por separado.
+#
+# IMPORTANTE: nunca apuntar a endpoints tipo /api/... de un retailer sin revisar antes
+# su robots.txt (<tienda>/robots.txt) — varios los bloquean explícitamente para bots.
+# La vía de "meta_tag" y "playwright" leen lo mismo que ve cualquier visitante normal.
+
+santaisabel:
+  nombre: "Santa Isabel"
+  metodo: meta_tag
+  selector_precio: 'property="product:price:amount"\s+content="([\d.,]+)"'
+  selector_disponibilidad: 'property="product:availability"\s+content="([^"]+)"'
+
+# --- Ejemplo de tienda que requiere Playwright (precio normal + oferta) ---
+# Descomenta y ajusta los selectores tras inspeccionar el HTML real de la tienda
+# (clic derecho sobre el precio > Inspeccionar > copiar selector).
+#
+# sodimac:
+#   nombre: "Sodimac"
+#   metodo: playwright
+#   selector_precio_oferta: "span.copy10"
+#   selector_precio_normal: "span.line-through"
+#
+# falabella:
+#   nombre: "Falabella"
+#   metodo: playwright
+#   selector_precio_oferta: "li.primary-word span.copy17"
+#   selector_precio_normal: "span.C4-tag-secondary-word"
+
+# Para agregar una tienda nueva:
+# 1. Abre una página de producto de esa tienda y mira si el precio aparece en el
+#    HTML crudo sin JS (clic derecho > "Ver código fuente", Ctrl+F "price").
+# 2. Si aparece -> metodo: meta_tag (rápido).
+#    Si no aparece (solo "Cargando..." o vacío) -> metodo: playwright.
+# 3. Copia el selector correspondiente y agrega el bloque siguiendo el formato de arriba.
