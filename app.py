@@ -95,7 +95,7 @@ def _consultar_meta_tag(url: str, patron_precio: str, patron_disp: str, intentos
 def _consultar_text_pattern(url: str, cfg: dict, intentos: int = 3):
     """Lee precio oferta y normal buscando dos patrones de texto en el HTML crudo
     (sin meta tags, sin navegador). Útil para sitios Next.js con SSR que ya traen
-    ambos precios en el texto renderizado desde el servidor."""
+    ambos precios renderizados desde el servidor."""
     patron_oferta = cfg["patron_precio_oferta"]
     patron_normal = cfg.get("patron_precio_normal")
 
@@ -107,13 +107,13 @@ def _consultar_text_pattern(url: str, cfg: dict, intentos: int = 3):
                 if not m_oferta:
                     frag = _fragmento_diagnostico(res.text)
                     return None, None, True, f"No se encontró el precio. Recibido: \"{frag}\""
-                precio_oferta = float(m_oferta.group(1).replace(".", "").replace(",", ""))
+                precio_oferta = float(m_oferta.group(1).replace(".", "").replace(",", "."))
 
                 precio_normal = precio_oferta
                 if patron_normal:
                     m_normal = re.search(patron_normal, res.text)
                     if m_normal:
-                        precio_normal = float(m_normal.group(1).replace(".", "").replace(",", ""))
+                        precio_normal = float(m_normal.group(1).replace(".", "").replace(",", "."))
 
                 return precio_oferta, precio_normal, True, None
             elif res.status_code in (403, 429):
@@ -175,7 +175,7 @@ def _consultar_playwright(url: str, cfg: dict, intentos: int = 3):
 
 
 @st.cache_data(ttl=1800)
-def consultar_precios_en_vivo(_productos_hash: str):
+def consultar_precios_en_vivo(productos_hash: str):
     productos, retailers_cfg = cargar_config()
     resultados = []
 
@@ -267,7 +267,7 @@ def calcular_resumen_comercial(datos):
 
 # --- Interfaz ---
 st.title("📊 Dipisa & Ovella — Monitor de Pricing en Vivo")
-st.caption("Lee config/productos.csv y config/retailers.yaml — agregar tiendas/productos no requiere tocar código")
+st.caption("Lee productos.csv y retailers.yaml — agregar tiendas/productos no requiere tocar código")
 
 productos_df, _ = cargar_config()
 hash_productos = str(pd.util.hash_pandas_object(productos_df).sum())  # invalida cache si cambia el CSV
@@ -308,8 +308,8 @@ if st.button("🔄 Forzar Recarga"):
 
 with st.expander("➕ ¿Cómo agrego productos o tiendas nuevas?"):
     st.markdown(
-        "- **Producto nuevo (misma tienda):** agrega una fila en `config/productos.csv`.\n"
-        "- **Tienda nueva:** agrega un bloque en `config/retailers.yaml` "
+        "- **Producto nuevo (misma tienda):** agrega una fila en `productos.csv`.\n"
+        "- **Tienda nueva:** agrega un bloque en `retailers.yaml` "
         "(ver los comentarios del archivo con instrucciones paso a paso).\n"
         "- No hace falta editar `app.py` para ninguno de los dos casos."
     )

@@ -1,9 +1,10 @@
 # Configuración de tiendas/retailers a monitorear.
 #
 # Cada tienda define un "metodo":
-#   - meta_tag: lectura del <meta property="product:price:amount"> en el HTML
-#     crudo. Funciona en tiendas VTEX (Santa Isabel, Jumbo, Paris — todas del
-#     grupo Cencosud). Solo trae el precio final, no distingue oferta.
+#   - meta_tag: lectura de un meta tag <meta property="..."> o <meta name="...">
+#     con el precio, en el HTML crudo. Funciona en tiendas VTEX (Santa Isabel,
+#     Jumbo — grupo Cencosud). El atributo (property vs name) puede variar
+#     entre sitios; el regex de abajo acepta ambos.
 #   - text_pattern: busca dos precios (oferta y normal) directo en el texto del
 #     HTML crudo, sin meta tags. Funciona en sitios con SSR real (ej. Next.js)
 #     que ya traen ambos precios renderizados desde el servidor.
@@ -19,21 +20,30 @@
 santaisabel:
   nombre: "Santa Isabel"
   metodo: meta_tag
-  selector_precio: 'property="product:price:amount"\s+content="([\d.,]+)"'
-  selector_disponibilidad: 'property="product:availability"\s+content="([^"]+)"'
+  # Verificado 18/08/2026 contra el sitio real: usa property="product:price:amount".
+  selector_precio: '(?:property|name)="product:price:amount"\s+content="([\d.,]+)"'
+  selector_disponibilidad: '(?:property|name)="product:availability"\s+content="([^"]+)"'
 
 jumbo:
   nombre: "Jumbo"
   metodo: meta_tag
-  selector_precio: 'property="product:price:amount"\s+content="([\d.,]+)"'
-  selector_disponibilidad: 'property="product:availability"\s+content="([^"]+)"'
+  # Verificado 18/08/2026: Jumbo usa name="product:price:amount" (no property=,
+  # a diferencia de Santa Isabel). El regex ahora acepta ambos atributos.
+  selector_precio: '(?:property|name)="product:price:amount"\s+content="([\d.,]+)"'
+  selector_disponibilidad: '(?:property|name)="product:availability"\s+content="([^"]+)"'
 
-lider:
-  nombre: "Líder"
-  metodo: text_pattern
-  # Trae AMBOS precios (oferta y normal) sin necesitar Playwright.
-  patron_precio_oferta: 'El precio actual es \$([\d.,]+)'
-  patron_precio_normal: 'costaba\$?([\d.,]+)'
+# lider: DESHABILITADO — verificado 18/08/2026: el sitio devuelve una página de
+# verificación anti-bot ("Robot or human?") en vez del HTML del producto, incluso
+# con headers de navegador normal. Los patrones text_pattern que había antes no
+# podían funcionar porque nunca llegan a ver el HTML real. Requeriría técnicas de
+# evasión de bot-detection para forzarlo, lo cual no vamos a hacer. Si más adelante
+# se necesita este retailer, evaluar una fuente de datos alternativa (ej. API
+# pública si existe, o partner de datos) en vez de scraping directo.
+# lider:
+#   nombre: "Líder"
+#   metodo: text_pattern
+#   patron_precio_oferta: 'El precio actual es \$([\d.,]+)'
+#   patron_precio_normal: 'costaba\$?([\d.,]+)'
 
 # unimarc: PENDIENTE — el sitio bloquea requests directos (bot detection activa,
 # no es solo falta de headers). Necesita revisión aparte: probablemente Playwright
@@ -43,7 +53,11 @@ lider:
 # 1. Abre una página de producto de esa tienda y mira si el precio aparece en el
 #    HTML crudo sin JS (clic derecho > "Ver código fuente", Ctrl+F "price" o el
 #    precio en pesos, ej. "$1.990").
-# 2. Si aparece en un <meta property="product:price:amount"> -> metodo: meta_tag.
+# 2. Si aparece en un <meta property="product:price:amount"> o
+#    <meta name="product:price:amount"> -> metodo: meta_tag.
 #    Si aparece como texto plano tipo "El precio actual es $X" -> metodo: text_pattern.
-#    Si NO aparece nada (solo "Cargando..." o vacío) -> metodo: playwright.
+#    Si NO aparece nada (solo "Cargando..." o vacío, o una página de verificación
+#    tipo "Robot or human?") -> el sitio probablemente bloquea requests simples;
+#    metodo: playwright puede ayudar pero no siempre alcanza contra bot-detection
+#    activa (Akamai, PerimeterX, etc.).
 # 3. Agrega el bloque siguiendo el formato de arriba.
