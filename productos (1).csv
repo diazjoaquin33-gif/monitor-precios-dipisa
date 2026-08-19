@@ -1,0 +1,11 @@
+sku_interno,producto,marca,metros_totales,retailer,url
+TC-001,Doble Hoja 23m 4 un,Noble,92,santaisabel,https://www.santaisabel.cl/papel-higienico-doble-hoja-23-m-4-un-1859328/p
+TC-002,Doble Hoja 22m 40 un,Noble,880,santaisabel,https://www.santaisabel.cl/ph-doble-hoja-noble-dh-40-rollos-1960588/p
+TC-003,Doble Hoja 22m 40 un,Confort,880,santaisabel,https://www.santaisabel.cl/papel-higienico-confort-dh-22mt-40un-1997284/p
+TC-004,Doble Hoja 22m 40 un,Confort,880,jumbo,https://www.jumbo.cl/papel-higienico-confort-dh-22mt-40un-1997284/p
+TC-005,Doble Hoja 20m 4 un,Confort,80,lider,https://super.lider.cl/ip/papeles/00780650050694
+
+# Para agregar más productos: copia una fila, cambia sku_interno (correlativo propio),
+# producto, marca, metros_totales (para el cálculo $/metro) y la url del producto.
+# Para agregar una tienda nueva, el valor de "retailer" debe existir como clave
+# en retailers.yaml.
