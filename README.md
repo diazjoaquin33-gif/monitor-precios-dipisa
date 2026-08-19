@@ -15,10 +15,39 @@ streamlit run app.py
 
 ## Cómo agregar productos
 
-Edita `productos.csv` y agrega una fila con:
-`sku_interno,producto,marca,metros_totales,retailer,url`
+**Desde la web (recomendado para el día a día):** en la app, abre el
+expander "➕ Agregar un SKU nuevo para monitorear" al final de la página,
+completa el formulario y presiona "Agregar y publicar". Solo funciona para
+retailers ya configurados en `retailers.yaml` (Santa Isabel, Jumbo, Alvi).
+Requiere que el secreto `GITHUB_TOKEN` esté configurado (ver sección
+siguiente) — sin eso, el formulario avisa que falta configurarlo en vez de
+fallar en silencio.
 
-No requiere tocar código.
+**Editando el archivo directamente:** agrega una fila en `productos.csv` con
+`sku_interno,producto,marca,metros_totales,retailer,url` y sube el cambio al
+repo. No requiere tocar código de todas formas.
+
+### Configurar GITHUB_TOKEN (para que el formulario web funcione)
+
+El formulario de la web no puede modificar archivos directamente (Streamlit
+Cloud borra cualquier cambio hecho solo en el servidor en el próximo
+redeploy) — en cambio, commitea el cambio al repo vía la API de GitHub. Para
+eso necesita un token:
+
+1. En GitHub, ve a **Settings → Developer settings → Personal access tokens
+   → Fine-grained tokens → Generate new token**.
+2. Dale acceso **solo a este repositorio** (`monitor-precios-dipisa`), no a
+   toda la cuenta.
+3. En permisos, otorga **Contents: Read and write**. Nada más.
+4. Ponle una fecha de expiración (ej. 1 año) y genera el token.
+5. En Streamlit Cloud, ve a tu app → **Settings → Secrets** y agrega:
+   ```
+   GITHUB_TOKEN = "el-token-que-copiaste"
+   ```
+6. Guarda — la app se reinicia sola y el formulario queda funcionando.
+
+Cuando el token expire, el formulario va a mostrar un error explícito
+pidiendo renovarlo — no falla en silencio.
 
 ## Cómo agregar una tienda nueva
 

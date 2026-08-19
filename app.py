@@ -7,6 +7,8 @@ import time
 import random
 import subprocess
 import sys
+import base64
+import io
 from pathlib import Path
 
 st.set_page_config(
@@ -18,6 +20,15 @@ st.set_page_config(
 BASE_DIR = Path(__file__).parent
 PRODUCTOS_PATH = BASE_DIR / "productos.csv"
 RETAILERS_PATH = BASE_DIR / "retailers.yaml"
+
+# Repo de GitHub donde vive productos.csv. El formulario "Agregar SKU" escribe
+# ahí directamente (vía la API de GitHub) para que el cambio sea permanente:
+# Streamlit Cloud borra cualquier archivo tocado solo en el servidor en el
+# próximo redeploy, así que la única forma de que un SKU agregado desde la
+# web sobreviva es que quede commiteado en el repo.
+GITHUB_REPO = "diazjoaquin33-gif/monitor-precios-dipisa"
+GITHUB_BRANCH = "main"
+GITHUB_FILE_PATH = "productos.csv"
 
 
 @st.cache_resource
@@ -51,6 +62,76 @@ def cargar_config():
     with open(RETAILERS_PATH, "r", encoding="utf-8") as f:
         retailers = yaml.safe_load(f)
     return productos, retailers
+
+
+def _github_token():
+    try:
+        return st.secrets.get("GITHUB_TOKEN", "")
+    except Exception:
+        return ""
+
+
+def agregar_sku_a_github(sku_interno, producto, marca, metros_totales, retailer, url):
+    """Agrega una fila a productos.csv commiteando directo al repo de GitHub
+    vía su API REST (Contents API), para que el SKU quede guardado de forma
+    permanente y dispare el redeploy de Streamlit Cloud. No usa git/CLI:
+    todo pasa por requests + un token guardado en Secrets."""
+    token = _github_token()
+    if not token:
+        return False, ("Falta configurar el secreto GITHUB_TOKEN en Streamlit Cloud "
+                        "(Settings → Secrets) para poder guardar cambios permanentes.")
+
+    api_headers = {
+        "Authorization": f"token {token}",
+        "Accept": "application/vnd.github+json",
+    }
+    api_url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{GITHUB_FILE_PATH}"
+
+    try:
+        res = requests.get(f"{api_url}?ref={GITHUB_BRANCH}", headers=api_headers, timeout=15)
+        if res.status_code != 200:
+            return False, f"No se pudo leer productos.csv desde GitHub (HTTP {res.status_code})."
+        data = res.json()
+        sha_actual = data["sha"]
+        contenido_actual = base64.b64decode(data["content"]).decode("utf-8")
+    except Exception as e:
+        return False, f"Error leyendo productos.csv desde GitHub: {str(e)[:150]}"
+
+    lineas = contenido_actual.splitlines()
+    lineas_datos = [l for l in lineas if l.strip() and not l.strip().startswith("#")]
+    lineas_comentario = [l for l in lineas if not l.strip() or l.strip().startswith("#")]
+
+    df_actual = pd.read_csv(io.StringIO("\n".join(lineas_datos)))
+    if str(sku_interno).strip() in df_actual["sku_interno"].astype(str).values:
+        return False, f"Ya existe un SKU interno '{sku_interno}'. Usa uno distinto."
+
+    fila_nueva = pd.DataFrame([{
+        "sku_interno": str(sku_interno).strip(),
+        "producto": producto.strip(),
+        "marca": marca.strip(),
+        "metros_totales": int(metros_totales),
+        "retailer": retailer,
+        "url": url.strip(),
+    }])
+    df_nuevo = pd.concat([df_actual, fila_nueva], ignore_index=True)
+    nuevo_contenido = df_nuevo.to_csv(index=False)
+    if lineas_comentario:
+        nuevo_contenido += "\n".join(lineas_comentario) + "\n"
+
+    payload = {
+        "message": f"Agregar SKU {sku_interno} ({retailer}) vía formulario web",
+        "content": base64.b64encode(nuevo_contenido.encode("utf-8")).decode("utf-8"),
+        "sha": sha_actual,
+        "branch": GITHUB_BRANCH,
+    }
+    try:
+        res = requests.put(api_url, headers=api_headers, json=payload, timeout=15)
+        if res.status_code in (200, 201):
+            return True, (f"SKU '{sku_interno}' agregado y publicado. "
+                           "Streamlit Cloud va a redeployar solo en unos minutos con el producto nuevo.")
+        return False, f"GitHub rechazó el cambio (HTTP {res.status_code}): {res.text[:200]}"
+    except Exception as e:
+        return False, f"Error publicando en GitHub: {str(e)[:150]}"
 
 
 def _fragmento_diagnostico(texto: str) -> str:
@@ -359,10 +440,58 @@ if st.button("🔄 Forzar Recarga"):
     st.cache_data.clear()
     st.rerun()
 
-with st.expander("➕ ¿Cómo agrego productos o tiendas nuevas?"):
-    st.markdown(
-        "- **Producto nuevo (misma tienda):** agrega una fila en `productos.csv`.\n"
-        "- **Tienda nueva:** agrega un bloque en `retailers.yaml` "
-        "(ver los comentarios del archivo con instrucciones paso a paso).\n"
-        "- No hace falta editar `app.py` para ninguno de los dos casos."
+st.divider()
+
+_, retailers_cfg_form = cargar_config()
+with st.expander("➕ Agregar un SKU nuevo para monitorear"):
+    if not retailers_cfg_form:
+        st.warning("No hay retailers configurados en retailers.yaml todavía.")
+    else:
+        with st.form("nuevo_sku_form", clear_on_submit=True):
+            col_a, col_b = st.columns(2)
+            with col_a:
+                sku_interno = st.text_input("SKU interno (código propio, ej. TC-007)")
+                producto = st.text_input("Nombre del producto (tal como aparece en el sitio)")
+                marca = st.text_input("Marca")
+            with col_b:
+                metros_totales = st.number_input("Metros totales del paquete", min_value=1, step=1)
+                retailer = st.selectbox(
+                    "Retailer",
+                    options=list(retailers_cfg_form.keys()),
+                    format_func=lambda k: retailers_cfg_form[k]["nombre"],
+                )
+                url_producto = st.text_input("URL de la ficha de producto")
+            enviado = st.form_submit_button("Agregar y publicar")
+
+        if enviado:
+            errores = []
+            if not sku_interno.strip():
+                errores.append("Falta el SKU interno.")
+            if not producto.strip():
+                errores.append("Falta el nombre del producto.")
+            if not marca.strip():
+                errores.append("Falta la marca.")
+            if not metros_totales or metros_totales <= 0:
+                errores.append("Los metros totales deben ser mayores a 0.")
+            if not url_producto.strip().startswith("http"):
+                errores.append("La URL no parece válida (debe empezar con http:// o https://).")
+
+            if errores:
+                for e in errores:
+                    st.error(e)
+            else:
+                with st.spinner("Publicando en GitHub..."):
+                    ok, mensaje = agregar_sku_a_github(
+                        sku_interno, producto, marca, metros_totales, retailer, url_producto
+                    )
+                if ok:
+                    st.success(mensaje)
+                    st.cache_data.clear()
+                else:
+                    st.error(mensaje)
+
+    st.caption(
+        "Solo permite agregar SKU para retailers ya configurados en retailers.yaml "
+        "(Santa Isabel, Jumbo, Alvi). Sumar un retailer nuevo requiere revisar cómo expone "
+        "el precio ese sitio antes de configurarlo — no es un formulario auto-servicio."
     )
