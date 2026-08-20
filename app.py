@@ -37,7 +37,7 @@ OVELLA_PATH = BASE_DIR / "ovella.csv"
 
 @st.cache_resource
 def asegurar_chromium_instalado():
-    """Instala el navegador headless de Playwright si la app corre en Streamlit Cloud."""
+    """Instala el navegador headless de Playwright si se requiere."""
     try:
         subprocess.run(
             [sys.executable, "-m", "playwright", "install", "chromium"],
@@ -95,10 +95,13 @@ def _resolver_ruta(data, ruta):
 
 # --- MÉTODOS HTTP DIRECTOS (REQUESTS) ---
 
-def _consultar_meta_tag(url: str, patron_precio: str, patron_disp: str, buscar_lista_embebida: bool = False, intentos: int = 3):
+def _consultar_meta_tag(url: str, patron_precio: str, patron_disp: str, buscar_lista_embebida: bool = False, intentos: int = 2):
+    if not patron_precio:
+        return None, None, False, "Falta selector_precio"
+
     for intento in range(1, intentos + 1):
         try:
-            res = requests.get(url, headers=HEADERS, timeout=12)
+            res = requests.get(url, headers=HEADERS, timeout=8)
             if res.status_code == 200:
                 m = re.search(patron_precio, res.text)
                 if not m:
@@ -122,24 +125,27 @@ def _consultar_meta_tag(url: str, patron_precio: str, patron_disp: str, buscar_l
 
                 return precio, precio_normal, disponible, None
             elif res.status_code in (403, 429):
-                time.sleep(random.uniform(2, 4) * intento)
+                time.sleep(1.0 * intento)
                 continue
             else:
                 return None, None, False, f"HTTP {res.status_code}"
         except requests.RequestException as e:
             if intento == intentos:
                 return None, None, False, f"Error de conexión: {str(e)[:100]}"
-            time.sleep(random.uniform(1.5, 3) * intento)
+            time.sleep(1.0 * intento)
     return None, None, False, "Bloqueado tras varios intentos (403/429)"
 
 
-def _consultar_text_pattern(url: str, cfg: dict, intentos: int = 3):
-    patron_oferta = cfg["patron_precio_oferta"]
+def _consultar_text_pattern(url: str, cfg: dict, intentos: int = 2):
+    patron_oferta = cfg.get("patron_precio_oferta")
     patron_normal = cfg.get("patron_precio_normal")
+
+    if not patron_oferta:
+        return None, None, False, "Falta patron_precio_oferta en config"
 
     for intento in range(1, intentos + 1):
         try:
-            res = requests.get(url, headers=HEADERS, timeout=12)
+            res = requests.get(url, headers=HEADERS, timeout=8)
             if res.status_code == 200:
                 m_oferta = re.search(patron_oferta, res.text)
                 if not m_oferta:
@@ -155,18 +161,18 @@ def _consultar_text_pattern(url: str, cfg: dict, intentos: int = 3):
 
                 return precio_oferta, precio_normal, True, None
             elif res.status_code in (403, 429):
-                time.sleep(random.uniform(2, 4) * intento)
+                time.sleep(1.0 * intento)
                 continue
             else:
                 return None, None, False, f"HTTP {res.status_code}"
         except requests.RequestException as e:
             if intento == intentos:
                 return None, None, False, f"Error de conexión: {str(e)[:100]}"
-            time.sleep(random.uniform(1.5, 3) * intento)
+            time.sleep(1.0 * intento)
     return None, None, False, "Bloqueado tras varios intentos (403/429)"
 
 
-def _consultar_api_post_json(url: str, cfg: dict, intentos: int = 3):
+def _consultar_api_post_json(url: str, cfg: dict, intentos: int = 2):
     partes = [p for p in url.rstrip("/").split("/") if p]
     slug = partes[-2] if partes and partes[-1] == "p" else (partes[-1] if partes else "")
     body = {**cfg.get("api_body", {}), "slug": slug}
@@ -182,14 +188,14 @@ def _consultar_api_post_json(url: str, cfg: dict, intentos: int = 3):
 
     for intento in range(1, intentos + 1):
         try:
-            res = requests.post(cfg["api_url"], headers=headers, json=body, timeout=12)
+            res = requests.post(cfg["api_url"], headers=headers, json=body, timeout=8)
             if res.status_code == 200:
                 data = res.json()
-                precio = _resolver_ruta(data, cfg["campo_precio"])
+                precio = _resolver_ruta(data, cfg.get("campo_precio", ""))
                 if precio is None:
                     if intento == intentos:
-                        return None, None, True, f"El JSON no trajo '{cfg['campo_precio']}'"
-                    time.sleep(random.uniform(1.5, 3) * intento)
+                        return None, None, True, f"El JSON no trajo '{cfg.get('campo_precio')}'"
+                    time.sleep(1.0 * intento)
                     continue
                 precio_normal = precio
                 if cfg.get("campo_precio_normal"):
@@ -205,19 +211,19 @@ def _consultar_api_post_json(url: str, cfg: dict, intentos: int = 3):
             elif res.status_code in (403, 429):
                 if intento == intentos:
                     return None, None, False, f"Bloqueado (HTTP {res.status_code})"
-                time.sleep(random.uniform(2, 4) * intento)
+                time.sleep(1.5 * intento)
             else:
                 return None, None, False, f"HTTP {res.status_code}"
         except requests.RequestException as e:
             if intento == intentos:
                 return None, None, False, f"Error de conexión: {str(e)[:100]}"
-            time.sleep(random.uniform(1.5, 3) * intento)
+            time.sleep(1.0 * intento)
     return None, None, False, "Falla desconocida"
 
 
-# --- MÉTODOS PLAYWRIGHT ---
+# --- MÉTODOS PLAYWRIGHT (SOLO SI SE ASIGNA EXPLÍCITAMENTE) ---
 
-def _consultar_playwright(context, url: str, cfg: dict, intentos: int = 3):
+def _consultar_playwright(context, url: str, cfg: dict, intentos: int = 2):
     selector_oferta = cfg.get("selector_precio_oferta")
     selector_normal = cfg.get("selector_precio_normal")
 
@@ -225,8 +231,8 @@ def _consultar_playwright(context, url: str, cfg: dict, intentos: int = 3):
         page = None
         try:
             page = context.new_page()
-            page.goto(url, timeout=15000, wait_until="domcontentloaded")
-            time.sleep(random.uniform(0.6, 1.2))
+            page.goto(url, timeout=12000, wait_until="domcontentloaded")
+            time.sleep(0.5)
 
             precio_oferta = None
             precio_normal = None
@@ -250,20 +256,20 @@ def _consultar_playwright(context, url: str, cfg: dict, intentos: int = 3):
         finally:
             if page is not None:
                 page.close()
-        time.sleep(random.uniform(2, 4) * intento)
+        time.sleep(1.0 * intento)
     return None, None, False, "Falla desconocida"
 
 
-def _consultar_playwright_text(context, url: str, cfg: dict, intentos: int = 3):
-    patron_oferta = cfg["patron_precio_oferta"]
+def _consultar_playwright_text(context, url: str, cfg: dict, intentos: int = 2):
+    patron_oferta = cfg.get("patron_precio_oferta")
     patron_normal = cfg.get("patron_precio_normal")
 
     for intento in range(1, intentos + 1):
         page = None
         try:
             page = context.new_page()
-            page.goto(url, timeout=20000, wait_until="networkidle")
-            time.sleep(random.uniform(0.6, 1.2))
+            page.goto(url, timeout=12000, wait_until="domcontentloaded")
+            time.sleep(0.5)
             texto = page.inner_text("body")
 
             m_oferta = re.search(patron_oferta, texto)
@@ -271,7 +277,7 @@ def _consultar_playwright_text(context, url: str, cfg: dict, intentos: int = 3):
                 frag = _fragmento_diagnostico(texto)
                 if intento == intentos:
                     return None, None, True, f"No se encontró el precio. Recibido: \"{frag}\""
-                time.sleep(random.uniform(2, 4) * intento)
+                time.sleep(1.0 * intento)
                 continue
             precio_oferta = float(m_oferta.group(1).replace(".", "").replace(",", "."))
 
@@ -285,7 +291,7 @@ def _consultar_playwright_text(context, url: str, cfg: dict, intentos: int = 3):
         except Exception as e:
             if intento == intentos:
                 return None, None, False, f"Error Playwright: {str(e)[:100]}"
-            time.sleep(random.uniform(2, 4) * intento)
+            time.sleep(1.0 * intento)
         finally:
             if page is not None:
                 page.close()
@@ -294,7 +300,7 @@ def _consultar_playwright_text(context, url: str, cfg: dict, intentos: int = 3):
 
 # --- MÉTODOS CURL_CFFI (ANTI-BOT ULTRA RÁPIDO TLS/JA4) ---
 
-def _consultar_curl_cffi(url: str, cfg: dict, intentos: int = 3):
+def _consultar_curl_cffi(url: str, cfg: dict, intentos: int = 2):
     """Consulta HTML simulando exactamente el apretón de manos de Chrome 124."""
     patron_oferta = cfg.get("patron_precio_oferta")
     patron_normal = cfg.get("patron_precio_normal")
@@ -311,10 +317,13 @@ def _consultar_curl_cffi(url: str, cfg: dict, intentos: int = 3):
 
     for intento in range(1, intentos + 1):
         try:
-            res = cffi_requests.get(url, headers=headers_navegador, impersonate="chrome124", timeout=15)
+            res = cffi_requests.get(url, headers=headers_navegador, impersonate="chrome124", timeout=10)
             if res.status_code == 200:
-                m_oferta = re.search(patron_oferta, res.text)
-                # Respaldo en meta tags comunes
+                m_oferta = None
+                if patron_oferta:
+                    m_oferta = re.search(patron_oferta, res.text)
+                
+                # Respaldo secundario si el regex específico no calza
                 if not m_oferta:
                     m_oferta = re.search(r'(?:property|name)="product:price:amount"\s+content="([\d.,]+)"', res.text)
 
@@ -322,7 +331,7 @@ def _consultar_curl_cffi(url: str, cfg: dict, intentos: int = 3):
                     frag = _fragmento_diagnostico(res.text)
                     if intento == intentos:
                         return None, None, True, f"No se encontró el precio. Recibido: \"{frag}\""
-                    time.sleep(random.uniform(1.5, 3) * intento)
+                    time.sleep(1.0 * intento)
                     continue
 
                 precio_oferta = float(m_oferta.group(1).replace(".", "").replace(",", "."))
@@ -335,20 +344,20 @@ def _consultar_curl_cffi(url: str, cfg: dict, intentos: int = 3):
 
                 return precio_oferta, precio_normal, True, None
             elif res.status_code in (403, 429):
-                time.sleep(random.uniform(2, 4) * intento)
+                time.sleep(1.0 * intento)
                 continue
             else:
                 return None, None, False, f"HTTP {res.status_code}"
         except Exception as e:
             if intento == intentos:
                 return None, None, False, f"Error cffi: {str(e)[:100]}"
-            time.sleep(random.uniform(1.5, 3) * intento)
+            time.sleep(1.0 * intento)
 
     return None, None, False, "Bloqueado tras varios intentos (403/429)"
 
 
-def _consultar_cffi_json(url: str, cfg: dict, intentos: int = 3):
-    """Consulta APIs JSON protegidas por Akamai (como Alvi) sin usar Playwright."""
+def _consultar_cffi_json(url: str, cfg: dict, intentos: int = 2):
+    """Consulta APIs JSON protegidas por Akamai (como Alvi) sin browser."""
     slug = url.rstrip("/").split("/")[-1]
     api_url = cfg["api_base"].rstrip("/") + "/" + slug
 
@@ -361,14 +370,14 @@ def _consultar_cffi_json(url: str, cfg: dict, intentos: int = 3):
 
     for intento in range(1, intentos + 1):
         try:
-            res = cffi_requests.get(api_url, headers=headers_api, impersonate="chrome124", timeout=12)
+            res = cffi_requests.get(api_url, headers=headers_api, impersonate="chrome124", timeout=8)
             if res.status_code == 200:
                 data = res.json()
-                precio = _resolver_ruta(data, cfg["campo_precio"])
+                precio = _resolver_ruta(data, cfg.get("campo_precio", ""))
                 if precio is None:
                     if intento == intentos:
-                        return None, None, True, f"El JSON no trajo '{cfg['campo_precio']}'"
-                    time.sleep(random.uniform(1.5, 3) * intento)
+                        return None, None, True, f"El JSON no trajo '{cfg.get('campo_precio')}'"
+                    time.sleep(1.0 * intento)
                     continue
                 precio_normal = precio
                 if cfg.get("campo_precio_normal"):
@@ -379,13 +388,13 @@ def _consultar_cffi_json(url: str, cfg: dict, intentos: int = 3):
             elif res.status_code in (403, 429):
                 if intento == intentos:
                     return None, None, False, f"Bloqueado (HTTP {res.status_code})"
-                time.sleep(random.uniform(2, 4) * intento)
+                time.sleep(1.0 * intento)
             else:
                 return None, None, False, f"HTTP {res.status_code}"
         except Exception as e:
             if intento == intentos:
                 return None, None, False, f"Error cffi_json: {str(e)[:100]}"
-            time.sleep(random.uniform(1.5, 3) * intento)
+            time.sleep(1.0 * intento)
 
     return None, None, False, "Falla desconocida"
 
@@ -395,33 +404,34 @@ def _consultar_cffi_json(url: str, cfg: dict, intentos: int = 3):
 def _procesar_lote_http(cfg, lista_productos):
     salida = []
     for prod in lista_productos:
-        if cfg["metodo"] == "meta_tag":
+        metodo = cfg.get("metodo", "meta_tag")
+        if metodo == "meta_tag":
             precio, precio_normal, disponible, error = _consultar_meta_tag(
-                prod["url"], cfg["selector_precio"], cfg.get("selector_disponibilidad"),
+                prod["url"], cfg.get("selector_precio"), cfg.get("selector_disponibilidad"),
                 buscar_lista_embebida=cfg.get("buscar_precio_lista_embebido", False),
             )
-        elif cfg["metodo"] == "api_post_json":
+        elif metodo == "api_post_json":
             precio, precio_normal, disponible, error = _consultar_api_post_json(prod["url"], cfg)
             if precio is None and cfg.get("selector_precio"):
                 precio, precio_normal, disponible, error = _consultar_meta_tag(
-                    prod["url"], cfg["selector_precio"], cfg.get("selector_disponibilidad"),
+                    prod["url"], cfg.get("selector_precio"), cfg.get("selector_disponibilidad"),
                 )
         else:
             precio, precio_normal, disponible, error = _consultar_text_pattern(prod["url"], cfg)
         salida.append((prod, precio, precio_normal, disponible, error))
-        time.sleep(random.uniform(0.5, 1.0))
+        time.sleep(0.3)
     return salida
 
 
 def _procesar_lote_cffi(cfg, lista_productos):
     salida = []
     for prod in lista_productos:
-        if cfg["metodo"] == "cffi_json":
+        if cfg.get("metodo") == "cffi_json":
             precio, precio_normal, disponible, error = _consultar_cffi_json(prod["url"], cfg)
         else:
             precio, precio_normal, disponible, error = _consultar_curl_cffi(prod["url"], cfg)
         salida.append((prod, precio, precio_normal, disponible, error))
-        time.sleep(random.uniform(0.5, 1.2))
+        time.sleep(0.3)
     return salida
 
 
@@ -436,12 +446,12 @@ def _procesar_lote_playwright(cfg, lista_productos):
             viewport={"width": 1366, "height": 768},
         )
         for prod in lista_productos:
-            if cfg["metodo"] == "playwright":
+            if cfg.get("metodo") == "playwright":
                 precio, precio_normal, disponible, error = _consultar_playwright(context, prod["url"], cfg)
             else:
                 precio, precio_normal, disponible, error = _consultar_playwright_text(context, prod["url"], cfg)
             salida.append((prod, precio, precio_normal, disponible, error))
-            time.sleep(random.uniform(0.5, 1.2))
+            time.sleep(0.3)
         browser.close()
     return salida
 
@@ -473,9 +483,10 @@ def consultar_precios_en_vivo(productos_hash: str):
                     tareas_resultado.append((prod, None, None, False, f"Retailer '{retailer_key}' no está en retailers.yaml"))
                 continue
 
-            if cfg["metodo"] in ("playwright", "playwright_text"):
+            metodo = cfg.get("metodo", "meta_tag")
+            if metodo in ("playwright", "playwright_text"):
                 futuros.append(executor.submit(_procesar_lote_playwright, cfg, lista_productos))
-            elif cfg["metodo"] in ("curl_cffi", "cffi", "cffi_json"):
+            elif metodo in ("curl_cffi", "cffi", "cffi_json"):
                 futuros.append(executor.submit(_procesar_lote_cffi, cfg, lista_productos))
             else:
                 futuros.append(executor.submit(_procesar_lote_http, cfg, lista_productos))
@@ -492,7 +503,7 @@ def consultar_precios_en_vivo(productos_hash: str):
             estado = "Disponible" if disponible else "❌ Sin Stock"
             resultados.append({
                 **prod.to_dict(),
-                "retailer_nombre": cfg["nombre"],
+                "retailer_nombre": cfg["nombre"] if cfg else retailer_key,
                 "precio_normal_num": precio_normal or precio,
                 "precio_oferta_num": precio,
                 "precio_metro_num": precio_metro or 0,
