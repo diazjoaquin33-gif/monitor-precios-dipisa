@@ -62,6 +62,11 @@ santaisabel:
   campo_precio: "items.0.price"
   campo_precio_normal: "items.0.listPrice"
   campo_disponible: "items.0.stock"
+  # Respaldo si la API falla (ej. 403 desde algún IP/entorno puntual): cae al
+  # meta_tag simple, que veníamos usando antes y nunca tuvo bloqueos. Pierde
+  # el precio de lista en ese caso, pero no deja el producto sin datos.
+  selector_precio: '(?:property|name)="product:price:amount"\s+content="([\d.,]+)"'
+  selector_disponibilidad: '(?:property|name)="product:availability"\s+content="([^"]+)"'
 
 jumbo:
   nombre: "Jumbo"

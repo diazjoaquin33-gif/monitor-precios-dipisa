@@ -272,7 +272,19 @@ def _consultar_api_post_json(url: str, cfg: dict, intentos: int = 3):
     partes = [p for p in url.rstrip("/").split("/") if p]
     slug = partes[-2] if partes and partes[-1] == "p" else (partes[-1] if partes else "")
     body = {**cfg.get("api_body", {}), "slug": slug}
-    headers = {**HEADERS, **cfg.get("api_headers", {}), "Content-Type": "application/json", "Accept": "application/json"}
+    origen = "/".join(url.split("/")[:3])  # ej. https://www.santaisabel.cl
+    headers = {
+        **HEADERS,
+        **cfg.get("api_headers", {}),
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        # Un navegador real siempre manda desde qué página llama a esta API
+        # interna. Sin esto, algunos entornos (ej. IP de datacenter de
+        # Streamlit Cloud) reciben 403 aunque el mismo request funcione bien
+        # desde una IP residencial.
+        "Referer": url,
+        "Origin": origen,
+    }
 
     for intento in range(1, intentos + 1):
         try:
@@ -363,6 +375,14 @@ def _procesar_lote_http(cfg, lista_productos):
             )
         elif cfg["metodo"] == "api_post_json":
             precio, precio_normal, disponible, error = _consultar_api_post_json(prod["url"], cfg)
+            # Respaldo: si la API interna falla (algunos entornos/IP reciben
+            # 403 ahí aunque el sitio público nunca bloquee), cae al método
+            # meta_tag simple — se pierde el precio de lista en ese caso
+            # puntual, pero nunca queda el producto en "Sin Conexión".
+            if precio is None and cfg.get("selector_precio"):
+                precio, precio_normal, disponible, error = _consultar_meta_tag(
+                    prod["url"], cfg["selector_precio"], cfg.get("selector_disponibilidad"),
+                )
         else:  # text_pattern
             precio, precio_normal, disponible, error = _consultar_text_pattern(prod["url"], cfg)
         salida.append((prod, precio, precio_normal, disponible, error))
