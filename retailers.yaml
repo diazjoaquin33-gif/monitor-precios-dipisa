@@ -75,7 +75,13 @@ alvi:
   # está en sellers.0.price (precio regular, sin membresía Club Alvi — Alvi
   # también tiene "Precio socio" aparte, pero se monitorea el regular para
   # comparar 1 a 1 con retailers sin membresía).
-  warmup_url: "https://www.alvi.cl/"
+  # warmup_url apunta a una FICHA DE PRODUCTO real, no a la portada — la
+  # portada tiene tráfico de red continuo (analytics/chat) que además de
+  # hacer timeout en 'networkidle', en Streamlit Cloud (IP de datacenter,
+  # peor reputación que un IP residencial ante Akamai) devolvía un 403 en la
+  # llamada al JSON de ahí en más. Con una ficha de producto (que sí veníamos
+  # scrapeando bien en producción) el desafío anti-bot se resuelve mejor.
+  warmup_url: "https://www.alvi.cl/product/papel-hig-dh-noble-6x23-mt-2"
   api_base: "https://bff-alvi-web.alvi.cl/products/by-slug"
   campo_precio: "sellers.0.price"
   campo_precio_normal: "sellers.0.listPrice"
