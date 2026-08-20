@@ -10,7 +10,10 @@ import sys
 import base64
 import io
 from datetime import datetime
+from zoneinfo import ZoneInfo
 from pathlib import Path
+
+ZONA_HORARIA_CL = ZoneInfo("America/Santiago")
 
 st.set_page_config(
     page_title="Dipisa & Ovella — Monitor de Pricing",
@@ -368,7 +371,7 @@ def consultar_precios_en_vivo(productos_hash: str):
     # renderiza) para que quede guardada junto con el resto de datos en el
     # caché compartido: todos los usuarios ven la hora en que se hizo la
     # consulta real, no la hora en que cada uno abrió la página.
-    momento_actualizacion = datetime.now().strftime("%d/%m/%Y %H:%M hrs")
+    momento_actualizacion = datetime.now(ZONA_HORARIA_CL).strftime("%d/%m/%Y %H:%M hrs")
     return resultados, momento_actualizacion
 
 
