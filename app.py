@@ -7,14 +7,13 @@ import time
 import random
 import subprocess
 import sys
-import asyncio
 import concurrent.futures
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from pathlib import Path
 
-# Librería anti-detección
-import nodriver as uc
+# Librería de evasión TLS/Anti-Bot
+from curl_cffi import requests as cffi_requests
 
 ZONA_HORARIA_CL = ZoneInfo("America/Santiago")
 
@@ -81,7 +80,7 @@ def _fragmento_diagnostico(texto: str) -> str:
     return limpio[:180]
 
 
-# --- MÉTODOS HTTP DIRECTOS ---
+# --- MÉTODOS HTTP DIRECTOS (REQUESTS) ---
 
 def _consultar_meta_tag(url: str, patron_precio: str, patron_disp: str, buscar_lista_embebida: bool = False, intentos: int = 3):
     for intento in range(1, intentos + 1):
@@ -327,87 +326,45 @@ def _consultar_playwright_json(context, url: str, cfg: dict, intentos: int = 3):
     return None, None, False, "Falla desconocida"
 
 
-# --- MÉTODOS NODRIVER (ANTI-DETECCIÓN AVANZADA) ---
+# --- MÉTODO CURL_CFFI (ANTI-BOT ULTRA LIGERO) ---
 
-async def _consultar_nodriver_async(browser, url: str, cfg: dict, intentos: int = 3):
-    selector_oferta = cfg.get("selector_precio_oferta")
-    selector_normal = cfg.get("selector_precio_normal")
+def _consultar_curl_cffi(url: str, cfg: dict, intentos: int = 3):
+    """Burla Cloudflare / PerimeterX / Akamai a nivel de handshake TLS (emula Chrome 124)."""
     patron_oferta = cfg.get("patron_precio_oferta")
+    patron_normal = cfg.get("patron_precio_normal")
 
     for intento in range(1, intentos + 1):
         try:
-            page = await browser.get(url)
-            # Espera prudente para sortear Cloudflare y permitir hidratación de React/Next.js
-            await asyncio.sleep(random.uniform(2.5, 4.0))
+            res = cffi_requests.get(url, headers=HEADERS, impersonate="chrome124", timeout=15)
+            if res.status_code == 200:
+                m_oferta = re.search(patron_oferta, res.text)
+                if not m_oferta:
+                    frag = _fragmento_diagnostico(res.text)
+                    if intento == intentos:
+                        return None, None, True, f"No se encontró el precio. Recibido: \"{frag}\""
+                    time.sleep(random.uniform(1.5, 3) * intento)
+                    continue
 
-            precio_oferta = None
-            precio_normal = None
+                precio_oferta = float(m_oferta.group(1).replace(".", "").replace(",", "."))
+                precio_normal = precio_oferta
 
-            # 1. Búsqueda por selectores CSS
-            if selector_oferta:
-                try:
-                    elem_oferta = await page.select(selector_oferta, timeout=6)
-                    if elem_oferta:
-                        precio_oferta = float(re.sub(r"[^\d]", "", elem_oferta.text))
-                except Exception:
-                    pass
+                if patron_normal:
+                    m_normal = re.search(patron_normal, res.text)
+                    if m_normal:
+                        precio_normal = float(m_normal.group(1).replace(".", "").replace(",", "."))
 
-                if selector_normal:
-                    try:
-                        elem_normal = await page.select(selector_normal, timeout=3)
-                        if elem_normal:
-                            precio_normal = float(re.sub(r"[^\d]", "", elem_normal.text))
-                    except Exception:
-                        pass
-
-            # 2. Búsqueda por Regex en texto HTML si falló el selector
-            if not precio_oferta and patron_oferta:
-                html_body = await page.get_content()
-                m_oferta = re.search(patron_oferta, html_body)
-                if m_oferta:
-                    precio_oferta = float(m_oferta.group(1).replace(".", "").replace(",", "."))
-                    patron_normal = cfg.get("patron_precio_normal")
-                    if patron_normal:
-                        m_normal = re.search(patron_normal, html_body)
-                        if m_normal:
-                            precio_normal = float(m_normal.group(1).replace(".", "").replace(",", "."))
-
-            if precio_oferta:
-                return precio_oferta, precio_normal or precio_oferta, True, None
-
-            if intento == intentos:
-                return None, None, False, "No se encontró el precio con nodriver"
+                return precio_oferta, precio_normal, True, None
+            elif res.status_code in (403, 429):
+                time.sleep(random.uniform(2, 4) * intento)
+                continue
+            else:
+                return None, None, False, f"HTTP {res.status_code}"
         except Exception as e:
             if intento == intentos:
-                return None, None, False, f"Error nodriver: {str(e)[:100]}"
-        
-        await asyncio.sleep(random.uniform(2.0, 4.0) * intento)
-        
-    return None, None, False, "Falla desconocida"
+                return None, None, False, f"Error cffi: {str(e)[:100]}"
+            time.sleep(random.uniform(1.5, 3) * intento)
 
-
-async def _ejecutar_lote_nodriver_async(cfg, lista_productos):
-    salida = []
-    # Argumentos indispensables para contenedores/Streamlit Cloud
-    browser = await uc.start(
-        headless=True,
-        browser_args=["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"]
-    )
-    try:
-        for prod in lista_productos:
-            precio, precio_normal, disponible, error = await _consultar_nodriver_async(
-                browser, prod["url"], cfg
-            )
-            salida.append((prod, precio, precio_normal, disponible, error))
-            await asyncio.sleep(random.uniform(1.0, 2.0))
-    finally:
-        browser.stop()
-    return salida
-
-
-def _procesar_lote_nodriver(cfg, lista_productos):
-    """Ejecuta el loop asíncrono de nodriver dentro del ThreadPool."""
-    return asyncio.run(_ejecutar_lote_nodriver_async(cfg, lista_productos))
+    return None, None, False, "Bloqueado tras varios intentos (403/429)"
 
 
 # --- PROCESADORES DE LOTES ---
@@ -430,6 +387,15 @@ def _procesar_lote_http(cfg, lista_productos):
             precio, precio_normal, disponible, error = _consultar_text_pattern(prod["url"], cfg)
         salida.append((prod, precio, precio_normal, disponible, error))
         time.sleep(random.uniform(0.5, 1.0))
+    return salida
+
+
+def _procesar_lote_cffi(cfg, lista_productos):
+    salida = []
+    for prod in lista_productos:
+        precio, precio_normal, disponible, error = _consultar_curl_cffi(prod["url"], cfg)
+        salida.append((prod, precio, precio_normal, disponible, error))
+        time.sleep(random.uniform(0.5, 1.2))
     return salida
 
 
@@ -488,11 +454,11 @@ def consultar_precios_en_vivo(productos_hash: str):
                 for prod in lista_productos:
                     tareas_resultado.append((prod, None, None, False, f"Retailer '{retailer_key}' no está en retailers.yaml"))
                 continue
-            
+
             if cfg["metodo"] in ("playwright", "playwright_text", "playwright_json"):
                 futuros.append(executor.submit(_procesar_lote_playwright, cfg, lista_productos))
-            elif cfg["metodo"] == "nodriver":
-                futuros.append(executor.submit(_procesar_lote_nodriver, cfg, lista_productos))
+            elif cfg["metodo"] in ("curl_cffi", "cffi"):
+                futuros.append(executor.submit(_procesar_lote_cffi, cfg, lista_productos))
             else:
                 futuros.append(executor.submit(_procesar_lote_http, cfg, lista_productos))
 
