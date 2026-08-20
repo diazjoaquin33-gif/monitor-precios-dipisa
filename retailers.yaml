@@ -1,16 +1,6 @@
-# Configuración de tiendas/retailers a monitorear.
-#
-# Cada tienda define un "metodo":
-#   - meta_tag: lectura de <meta property="..."> o <meta name="..."> en HTML crudo (Jumbo / VTEX).
-#   - text_pattern: busca precios directo en el texto del HTML crudo con regex.
-#   - playwright_text: render con Chromium headless para sitios JS protegidos (Tottus).
-#   - playwright_json: caldeo de sesión con Chromium y llamada directa a API JSON (Alvi).
-#   - api_post_json: consulta POST directa a API BFF interna sin navegador (Santa Isabel).
-#   - curl_cffi: peticiones HTTP ultrarrápidas con impersonación de huella TLS/JA4 de Chrome (Líder, Unimarc).
-
 santaisabel:
   nombre: "Santa Isabel"
-  metodo: api_post_json
+  metodo: "api_post_json"
   api_url: "https://bff.santaisabel.cl/catalog/pdp"
   api_headers:
     apikey: "be-reg-groceries-sisa-catalog-wdhhq5a2fken"
@@ -24,14 +14,14 @@ santaisabel:
 
 jumbo:
   nombre: "Jumbo"
-  metodo: meta_tag
+  metodo: "meta_tag"
   selector_precio: '(?:property|name)="product:price:amount"\s+content="([\d.,]+)"'
   selector_disponibilidad: '(?:property|name)="product:availability"\s+content="([^"]+)"'
   buscar_precio_lista_embebido: true
 
 alvi:
   nombre: "Alvi"
-  metodo: playwright_json
+  metodo: "playwright_json"
   warmup_url: "https://www.alvi.cl/product/papel-hig-dh-noble-6x23-mt-2"
   api_base: "https://bff-alvi-web.alvi.cl/products/by-slug"
   campo_precio: "sellers.0.price"
@@ -39,19 +29,17 @@ alvi:
 
 tottus:
   nombre: "Tottus"
-  metodo: playwright_text
+  metodo: "playwright_text"
   patron_precio_oferta: '\$\s*([\d.,]+)\s*\nUN'
   patron_precio_normal: '\)\s*\n\$\s*([\d.,]+)'
 
 lider:
   nombre: "Líder"
-  metodo: curl_cffi
-  # curl_cffi emula la huella TLS de Chrome 124, superando la pantalla "Robot or human?" de PerimeterX
+  metodo: "curl_cffi"
   patron_precio_oferta: 'El precio actual es \$([\d.,]+)'
   patron_precio_normal: 'costaba\$?([\d.,]+)'
 
 unimarc:
   nombre: "Unimarc"
-  metodo: curl_cffi
-  patron_precio_oferta: '\$\s*([\d.,]+)' de producto de Unimarc
+  metodo: "curl_cffi"
   patron_precio_oferta: '\$\s*([\d.,]+)'
