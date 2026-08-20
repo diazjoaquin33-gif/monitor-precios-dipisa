@@ -7,15 +7,18 @@ import time
 import random
 import subprocess
 import sys
+import asyncio
 import concurrent.futures
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from pathlib import Path
 
+# Librería anti-detección
+import nodriver as uc
+
 ZONA_HORARIA_CL = ZoneInfo("America/Santiago")
 
-# Paleta validada (ver skill de dataviz): status fijo (nunca se usa para
-# series/categorías) y azul como acento principal.
+# Paleta validada: status fijo y azul como acento principal.
 COLOR_BUENO = "#0ca30c"
 COLOR_CRITICO = "#d03b3b"
 COLOR_ACENTO = "#2a78d6"
@@ -35,9 +38,7 @@ OVELLA_PATH = BASE_DIR / "ovella.csv"
 
 @st.cache_resource
 def asegurar_chromium_instalado():
-    """Instala el navegador headless de Playwright la primera vez que arranca la
-    app en el servidor (Streamlit Cloud no lo trae preinstalado). cache_resource
-    hace que esto corra una sola vez por instancia, no en cada refresh."""
+    """Instala el navegador headless de Playwright si la app corre en Streamlit Cloud."""
     try:
         subprocess.run(
             [sys.executable, "-m", "playwright", "install", "chromium"],
@@ -46,6 +47,7 @@ def asegurar_chromium_instalado():
         return True
     except Exception as e:
         return f"No se pudo instalar Chromium: {str(e)[:200]}"
+
 
 HEADERS = {
     "User-Agent": (
@@ -60,7 +62,7 @@ HEADERS = {
 @st.cache_data(ttl=3600)
 def cargar_config():
     productos = pd.read_csv(PRODUCTOS_PATH, comment="#", skip_blank_lines=True)
-    productos = productos.dropna(subset=["sku_interno"])  # ignora filas vacías
+    productos = productos.dropna(subset=["sku_interno"])
     with open(RETAILERS_PATH, "r", encoding="utf-8") as f:
         retailers = yaml.safe_load(f)
     return productos, retailers
@@ -73,21 +75,15 @@ def cargar_ovella():
 
 
 def _fragmento_diagnostico(texto: str) -> str:
-    """Devuelve un fragmento corto y limpio del HTML recibido, para ver en el
-    mensaje de error si el sitio devolvió la página real o un bloqueo/captcha."""
-    limpio = re.sub(r"<[^>]+>", " ", texto)  # quita tags para que se lea
+    """Devuelve un fragmento limpio del HTML para depuración en errores."""
+    limpio = re.sub(r"<[^>]+>", " ", texto)
     limpio = re.sub(r"\s+", " ", limpio).strip()
     return limpio[:180]
 
 
+# --- MÉTODOS HTTP DIRECTOS ---
+
 def _consultar_meta_tag(url: str, patron_precio: str, patron_disp: str, buscar_lista_embebida: bool = False, intentos: int = 3):
-    """Lee precio desde meta tags del HTML crudo (rápido, sin navegador).
-    Si buscar_lista_embebida=True, además busca un precio de lista embebido
-    en el HTML (ej. Jumbo trae "price":X,"listPrice":Y en un bloque JSON de
-    hidratación). Esto SIEMPRE se ancla al precio ya confirmado por la meta
-    tag (nunca al primer match del patrón) porque la página repite ese mismo
-    bloque para productos relacionados/recomendados — sin anclar, se puede
-    traer el precio de otro producto por error."""
     for intento in range(1, intentos + 1):
         try:
             res = requests.get(url, headers=HEADERS, timeout=12)
@@ -126,9 +122,6 @@ def _consultar_meta_tag(url: str, patron_precio: str, patron_disp: str, buscar_l
 
 
 def _consultar_text_pattern(url: str, cfg: dict, intentos: int = 3):
-    """Lee precio oferta y normal buscando dos patrones de texto en el HTML crudo
-    (sin meta tags, sin navegador). Útil para sitios Next.js con SSR que ya traen
-    ambos precios renderizados desde el servidor."""
     patron_oferta = cfg["patron_precio_oferta"]
     patron_normal = cfg.get("patron_precio_normal")
 
@@ -161,95 +154,7 @@ def _consultar_text_pattern(url: str, cfg: dict, intentos: int = 3):
     return None, None, False, "Bloqueado tras varios intentos (403/429)"
 
 
-def _consultar_playwright(context, url: str, cfg: dict, intentos: int = 3):
-    """Lee precio(s) del DOM con un selector CSS, usando una pestaña nueva de
-    un browser context YA ABIERTO (context lo crea y cierra quien llama, una
-    sola vez por lote de productos del mismo retailer — abrir un navegador
-    completo por producto es lo que hacía esto lento)."""
-    selector_oferta = cfg.get("selector_precio_oferta")
-    selector_normal = cfg.get("selector_precio_normal")
-
-    for intento in range(1, intentos + 1):
-        page = None
-        try:
-            page = context.new_page()
-            page.goto(url, timeout=15000, wait_until="domcontentloaded")
-            time.sleep(random.uniform(0.6, 1.2))
-
-            precio_oferta = None
-            precio_normal = None
-            try:
-                precio_oferta = float(re.sub(r"[^\d]", "", page.locator(selector_oferta).first.inner_text()))
-            except Exception:
-                pass
-            if selector_normal:
-                try:
-                    precio_normal = float(re.sub(r"[^\d]", "", page.locator(selector_normal).first.inner_text()))
-                except Exception:
-                    pass
-
-            if precio_oferta:
-                return precio_oferta, precio_normal or precio_oferta, True, None
-            if intento == intentos:
-                return None, None, False, "No se encontró el precio en el DOM renderizado"
-        except Exception as e:
-            if intento == intentos:
-                return None, None, False, f"Error Playwright: {str(e)[:100]}"
-        finally:
-            if page is not None:
-                page.close()
-        time.sleep(random.uniform(2, 4) * intento)
-    return None, None, False, "Falla desconocida"
-
-
-def _consultar_playwright_text(context, url: str, cfg: dict, intentos: int = 3):
-    """Como _consultar_playwright, pero busca el precio con un patrón de texto
-    (patron_precio_oferta / patron_precio_normal) sobre el texto ya renderizado
-    por el navegador, en vez de un selector CSS. Es más robusto en sitios cuyo
-    framework (ej. Next.js) genera nombres de clase distintos en cada deploy,
-    donde un selector CSS se rompe solo, pero el texto visible no cambia.
-    Reusa el context abierto por el llamador en vez de lanzar un navegador
-    nuevo por producto."""
-    patron_oferta = cfg["patron_precio_oferta"]
-    patron_normal = cfg.get("patron_precio_normal")
-
-    for intento in range(1, intentos + 1):
-        page = None
-        try:
-            page = context.new_page()
-            page.goto(url, timeout=20000, wait_until="networkidle")
-            time.sleep(random.uniform(0.6, 1.2))
-            texto = page.inner_text("body")
-
-            m_oferta = re.search(patron_oferta, texto)
-            if not m_oferta:
-                frag = _fragmento_diagnostico(texto)
-                if intento == intentos:
-                    return None, None, True, f"No se encontró el precio. Recibido: \"{frag}\""
-                time.sleep(random.uniform(2, 4) * intento)
-                continue
-            precio_oferta = float(m_oferta.group(1).replace(".", "").replace(",", "."))
-
-            precio_normal = precio_oferta
-            if patron_normal:
-                m_normal = re.search(patron_normal, texto)
-                if m_normal:
-                    precio_normal = float(m_normal.group(1).replace(".", "").replace(",", "."))
-
-            return precio_oferta, precio_normal, True, None
-        except Exception as e:
-            if intento == intentos:
-                return None, None, False, f"Error Playwright: {str(e)[:100]}"
-            time.sleep(random.uniform(2, 4) * intento)
-        finally:
-            if page is not None:
-                page.close()
-    return None, None, False, "Falla desconocida"
-
-
 def _resolver_ruta(data, ruta):
-    """Resuelve una ruta tipo 'sellers.0.price' contra un dict/list JSON
-    anidado, devolviendo None si algún tramo no existe."""
     actual = data
     for tramo in ruta.split("."):
         try:
@@ -263,25 +168,15 @@ def _resolver_ruta(data, ruta):
 
 
 def _consultar_api_post_json(url: str, cfg: dict, intentos: int = 3):
-    """Para sitios cuyo propio frontend pide el detalle del producto a una
-    API JSON propia vía POST (ej. Santa Isabel: bff.santaisabel.cl/catalog/pdp
-    con {"slug": ..., "store": ...}), en vez de leerlo del HTML/meta tags —
-    más rápido y trae el precio de lista real (los meta tags solo traen el
-    precio final). No necesita navegador, es un POST HTTP directo. El slug
-    se saca de la URL del producto (soporta both /slug/p y /product/slug)."""
     partes = [p for p in url.rstrip("/").split("/") if p]
     slug = partes[-2] if partes and partes[-1] == "p" else (partes[-1] if partes else "")
     body = {**cfg.get("api_body", {}), "slug": slug}
-    origen = "/".join(url.split("/")[:3])  # ej. https://www.santaisabel.cl
+    origen = "/".join(url.split("/")[:3])
     headers = {
         **HEADERS,
         **cfg.get("api_headers", {}),
         "Content-Type": "application/json",
         "Accept": "application/json",
-        # Un navegador real siempre manda desde qué página llama a esta API
-        # interna. Sin esto, algunos entornos (ej. IP de datacenter de
-        # Streamlit Cloud) reciben 403 aunque el mismo request funcione bien
-        # desde una IP residencial.
         "Referer": url,
         "Origin": origen,
     }
@@ -321,15 +216,84 @@ def _consultar_api_post_json(url: str, cfg: dict, intentos: int = 3):
     return None, None, False, "Falla desconocida"
 
 
+# --- MÉTODOS PLAYWRIGHT ---
+
+def _consultar_playwright(context, url: str, cfg: dict, intentos: int = 3):
+    selector_oferta = cfg.get("selector_precio_oferta")
+    selector_normal = cfg.get("selector_precio_normal")
+
+    for intento in range(1, intentos + 1):
+        page = None
+        try:
+            page = context.new_page()
+            page.goto(url, timeout=15000, wait_until="domcontentloaded")
+            time.sleep(random.uniform(0.6, 1.2))
+
+            precio_oferta = None
+            precio_normal = None
+            try:
+                precio_oferta = float(re.sub(r"[^\d]", "", page.locator(selector_oferta).first.inner_text()))
+            except Exception:
+                pass
+            if selector_normal:
+                try:
+                    precio_normal = float(re.sub(r"[^\d]", "", page.locator(selector_normal).first.inner_text()))
+                except Exception:
+                    pass
+
+            if precio_oferta:
+                return precio_oferta, precio_normal or precio_oferta, True, None
+            if intento == intentos:
+                return None, None, False, "No se encontró el precio en el DOM renderizado"
+        except Exception as e:
+            if intento == intentos:
+                return None, None, False, f"Error Playwright: {str(e)[:100]}"
+        finally:
+            if page is not None:
+                page.close()
+        time.sleep(random.uniform(2, 4) * intento)
+    return None, None, False, "Falla desconocida"
+
+
+def _consultar_playwright_text(context, url: str, cfg: dict, intentos: int = 3):
+    patron_oferta = cfg["patron_precio_oferta"]
+    patron_normal = cfg.get("patron_precio_normal")
+
+    for intento in range(1, intentos + 1):
+        page = None
+        try:
+            page = context.new_page()
+            page.goto(url, timeout=20000, wait_until="networkidle")
+            time.sleep(random.uniform(0.6, 1.2))
+            texto = page.inner_text("body")
+
+            m_oferta = re.search(patron_oferta, texto)
+            if not m_oferta:
+                frag = _fragmento_diagnostico(texto)
+                if intento == intentos:
+                    return None, None, True, f"No se encontró el precio. Recibido: \"{frag}\""
+                time.sleep(random.uniform(2, 4) * intento)
+                continue
+            precio_oferta = float(m_oferta.group(1).replace(".", "").replace(",", "."))
+
+            precio_normal = precio_oferta
+            if patron_normal:
+                m_normal = re.search(patron_normal, texto)
+                if m_normal:
+                    precio_normal = float(m_normal.group(1).replace(".", "").replace(",", "."))
+
+            return precio_oferta, precio_normal, True, None
+        except Exception as e:
+            if intento == intentos:
+                return None, None, False, f"Error Playwright: {str(e)[:100]}"
+            time.sleep(random.uniform(2, 4) * intento)
+        finally:
+            if page is not None:
+                page.close()
+    return None, None, False, "Falla desconocida"
+
+
 def _consultar_playwright_json(context, url: str, cfg: dict, intentos: int = 3):
-    """Para sitios que bloquean requests directos (Akamai/Cloudflare) pero
-    cuyo propio frontend consulta una API JSON interna para el precio: en vez
-    de renderizar la página completa por producto, hace UNA sola visita de
-    'caldeo' (warmup_url) para que el navegador pase el desafío anti-bot y
-    reciba las cookies de sesión, y de ahí en adelante pide el JSON de cada
-    producto directo con context.request (mismas cookies, sin abrir pestañas
-    ni re-renderizar nada) — mucho más rápido que playwright/playwright_text.
-    El slug se saca del último tramo de la URL del producto."""
     slug = url.rstrip("/").split("/")[-1]
     api_url = cfg["api_base"].rstrip("/") + "/" + slug
 
@@ -363,9 +327,92 @@ def _consultar_playwright_json(context, url: str, cfg: dict, intentos: int = 3):
     return None, None, False, "Falla desconocida"
 
 
+# --- MÉTODOS NODRIVER (ANTI-DETECCIÓN AVANZADA) ---
+
+async def _consultar_nodriver_async(browser, url: str, cfg: dict, intentos: int = 3):
+    selector_oferta = cfg.get("selector_precio_oferta")
+    selector_normal = cfg.get("selector_precio_normal")
+    patron_oferta = cfg.get("patron_precio_oferta")
+
+    for intento in range(1, intentos + 1):
+        try:
+            page = await browser.get(url)
+            # Espera prudente para sortear Cloudflare y permitir hidratación de React/Next.js
+            await asyncio.sleep(random.uniform(2.5, 4.0))
+
+            precio_oferta = None
+            precio_normal = None
+
+            # 1. Búsqueda por selectores CSS
+            if selector_oferta:
+                try:
+                    elem_oferta = await page.select(selector_oferta, timeout=6)
+                    if elem_oferta:
+                        precio_oferta = float(re.sub(r"[^\d]", "", elem_oferta.text))
+                except Exception:
+                    pass
+
+                if selector_normal:
+                    try:
+                        elem_normal = await page.select(selector_normal, timeout=3)
+                        if elem_normal:
+                            precio_normal = float(re.sub(r"[^\d]", "", elem_normal.text))
+                    except Exception:
+                        pass
+
+            # 2. Búsqueda por Regex en texto HTML si falló el selector
+            if not precio_oferta and patron_oferta:
+                html_body = await page.get_content()
+                m_oferta = re.search(patron_oferta, html_body)
+                if m_oferta:
+                    precio_oferta = float(m_oferta.group(1).replace(".", "").replace(",", "."))
+                    patron_normal = cfg.get("patron_precio_normal")
+                    if patron_normal:
+                        m_normal = re.search(patron_normal, html_body)
+                        if m_normal:
+                            precio_normal = float(m_normal.group(1).replace(".", "").replace(",", "."))
+
+            if precio_oferta:
+                return precio_oferta, precio_normal or precio_oferta, True, None
+
+            if intento == intentos:
+                return None, None, False, "No se encontró el precio con nodriver"
+        except Exception as e:
+            if intento == intentos:
+                return None, None, False, f"Error nodriver: {str(e)[:100]}"
+        
+        await asyncio.sleep(random.uniform(2.0, 4.0) * intento)
+        
+    return None, None, False, "Falla desconocida"
+
+
+async def _ejecutar_lote_nodriver_async(cfg, lista_productos):
+    salida = []
+    # Argumentos indispensables para contenedores/Streamlit Cloud
+    browser = await uc.start(
+        headless=True,
+        browser_args=["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"]
+    )
+    try:
+        for prod in lista_productos:
+            precio, precio_normal, disponible, error = await _consultar_nodriver_async(
+                browser, prod["url"], cfg
+            )
+            salida.append((prod, precio, precio_normal, disponible, error))
+            await asyncio.sleep(random.uniform(1.0, 2.0))
+    finally:
+        browser.stop()
+    return salida
+
+
+def _procesar_lote_nodriver(cfg, lista_productos):
+    """Ejecuta el loop asíncrono de nodriver dentro del ThreadPool."""
+    return asyncio.run(_ejecutar_lote_nodriver_async(cfg, lista_productos))
+
+
+# --- PROCESADORES DE LOTES ---
+
 def _procesar_lote_http(cfg, lista_productos):
-    """Retailers meta_tag/text_pattern: requests HTTP livianos, secuenciales
-    (mismo ritmo de siempre) dentro de su propio hilo."""
     salida = []
     for prod in lista_productos:
         if cfg["metodo"] == "meta_tag":
@@ -375,15 +422,11 @@ def _procesar_lote_http(cfg, lista_productos):
             )
         elif cfg["metodo"] == "api_post_json":
             precio, precio_normal, disponible, error = _consultar_api_post_json(prod["url"], cfg)
-            # Respaldo: si la API interna falla (algunos entornos/IP reciben
-            # 403 ahí aunque el sitio público nunca bloquee), cae al método
-            # meta_tag simple — se pierde el precio de lista en ese caso
-            # puntual, pero nunca queda el producto en "Sin Conexión".
             if precio is None and cfg.get("selector_precio"):
                 precio, precio_normal, disponible, error = _consultar_meta_tag(
                     prod["url"], cfg["selector_precio"], cfg.get("selector_disponibilidad"),
                 )
-        else:  # text_pattern
+        else:
             precio, precio_normal, disponible, error = _consultar_text_pattern(prod["url"], cfg)
         salida.append((prod, precio, precio_normal, disponible, error))
         time.sleep(random.uniform(0.5, 1.0))
@@ -391,14 +434,6 @@ def _procesar_lote_http(cfg, lista_productos):
 
 
 def _procesar_lote_playwright(cfg, lista_productos):
-    """Retailers playwright/playwright_text/playwright_json: abre UN solo
-    navegador para todo el lote de este retailer (antes se abría uno nuevo
-    por producto) y procesa los productos secuencialmente dentro de él —
-    intentamos en paralelo (varias pestañas a la vez) y Tottus empezó a ser
-    bloqueado por Cloudflare al tercer producto, así que esto se mantiene
-    secuencial a propósito. La ganancia de velocidad viene de no relanzar el
-    navegador, y de que retailers distintos ya corren en paralelo entre sí
-    (ver consultar_precios_en_vivo)."""
     from playwright.sync_api import sync_playwright
 
     salida = []
@@ -409,12 +444,6 @@ def _procesar_lote_playwright(cfg, lista_productos):
             viewport={"width": 1366, "height": 768},
         )
         if cfg["metodo"] == "playwright_json":
-            # Una sola visita real para pasar el desafío anti-bot y dejar
-            # las cookies de sesión puestas en el context. "networkidle" no
-            # sirve acá: la portada de Alvi tiene actividad de red continua
-            # (analytics, chat) que nunca llega a quedar inactiva y hace
-            # timeout — con domcontentloaded + una espera corta alcanza para
-            # que el desafío anti-bot ya haya corrido y dejado las cookies.
             pagina_calentamiento = context.new_page()
             pagina_calentamiento.goto(cfg["warmup_url"], timeout=25000, wait_until="domcontentloaded")
             pagina_calentamiento.wait_for_timeout(4000)
@@ -425,7 +454,7 @@ def _procesar_lote_playwright(cfg, lista_productos):
                 precio, precio_normal, disponible, error = _consultar_playwright(context, prod["url"], cfg)
             elif cfg["metodo"] == "playwright_json":
                 precio, precio_normal, disponible, error = _consultar_playwright_json(context, prod["url"], cfg)
-            else:  # playwright_text
+            else:
                 precio, precio_normal, disponible, error = _consultar_playwright_text(context, prod["url"], cfg)
             salida.append((prod, precio, precio_normal, disponible, error))
             time.sleep(random.uniform(0.5, 1.2))
@@ -446,11 +475,6 @@ def consultar_precios_en_vivo(productos_hash: str):
         if resultado_instalacion is not True:
             st.warning(f"⚠️ {resultado_instalacion} — los retailers con Playwright pueden fallar.")
 
-    # Agrupa por retailer y procesa cada grupo en su propio hilo: distintos
-    # sitios se consultan al mismo tiempo (más rápido en total), pero dentro
-    # de un mismo sitio las consultas siguen siendo secuenciales, al mismo
-    # ritmo de siempre — a ningún sitio le llega más tráfico por segundo del
-    # que ya le llegaba, así que esto no aumenta el riesgo de bloqueo anti-bot.
     grupos = {}
     for _, prod in productos.iterrows():
         grupos.setdefault(prod["retailer"], []).append(prod)
@@ -464,8 +488,11 @@ def consultar_precios_en_vivo(productos_hash: str):
                 for prod in lista_productos:
                     tareas_resultado.append((prod, None, None, False, f"Retailer '{retailer_key}' no está en retailers.yaml"))
                 continue
+            
             if cfg["metodo"] in ("playwright", "playwright_text", "playwright_json"):
                 futuros.append(executor.submit(_procesar_lote_playwright, cfg, lista_productos))
+            elif cfg["metodo"] == "nodriver":
+                futuros.append(executor.submit(_procesar_lote_nodriver, cfg, lista_productos))
             else:
                 futuros.append(executor.submit(_procesar_lote_http, cfg, lista_productos))
 
@@ -498,23 +525,11 @@ def consultar_precios_en_vivo(productos_hash: str):
             })
 
     resultados.sort(key=lambda r: r["sku_interno"])
-
-    # La marca de tiempo se calcula acá adentro (no afuera, en la función que
-    # renderiza) para que quede guardada junto con el resto de datos en el
-    # caché compartido: todos los usuarios ven la hora en que se hizo la
-    # consulta real, no la hora en que cada uno abrió la página.
     momento_actualizacion = datetime.now(ZONA_HORARIA_CL).strftime("%d/%m/%Y %H:%M hrs")
     return resultados, momento_actualizacion
 
 
 def agrupar_por_formato_ovella(datos, ovella_df):
-    """Junta cada SKU de Ovella con los competidores del MISMO metraje total
-    (ej. 'Doble Hoja 50m 4un' = 200m agrupa a cualquier competidor que también
-    sea 200m, sin importar marca/retailer). Esto es lo que realmente responde
-    la pregunta del negocio ('quién compite con este SKU'), en vez de una
-    tabla plana con todo mezclado. Devuelve (grupos, sin_match):
-      - grupos: uno por fila de ovella.csv, con sus competidores ordenados por $/metro.
-      - sin_match: competidores cuyo metraje no coincide con ningún SKU Ovella."""
     validos = [d for d in datos if d["precio_metro_num"] > 0]
     usados = set()
     grupos = []
@@ -528,7 +543,6 @@ def agrupar_por_formato_ovella(datos, ovella_df):
         grupos.append({"ovella": ov, "competidores": competidores_ordenados})
 
     sin_match = [d for d in datos if id(d) not in usados]
-
     return grupos, sin_match
 
 
@@ -537,11 +551,6 @@ def _formatear_clp(valor):
 
 
 def _tabla_competidores(competidores):
-    """Arma el DataFrame de competidores de un grupo, con la fila más barata
-    resaltada (verde translúcido), las sin stock/con error en rojo
-    translúcido — colores de status validados, nunca usados para series — y
-    separando precio de lista vs. precio de oferta cuando difieren, para que
-    se note quién está con promoción activa y quién no."""
     filas = []
     for c in competidores:
         normal = c["precio_normal_num"]
@@ -573,7 +582,7 @@ def _tabla_competidores(competidores):
     return df.style.apply(resaltar_fila, axis=1).format({"$/Metro": lambda v: f"${v}/m" if pd.notna(v) else "N/D"})
 
 
-# --- Interfaz ---
+# --- INTERFAZ STREAMLIT ---
 st.markdown(f"""
 <style>
 [data-testid="stMetricValue"] {{ font-size: 1.4rem; }}
@@ -586,7 +595,7 @@ st.caption("Cada SKU de Ovella (ovella.csv) con su competencia real, agrupada po
 
 productos_df, _ = cargar_config()
 ovella_df = cargar_ovella()
-hash_productos = str(pd.util.hash_pandas_object(productos_df).sum())  # invalida cache si cambia el CSV
+hash_productos = str(pd.util.hash_pandas_object(productos_df).sum())
 datos_tabla, momento_actualizacion = consultar_precios_en_vivo(hash_productos)
 grupos, sin_match = agrupar_por_formato_ovella(datos_tabla, ovella_df)
 

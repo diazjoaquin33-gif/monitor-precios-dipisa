@@ -1,59 +1,16 @@
 # Configuración de tiendas/retailers a monitorear.
 #
 # Cada tienda define un "metodo":
-#   - meta_tag: lectura de un meta tag <meta property="..."> o <meta name="...">
-#     con el precio, en el HTML crudo. Funciona en tiendas VTEX (Santa Isabel,
-#     Jumbo — grupo Cencosud). El atributo (property vs name) puede variar
-#     entre sitios; el regex de abajo acepta ambos.
-#   - text_pattern: busca dos precios (oferta y normal) directo en el texto del
-#     HTML crudo, sin meta tags. Funciona en sitios con SSR real (ej. Next.js)
-#     que ya traen ambos precios renderizados desde el servidor.
-#   - playwright: renderiza con navegador headless y lee el precio con un
-#     selector CSS (más lento, requiere packages.txt adicional en el
-#     despliegue). Frágil si el sitio usa clases CSS autogeneradas que
-#     cambian en cada deploy (ej. Next.js/CSS modules) — en ese caso usar
-#     playwright_text en vez de este.
-#   - playwright_text: igual que playwright (navegador headless, pasa
-#     protecciones anti-bot básicas tipo Akamai/Cloudflare), pero busca el
-#     precio con un patrón de texto sobre el texto visible ya renderizado,
-#     no con un selector CSS. Usa las mismas claves patron_precio_oferta /
-#     patron_precio_normal que text_pattern.
-#   - playwright_json: para sitios bloqueados por Akamai/Cloudflare cuyo
-#     propio frontend consulta una API JSON interna (se descubre mirando la
-#     pestaña Network del navegador). Hace UNA sola visita real a warmup_url
-#     para pasar el desafío anti-bot y quedarse con las cookies de sesión, y
-#     de ahí en más pide el JSON de cada producto directo (mucho más rápido
-#     que renderizar página por página). api_base + "/" + último tramo de la
-#     URL del producto arma la URL de la API; campo_precio (y opcionalmente
-#     campo_precio_normal) es la ruta dentro del JSON, tipo "sellers.0.price".
-#   - api_post_json: como playwright_json pero sin navegador — para sitios
-#     NO bloqueados cuyo frontend pide el detalle del producto a una API
-#     propia vía POST (se descubre igual, mirando Network). api_url +
-#     api_headers + api_body (fijos) más {"slug": <sacado de la URL>} arman
-#     el POST; campo_precio/campo_precio_normal/campo_disponible son rutas
-#     dentro del JSON de respuesta. Trae precio de lista real, no solo el
-#     final — más completo que meta_tag y sigue siendo solo un request HTTP.
-#
-# meta_tag además acepta buscar_precio_lista_embebido: true — busca un precio
-# de lista embebido en el HTML (algunos sitios Next.js traen "price":X,
-# "listPrice":Y en un bloque de hidratación) ANCLADO al precio ya confirmado
-# por la meta tag, para no traer por error el precio de otro producto de la
-# misma página (ej. recomendados).
-# IMPORTANTE: nunca apuntar a endpoints tipo /api/... de un retailer sin revisar
-# antes su robots.txt — varios los bloquean explícitamente para bots, aunque
-# respondan igual si se les consulta. meta_tag y text_pattern leen lo mismo que
-# ve cualquier visitante normal al abrir la página.
+#   - meta_tag: lectura rápida de meta tags en HTML crudo (Jumbo / VTEX).
+#   - api_post_json: consulta POST directa a la API BFF interna (Santa Isabel).
+#   - playwright_json: caldeo previo con browser para pasar reto anti-bot y posterior request a API (Alvi).
+#   - playwright_text: render con Playwright buscando regex en el texto visible (Tottus).
+#   - nodriver: browser indetectable (CDP puro sin webdriver) para sitios con anti-bots
+#     agresivos como PerimeterX/HUMAN (Líder) o DataDome (Unimarc).
 
 santaisabel:
   nombre: "Santa Isabel"
   metodo: api_post_json
-  # Verificado 20/08/2026: la ficha de producto llama a esta API propia (BFF)
-  # por POST para traer todo el detalle, incluido el precio de lista real
-  # (listPrice) — los meta tags solo traían el precio final. apikey visible
-  # en el JS del propio sitio (no es un secreto, cualquier visitante la ve).
-  # slug se saca de la URL (".../slug/p" -> "slug"). store fijo: probamos con
-  # "pedrofontova" y respondió bien; si algún producto da vacío puede que
-  # necesite otro valor de tienda.
   api_url: "https://bff.santaisabel.cl/catalog/pdp"
   api_headers:
     apikey: "be-reg-groceries-sisa-catalog-wdhhq5a2fken"
@@ -62,58 +19,19 @@ santaisabel:
   campo_precio: "items.0.price"
   campo_precio_normal: "items.0.listPrice"
   campo_disponible: "items.0.stock"
-  # Respaldo si la API falla (ej. 403 desde algún IP/entorno puntual): cae al
-  # meta_tag simple, que veníamos usando antes y nunca tuvo bloqueos. Pierde
-  # el precio de lista en ese caso, pero no deja el producto sin datos.
   selector_precio: '(?:property|name)="product:price:amount"\s+content="([\d.,]+)"'
   selector_disponibilidad: '(?:property|name)="product:availability"\s+content="([^"]+)"'
 
 jumbo:
   nombre: "Jumbo"
   metodo: meta_tag
-  # Verificado 18/08/2026: Jumbo usa name="product:price:amount" (no property=,
-  # a diferencia de Santa Isabel). El regex ahora acepta ambos atributos.
   selector_precio: '(?:property|name)="product:price:amount"\s+content="([\d.,]+)"'
   selector_disponibilidad: '(?:property|name)="product:availability"\s+content="([^"]+)"'
-  # Verificado 20/08/2026: Jumbo no tiene un BFF separado como Santa Isabel,
-  # pero SÍ trae "price":X,"listPrice":Y embebido en el HTML (bloque de
-  # hidratación) — se usa para conseguir el precio de lista real.
   buscar_precio_lista_embebido: true
-
-# lider: DESHABILITADO — verificado 18/08/2026: el sitio devuelve una página de
-# verificación anti-bot ("Robot or human?") en vez del HTML del producto, incluso
-# con headers de navegador normal. Los patrones text_pattern que había antes no
-# podían funcionar porque nunca llegan a ver el HTML real. Requeriría técnicas de
-# evasión de bot-detection para forzarlo, lo cual no vamos a hacer. Si más adelante
-# se necesita este retailer, evaluar una fuente de datos alternativa (ej. API
-# pública si existe, o partner de datos) en vez de scraping directo.
-# lider:
-#   nombre: "Líder"
-#   metodo: text_pattern
-#   patron_precio_oferta: 'El precio actual es \$([\d.,]+)'
-#   patron_precio_normal: 'costaba\$?([\d.,]+)'
-
-# unimarc: PENDIENTE — el sitio bloquea requests directos (bot detection activa,
-# no es solo falta de headers). Necesita revisión aparte: probablemente Playwright
-# + headers más elaborados, o puede seguir bloqueando igual. No agregar todavía.
 
 alvi:
   nombre: "Alvi"
   metodo: playwright_json
-  # Verificado 18-20/08/2026: alvi.cl bloquea requests HTTP simples con un
-  # muro anti-bot de Akamai (incluso a la API). Un navegador headless sí pasa
-  # el desafío, y una vez pasado se puede reusar esa sesión (cookies) para
-  # pedir el JSON de cada producto directo a bff-alvi-web.alvi.cl, sin volver
-  # a renderizar la página — mucho más rápido que playwright_text. El precio
-  # está en sellers.0.price (precio regular, sin membresía Club Alvi — Alvi
-  # también tiene "Precio socio" aparte, pero se monitorea el regular para
-  # comparar 1 a 1 con retailers sin membresía).
-  # warmup_url apunta a una FICHA DE PRODUCTO real, no a la portada — la
-  # portada tiene tráfico de red continuo (analytics/chat) que además de
-  # hacer timeout en 'networkidle', en Streamlit Cloud (IP de datacenter,
-  # peor reputación que un IP residencial ante Akamai) devolvía un 403 en la
-  # llamada al JSON de ahí en más. Con una ficha de producto (que sí veníamos
-  # scrapeando bien en producción) el desafío anti-bot se resuelve mejor.
   warmup_url: "https://www.alvi.cl/product/papel-hig-dh-noble-6x23-mt-2"
   api_base: "https://bff-alvi-web.alvi.cl/products/by-slug"
   campo_precio: "sellers.0.price"
@@ -122,28 +40,18 @@ alvi:
 tottus:
   nombre: "Tottus"
   metodo: playwright_text
-  # Verificado 19-20/08/2026: tottus.cl usa un desafío JS de Cloudflare
-  # ("Just a moment...") ante requests simples; un navegador headless
-  # (Playwright) sí lo pasa. El precio se muestra como "$ 7.790" (con
-  # espacio) seguido de "UN" — el patrón no exige el "-XX%" de descuento
-  # porque varios productos no tienen oferta activa y ahí no aparece. El
-  # precio normal aparece justo después del paréntesis de precio por unidad
-  # de medida (puede decir "por MT" o "por 100UN" según el producto, por eso
-  # el patrón no depende del texto de la unidad, solo del ")" que cierra) —
-  # si un producto no tiene oferta tampoco hay precio normal aparte, y la
-  # app usa el precio único como ambos valores automáticamente.
   patron_precio_oferta: '\$\s*([\d.,]+)\s*\nUN'
   patron_precio_normal: '\)\s*\n\$\s*([\d.,]+)'
 
-# Para agregar una tienda nueva:
-# 1. Abre una página de producto de esa tienda y mira si el precio aparece en el
-#    HTML crudo sin JS (clic derecho > "Ver código fuente", Ctrl+F "price" o el
-#    precio en pesos, ej. "$1.990").
-# 2. Si aparece en un <meta property="product:price:amount"> o
-#    <meta name="product:price:amount"> -> metodo: meta_tag.
-#    Si aparece como texto plano tipo "El precio actual es $X" -> metodo: text_pattern.
-#    Si NO aparece nada (solo "Cargando..." o vacío, o una página de verificación
-#    tipo "Robot or human?") -> el sitio probablemente bloquea requests simples;
-#    metodo: playwright puede ayudar pero no siempre alcanza contra bot-detection
-#    activa (Akamai, PerimeterX, etc.).
-# 3. Agrega el bloque siguiendo el formato de arriba.
+lider:
+  nombre: "Líder"
+  metodo: nodriver
+  # nodriver permite pasar el reto PerimeterX ("Robot or human?") sin levantar alarmas de webdriver.
+  patron_precio_oferta: 'El precio actual es \$([\d.,]+)'
+  patron_precio_normal: 'costaba\$?([\d.,]+)'
+
+unimarc:
+  nombre: "Unimarc"
+  metodo: nodriver
+  # Extrae el precio desde el texto renderizado en la ficha de producto de Unimarc
+  patron_precio_oferta: '\$\s*([\d.,]+)'
