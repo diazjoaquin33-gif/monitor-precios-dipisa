@@ -28,9 +28,9 @@ alvi:
 
 tottus:
   nombre: "Tottus"
-  metodo: "playwright_text"
-  patron_precio_oferta: '\$\s*([\d.,]+)\s*\nUN'
-  patron_precio_normal: '\)\s*\n\$\s*([\d.,]+)'
+  metodo: "curl_cffi"
+  patron_precio_oferta: '\$\s*([\d.,]+)\s*(?:UN|\n)'
+  patron_precio_normal: '\)\s*\n?\$\s*([\d.,]+)'
 
 lider:
   nombre: "Líder"
