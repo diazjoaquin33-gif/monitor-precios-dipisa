@@ -1,12 +1,12 @@
 # Configuración de tiendas/retailers a monitorear.
 #
 # Cada tienda define un "metodo":
-#   - meta_tag: lectura rápida de meta tags en HTML crudo (Jumbo / VTEX).
-#   - api_post_json: consulta POST directa a la API BFF interna (Santa Isabel).
-#   - playwright_json: caldeo previo con browser para pasar reto anti-bot y posterior request a API (Alvi).
-#   - playwright_text: render con Playwright buscando regex en el texto visible (Tottus).
-#   - nodriver: browser indetectable (CDP puro sin webdriver) para sitios con anti-bots
-#     agresivos como PerimeterX/HUMAN (Líder) o DataDome (Unimarc).
+#   - meta_tag: lectura de <meta property="..."> o <meta name="..."> en HTML crudo (Jumbo / VTEX).
+#   - text_pattern: busca precios directo en el texto del HTML crudo con regex.
+#   - playwright_text: render con Chromium headless para sitios JS protegidos (Tottus).
+#   - playwright_json: caldeo de sesión con Chromium y llamada directa a API JSON (Alvi).
+#   - api_post_json: consulta POST directa a API BFF interna sin navegador (Santa Isabel).
+#   - curl_cffi: peticiones HTTP ultrarrápidas con impersonación de huella TLS/JA4 de Chrome (Líder, Unimarc).
 
 santaisabel:
   nombre: "Santa Isabel"
@@ -45,13 +45,13 @@ tottus:
 
 lider:
   nombre: "Líder"
-  metodo: nodriver
-  # nodriver permite pasar el reto PerimeterX ("Robot or human?") sin levantar alarmas de webdriver.
+  metodo: curl_cffi
+  # curl_cffi emula la huella TLS de Chrome 124, superando la pantalla "Robot or human?" de PerimeterX
   patron_precio_oferta: 'El precio actual es \$([\d.,]+)'
   patron_precio_normal: 'costaba\$?([\d.,]+)'
 
 unimarc:
   nombre: "Unimarc"
-  metodo: nodriver
-  # Extrae el precio desde el texto renderizado en la ficha de producto de Unimarc
+  metodo: curl_cffi
+  patron_precio_oferta: '\$\s*([\d.,]+)' de producto de Unimarc
   patron_precio_oferta: '\$\s*([\d.,]+)'
