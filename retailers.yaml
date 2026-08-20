@@ -26,7 +26,19 @@
 #     que renderizar página por página). api_base + "/" + último tramo de la
 #     URL del producto arma la URL de la API; campo_precio (y opcionalmente
 #     campo_precio_normal) es la ruta dentro del JSON, tipo "sellers.0.price".
+#   - api_post_json: como playwright_json pero sin navegador — para sitios
+#     NO bloqueados cuyo frontend pide el detalle del producto a una API
+#     propia vía POST (se descubre igual, mirando Network). api_url +
+#     api_headers + api_body (fijos) más {"slug": <sacado de la URL>} arman
+#     el POST; campo_precio/campo_precio_normal/campo_disponible son rutas
+#     dentro del JSON de respuesta. Trae precio de lista real, no solo el
+#     final — más completo que meta_tag y sigue siendo solo un request HTTP.
 #
+# meta_tag además acepta buscar_precio_lista_embebido: true — busca un precio
+# de lista embebido en el HTML (algunos sitios Next.js traen "price":X,
+# "listPrice":Y en un bloque de hidratación) ANCLADO al precio ya confirmado
+# por la meta tag, para no traer por error el precio de otro producto de la
+# misma página (ej. recomendados).
 # IMPORTANTE: nunca apuntar a endpoints tipo /api/... de un retailer sin revisar
 # antes su robots.txt — varios los bloquean explícitamente para bots, aunque
 # respondan igual si se les consulta. meta_tag y text_pattern leen lo mismo que
@@ -34,10 +46,22 @@
 
 santaisabel:
   nombre: "Santa Isabel"
-  metodo: meta_tag
-  # Verificado 18/08/2026 contra el sitio real: usa property="product:price:amount".
-  selector_precio: '(?:property|name)="product:price:amount"\s+content="([\d.,]+)"'
-  selector_disponibilidad: '(?:property|name)="product:availability"\s+content="([^"]+)"'
+  metodo: api_post_json
+  # Verificado 20/08/2026: la ficha de producto llama a esta API propia (BFF)
+  # por POST para traer todo el detalle, incluido el precio de lista real
+  # (listPrice) — los meta tags solo traían el precio final. apikey visible
+  # en el JS del propio sitio (no es un secreto, cualquier visitante la ve).
+  # slug se saca de la URL (".../slug/p" -> "slug"). store fijo: probamos con
+  # "pedrofontova" y respondió bien; si algún producto da vacío puede que
+  # necesite otro valor de tienda.
+  api_url: "https://bff.santaisabel.cl/catalog/pdp"
+  api_headers:
+    apikey: "be-reg-groceries-sisa-catalog-wdhhq5a2fken"
+  api_body:
+    store: "pedrofontova"
+  campo_precio: "items.0.price"
+  campo_precio_normal: "items.0.listPrice"
+  campo_disponible: "items.0.stock"
 
 jumbo:
   nombre: "Jumbo"
@@ -46,6 +70,10 @@ jumbo:
   # a diferencia de Santa Isabel). El regex ahora acepta ambos atributos.
   selector_precio: '(?:property|name)="product:price:amount"\s+content="([\d.,]+)"'
   selector_disponibilidad: '(?:property|name)="product:availability"\s+content="([^"]+)"'
+  # Verificado 20/08/2026: Jumbo no tiene un BFF separado como Santa Isabel,
+  # pero SÍ trae "price":X,"listPrice":Y embebido en el HTML (bloque de
+  # hidratación) — se usa para conseguir el precio de lista real.
+  buscar_precio_lista_embebido: true
 
 # lider: DESHABILITADO — verificado 18/08/2026: el sitio devuelve una página de
 # verificación anti-bot ("Robot or human?") en vez del HTML del producto, incluso

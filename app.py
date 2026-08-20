@@ -80,8 +80,14 @@ def _fragmento_diagnostico(texto: str) -> str:
     return limpio[:180]
 
 
-def _consultar_meta_tag(url: str, patron_precio: str, patron_disp: str, intentos: int = 3):
-    """Lee precio desde meta tags del HTML crudo (rápido, sin navegador)."""
+def _consultar_meta_tag(url: str, patron_precio: str, patron_disp: str, buscar_lista_embebida: bool = False, intentos: int = 3):
+    """Lee precio desde meta tags del HTML crudo (rápido, sin navegador).
+    Si buscar_lista_embebida=True, además busca un precio de lista embebido
+    en el HTML (ej. Jumbo trae "price":X,"listPrice":Y en un bloque JSON de
+    hidratación). Esto SIEMPRE se ancla al precio ya confirmado por la meta
+    tag (nunca al primer match del patrón) porque la página repite ese mismo
+    bloque para productos relacionados/recomendados — sin anclar, se puede
+    traer el precio de otro producto por error."""
     for intento in range(1, intentos + 1):
         try:
             res = requests.get(url, headers=HEADERS, timeout=12)
@@ -89,8 +95,16 @@ def _consultar_meta_tag(url: str, patron_precio: str, patron_disp: str, intentos
                 m = re.search(patron_precio, res.text)
                 if not m:
                     frag = _fragmento_diagnostico(res.text)
-                    return None, True, f"No se encontró el precio. Recibido: \"{frag}\""
+                    return None, None, True, f"No se encontró el precio. Recibido: \"{frag}\""
                 precio = float(m.group(1).replace(".", "").replace(",", "."))
+
+                precio_normal = precio
+                if buscar_lista_embebida and precio == int(precio):
+                    m_lista = re.search(
+                        rf'\\?"price\\?":{int(precio)},\\?"listPrice\\?":(\d+)', res.text
+                    )
+                    if m_lista:
+                        precio_normal = float(m_lista.group(1))
 
                 disponible = True
                 if patron_disp:
@@ -98,17 +112,17 @@ def _consultar_meta_tag(url: str, patron_precio: str, patron_disp: str, intentos
                     if m_disp:
                         disponible = "in stock" in m_disp.group(1).lower()
 
-                return precio, disponible, None
+                return precio, precio_normal, disponible, None
             elif res.status_code in (403, 429):
                 time.sleep(random.uniform(2, 4) * intento)
                 continue
             else:
-                return None, False, f"HTTP {res.status_code}"
+                return None, None, False, f"HTTP {res.status_code}"
         except requests.RequestException as e:
             if intento == intentos:
-                return None, False, f"Error de conexión: {str(e)[:100]}"
+                return None, None, False, f"Error de conexión: {str(e)[:100]}"
             time.sleep(random.uniform(1.5, 3) * intento)
-    return None, False, "Bloqueado tras varios intentos (403/429)"
+    return None, None, False, "Bloqueado tras varios intentos (403/429)"
 
 
 def _consultar_text_pattern(url: str, cfg: dict, intentos: int = 3):
@@ -248,6 +262,53 @@ def _resolver_ruta(data, ruta):
     return actual
 
 
+def _consultar_api_post_json(url: str, cfg: dict, intentos: int = 3):
+    """Para sitios cuyo propio frontend pide el detalle del producto a una
+    API JSON propia vía POST (ej. Santa Isabel: bff.santaisabel.cl/catalog/pdp
+    con {"slug": ..., "store": ...}), en vez de leerlo del HTML/meta tags —
+    más rápido y trae el precio de lista real (los meta tags solo traen el
+    precio final). No necesita navegador, es un POST HTTP directo. El slug
+    se saca de la URL del producto (soporta both /slug/p y /product/slug)."""
+    partes = [p for p in url.rstrip("/").split("/") if p]
+    slug = partes[-2] if partes and partes[-1] == "p" else (partes[-1] if partes else "")
+    body = {**cfg.get("api_body", {}), "slug": slug}
+    headers = {**HEADERS, **cfg.get("api_headers", {}), "Content-Type": "application/json", "Accept": "application/json"}
+
+    for intento in range(1, intentos + 1):
+        try:
+            res = requests.post(cfg["api_url"], headers=headers, json=body, timeout=12)
+            if res.status_code == 200:
+                data = res.json()
+                precio = _resolver_ruta(data, cfg["campo_precio"])
+                if precio is None:
+                    if intento == intentos:
+                        return None, None, True, f"El JSON no trajo '{cfg['campo_precio']}'"
+                    time.sleep(random.uniform(1.5, 3) * intento)
+                    continue
+                precio_normal = precio
+                if cfg.get("campo_precio_normal"):
+                    valor_normal = _resolver_ruta(data, cfg["campo_precio_normal"])
+                    if valor_normal is not None:
+                        precio_normal = valor_normal
+                disponible = True
+                if cfg.get("campo_disponible"):
+                    valor_disp = _resolver_ruta(data, cfg["campo_disponible"])
+                    if valor_disp is not None:
+                        disponible = bool(valor_disp)
+                return float(precio), float(precio_normal), disponible, None
+            elif res.status_code in (403, 429):
+                if intento == intentos:
+                    return None, None, False, f"Bloqueado (HTTP {res.status_code})"
+                time.sleep(random.uniform(2, 4) * intento)
+            else:
+                return None, None, False, f"HTTP {res.status_code}"
+        except requests.RequestException as e:
+            if intento == intentos:
+                return None, None, False, f"Error de conexión: {str(e)[:100]}"
+            time.sleep(random.uniform(1.5, 3) * intento)
+    return None, None, False, "Falla desconocida"
+
+
 def _consultar_playwright_json(context, url: str, cfg: dict, intentos: int = 3):
     """Para sitios que bloquean requests directos (Akamai/Cloudflare) pero
     cuyo propio frontend consulta una API JSON interna para el precio: en vez
@@ -296,10 +357,12 @@ def _procesar_lote_http(cfg, lista_productos):
     salida = []
     for prod in lista_productos:
         if cfg["metodo"] == "meta_tag":
-            precio, disponible, error = _consultar_meta_tag(
-                prod["url"], cfg["selector_precio"], cfg.get("selector_disponibilidad")
+            precio, precio_normal, disponible, error = _consultar_meta_tag(
+                prod["url"], cfg["selector_precio"], cfg.get("selector_disponibilidad"),
+                buscar_lista_embebida=cfg.get("buscar_precio_lista_embebido", False),
             )
-            precio_normal = precio
+        elif cfg["metodo"] == "api_post_json":
+            precio, precio_normal, disponible, error = _consultar_api_post_json(prod["url"], cfg)
         else:  # text_pattern
             precio, precio_normal, disponible, error = _consultar_text_pattern(prod["url"], cfg)
         salida.append((prod, precio, precio_normal, disponible, error))
