@@ -21,8 +21,7 @@ jumbo:
 
 alvi:
   nombre: "Alvi"
-  metodo: "playwright_json"
-  warmup_url: "https://www.alvi.cl/product/papel-hig-dh-noble-6x23-mt-2"
+  metodo: "cffi_json"
   api_base: "https://bff-alvi-web.alvi.cl/products/by-slug"
   campo_precio: "sellers.0.price"
   campo_precio_normal: "sellers.0.listPrice"
@@ -36,8 +35,8 @@ tottus:
 lider:
   nombre: "Líder"
   metodo: "curl_cffi"
-  patron_precio_oferta: 'El precio actual es \$([\d.,]+)'
-  patron_precio_normal: 'costaba\$?([\d.,]+)'
+  patron_precio_oferta: '"price":\s*(\d+)'
+  patron_precio_normal: '"(?:originalPrice|listPrice)":\s*(\d+)'
 
 unimarc:
   nombre: "Unimarc"
