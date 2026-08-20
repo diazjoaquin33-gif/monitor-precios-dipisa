@@ -327,9 +327,14 @@ def _procesar_lote_playwright(cfg, lista_productos):
         )
         if cfg["metodo"] == "playwright_json":
             # Una sola visita real para pasar el desafío anti-bot y dejar
-            # las cookies de sesión puestas en el context.
+            # las cookies de sesión puestas en el context. "networkidle" no
+            # sirve acá: la portada de Alvi tiene actividad de red continua
+            # (analytics, chat) que nunca llega a quedar inactiva y hace
+            # timeout — con domcontentloaded + una espera corta alcanza para
+            # que el desafío anti-bot ya haya corrido y dejado las cookies.
             pagina_calentamiento = context.new_page()
-            pagina_calentamiento.goto(cfg["warmup_url"], timeout=25000, wait_until="networkidle")
+            pagina_calentamiento.goto(cfg["warmup_url"], timeout=25000, wait_until="domcontentloaded")
+            pagina_calentamiento.wait_for_timeout(4000)
             pagina_calentamiento.close()
 
         for prod in lista_productos:
