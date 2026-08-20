@@ -221,7 +221,7 @@ def _consultar_api_post_json(url: str, cfg: dict, intentos: int = 2):
     return None, None, False, "Falla desconocida"
 
 
-# --- MÉTODOS PLAYWRIGHT (SOLO SI SE ASIGNA EXPLÍCITAMENTE) ---
+# --- MÉTODOS PLAYWRIGHT ---
 
 def _consultar_playwright(context, url: str, cfg: dict, intentos: int = 2):
     selector_oferta = cfg.get("selector_precio_oferta")
@@ -298,10 +298,10 @@ def _consultar_playwright_text(context, url: str, cfg: dict, intentos: int = 2):
     return None, None, False, "Falla desconocida"
 
 
-# --- MÉTODOS CURL_CFFI (ANTI-BOT ULTRA RÁPIDO TLS/JA4) ---
+# --- MÉTODOS CURL_CFFI (ROBUSTO ANTI-BOT / LÍDER / UNIMARC / AKAMAI) ---
 
 def _consultar_curl_cffi(url: str, cfg: dict, intentos: int = 2):
-    """Consulta HTML simulando exactamente el apretón de manos de Chrome 124."""
+    """Consulta HTML / API simulando la huella de red exacta de Chrome 124."""
     patron_oferta = cfg.get("patron_precio_oferta")
     patron_normal = cfg.get("patron_precio_normal")
 
@@ -319,30 +319,50 @@ def _consultar_curl_cffi(url: str, cfg: dict, intentos: int = 2):
         try:
             res = cffi_requests.get(url, headers=headers_navegador, impersonate="chrome124", timeout=10)
             if res.status_code == 200:
-                m_oferta = None
-                if patron_oferta:
-                    m_oferta = re.search(patron_oferta, res.text)
-                
-                # Respaldo secundario si el regex específico no calza
-                if not m_oferta:
-                    m_oferta = re.search(r'(?:property|name)="product:price:amount"\s+content="([\d.,]+)"', res.text)
+                texto = res.text
+                precio_oferta = None
+                precio_normal = None
 
-                if not m_oferta:
-                    frag = _fragmento_diagnostico(res.text)
+                # 1. Búsqueda por patrón Regex del YAML
+                if patron_oferta:
+                    m_oferta = re.search(patron_oferta, texto)
+                    if m_oferta:
+                        precio_oferta = float(m_oferta.group(1).replace(".", "").replace(",", ""))
+
+                # 2. Bloque Next.js estructurado ("salePrice", "price", "basePrice")
+                if not precio_oferta:
+                    m_lider = re.search(r'"salePrice":\s*(\d+)|"price":\s*(\d+)|"basePrice":\s*(\d+)', texto)
+                    if m_lider:
+                        val = next(v for v in m_lider.groups() if v is not None)
+                        precio_oferta = float(val)
+
+                # 3. Meta tags OpenGraph / Schema.org
+                if not precio_oferta:
+                    m_meta = re.search(r'(?:property|name)="product:price:amount"\s+content="([\d.,]+)"', texto)
+                    if m_meta:
+                        precio_oferta = float(m_meta.group(1).replace(".", "").replace(",", "."))
+
+                if not precio_oferta:
+                    frag = _fragmento_diagnostico(texto)
                     if intento == intentos:
                         return None, None, True, f"No se encontró el precio. Recibido: \"{frag}\""
                     time.sleep(1.0 * intento)
                     continue
 
-                precio_oferta = float(m_oferta.group(1).replace(".", "").replace(",", "."))
+                # Precio Normal / Lista
                 precio_normal = precio_oferta
-
                 if patron_normal:
-                    m_normal = re.search(patron_normal, res.text)
+                    m_normal = re.search(patron_normal, texto)
                     if m_normal:
-                        precio_normal = float(m_normal.group(1).replace(".", "").replace(",", "."))
+                        precio_normal = float(m_normal.group(1).replace(".", "").replace(",", ""))
+                else:
+                    m_orig = re.search(r'"originalPrice":\s*(\d+)|"listPrice":\s*(\d+)', texto)
+                    if m_orig:
+                        val_orig = next(v for v in m_orig.groups() if v is not None)
+                        precio_normal = float(val_orig)
 
                 return precio_oferta, precio_normal, True, None
+
             elif res.status_code in (403, 429):
                 time.sleep(1.0 * intento)
                 continue
