@@ -72,11 +72,14 @@ tottus:
   # Verificado 19-20/08/2026: tottus.cl usa un desafío JS de Cloudflare
   # ("Just a moment...") ante requests simples; un navegador headless
   # (Playwright) sí lo pasa. El precio se muestra como "$ 7.790" (con
-  # espacio) seguido de "UN" y el % de descuento. El precio normal aparece
-  # justo después del paréntesis de precio por unidad de medida — ese
-  # paréntesis puede decir "por MT" o "por 100UN" según el producto, por
-  # eso el patrón no depende del texto de la unidad, solo del ")" que cierra.
-  patron_precio_oferta: '\$\s*([\d.,]+)\s*\nUN\s*\n-\d+%'
+  # espacio) seguido de "UN" — el patrón no exige el "-XX%" de descuento
+  # porque varios productos no tienen oferta activa y ahí no aparece. El
+  # precio normal aparece justo después del paréntesis de precio por unidad
+  # de medida (puede decir "por MT" o "por 100UN" según el producto, por eso
+  # el patrón no depende del texto de la unidad, solo del ")" que cierra) —
+  # si un producto no tiene oferta tampoco hay precio normal aparte, y la
+  # app usa el precio único como ambos valores automáticamente.
+  patron_precio_oferta: '\$\s*([\d.,]+)\s*\nUN'
   patron_precio_normal: '\)\s*\n\$\s*([\d.,]+)'
 
 # Para agregar una tienda nueva:
