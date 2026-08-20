@@ -69,13 +69,15 @@ alvi:
 tottus:
   nombre: "Tottus"
   metodo: playwright_text
-  # Verificado 19/08/2026: tottus.cl usa un desafío JS de Cloudflare
+  # Verificado 19-20/08/2026: tottus.cl usa un desafío JS de Cloudflare
   # ("Just a moment...") ante requests simples; un navegador headless
   # (Playwright) sí lo pasa. El precio se muestra como "$ 7.790" (con
-  # espacio) seguido de "UN" y el % de descuento; el precio normal aparece
-  # después de "(...por MT)".
+  # espacio) seguido de "UN" y el % de descuento. El precio normal aparece
+  # justo después del paréntesis de precio por unidad de medida — ese
+  # paréntesis puede decir "por MT" o "por 100UN" según el producto, por
+  # eso el patrón no depende del texto de la unidad, solo del ")" que cierra.
   patron_precio_oferta: '\$\s*([\d.,]+)\s*\nUN\s*\n-\d+%'
-  patron_precio_normal: 'por MT\)\s*\n\$\s*([\d.,]+)'
+  patron_precio_normal: '\)\s*\n\$\s*([\d.,]+)'
 
 # Para agregar una tienda nueva:
 # 1. Abre una página de producto de esa tienda y mira si el precio aparece en el
