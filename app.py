@@ -455,16 +455,26 @@ def _formatear_clp(valor):
 
 def _tabla_competidores(competidores):
     """Arma el DataFrame de competidores de un grupo, con la fila más barata
-    resaltada (verde translúcido) y las sin stock/con error en rojo
-    translúcido — colores de status validados, nunca usados para series."""
-    filas = [{
-        "Retailer": c["retailer_nombre"],
-        "Marca": c["marca"],
-        "Producto": c["producto"],
-        "Precio": _formatear_clp(c["precio_oferta_num"]) if c["precio_oferta_num"] else "N/D",
-        "$/Metro": c["precio_metro_num"] if c["precio_metro_num"] else None,
-        "Estado": c["estado"],
-    } for c in competidores]
+    resaltada (verde translúcido), las sin stock/con error en rojo
+    translúcido — colores de status validados, nunca usados para series — y
+    separando precio de lista vs. precio de oferta cuando difieren, para que
+    se note quién está con promoción activa y quién no."""
+    filas = []
+    for c in competidores:
+        normal = c["precio_normal_num"]
+        oferta = c["precio_oferta_num"]
+        en_oferta = bool(oferta and normal and oferta < normal)
+        descuento_pct = round((1 - oferta / normal) * 100) if en_oferta else None
+        filas.append({
+            "Retailer": c["retailer_nombre"],
+            "Marca": c["marca"],
+            "Producto": c["producto"],
+            "Precio Lista": _formatear_clp(normal) if normal else "N/D",
+            "Precio Oferta": _formatear_clp(oferta) if en_oferta else "—",
+            "Desc.": f"-{descuento_pct}%" if en_oferta else "—",
+            "$/Metro": c["precio_metro_num"] if c["precio_metro_num"] else None,
+            "Estado": c["estado"],
+        })
     df = pd.DataFrame(filas)
 
     precios_validos = df["$/Metro"].dropna()
