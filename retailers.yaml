@@ -18,6 +18,14 @@
 #     precio con un patrón de texto sobre el texto visible ya renderizado,
 #     no con un selector CSS. Usa las mismas claves patron_precio_oferta /
 #     patron_precio_normal que text_pattern.
+#   - playwright_json: para sitios bloqueados por Akamai/Cloudflare cuyo
+#     propio frontend consulta una API JSON interna (se descubre mirando la
+#     pestaña Network del navegador). Hace UNA sola visita real a warmup_url
+#     para pasar el desafío anti-bot y quedarse con las cookies de sesión, y
+#     de ahí en más pide el JSON de cada producto directo (mucho más rápido
+#     que renderizar página por página). api_base + "/" + último tramo de la
+#     URL del producto arma la URL de la API; campo_precio (y opcionalmente
+#     campo_precio_normal) es la ruta dentro del JSON, tipo "sellers.0.price".
 #
 # IMPORTANTE: nunca apuntar a endpoints tipo /api/... de un retailer sin revisar
 # antes su robots.txt — varios los bloquean explícitamente para bots, aunque
@@ -58,13 +66,19 @@ jumbo:
 
 alvi:
   nombre: "Alvi"
-  metodo: playwright_text
-  # Verificado 18/08/2026: alvi.cl bloquea requests HTTP simples con un muro
-  # anti-bot de Akamai, pero un navegador headless (Playwright) sí pasa.
-  # Además tiene "Precio regular" y "Precio socio" (con Club Alvi) por
-  # separado — se monitorea el precio regular para comparar 1 a 1 con
-  # retailers sin membresía.
-  patron_precio_oferta: 'Precio regular\s*\$([\d.,]+)'
+  metodo: playwright_json
+  # Verificado 18-20/08/2026: alvi.cl bloquea requests HTTP simples con un
+  # muro anti-bot de Akamai (incluso a la API). Un navegador headless sí pasa
+  # el desafío, y una vez pasado se puede reusar esa sesión (cookies) para
+  # pedir el JSON de cada producto directo a bff-alvi-web.alvi.cl, sin volver
+  # a renderizar la página — mucho más rápido que playwright_text. El precio
+  # está en sellers.0.price (precio regular, sin membresía Club Alvi — Alvi
+  # también tiene "Precio socio" aparte, pero se monitorea el regular para
+  # comparar 1 a 1 con retailers sin membresía).
+  warmup_url: "https://www.alvi.cl/"
+  api_base: "https://bff-alvi-web.alvi.cl/products/by-slug"
+  campo_precio: "sellers.0.price"
+  campo_precio_normal: "sellers.0.listPrice"
 
 tottus:
   nombre: "Tottus"

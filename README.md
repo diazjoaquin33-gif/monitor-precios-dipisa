@@ -13,41 +13,21 @@ playwright install chromium   # solo necesario si usarás retailers con metodo: 
 streamlit run app.py
 ```
 
-## Cómo agregar productos
+## Cómo agregar productos de la competencia
 
-**Desde la web (recomendado para el día a día):** en la app, abre el
-expander "➕ Agregar un SKU nuevo para monitorear" al final de la página,
-completa el formulario y presiona "Agregar y publicar". Solo funciona para
-retailers ya configurados en `retailers.yaml` (Santa Isabel, Jumbo, Alvi).
-Requiere que el secreto `GITHUB_TOKEN` esté configurado (ver sección
-siguiente) — sin eso, el formulario avisa que falta configurarlo en vez de
-fallar en silencio.
-
-**Editando el archivo directamente:** agrega una fila en `productos.csv` con
+Agrega una fila en `productos.csv` con
 `sku_interno,producto,marca,metros_totales,retailer,url` y sube el cambio al
-repo. No requiere tocar código de todas formas.
+repo (push a GitHub). No requiere tocar código. El dashboard agrupa
+automáticamente cualquier producto que comparta `metros_totales` con un SKU
+de `ovella.csv` — si no comparte metraje con ninguno, aparece igual en la
+sección "Otros productos monitoreados" al final de la página.
 
-### Configurar GITHUB_TOKEN (para que el formulario web funcione)
+## Cómo agregar un SKU de Ovella
 
-El formulario de la web no puede modificar archivos directamente (Streamlit
-Cloud borra cualquier cambio hecho solo en el servidor en el próximo
-redeploy) — en cambio, commitea el cambio al repo vía la API de GitHub. Para
-eso necesita un token:
-
-1. En GitHub, ve a **Settings → Developer settings → Personal access tokens
-   → Fine-grained tokens → Generate new token**.
-2. Dale acceso **solo a este repositorio** (`monitor-precios-dipisa`), no a
-   toda la cuenta.
-3. En permisos, otorga **Contents: Read and write**. Nada más.
-4. Ponle una fecha de expiración (ej. 1 año) y genera el token.
-5. En Streamlit Cloud, ve a tu app → **Settings → Secrets** y agrega:
-   ```
-   GITHUB_TOKEN = "el-token-que-copiaste"
-   ```
-6. Guarda — la app se reinicia sola y el formulario queda funcionando.
-
-Cuando el token expire, el formulario va a mostrar un error explícito
-pidiendo renovarlo — no falla en silencio.
+Agrega una fila en `ovella.csv` con `sku_ovella,producto,metros_totales`
+(metraje total del paquete: rollos × metros por rollo). Se convierte
+automáticamente en una tarjeta nueva del dashboard, con sus competidores de
+igual metraje debajo.
 
 ## Cómo agregar una tienda nueva
 
@@ -108,7 +88,8 @@ opción más simple. Consideraciones:
 
 ```
 app.py             # interfaz + orquestación
-productos.csv       # qué productos monitorear y en qué tiendas
+ovella.csv          # SKU base de Ovella (ancla de cada tarjeta del dashboard)
+productos.csv       # qué productos de la competencia monitorear y en qué tiendas
 retailers.yaml       # cómo extraer el precio en cada tienda
 requirements.txt
 packages.txt         # dependencias de sistema para Playwright en la nube

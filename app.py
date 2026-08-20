@@ -7,13 +7,19 @@ import time
 import random
 import subprocess
 import sys
-import base64
-import io
+import concurrent.futures
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from pathlib import Path
 
 ZONA_HORARIA_CL = ZoneInfo("America/Santiago")
+
+# Paleta validada (ver skill de dataviz): status fijo (nunca se usa para
+# series/categorías) y azul como acento principal.
+COLOR_BUENO = "#0ca30c"
+COLOR_CRITICO = "#d03b3b"
+COLOR_ACENTO = "#2a78d6"
+COLOR_MUTED = "#898781"
 
 st.set_page_config(
     page_title="Dipisa & Ovella — Monitor de Pricing",
@@ -24,15 +30,7 @@ st.set_page_config(
 BASE_DIR = Path(__file__).parent
 PRODUCTOS_PATH = BASE_DIR / "productos.csv"
 RETAILERS_PATH = BASE_DIR / "retailers.yaml"
-
-# Repo de GitHub donde vive productos.csv. El formulario "Agregar SKU" escribe
-# ahí directamente (vía la API de GitHub) para que el cambio sea permanente:
-# Streamlit Cloud borra cualquier archivo tocado solo en el servidor en el
-# próximo redeploy, así que la única forma de que un SKU agregado desde la
-# web sobreviva es que quede commiteado en el repo.
-GITHUB_REPO = "diazjoaquin33-gif/monitor-precios-dipisa"
-GITHUB_BRANCH = "main"
-GITHUB_FILE_PATH = "productos.csv"
+OVELLA_PATH = BASE_DIR / "ovella.csv"
 
 
 @st.cache_resource
@@ -68,74 +66,10 @@ def cargar_config():
     return productos, retailers
 
 
-def _github_token():
-    try:
-        return st.secrets.get("GITHUB_TOKEN", "")
-    except Exception:
-        return ""
-
-
-def agregar_sku_a_github(sku_interno, producto, marca, metros_totales, retailer, url):
-    """Agrega una fila a productos.csv commiteando directo al repo de GitHub
-    vía su API REST (Contents API), para que el SKU quede guardado de forma
-    permanente y dispare el redeploy de Streamlit Cloud. No usa git/CLI:
-    todo pasa por requests + un token guardado en Secrets."""
-    token = _github_token()
-    if not token:
-        return False, ("Falta configurar el secreto GITHUB_TOKEN en Streamlit Cloud "
-                        "(Settings → Secrets) para poder guardar cambios permanentes.")
-
-    api_headers = {
-        "Authorization": f"token {token}",
-        "Accept": "application/vnd.github+json",
-    }
-    api_url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{GITHUB_FILE_PATH}"
-
-    try:
-        res = requests.get(f"{api_url}?ref={GITHUB_BRANCH}", headers=api_headers, timeout=15)
-        if res.status_code != 200:
-            return False, f"No se pudo leer productos.csv desde GitHub (HTTP {res.status_code})."
-        data = res.json()
-        sha_actual = data["sha"]
-        contenido_actual = base64.b64decode(data["content"]).decode("utf-8")
-    except Exception as e:
-        return False, f"Error leyendo productos.csv desde GitHub: {str(e)[:150]}"
-
-    lineas = contenido_actual.splitlines()
-    lineas_datos = [l for l in lineas if l.strip() and not l.strip().startswith("#")]
-    lineas_comentario = [l for l in lineas if not l.strip() or l.strip().startswith("#")]
-
-    df_actual = pd.read_csv(io.StringIO("\n".join(lineas_datos)))
-    if str(sku_interno).strip() in df_actual["sku_interno"].astype(str).values:
-        return False, f"Ya existe un SKU interno '{sku_interno}'. Usa uno distinto."
-
-    fila_nueva = pd.DataFrame([{
-        "sku_interno": str(sku_interno).strip(),
-        "producto": producto.strip(),
-        "marca": marca.strip(),
-        "metros_totales": int(metros_totales),
-        "retailer": retailer,
-        "url": url.strip(),
-    }])
-    df_nuevo = pd.concat([df_actual, fila_nueva], ignore_index=True)
-    nuevo_contenido = df_nuevo.to_csv(index=False)
-    if lineas_comentario:
-        nuevo_contenido += "\n".join(lineas_comentario) + "\n"
-
-    payload = {
-        "message": f"Agregar SKU {sku_interno} ({retailer}) vía formulario web",
-        "content": base64.b64encode(nuevo_contenido.encode("utf-8")).decode("utf-8"),
-        "sha": sha_actual,
-        "branch": GITHUB_BRANCH,
-    }
-    try:
-        res = requests.put(api_url, headers=api_headers, json=payload, timeout=15)
-        if res.status_code in (200, 201):
-            return True, (f"SKU '{sku_interno}' agregado y publicado. "
-                           "Streamlit Cloud va a redeployar solo en unos minutos con el producto nuevo.")
-        return False, f"GitHub rechazó el cambio (HTTP {res.status_code}): {res.text[:200]}"
-    except Exception as e:
-        return False, f"Error publicando en GitHub: {str(e)[:150]}"
+@st.cache_data(ttl=3600)
+def cargar_ovella():
+    ovella = pd.read_csv(OVELLA_PATH, comment="#", skip_blank_lines=True)
+    return ovella.dropna(subset=["sku_ovella"])
 
 
 def _fragmento_diagnostico(texto: str) -> str:
@@ -213,79 +147,65 @@ def _consultar_text_pattern(url: str, cfg: dict, intentos: int = 3):
     return None, None, False, "Bloqueado tras varios intentos (403/429)"
 
 
-def _consultar_playwright(url: str, cfg: dict, intentos: int = 3):
-    """Renderiza con navegador headless y lee precio(s) del DOM. Requiere Playwright instalado."""
-    try:
-        from playwright.sync_api import sync_playwright
-    except ImportError:
-        return None, None, False, "Playwright no está instalado (ver requirements.txt)"
-
+def _consultar_playwright(context, url: str, cfg: dict, intentos: int = 3):
+    """Lee precio(s) del DOM con un selector CSS, usando una pestaña nueva de
+    un browser context YA ABIERTO (context lo crea y cierra quien llama, una
+    sola vez por lote de productos del mismo retailer — abrir un navegador
+    completo por producto es lo que hacía esto lento)."""
     selector_oferta = cfg.get("selector_precio_oferta")
     selector_normal = cfg.get("selector_precio_normal")
 
     for intento in range(1, intentos + 1):
+        page = None
         try:
-            with sync_playwright() as p:
-                browser = p.chromium.launch(headless=True)
-                context = browser.new_context(
-                    user_agent=HEADERS["User-Agent"], locale="es-CL",
-                    viewport={"width": 1366, "height": 768},
-                )
-                page = context.new_page()
-                page.goto(url, timeout=15000, wait_until="domcontentloaded")
-                time.sleep(random.uniform(1.0, 2.0))
+            page = context.new_page()
+            page.goto(url, timeout=15000, wait_until="domcontentloaded")
+            time.sleep(random.uniform(0.6, 1.2))
 
-                precio_oferta = None
-                precio_normal = None
+            precio_oferta = None
+            precio_normal = None
+            try:
+                precio_oferta = float(re.sub(r"[^\d]", "", page.locator(selector_oferta).first.inner_text()))
+            except Exception:
+                pass
+            if selector_normal:
                 try:
-                    precio_oferta = float(re.sub(r"[^\d]", "", page.locator(selector_oferta).first.inner_text()))
+                    precio_normal = float(re.sub(r"[^\d]", "", page.locator(selector_normal).first.inner_text()))
                 except Exception:
                     pass
-                if selector_normal:
-                    try:
-                        precio_normal = float(re.sub(r"[^\d]", "", page.locator(selector_normal).first.inner_text()))
-                    except Exception:
-                        pass
 
-                browser.close()
-                if precio_oferta:
-                    return precio_oferta, precio_normal or precio_oferta, True, None
-                if intento == intentos:
-                    return None, None, False, "No se encontró el precio en el DOM renderizado"
+            if precio_oferta:
+                return precio_oferta, precio_normal or precio_oferta, True, None
+            if intento == intentos:
+                return None, None, False, "No se encontró el precio en el DOM renderizado"
         except Exception as e:
             if intento == intentos:
                 return None, None, False, f"Error Playwright: {str(e)[:100]}"
+        finally:
+            if page is not None:
+                page.close()
         time.sleep(random.uniform(2, 4) * intento)
     return None, None, False, "Falla desconocida"
 
 
-def _consultar_playwright_text(url: str, cfg: dict, intentos: int = 3):
+def _consultar_playwright_text(context, url: str, cfg: dict, intentos: int = 3):
     """Como _consultar_playwright, pero busca el precio con un patrón de texto
     (patron_precio_oferta / patron_precio_normal) sobre el texto ya renderizado
     por el navegador, en vez de un selector CSS. Es más robusto en sitios cuyo
     framework (ej. Next.js) genera nombres de clase distintos en cada deploy,
-    donde un selector CSS se rompe solo, pero el texto visible no cambia."""
-    try:
-        from playwright.sync_api import sync_playwright
-    except ImportError:
-        return None, None, False, "Playwright no está instalado (ver requirements.txt)"
-
+    donde un selector CSS se rompe solo, pero el texto visible no cambia.
+    Reusa el context abierto por el llamador en vez de lanzar un navegador
+    nuevo por producto."""
     patron_oferta = cfg["patron_precio_oferta"]
     patron_normal = cfg.get("patron_precio_normal")
 
     for intento in range(1, intentos + 1):
+        page = None
         try:
-            with sync_playwright() as p:
-                browser = p.chromium.launch(headless=True)
-                context = browser.new_context(
-                    user_agent=HEADERS["User-Agent"], locale="es-CL",
-                    viewport={"width": 1366, "height": 768},
-                )
-                page = context.new_page()
-                page.goto(url, timeout=20000, wait_until="networkidle")
-                time.sleep(random.uniform(1.0, 2.0))
-                texto = page.inner_text("body")
-                browser.close()
+            page = context.new_page()
+            page.goto(url, timeout=20000, wait_until="networkidle")
+            time.sleep(random.uniform(0.6, 1.2))
+            texto = page.inner_text("body")
 
             m_oferta = re.search(patron_oferta, texto)
             if not m_oferta:
@@ -307,45 +227,167 @@ def _consultar_playwright_text(url: str, cfg: dict, intentos: int = 3):
             if intento == intentos:
                 return None, None, False, f"Error Playwright: {str(e)[:100]}"
             time.sleep(random.uniform(2, 4) * intento)
+        finally:
+            if page is not None:
+                page.close()
     return None, None, False, "Falla desconocida"
 
 
-@st.cache_data(ttl=1800)
-def consultar_precios_en_vivo(productos_hash: str):
-    productos, retailers_cfg = cargar_config()
-    resultados = []
+def _resolver_ruta(data, ruta):
+    """Resuelve una ruta tipo 'sellers.0.price' contra un dict/list JSON
+    anidado, devolviendo None si algún tramo no existe."""
+    actual = data
+    for tramo in ruta.split("."):
+        try:
+            if isinstance(actual, list):
+                actual = actual[int(tramo)]
+            else:
+                actual = actual[tramo]
+        except (KeyError, IndexError, ValueError, TypeError):
+            return None
+    return actual
 
-    usa_playwright = any(cfg.get("metodo") in ("playwright", "playwright_text") for cfg in retailers_cfg.values())
-    if usa_playwright:
-        resultado_instalacion = asegurar_chromium_instalado()
-        if resultado_instalacion is not True:
-            st.warning(f"⚠️ {resultado_instalacion} — los retailers con Playwright pueden fallar.")
 
-    for _, prod in productos.iterrows():
-        retailer_key = prod["retailer"]
-        cfg = retailers_cfg.get(retailer_key)
+def _consultar_playwright_json(context, url: str, cfg: dict, intentos: int = 3):
+    """Para sitios que bloquean requests directos (Akamai/Cloudflare) pero
+    cuyo propio frontend consulta una API JSON interna para el precio: en vez
+    de renderizar la página completa por producto, hace UNA sola visita de
+    'caldeo' (warmup_url) para que el navegador pase el desafío anti-bot y
+    reciba las cookies de sesión, y de ahí en adelante pide el JSON de cada
+    producto directo con context.request (mismas cookies, sin abrir pestañas
+    ni re-renderizar nada) — mucho más rápido que playwright/playwright_text.
+    El slug se saca del último tramo de la URL del producto."""
+    slug = url.rstrip("/").split("/")[-1]
+    api_url = cfg["api_base"].rstrip("/") + "/" + slug
 
-        if cfg is None:
-            resultados.append({**prod.to_dict(), "precio_normal_num": 0, "precio_oferta_num": 0,
-                                "estado": f"Retailer '{retailer_key}' no está en retailers.yaml"})
-            continue
+    for intento in range(1, intentos + 1):
+        try:
+            resp = context.request.get(api_url, headers={"Accept": "application/json"})
+            if resp.ok:
+                data = resp.json()
+                precio = _resolver_ruta(data, cfg["campo_precio"])
+                if precio is None:
+                    if intento == intentos:
+                        return None, None, True, f"El JSON no trajo '{cfg['campo_precio']}'"
+                    time.sleep(random.uniform(1.5, 3) * intento)
+                    continue
+                precio_normal = precio
+                if cfg.get("campo_precio_normal"):
+                    valor_normal = _resolver_ruta(data, cfg["campo_precio_normal"])
+                    if valor_normal is not None:
+                        precio_normal = valor_normal
+                return float(precio), float(precio_normal), True, None
+            elif resp.status in (403, 429):
+                if intento == intentos:
+                    return None, None, False, f"Bloqueado (HTTP {resp.status}) incluso tras el warmup"
+                time.sleep(random.uniform(2, 4) * intento)
+            else:
+                return None, None, False, f"HTTP {resp.status}"
+        except Exception as e:
+            if intento == intentos:
+                return None, None, False, f"Error: {str(e)[:100]}"
+            time.sleep(random.uniform(1.5, 3) * intento)
+    return None, None, False, "Falla desconocida"
 
+
+def _procesar_lote_http(cfg, lista_productos):
+    """Retailers meta_tag/text_pattern: requests HTTP livianos, secuenciales
+    (mismo ritmo de siempre) dentro de su propio hilo."""
+    salida = []
+    for prod in lista_productos:
         if cfg["metodo"] == "meta_tag":
             precio, disponible, error = _consultar_meta_tag(
                 prod["url"], cfg["selector_precio"], cfg.get("selector_disponibilidad")
             )
             precio_normal = precio
-        elif cfg["metodo"] == "text_pattern":
+        else:  # text_pattern
             precio, precio_normal, disponible, error = _consultar_text_pattern(prod["url"], cfg)
-        elif cfg["metodo"] == "playwright":
-            precio, precio_normal, disponible, error = _consultar_playwright(prod["url"], cfg)
-        elif cfg["metodo"] == "playwright_text":
-            precio, precio_normal, disponible, error = _consultar_playwright_text(prod["url"], cfg)
-        else:
-            precio, precio_normal, disponible, error = None, None, False, f"Método desconocido: {cfg['metodo']}"
+        salida.append((prod, precio, precio_normal, disponible, error))
+        time.sleep(random.uniform(0.5, 1.0))
+    return salida
 
-        time.sleep(random.uniform(0.8, 1.8))  # espacio entre productos
 
+def _procesar_lote_playwright(cfg, lista_productos):
+    """Retailers playwright/playwright_text/playwright_json: abre UN solo
+    navegador para todo el lote de este retailer (antes se abría uno nuevo
+    por producto) y procesa los productos secuencialmente dentro de él —
+    intentamos en paralelo (varias pestañas a la vez) y Tottus empezó a ser
+    bloqueado por Cloudflare al tercer producto, así que esto se mantiene
+    secuencial a propósito. La ganancia de velocidad viene de no relanzar el
+    navegador, y de que retailers distintos ya corren en paralelo entre sí
+    (ver consultar_precios_en_vivo)."""
+    from playwright.sync_api import sync_playwright
+
+    salida = []
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        context = browser.new_context(
+            user_agent=HEADERS["User-Agent"], locale="es-CL",
+            viewport={"width": 1366, "height": 768},
+        )
+        if cfg["metodo"] == "playwright_json":
+            # Una sola visita real para pasar el desafío anti-bot y dejar
+            # las cookies de sesión puestas en el context.
+            pagina_calentamiento = context.new_page()
+            pagina_calentamiento.goto(cfg["warmup_url"], timeout=25000, wait_until="networkidle")
+            pagina_calentamiento.close()
+
+        for prod in lista_productos:
+            if cfg["metodo"] == "playwright":
+                precio, precio_normal, disponible, error = _consultar_playwright(context, prod["url"], cfg)
+            elif cfg["metodo"] == "playwright_json":
+                precio, precio_normal, disponible, error = _consultar_playwright_json(context, prod["url"], cfg)
+            else:  # playwright_text
+                precio, precio_normal, disponible, error = _consultar_playwright_text(context, prod["url"], cfg)
+            salida.append((prod, precio, precio_normal, disponible, error))
+            time.sleep(random.uniform(0.5, 1.2))
+        browser.close()
+    return salida
+
+
+@st.cache_data(ttl=1800)
+def consultar_precios_en_vivo(productos_hash: str):
+    productos, retailers_cfg = cargar_config()
+
+    usa_playwright = any(
+        cfg.get("metodo") in ("playwright", "playwright_text", "playwright_json")
+        for cfg in retailers_cfg.values()
+    )
+    if usa_playwright:
+        resultado_instalacion = asegurar_chromium_instalado()
+        if resultado_instalacion is not True:
+            st.warning(f"⚠️ {resultado_instalacion} — los retailers con Playwright pueden fallar.")
+
+    # Agrupa por retailer y procesa cada grupo en su propio hilo: distintos
+    # sitios se consultan al mismo tiempo (más rápido en total), pero dentro
+    # de un mismo sitio las consultas siguen siendo secuenciales, al mismo
+    # ritmo de siempre — a ningún sitio le llega más tráfico por segundo del
+    # que ya le llegaba, así que esto no aumenta el riesgo de bloqueo anti-bot.
+    grupos = {}
+    for _, prod in productos.iterrows():
+        grupos.setdefault(prod["retailer"], []).append(prod)
+
+    tareas_resultado = []
+    with concurrent.futures.ThreadPoolExecutor(max_workers=max(1, len(grupos))) as executor:
+        futuros = []
+        for retailer_key, lista_productos in grupos.items():
+            cfg = retailers_cfg.get(retailer_key)
+            if cfg is None:
+                for prod in lista_productos:
+                    tareas_resultado.append((prod, None, None, False, f"Retailer '{retailer_key}' no está en retailers.yaml"))
+                continue
+            if cfg["metodo"] in ("playwright", "playwright_text", "playwright_json"):
+                futuros.append(executor.submit(_procesar_lote_playwright, cfg, lista_productos))
+            else:
+                futuros.append(executor.submit(_procesar_lote_http, cfg, lista_productos))
+
+        for futuro in concurrent.futures.as_completed(futuros):
+            tareas_resultado.extend(futuro.result())
+
+    resultados = []
+    for prod, precio, precio_normal, disponible, error in tareas_resultado:
+        retailer_key = prod["retailer"]
+        cfg = retailers_cfg.get(retailer_key)
         if precio and precio > 0:
             precio_metro = round(precio / prod["metros_totales"], 1) if prod.get("metros_totales") else None
             estado = "Disponible" if disponible else "❌ Sin Stock"
@@ -367,6 +409,8 @@ def consultar_precios_en_vivo(productos_hash: str):
                 "estado": f"Sin Conexión ({error})" if error else "Sin Conexión",
             })
 
+    resultados.sort(key=lambda r: r["sku_interno"])
+
     # La marca de tiempo se calcula acá adentro (no afuera, en la función que
     # renderiza) para que quede guardada junto con el resto de datos en el
     # caché compartido: todos los usuarios ven la hora en que se hizo la
@@ -375,137 +419,134 @@ def consultar_precios_en_vivo(productos_hash: str):
     return resultados, momento_actualizacion
 
 
-def calcular_resumen_comercial(datos):
+def agrupar_por_formato_ovella(datos, ovella_df):
+    """Junta cada SKU de Ovella con los competidores del MISMO metraje total
+    (ej. 'Doble Hoja 50m 4un' = 200m agrupa a cualquier competidor que también
+    sea 200m, sin importar marca/retailer). Esto es lo que realmente responde
+    la pregunta del negocio ('quién compite con este SKU'), en vez de una
+    tabla plana con todo mezclado. Devuelve (grupos, sin_match):
+      - grupos: uno por fila de ovella.csv, con sus competidores ordenados por $/metro.
+      - sin_match: competidores cuyo metraje no coincide con ningún SKU Ovella."""
     validos = [d for d in datos if d["precio_metro_num"] > 0]
-    if not validos:
-        return {
-            "resumen": "No se pudo obtener ningún precio en esta corrida. Revisa la columna Estado.",
-            "estrategia": "Verificar conectividad o si algún sitio cambió su estructura.",
-            "alertas": ["Sin datos en vivo."],
-        }
+    usados = set()
+    grupos = []
 
-    mas_barato = min(validos, key=lambda x: x["precio_metro_num"])
-    mas_caro = max(validos, key=lambda x: x["precio_metro_num"])
-    promedio_m = round(sum(d["precio_metro_num"] for d in validos) / len(validos), 1)
+    for _, ov in ovella_df.iterrows():
+        competidores = [d for d in datos if d["metros_totales"] == ov["metros_totales"]]
+        competidores_ordenados = sorted(
+            competidores, key=lambda d: (d["precio_metro_num"] <= 0, d["precio_metro_num"])
+        )
+        usados.update(id(d) for d in competidores)
+        grupos.append({"ovella": ov, "competidores": competidores_ordenados})
 
-    resumen = (
-        f"El precio promedio de mercado se sitúa en **${promedio_m}/m**. "
-        f"La opción más económica por metro es **{mas_barato['marca']} ({mas_barato['producto']})** "
-        f"en **{mas_barato['retailer_nombre']}** con **${mas_barato['precio_metro_num']}/m**."
-    )
+    sin_match = [d for d in datos if id(d) not in usados]
 
-    precio_objetivo = round(mas_barato["precio_metro_num"] * 0.95, 1)
-    estrategia = (
-        f"Para liderar en competitividad, el precio objetivo sugerido debe ser igual o inferior a "
-        f"**${precio_objetivo}/m**."
-    )
+    return grupos, sin_match
 
-    alertas = [f"📌 **Piso de Categoría:** {mas_barato['marca']} marca el mínimo en ${mas_barato['precio_metro_num']}/m."]
-    if mas_caro["precio_metro_num"] > mas_barato["precio_metro_num"]:
-        diff = round(((mas_caro["precio_metro_num"] / mas_barato["precio_metro_num"]) - 1) * 100)
-        alertas.append(f"📈 **Diferencial:** {mas_caro['marca']} cuesta un {diff}% más por metro que el más barato.")
 
-    return {"resumen": resumen, "estrategia": estrategia, "alertas": alertas}
+def _formatear_clp(valor):
+    return f"${valor:,.0f}".replace(",", ".")
+
+
+def _tabla_competidores(competidores):
+    """Arma el DataFrame de competidores de un grupo, con la fila más barata
+    resaltada (verde translúcido) y las sin stock/con error en rojo
+    translúcido — colores de status validados, nunca usados para series."""
+    filas = [{
+        "Retailer": c["retailer_nombre"],
+        "Marca": c["marca"],
+        "Producto": c["producto"],
+        "Precio": _formatear_clp(c["precio_oferta_num"]) if c["precio_oferta_num"] else "N/D",
+        "$/Metro": c["precio_metro_num"] if c["precio_metro_num"] else None,
+        "Estado": c["estado"],
+    } for c in competidores]
+    df = pd.DataFrame(filas)
+
+    precios_validos = df["$/Metro"].dropna()
+    minimo = precios_validos.min() if not precios_validos.empty else None
+
+    def resaltar_fila(fila):
+        if fila["$/Metro"] == minimo and minimo is not None:
+            return [f"background-color: {COLOR_BUENO}26"] * len(fila)
+        if fila["Estado"] not in ("Disponible",):
+            return [f"background-color: {COLOR_CRITICO}1a"] * len(fila)
+        return [""] * len(fila)
+
+    return df.style.apply(resaltar_fila, axis=1).format({"$/Metro": lambda v: f"${v}/m" if pd.notna(v) else "N/D"})
 
 
 # --- Interfaz ---
+st.markdown(f"""
+<style>
+[data-testid="stMetricValue"] {{ font-size: 1.4rem; }}
+h3 {{ color: {COLOR_ACENTO}; }}
+</style>
+""", unsafe_allow_html=True)
+
 st.title("📊 Dipisa & Ovella — Monitor de Pricing en Vivo")
-st.caption("Lee productos.csv y retailers.yaml — agregar tiendas/productos no requiere tocar código")
+st.caption("Cada SKU de Ovella (ovella.csv) con su competencia real, agrupada por formato — sin tocar código para sumar productos (productos.csv) o tiendas (retailers.yaml)")
 
 productos_df, _ = cargar_config()
+ovella_df = cargar_ovella()
 hash_productos = str(pd.util.hash_pandas_object(productos_df).sum())  # invalida cache si cambia el CSV
 datos_tabla, momento_actualizacion = consultar_precios_en_vivo(hash_productos)
-analisis = calcular_resumen_comercial(datos_tabla)
+grupos, sin_match = agrupar_por_formato_ovella(datos_tabla, ovella_df)
 
-st.info(
-    f"🕒 Último informe solicitado: **{momento_actualizacion}** — "
-    "este mismo informe lo ve cualquiera que entre a la página hasta que alguien lo actualice."
-)
+col_info, col_boton = st.columns([4, 1])
+with col_info:
+    st.info(
+        f"🕒 Último informe solicitado: **{momento_actualizacion}** — "
+        "el mismo informe lo ve cualquiera que entre a la página hasta que alguien lo actualice."
+    )
+with col_boton:
+    if st.button("🔄 Forzar recarga", use_container_width=True):
+        st.cache_data.clear()
+        st.rerun()
 
-col1, col2 = st.columns([2, 1])
-with col1:
-    st.subheader("💡 Resumen Comercial")
-    st.markdown(analisis["resumen"])
-    st.info(f"🎯 **Estrategia:** {analisis['estrategia']}")
-with col2:
-    st.subheader("⚠️ Alertas del Mercado")
-    for a in analisis["alertas"]:
-        st.warning(a)
+con_datos = [d for d in datos_tabla if d["precio_metro_num"] > 0]
+sin_stock = [d for d in datos_tabla if d["estado"] == "❌ Sin Stock"]
+con_error = [d for d in datos_tabla if d["precio_oferta_num"] == 0]
 
-st.subheader("📋 Tabla Comparativa de Precios")
-tabla_mostrar = [
-    {
-        "Retailer": d.get("retailer_nombre", d.get("retailer")),
-        "Marca": d.get("marca"),
-        "Producto": d.get("producto"),
-        "Precio Normal": f"${d['precio_normal_num']:,.0f}".replace(",", ".") if d["precio_normal_num"] else "N/D",
-        "Precio Oferta": f"${d['precio_oferta_num']:,.0f}".replace(",", ".") if d["precio_oferta_num"] else "N/D",
-        "$/Metro": f"${d['precio_metro_num']}/m" if d["precio_metro_num"] else "N/D",
-        "Estado": d["estado"],
-    }
-    for d in datos_tabla
-]
-try:
-    st.dataframe(tabla_mostrar, width="stretch")
-except TypeError:
-    st.dataframe(tabla_mostrar, use_container_width=True)
-
-if st.button("🔄 Forzar Recarga"):
-    st.cache_data.clear()
-    st.rerun()
+c1, c2, c3, c4 = st.columns(4)
+c1.metric("SKU de Ovella", len(ovella_df))
+c2.metric("SKU de competencia monitoreados", len(datos_tabla))
+c3.metric("Sin stock detectado", len(sin_stock))
+c4.metric("Con error de lectura", len(con_error))
 
 st.divider()
 
-_, retailers_cfg_form = cargar_config()
-with st.expander("➕ Agregar un SKU nuevo para monitorear"):
-    if not retailers_cfg_form:
-        st.warning("No hay retailers configurados en retailers.yaml todavía.")
-    else:
-        with st.form("nuevo_sku_form", clear_on_submit=True):
-            col_a, col_b = st.columns(2)
-            with col_a:
-                sku_interno = st.text_input("SKU interno (código propio, ej. TC-007)")
-                producto = st.text_input("Nombre del producto (tal como aparece en el sitio)")
-                marca = st.text_input("Marca")
-            with col_b:
-                metros_totales = st.number_input("Metros totales del paquete", min_value=1, step=1)
-                retailer = st.selectbox(
-                    "Retailer",
-                    options=list(retailers_cfg_form.keys()),
-                    format_func=lambda k: retailers_cfg_form[k]["nombre"],
-                )
-                url_producto = st.text_input("URL de la ficha de producto")
-            enviado = st.form_submit_button("Agregar y publicar")
+for grupo in grupos:
+    ov = grupo["ovella"]
+    competidores = grupo["competidores"]
+    with st.container(border=True):
+        st.subheader(f"🧻 Ovella — {ov['producto']} ({int(ov['metros_totales'])} m totales)")
 
-        if enviado:
-            errores = []
-            if not sku_interno.strip():
-                errores.append("Falta el SKU interno.")
-            if not producto.strip():
-                errores.append("Falta el nombre del producto.")
-            if not marca.strip():
-                errores.append("Falta la marca.")
-            if not metros_totales or metros_totales <= 0:
-                errores.append("Los metros totales deben ser mayores a 0.")
-            if not url_producto.strip().startswith("http"):
-                errores.append("La URL no parece válida (debe empezar con http:// o https://).")
+        if not competidores:
+            st.caption("Todavía no hay competidores monitoreados con este mismo metraje.")
+            continue
 
-            if errores:
-                for e in errores:
-                    st.error(e)
-            else:
-                with st.spinner("Publicando en GitHub..."):
-                    ok, mensaje = agregar_sku_a_github(
-                        sku_interno, producto, marca, metros_totales, retailer, url_producto
-                    )
-                if ok:
-                    st.success(mensaje)
-                    st.cache_data.clear()
-                else:
-                    st.error(mensaje)
+        validos = [c for c in competidores if c["precio_metro_num"] > 0]
+        if validos:
+            mas_barato = min(validos, key=lambda c: c["precio_metro_num"])
+            mas_caro = max(validos, key=lambda c: c["precio_metro_num"])
+            promedio = round(sum(c["precio_metro_num"] for c in validos) / len(validos), 1)
 
-    st.caption(
-        "Solo permite agregar SKU para retailers ya configurados en retailers.yaml "
-        "(Santa Isabel, Jumbo, Alvi). Sumar un retailer nuevo requiere revisar cómo expone "
-        "el precio ese sitio antes de configurarlo — no es un formulario auto-servicio."
-    )
+            m1, m2, m3 = st.columns(3)
+            m1.metric("Más barato ($/m)", f"${mas_barato['precio_metro_num']}",
+                      help=f"{mas_barato['marca']} — {mas_barato['retailer_nombre']}")
+            m2.metric("Promedio ($/m)", f"${promedio}")
+            m3.metric("Más caro ($/m)", f"${mas_caro['precio_metro_num']}",
+                      help=f"{mas_caro['marca']} — {mas_caro['retailer_nombre']}")
+
+        try:
+            st.dataframe(_tabla_competidores(competidores), width="stretch", hide_index=True)
+        except TypeError:
+            st.dataframe(_tabla_competidores(competidores), use_container_width=True, hide_index=True)
+
+if sin_match:
+    with st.expander(f"📦 Otros {len(sin_match)} productos monitoreados (sin formato Ovella equivalente)"):
+        st.caption("Mismo metraje que ningún SKU en ovella.csv — agrégalo ahí si corresponde a un formato propio.")
+        try:
+            st.dataframe(_tabla_competidores(sin_match), width="stretch", hide_index=True)
+        except TypeError:
+            st.dataframe(_tabla_competidores(sin_match), use_container_width=True, hide_index=True)

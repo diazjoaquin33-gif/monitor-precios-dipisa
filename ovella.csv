@@ -1,0 +1,11 @@
+sku_ovella,producto,metros_totales
+OV-001,Doble Hoja 50 m 4 un,200
+OV-002,Doble Hoja 30 m 4 un,120
+OV-003,Doble Hoja 22 m 4 un,88
+OV-004,Doble Hoja 22 m 6 un,132
+#
+# Para agregar un formato nuevo de Ovella: copia una fila, cambia sku_ovella
+# (correlativo propio), producto (nombre/formato) y metros_totales (metraje
+# total del paquete — rollos x metros por rollo). El dashboard agrupa
+# automáticamente cualquier competidor de productos.csv que tenga el mismo
+# metros_totales debajo de este SKU.
