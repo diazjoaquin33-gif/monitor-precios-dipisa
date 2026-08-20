@@ -80,6 +80,19 @@ def _fragmento_diagnostico(texto: str) -> str:
     return limpio[:180]
 
 
+def _resolver_ruta(data, ruta):
+    actual = data
+    for tramo in ruta.split("."):
+        try:
+            if isinstance(actual, list):
+                actual = actual[int(tramo)]
+            else:
+                actual = actual[tramo]
+        except (KeyError, IndexError, ValueError, TypeError):
+            return None
+    return actual
+
+
 # --- MÉTODOS HTTP DIRECTOS (REQUESTS) ---
 
 def _consultar_meta_tag(url: str, patron_precio: str, patron_disp: str, buscar_lista_embebida: bool = False, intentos: int = 3):
@@ -151,19 +164,6 @@ def _consultar_text_pattern(url: str, cfg: dict, intentos: int = 3):
                 return None, None, False, f"Error de conexión: {str(e)[:100]}"
             time.sleep(random.uniform(1.5, 3) * intento)
     return None, None, False, "Bloqueado tras varios intentos (403/429)"
-
-
-def _resolver_ruta(data, ruta):
-    actual = data
-    for tramo in ruta.split("."):
-        try:
-            if isinstance(actual, list):
-                actual = actual[int(tramo)]
-            else:
-                actual = actual[tramo]
-        except (KeyError, IndexError, ValueError, TypeError):
-            return None
-    return actual
 
 
 def _consultar_api_post_json(url: str, cfg: dict, intentos: int = 3):
@@ -292,52 +292,32 @@ def _consultar_playwright_text(context, url: str, cfg: dict, intentos: int = 3):
     return None, None, False, "Falla desconocida"
 
 
-def _consultar_playwright_json(context, url: str, cfg: dict, intentos: int = 3):
-    slug = url.rstrip("/").split("/")[-1]
-    api_url = cfg["api_base"].rstrip("/") + "/" + slug
-
-    for intento in range(1, intentos + 1):
-        try:
-            resp = context.request.get(api_url, headers={"Accept": "application/json"})
-            if resp.ok:
-                data = resp.json()
-                precio = _resolver_ruta(data, cfg["campo_precio"])
-                if precio is None:
-                    if intento == intentos:
-                        return None, None, True, f"El JSON no trajo '{cfg['campo_precio']}'"
-                    time.sleep(random.uniform(1.5, 3) * intento)
-                    continue
-                precio_normal = precio
-                if cfg.get("campo_precio_normal"):
-                    valor_normal = _resolver_ruta(data, cfg["campo_precio_normal"])
-                    if valor_normal is not None:
-                        precio_normal = valor_normal
-                return float(precio), float(precio_normal), True, None
-            elif resp.status in (403, 429):
-                if intento == intentos:
-                    return None, None, False, f"Bloqueado (HTTP {resp.status}) incluso tras el warmup"
-                time.sleep(random.uniform(2, 4) * intento)
-            else:
-                return None, None, False, f"HTTP {resp.status}"
-        except Exception as e:
-            if intento == intentos:
-                return None, None, False, f"Error: {str(e)[:100]}"
-            time.sleep(random.uniform(1.5, 3) * intento)
-    return None, None, False, "Falla desconocida"
-
-
-# --- MÉTODO CURL_CFFI (ANTI-BOT ULTRA LIGERO) ---
+# --- MÉTODOS CURL_CFFI (ANTI-BOT ULTRA RÁPIDO TLS/JA4) ---
 
 def _consultar_curl_cffi(url: str, cfg: dict, intentos: int = 3):
-    """Burla Cloudflare / PerimeterX / Akamai a nivel de handshake TLS (emula Chrome 124)."""
+    """Consulta HTML simulando exactamente el apretón de manos de Chrome 124."""
     patron_oferta = cfg.get("patron_precio_oferta")
     patron_normal = cfg.get("patron_precio_normal")
 
+    headers_navegador = {
+        **HEADERS,
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+        "Sec-Fetch-Dest": "document",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Site": "none",
+        "Sec-Fetch-User": "?1",
+        "Upgrade-Insecure-Requests": "1",
+    }
+
     for intento in range(1, intentos + 1):
         try:
-            res = cffi_requests.get(url, headers=HEADERS, impersonate="chrome124", timeout=15)
+            res = cffi_requests.get(url, headers=headers_navegador, impersonate="chrome124", timeout=15)
             if res.status_code == 200:
                 m_oferta = re.search(patron_oferta, res.text)
+                # Respaldo en meta tags comunes
+                if not m_oferta:
+                    m_oferta = re.search(r'(?:property|name)="product:price:amount"\s+content="([\d.,]+)"', res.text)
+
                 if not m_oferta:
                     frag = _fragmento_diagnostico(res.text)
                     if intento == intentos:
@@ -367,6 +347,49 @@ def _consultar_curl_cffi(url: str, cfg: dict, intentos: int = 3):
     return None, None, False, "Bloqueado tras varios intentos (403/429)"
 
 
+def _consultar_cffi_json(url: str, cfg: dict, intentos: int = 3):
+    """Consulta APIs JSON protegidas por Akamai (como Alvi) sin usar Playwright."""
+    slug = url.rstrip("/").split("/")[-1]
+    api_url = cfg["api_base"].rstrip("/") + "/" + slug
+
+    headers_api = {
+        **HEADERS,
+        "Accept": "application/json, text/plain, */*",
+        "Referer": url,
+        "Origin": "/".join(url.split("/")[:3]),
+    }
+
+    for intento in range(1, intentos + 1):
+        try:
+            res = cffi_requests.get(api_url, headers=headers_api, impersonate="chrome124", timeout=12)
+            if res.status_code == 200:
+                data = res.json()
+                precio = _resolver_ruta(data, cfg["campo_precio"])
+                if precio is None:
+                    if intento == intentos:
+                        return None, None, True, f"El JSON no trajo '{cfg['campo_precio']}'"
+                    time.sleep(random.uniform(1.5, 3) * intento)
+                    continue
+                precio_normal = precio
+                if cfg.get("campo_precio_normal"):
+                    valor_normal = _resolver_ruta(data, cfg["campo_precio_normal"])
+                    if valor_normal is not None:
+                        precio_normal = valor_normal
+                return float(precio), float(precio_normal), True, None
+            elif res.status_code in (403, 429):
+                if intento == intentos:
+                    return None, None, False, f"Bloqueado (HTTP {res.status_code})"
+                time.sleep(random.uniform(2, 4) * intento)
+            else:
+                return None, None, False, f"HTTP {res.status_code}"
+        except Exception as e:
+            if intento == intentos:
+                return None, None, False, f"Error cffi_json: {str(e)[:100]}"
+            time.sleep(random.uniform(1.5, 3) * intento)
+
+    return None, None, False, "Falla desconocida"
+
+
 # --- PROCESADORES DE LOTES ---
 
 def _procesar_lote_http(cfg, lista_productos):
@@ -393,7 +416,10 @@ def _procesar_lote_http(cfg, lista_productos):
 def _procesar_lote_cffi(cfg, lista_productos):
     salida = []
     for prod in lista_productos:
-        precio, precio_normal, disponible, error = _consultar_curl_cffi(prod["url"], cfg)
+        if cfg["metodo"] == "cffi_json":
+            precio, precio_normal, disponible, error = _consultar_cffi_json(prod["url"], cfg)
+        else:
+            precio, precio_normal, disponible, error = _consultar_curl_cffi(prod["url"], cfg)
         salida.append((prod, precio, precio_normal, disponible, error))
         time.sleep(random.uniform(0.5, 1.2))
     return salida
@@ -409,17 +435,9 @@ def _procesar_lote_playwright(cfg, lista_productos):
             user_agent=HEADERS["User-Agent"], locale="es-CL",
             viewport={"width": 1366, "height": 768},
         )
-        if cfg["metodo"] == "playwright_json":
-            pagina_calentamiento = context.new_page()
-            pagina_calentamiento.goto(cfg["warmup_url"], timeout=25000, wait_until="domcontentloaded")
-            pagina_calentamiento.wait_for_timeout(4000)
-            pagina_calentamiento.close()
-
         for prod in lista_productos:
             if cfg["metodo"] == "playwright":
                 precio, precio_normal, disponible, error = _consultar_playwright(context, prod["url"], cfg)
-            elif cfg["metodo"] == "playwright_json":
-                precio, precio_normal, disponible, error = _consultar_playwright_json(context, prod["url"], cfg)
             else:
                 precio, precio_normal, disponible, error = _consultar_playwright_text(context, prod["url"], cfg)
             salida.append((prod, precio, precio_normal, disponible, error))
@@ -433,7 +451,7 @@ def consultar_precios_en_vivo(productos_hash: str):
     productos, retailers_cfg = cargar_config()
 
     usa_playwright = any(
-        cfg.get("metodo") in ("playwright", "playwright_text", "playwright_json")
+        cfg.get("metodo") in ("playwright", "playwright_text")
         for cfg in retailers_cfg.values()
     )
     if usa_playwright:
@@ -455,9 +473,9 @@ def consultar_precios_en_vivo(productos_hash: str):
                     tareas_resultado.append((prod, None, None, False, f"Retailer '{retailer_key}' no está en retailers.yaml"))
                 continue
 
-            if cfg["metodo"] in ("playwright", "playwright_text", "playwright_json"):
+            if cfg["metodo"] in ("playwright", "playwright_text"):
                 futuros.append(executor.submit(_procesar_lote_playwright, cfg, lista_productos))
-            elif cfg["metodo"] in ("curl_cffi", "cffi"):
+            elif cfg["metodo"] in ("curl_cffi", "cffi", "cffi_json"):
                 futuros.append(executor.submit(_procesar_lote_cffi, cfg, lista_productos))
             else:
                 futuros.append(executor.submit(_procesar_lote_http, cfg, lista_productos))
