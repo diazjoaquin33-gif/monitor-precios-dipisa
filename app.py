@@ -9,6 +9,7 @@ import subprocess
 import sys
 import base64
 import io
+from datetime import datetime
 from pathlib import Path
 
 st.set_page_config(
@@ -363,7 +364,12 @@ def consultar_precios_en_vivo(productos_hash: str):
                 "estado": f"Sin Conexión ({error})" if error else "Sin Conexión",
             })
 
-    return resultados
+    # La marca de tiempo se calcula acá adentro (no afuera, en la función que
+    # renderiza) para que quede guardada junto con el resto de datos en el
+    # caché compartido: todos los usuarios ven la hora en que se hizo la
+    # consulta real, no la hora en que cada uno abrió la página.
+    momento_actualizacion = datetime.now().strftime("%d/%m/%Y %H:%M hrs")
+    return resultados, momento_actualizacion
 
 
 def calcular_resumen_comercial(datos):
@@ -405,8 +411,13 @@ st.caption("Lee productos.csv y retailers.yaml — agregar tiendas/productos no 
 
 productos_df, _ = cargar_config()
 hash_productos = str(pd.util.hash_pandas_object(productos_df).sum())  # invalida cache si cambia el CSV
-datos_tabla = consultar_precios_en_vivo(hash_productos)
+datos_tabla, momento_actualizacion = consultar_precios_en_vivo(hash_productos)
 analisis = calcular_resumen_comercial(datos_tabla)
+
+st.info(
+    f"🕒 Último informe solicitado: **{momento_actualizacion}** — "
+    "este mismo informe lo ve cualquiera que entre a la página hasta que alguien lo actualice."
+)
 
 col1, col2 = st.columns([2, 1])
 with col1:
