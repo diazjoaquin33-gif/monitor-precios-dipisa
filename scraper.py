@@ -76,24 +76,36 @@ def _consultar_curl_cffi(url: str, cfg: dict):
                 texto = res.text
                 precio_oferta, precio_normal = None, None
 
+                # 1. Lógica Tottus específica
                 if "tottus.cl" in url:
                     m_ld = re.search(r'"@type"\s*:\s*"Product".*?"price"\s*:\s*"?(\d+(?:\.\d+)?)"?', texto, re.DOTALL)
                     if m_ld: precio_oferta = float(m_ld.group(1).replace(".", ""))
                     if not precio_oferta:
-                        m_json = re.search(r'"(?:currentPrice|offerPrice|salePrice)"\s*:\s*(\d+)', texto)
+                        m_json = re.search(r'"(?:currentPrice|offerPrice|salePrice)"\s*:\s*(\d+)', texto, re.IGNORECASE)
                         if m_json: precio_oferta = float(m_json.group(1))
-                    m_norm = re.search(r'"(?:listPrice|originalPrice|normalPrice)"\s*:\s*(\d+)', texto)
-                    if m_norm: precio_normal = float(m_norm.group(1))
 
+                # 2. Búsqueda por Regex del YAML (Oferta y Normal)
                 if not precio_oferta and cfg.get("patron_precio_oferta"):
                     m_oferta = re.search(cfg["patron_precio_oferta"], texto)
                     if m_oferta: precio_oferta = float(m_oferta.group(1).replace(".", "").replace(",", "."))
 
+                if cfg.get("patron_precio_normal"):
+                    m_normal = re.search(cfg["patron_precio_normal"], texto)
+                    if m_normal: precio_normal = float(m_normal.group(1).replace(".", "").replace(",", "."))
+
+                # 3. Búsqueda Genérica Meta Tags (Oferta)
                 if not precio_oferta:
                     m_meta = re.search(r'(?:property|name)="product:price:amount"\s+content="([\d.,]+)"', texto)
                     if m_meta: precio_oferta = float(m_meta.group(1).replace(".", "").replace(",", "."))
 
+                # 4. Búsqueda Genérica JSON para Precios Normales (Captura Jumbo y Santa Isabel automáticamente)
+                if not precio_normal:
+                    m_norm_gen = re.search(r'"(?:listPrice|originalPrice|normalPrice|basePrice)"\s*:\s*(\d+)', texto, re.IGNORECASE)
+                    if m_norm_gen: precio_normal = float(m_norm_gen.group(1))
+
+                # 5. Retorno final seguro
                 if precio_oferta:
+                    # Si no encontró precio normal, asume que es el mismo de oferta (0% descuento)
                     return precio_oferta, precio_normal or precio_oferta, True, None
                 
                 if intento == 2: return None, None, False, "Regex no encontró el precio en el HTML"
@@ -118,7 +130,10 @@ def procesar_lote(retailer_key, lista_productos, cfg):
             p, pn, disp, err = _consultar_curl_cffi(prod["url"], cfg)
         
         if p:
-            print(f"✅ {retailer_key} | {prod['sku_interno']} -> Extraído correctamente: ${p}")
+            if pn and p < pn:
+                print(f"✅ {retailer_key} | {prod['sku_interno']} -> OFERTA: ${p} (Normal: ${pn})")
+            else:
+                print(f"✅ {retailer_key} | {prod['sku_interno']} -> Extraído: ${p}")
         else:
             print(f"❌ {retailer_key} | {prod['sku_interno']} -> FALLÓ: {err}")
             
