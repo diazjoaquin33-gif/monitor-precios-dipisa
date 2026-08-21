@@ -21,10 +21,7 @@ jumbo:
 
 alvi:
   nombre: "Alvi"
-  metodo: "cffi_json"
-  api_base: "https://bff-alvi-web.alvi.cl/products/by-slug"
-  campo_precio: "sellers.0.price"
-  campo_precio_normal: "sellers.0.listPrice"
+  patron_precio_oferta: 'Desde 1 un[^\$]*\$([\d.,]+)'
 
 tottus:
   nombre: "Tottus"
