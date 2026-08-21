@@ -17,13 +17,15 @@ RETAILERS_PATH = BASE_DIR / "retailers.yaml"
 
 # 1. Cargar bases y configuración
 try:
-    productos_df = pd.read_csv(PRODUCTOS_PATH)
-    ovella_df = pd.read_csv(OVELLA_PATH).dropna(subset=["sku_ovella"])
+    productos_df = pd.read_csv(PRODUCTOS_PATH, skip_blank_lines=True)
+    # Forzamos eliminar filas vacías
+    ovella_df = pd.read_csv(OVELLA_PATH, skip_blank_lines=True).dropna(how="all")
+    
     import yaml
     with open(RETAILERS_PATH, "r", encoding="utf-8") as f:
         retailers_cfg = yaml.safe_load(f)
-except Exception:
-    st.error("Error cargando archivos base CSV/YAML.")
+except Exception as e:
+    st.error(f"Error cargando archivos base CSV/YAML: {e}")
     st.stop()
 
 # 2. Cargar los precios que guardó el bot de GitHub
@@ -45,7 +47,14 @@ for p_bot in precios_bot:
     if not prod_info.empty:
         info = prod_info.iloc[0]
         cfg = retailers_cfg.get(info["retailer"], {})
-        precio_metro = round(p_bot["precio"] / info["metros_totales"], 1) if info.get("metros_totales") else 0
+        
+        # Validación de metros para no dividir por cero o texto
+        try:
+            metros_totales_num = float(info["metros_totales"])
+            precio_metro = round(p_bot["precio"] / metros_totales_num, 1)
+        except (ValueError, TypeError, ZeroDivisionError):
+            precio_metro = 0
+
         datos_tabla.append({
             **info.to_dict(),
             "retailer_nombre": cfg.get("nombre", info["retailer"]),
@@ -59,7 +68,12 @@ for p_bot in precios_bot:
 grupos = []
 usados = set()
 for _, ov in ovella_df.iterrows():
-    competidores = [d for d in datos_tabla if d["metros_totales"] == ov["metros_totales"]]
+    try:
+        metros_ovella = float(ov["metros_totales"])
+    except (ValueError, TypeError):
+        continue # Si la fila de ovella no tiene metros válidos, la saltamos
+
+    competidores = [d for d in datos_tabla if str(d.get("metros_totales")) == str(ov["metros_totales"])]
     competidores_ordenados = sorted(competidores, key=lambda d: (d["precio_metro_num"] <= 0, d["precio_metro_num"]))
     usados.update(id(d) for d in competidores)
     grupos.append({"ovella": ov, "competidores": competidores_ordenados})
@@ -113,7 +127,16 @@ for grupo in grupos:
     ov = grupo["ovella"]
     competidores = grupo["competidores"]
     with st.container(border=True):
-        st.subheader(f"🧻 Ovella — {ov['producto']} ({int(ov['metros_totales'])} m totales)")
+        
+        # Bloque ultra blindado contra valores vacíos (NaN)
+        try:
+            metros_val = int(float(ov["metros_totales"]))
+            metros_str = f"{metros_val} m totales"
+        except (ValueError, TypeError):
+            metros_str = "N/D m totales"
+
+        nombre_prod = ov.get("producto", "Producto sin nombre")
+        st.subheader(f"🧻 Ovella — {nombre_prod} ({metros_str})")
         
         if competidores:
             validos = [c for c in competidores if c["precio_metro_num"] > 0]
