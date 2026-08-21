@@ -35,15 +35,15 @@ def _consultar_lider_api(url: str):
     sku_raw = m_id.group(1)
     sku_limpio = sku_raw.lstrip("0") or sku_raw
     
-    # INTENTO 1: ScraperAPI con cabeceras forzadas
+    # INTENTO 1: ScraperAPI (Con 60 segundos de paciencia)
     if SCRAPERAPI_KEY:
         try:
             target_url = f"https://bff.lider.cl/catalog/product/{sku_raw}"
-            # Quitamos el country_code='cl' porque a veces el plan gratuito de ScraperAPI lo bloquea
             payload = {'api_key': SCRAPERAPI_KEY, 'url': target_url, 'keep_headers': 'true'}
             headers_lider = {"x-channel": "WEB", "User-Agent": HEADERS_GENERICOS["User-Agent"]}
             
-            res = requests.get('https://api.scraperapi.com/', params=payload, headers=headers_lider, timeout=25)
+            # Aumentamos a 60s y usamos HTTP para evitar problemas del servidor de GitHub
+            res = requests.get('http://api.scraperapi.com/', params=payload, headers=headers_lider, timeout=60)
             
             if res.status_code == 200:
                 try:
