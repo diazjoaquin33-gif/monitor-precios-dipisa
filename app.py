@@ -273,8 +273,8 @@ def _consultar_api_post_json(url: str, cfg: dict, intentos: int = 2):
 # --- MÉTODOS ESPECIALIZADOS CURL_CFFI (LÍDER, TOTTUS, ALVI) ---
 
 def _consultar_lider_api(url: str, intentos: int = 2):
-    """Consulta endpoints de backend de Walmart Chile sin pasar por la barrera PerimeterX."""
-    # Extrae el ID / SKU numérico de la URL
+    """Bypassea PerimeterX usando túnel Edge y firma de app móvil."""
+    # Extrae el ID del producto (ej: 00780650050982)
     m_id = re.search(r'/(\d{8,16})(?:\?|$)', url)
     if not m_id:
         m_id = re.search(r'(\d+)', url.rstrip("/").split("/")[-1])
@@ -285,26 +285,70 @@ def _consultar_lider_api(url: str, intentos: int = 2):
     sku_raw = m_id.group(1)
     sku_limpio = sku_raw.lstrip("0") or sku_raw
 
-    headers_api = {
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 LiderApp/4.26.0",
-        "Accept": "application/json, text/plain, */*",
+    # 1. ESTRATEGIA A: Túnel Edge a través de API REST pública de Líder
+    # Evade el filtro de ASN de AWS/Streamlit Cloud
+    target_api = f"https://bff.lider.cl/catalog/product/{sku_raw}"
+    edge_url = f"https://api.allorigins.win/raw?url={target_api}"
+
+    headers_edge = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        "Accept": "application/json",
+    }
+
+    try:
+        res = requests.get(edge_url, headers=headers_edge, timeout=10)
+        if res.status_code == 200:
+            try:
+                data = res.json()
+                # Si el proxy envolvió la respuesta
+                if isinstance(data, str):
+                    data = json.loads(data)
+
+                p_oferta = None
+                p_normal = None
+
+                if "price" in data and isinstance(data["price"], (int, float)):
+                    p_oferta = float(data["price"])
+                elif "salePrice" in data and data["salePrice"]:
+                    p_oferta = float(data["salePrice"])
+                elif "basePrice" in data and data["basePrice"]:
+                    p_oferta = float(data["basePrice"])
+
+                if "originalPrice" in data and data["originalPrice"]:
+                    p_normal = float(data["originalPrice"])
+                elif "listPrice" in data and data["listPrice"]:
+                    p_normal = float(data["listPrice"])
+
+                if not p_oferta and "items" in data and len(data["items"]) > 0:
+                    it = data["items"][0]
+                    p_oferta = it.get("price") or it.get("salePrice") or it.get("basePrice")
+                    p_normal = it.get("originalPrice") or it.get("listPrice")
+
+                if p_oferta and float(p_oferta) > 0:
+                    return float(p_oferta), float(p_normal or p_oferta), True, None
+            except Exception:
+                pass
+    except Exception:
+        pass
+
+    # 2. ESTRATEGIA B: Firma Safari/iOS directa a svcs.lider.cl
+    headers_mobile = {
+        "User-Agent": "LiderApp/4.26.0 (iPhone; iOS 17.4; Scale/3.00)",
+        "Accept": "application/json",
         "x-channel": "MOBILE_APP",
         "tenant": "supermercado",
     }
 
-    # 1. Intento por API de orquestación de Walmart
-    urls_orquestador = [
+    urls_mobile = [
         f"https://svcs.lider.cl/orchestration/catalog/products/{sku_raw}",
         f"https://svcs.lider.cl/orchestration/catalog/products/{sku_limpio}",
-        f"https://buysite.lider.cl/orchestration/catalog/products/{sku_raw}",
     ]
 
-    for ep in urls_orquestador:
+    for api_url in urls_mobile:
         try:
-            res = cffi_requests.get(ep, headers=headers_api, impersonate="chrome124", timeout=6)
-            if res.status_code == 200:
-                data = res.json()
-                # Extracción desde payload de producto
+            res_cffi = cffi_requests.get(api_url, headers=headers_mobile, impersonate="safari15_5", timeout=8)
+            if res_cffi.status_code == 200:
+                data = res_cffi.json()
                 p_oferta = None
                 p_normal = None
 
@@ -319,28 +363,12 @@ def _consultar_lider_api(url: str, intentos: int = 2):
                     p_oferta = data["OfferPrice"]
                     p_normal = data.get("BasePriceReference", p_oferta)
 
-                if p_oferta:
+                if p_oferta and float(p_oferta) > 0:
                     return float(p_oferta), float(p_normal or p_oferta), True, None
         except Exception:
             continue
 
-    # 2. Intento por Search Query interno (Resuelve el producto por su SKU)
-    try:
-        search_url = f"https://svcs.lider.cl/orchestration/catalog/categories/products?query={sku_limpio}&page=1&elementsPerPage=1"
-        res = cffi_requests.get(search_url, headers=headers_api, impersonate="chrome124", timeout=6)
-        if res.status_code == 200:
-            data = res.json()
-            prods = data.get("products", [])
-            if prods:
-                p_info = prods[0].get("price", {})
-                p_oferta = p_info.get("OfferPrice") or p_info.get("BasePriceReference")
-                p_normal = p_info.get("BasePriceReference") or p_oferta
-                if p_oferta:
-                    return float(p_oferta), float(p_normal), True, None
-    except Exception:
-        pass
-
-    return None, None, False, "PerimeterX activo en Líder (usando último precio si existe)"
+    return None, None, False, "PerimeterX activo en Líder"
 
 
 def _consultar_curl_cffi(url: str, cfg: dict, intentos: int = 2):
