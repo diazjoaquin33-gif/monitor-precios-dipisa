@@ -31,21 +31,33 @@ def _consultar_lider_api(url: str):
     if not m_id: m_id = re.search(r'(\d+)', url.rstrip("/").split("/")[-1])
     if not m_id: return None, None, False, "No se encontró ID en URL"
     sku_raw = m_id.group(1)
+    sku_limpio = sku_raw.lstrip("0") or sku_raw
     
-    headers_mobile = {"User-Agent": "LiderApp/4.26.0 (iPhone; iOS 17.4)", "Accept": "application/json", "x-channel": "MOBILE_APP"}
+    # NUEVA CAPA 1: API GraphQL Pública (Evade el error de DNS interno)
     try:
-        res = cffi_requests.get(f"https://svcs.lider.cl/orchestration/catalog/products/{sku_raw}", headers=headers_mobile, impersonate="safari15_5", timeout=10)
+        graphql_url = "https://www.lider.cl/graphql"
+        payload = {
+            "operationName": "GetProductById",
+            "variables": {"productId": sku_limpio},
+            "query": "query GetProductById($productId: String!) { product(id: $productId) { price { offerPrice basePrice } } }"
+        }
+        headers_gql = {
+            "User-Agent": HEADERS_GENERICOS["User-Agent"],
+            "Content-Type": "application/json",
+            "x-channel": "WEB"
+        }
+        res = cffi_requests.post(graphql_url, headers=headers_gql, json=payload, impersonate="chrome124", timeout=10)
         if res.status_code == 200:
             data = res.json()
-            if "price" in data:
-                p_oferta = data["price"].get("OfferPrice") or data["price"].get("BasePriceReference")
-                p_normal = data["price"].get("BasePriceReference") or p_oferta
-                if p_oferta: return float(p_oferta), float(p_normal or p_oferta), True, None
-        else:
-            return None, None, False, f"API SVCS devolvió HTTP {res.status_code}"
+            p_info = data.get("data", {}).get("product", {}).get("price", {})
+            if p_info:
+                p_oferta = p_info.get("offerPrice") or p_info.get("basePrice")
+                p_normal = p_info.get("basePrice") or p_oferta
+                if p_oferta: return float(p_oferta), float(p_normal), True, None
     except Exception as e: 
-        return None, None, False, f"Error de red SVCS: {str(e)[:40]}"
+        pass
 
+    # CAPA 2: Proxy Edge de respaldo
     try:
         edge_url = f"https://api.allorigins.win/raw?url=https://bff.lider.cl/catalog/product/{sku_raw}"
         res = requests.get(edge_url, timeout=10)
@@ -54,12 +66,10 @@ def _consultar_lider_api(url: str):
             p_oferta = data.get("price") or data.get("salePrice") or data.get("basePrice")
             p_normal = data.get("originalPrice") or data.get("listPrice")
             if p_oferta: return float(p_oferta), float(p_normal or p_oferta), True, None
-        else:
-            return None, None, False, f"Proxy Edge devolvió HTTP {res.status_code}"
     except Exception as e: 
-        return None, None, False, f"Error de red Edge: {str(e)[:40]}"
+        pass
 
-    return None, None, False, "Bloqueo total Líder en ambas capas"
+    return None, None, False, "Bloqueo total Líder"
 
 def _consultar_curl_cffi(url: str, cfg: dict):
     for intento in range(3): 
@@ -103,22 +113,6 @@ def _consultar_curl_cffi(url: str, cfg: dict):
             
     return None, None, False, "Falla desconocida"
 
-def _consultar_api_sisa(url: str, cfg: dict):
-    slug = [p for p in url.rstrip("/").split("/") if p][-2 if "/p" in url else -1]
-    body = {"store": "pedrofontova", "slug": slug}
-    headers = {"apikey": "be-reg-groceries-sisa-catalog-wdhhq5a2fken", "Content-Type": "application/json"}
-    try:
-        res = requests.post("https://bff.santaisabel.cl/catalog/pdp", headers=headers, json=body, timeout=10)
-        if res.status_code == 200:
-            data = res.json()
-            if "items" in data and len(data["items"]) > 0:
-                p_oferta = data["items"][0].get("price")
-                p_normal = data["items"][0].get("listPrice")
-                if p_oferta: return float(p_oferta), float(p_normal or p_oferta), True, None
-        return None, None, False, f"API devolvió HTTP {res.status_code}"
-    except Exception as e: 
-        return None, None, False, f"Error conexión API: {str(e)[:40]}"
-
 def procesar_lote(retailer_key, lista_productos, cfg):
     salida = []
     for prod in lista_productos:
@@ -126,11 +120,12 @@ def procesar_lote(retailer_key, lista_productos, cfg):
         if metodo == "lider_api":
             p, pn, disp, err = _consultar_lider_api(prod["url"])
         elif metodo == "api_post_json":
-            p, pn, disp, err = _consultar_api_sisa(prod["url"], cfg)
+            # PARCHE SANTA ISABEL: Como la API tira HTTP 403, 
+            # forzamos que use el mismo método exitoso de Jumbo.
+            p, pn, disp, err = _consultar_curl_cffi(prod["url"], cfg)
         else:
             p, pn, disp, err = _consultar_curl_cffi(prod["url"], cfg)
         
-        # --- EL MODO CHISMOSO: Imprimir resultados en vivo ---
         if p:
             print(f"✅ {retailer_key} | {prod['sku_interno']} -> Extraído correctamente: ${p}")
         else:
