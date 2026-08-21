@@ -33,7 +33,3 @@ TC-031,Rindemax Doble Hoja 4 x 21 mts,Scott,84,tottus,https://www.tottus.cl/tott
 TC-032,Doble Hoja 6 x 23 mts,Noble,138,tottus,https://www.tottus.cl/tottus-cl/articulo/124540262/noble-dh-x6-noble-23mt/124540264
 TC-033,Rendiplus Doble Hoja 6 x 20 mts,Confort,120,tottus,https://www.tottus.cl/tottus-cl/articulo/144334960/papel-higienico-confort-20-mts-x6/144334961
 TC-034,Ultra Doble Hoja 50 m 4 un,Elite,200,lider,https://www.lider.cl/ip/papeles/papel-higienico-ultra-doble-hoja-50-m/00780650050982
-# Para agregar más productos: copia una fila, cambia sku_interno (correlativo propio),
-# producto, marca, metros_totales (para el cálculo $/metro) y la url del producto.
-# Para agregar una tienda nueva, el valor de "retailer" debe existir como clave
-# en retailers.yaml.
