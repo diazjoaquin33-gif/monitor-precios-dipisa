@@ -114,6 +114,7 @@ for grupo in grupos:
     competidores = grupo["competidores"]
     with st.container(border=True):
         st.subheader(f"🧻 Ovella — {ov['producto']} ({int(ov['metros_totales'])} m totales)")
+        
         if competidores:
             validos = [c for c in competidores if c["precio_metro_num"] > 0]
             if validos:
