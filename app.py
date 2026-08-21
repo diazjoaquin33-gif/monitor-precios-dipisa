@@ -92,7 +92,7 @@ if not df.empty:
     
     st.write("") 
 
-    # Mapeo de columnas para la vista final
+    # Mapeo de columnas para la vista final (Incluyendo la URL)
     columnas_mostrar = {
         "retailer": "Retailer",
         "marca": "Marca",
@@ -102,7 +102,8 @@ if not df.empty:
         "precio": "Precio Oferta",
         "Descuento": "Promoción",
         "$/Metro": "$/Metro",
-        "estado": "Estado"
+        "estado": "Estado",
+        "url": "Link Tienda"
     }
     
     cols_existentes = [c for c in columnas_mostrar.keys() if c in df.columns]
@@ -111,7 +112,7 @@ if not df.empty:
     if "Retailer" in df_vista.columns: df_vista["Retailer"] = df_vista["Retailer"].str.title()
     if "Marca" in df_vista.columns: df_vista["Marca"] = df_vista["Marca"].str.title()
 
-    # Función estándar para renderizar la tabla con barras de progreso
+    # Función estándar para renderizar la tabla con el botón de enlace
     def renderizar_tabla(dataframe_a_mostrar):
         st.dataframe(
             dataframe_a_mostrar,
@@ -128,7 +129,12 @@ if not df.empty:
                     min_value=int(df_vista["$/Metro"].min()) if not df_vista.empty and df_vista["$/Metro"].min() > 0 else 10,
                     max_value=int(df_vista["$/Metro"].max()) if not df_vista.empty else 40
                 ),
-                "Estado": st.column_config.TextColumn("Estado")
+                "Estado": st.column_config.TextColumn("Estado"),
+                "Link Tienda": st.column_config.LinkColumn(
+                    "Link Tienda",
+                    help="Haz clic para abrir la página del producto",
+                    display_text="🔗 Ver Local"
+                )
             }
         )
 
