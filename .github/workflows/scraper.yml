@@ -2,8 +2,8 @@ name: Actualizador de Precios Dipisa
 
 on:
   schedule:
-    # Se ejecuta todos los días a las 08:00, 13:00 y 18:00 (Hora de Chile / 12, 17, 22 UTC)
-    - cron: '20 17 * * *'
+    # Se ejecuta a las 07:00, 16:00 y 23:00 (Hora de Chile)
+    - cron: '0 11,20,3 * * *'
   workflow_dispatch: # Te agrega un botón en GitHub para correrlo manualmente cuando quieras
 
 jobs:
