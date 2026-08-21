@@ -273,72 +273,89 @@ def _consultar_api_post_json(url: str, cfg: dict, intentos: int = 2):
 # --- MÉTODOS ESPECIALIZADOS CURL_CFFI (LÍDER, TOTTUS, ALVI) ---
 
 def _consultar_lider_api(url: str, intentos: int = 2):
-    """Consulta la API BFF de Líder/Walmart Chile directamente por ID de producto."""
+    """Consulta las APIs internas de Walmart Chile evitando el bloqueo HTML de PerimeterX."""
+    # 1. Extrae el ID / SKU numérico de la URL
     m_id = re.search(r'/(\d{10,16})(?:\?|$)', url)
     if not m_id:
         m_id = re.search(r'(\d+)', url.rstrip("/").split("/")[-1])
     
     if not m_id:
-        return None, None, False, "No se pudo extraer ID de Líder"
+        return None, None, False, "No se pudo extraer el ID del producto"
 
-    prod_id = m_id.group(1)
-    api_url = f"https://bff.lider.cl/catalog/product/{prod_id}"
-    
-    headers = {
-        **HEADERS,
+    prod_id = m_id.group(1).lstrip("0") or m_id.group(1)
+    prod_id_full = m_id.group(1)
+
+    headers_api = {
+        "User-Agent": "LiderApp/4.25.0 (Android; 14; Mobile)",
         "Accept": "application/json",
-        "Referer": "https://www.lider.cl/",
+        "Content-Type": "application/json",
+        "x-channel": "APP",
         "Origin": "https://www.lider.cl",
-        "x-channel": "WEB",
+        "Referer": "https://www.lider.cl/",
     }
 
+    endpoints = [
+        # Endpoint 1: Detalle de Producto BFF
+        f"https://bff.lider.cl/catalog/product/{prod_id_full}",
+        f"https://bff.lider.cl/catalog/product/{prod_id}",
+        # Endpoint 2: Orquestador de Catálogo SVCS
+        f"https://svcs.lider.cl/orchestration/catalog/products/{prod_id_full}",
+        # Endpoint 3: Búsqueda exacta por ID
+        f"https://bff.lider.cl/catalog/search?query={prod_id}&page=1&limit=1"
+    ]
+
     for intento in range(1, intentos + 1):
-        try:
-            res = cffi_requests.get(api_url, headers=headers, impersonate="chrome124", timeout=10)
-            if res.status_code == 200:
-                data = res.json()
-                precio_oferta = None
-                precio_normal = None
+        for api_url in endpoints:
+            try:
+                res = cffi_requests.get(
+                    api_url,
+                    headers=headers_api,
+                    impersonate="chrome124",
+                    timeout=8
+                )
                 
-                if "price" in data:
-                    precio_oferta = float(data["price"])
-                elif "salePrice" in data:
-                    precio_oferta = float(data["salePrice"])
-                elif "basePrice" in data:
-                    precio_oferta = float(data["basePrice"])
+                if res.status_code == 200:
+                    data = res.json()
+                    precio_oferta = None
+                    precio_normal = None
 
-                if "originalPrice" in data:
-                    precio_normal = float(data["originalPrice"])
-                elif "listPrice" in data:
-                    precio_normal = float(data["listPrice"])
+                    # A) Estructura directa de producto
+                    if "price" in data and isinstance(data["price"], (int, float)):
+                        precio_oferta = float(data["price"])
+                    elif "salePrice" in data and data["salePrice"]:
+                        precio_oferta = float(data["salePrice"])
+                    elif "basePrice" in data and data["basePrice"]:
+                        precio_oferta = float(data["basePrice"])
 
-                if not precio_oferta and "items" in data and len(data["items"]) > 0:
-                    item = data["items"][0]
-                    precio_oferta = item.get("price") or item.get("salePrice")
-                    precio_normal = item.get("originalPrice") or item.get("listPrice")
+                    # B) Estructura anidada en price: { BasePriceReference, OfferPrice }
+                    if isinstance(data.get("price"), dict):
+                        p_dict = data["price"]
+                        precio_oferta = p_dict.get("OfferPrice") or p_dict.get("BasePriceReference")
+                        precio_normal = p_dict.get("BasePriceReference") or precio_oferta
 
-                if precio_oferta:
-                    return float(precio_oferta), float(precio_normal or precio_oferta), True, None
-                
-                return None, None, False, "JSON de Líder sin campo precio"
+                    # C) Estructura de items / sellers
+                    if not precio_oferta and "items" in data and len(data["items"]) > 0:
+                        it = data["items"][0]
+                        precio_oferta = it.get("price") or it.get("salePrice") or it.get("basePrice")
+                        precio_normal = it.get("originalPrice") or it.get("listPrice")
 
-            elif res.status_code == 404:
-                alt_url = f"https://svcs.lider.cl/orchestration/catalog/products/{prod_id}"
-                alt_res = cffi_requests.get(alt_url, headers=headers, impersonate="chrome124", timeout=10)
-                if alt_res.status_code == 200:
-                    data = alt_res.json()
-                    p = data.get("price", {}).get("BasePriceReference") or data.get("price", {}).get("OfferPrice")
-                    if p:
-                        return float(p), float(p), True, None
-                return None, None, False, "Producto no existe en Líder (404)"
-            
-            time.sleep(1.0 * intento)
-        except Exception as e:
-            if intento == intentos:
-                return None, None, False, f"Error API Líder: {str(e)[:100]}"
-            time.sleep(1.0 * intento)
+                    # D) Estructura de resultados de búsqueda (Search endpoint)
+                    if not precio_oferta and "products" in data and len(data["products"]) > 0:
+                        prod = data["products"][0]
+                        precio_oferta = prod.get("price", {}).get("BasePriceReference") if isinstance(prod.get("price"), dict) else prod.get("price")
+                        precio_normal = prod.get("originalPrice") or precio_oferta
 
-    return None, None, False, "Falla conexión Líder"
+                    if precio_oferta and float(precio_oferta) > 0:
+                        precio_oferta = float(precio_oferta)
+                        precio_normal = float(precio_normal) if precio_normal else precio_oferta
+                        return precio_oferta, precio_normal, True, None
+
+            except Exception:
+                continue
+
+        time.sleep(1.0 * intento)
+
+    return None, None, False, "PerimeterX activo en Líder (usando último precio si existe)"
 
 
 def _consultar_curl_cffi(url: str, cfg: dict, intentos: int = 2):
