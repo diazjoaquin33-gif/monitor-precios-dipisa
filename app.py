@@ -14,14 +14,15 @@ PRODUCTOS_PATH = BASE_DIR / "productos.csv"
 @st.cache_data(ttl=60)
 def cargar_datos():
     try:
-        # Cargar catálogo completo ignorando los marcados con #
+        # Cargar catálogo de productos ignorando las líneas con #
         df_prod = pd.read_csv(PRODUCTOS_PATH, comment="#")
+        
         # Cargar precios procesados por el bot
         with open(DATOS_PATH, "r", encoding="utf-8") as f:
             precios = json.load(f)
         df_precios = pd.DataFrame(precios)
         
-        # Unir ambas tablas por el SKU interno (Left join para no perder ningún SKU del CSV)
+        # Unir ambas tablas por el SKU interno para no perder ningún producto
         if not df_prod.empty:
             if not df_precios.empty:
                 df = pd.merge(df_prod, df_precios, on="sku_interno", how="left")
@@ -55,33 +56,19 @@ else:
 st.divider()
 
 if not df.empty:
-    # 3. MÉTRICAS EJECUTIVAS SUPERIORES
-    skus_totales = len(df)
-    skus_ovella = len(df[df['marca'].str.lower() == 'ovella']) if 'marca' in df.columns else 0
-    
-    # Manejo seguro de estados nulos o vacíos
+    # 3. MANEJO SEGURO DE ESTADOS Y CÁLCULOS
     if "estado" in df.columns:
         df["estado"] = df["estado"].fillna("⚠️ Sin datos recientes")
     else:
         df["estado"] = "⚠️ Sin datos"
 
-    errores = len(df[df['estado'].str.contains("⚠️|Últ|Error|Sin", na=False)])
-    
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric("SKU de Ovella", skus_ovella)
-    col2.metric("SKU Monitoreados", skus_totales)
-    col3.metric("Disponibles", skus_totales - errores)
-    col4.metric("Con Advertencia / Error", errores)
-    
-    st.write("") 
-
-    # 4. PREPARACIÓN DE COLUMNAS (Cálculos de metro y descuento)
+    # Calcular costo por metro basado en metros_totales
     if "precio" in df.columns and "metros_totales" in df.columns:
         df["$/Metro"] = df["precio"] / df["metros_totales"]
     else:
         df["$/Metro"] = 0
 
-    # Calcular porcentaje de descuento
+    # Calcular porcentaje de descuento si existe precio normal
     if "precio" in df.columns and "precio_normal" in df.columns:
         df["Descuento"] = df.apply(
             lambda row: f"-{int(100 - (row['precio'] / row['precio_normal'] * 100))}%" 
@@ -92,11 +79,25 @@ if not df.empty:
     else:
         df["Descuento"] = "—"
 
-    # Mapeo final de nombres para la tabla
+    skus_totales = len(df)
+    skus_ovella = len(df[df['marca'].str.lower() == 'ovella']) if 'marca' in df.columns else 0
+    errores = len(df[df['estado'].str.contains("⚠️|Últ|Error|Sin", na=False)])
+    
+    # Métricas superiores
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric("SKU de Ovella", skus_ovella)
+    col2.metric("SKU Monitoreados", skus_totales)
+    col3.metric("Disponibles", skus_totales - errores)
+    col4.metric("Con Advertencia / Error", errores)
+    
+    st.write("") 
+
+    # Mapeo de columnas para la vista final
     columnas_mostrar = {
         "retailer": "Retailer",
         "marca": "Marca",
         "producto": "Producto",
+        "metros_totales": "Metros Totales",
         "precio_normal": "Precio Lista",
         "precio": "Precio Oferta",
         "Descuento": "Promoción",
@@ -110,18 +111,14 @@ if not df.empty:
     if "Retailer" in df_vista.columns: df_vista["Retailer"] = df_vista["Retailer"].str.title()
     if "Marca" in df_vista.columns: df_vista["Marca"] = df_vista["Marca"].str.title()
 
-    # 5. ORGANIZACIÓN POR PESTAÑAS (Muestra todo el catálogo o agrupa sin perder SKUs)
-    st.markdown("### Detalle General del Portafolio")
-    
-    tab1, tab2, tab3 = st.tabs(["📊 Todos los SKUs Analizados", "🧻 Papel Higiénico", "🧹 Toallas / Otros"])
-
+    # Función estándar para renderizar la tabla con barras de progreso
     def renderizar_tabla(dataframe_a_mostrar):
-        """Renderiza la tabla de manera segura y limpia"""
         st.dataframe(
             dataframe_a_mostrar,
             use_container_width=True,
             hide_index=True,
             column_config={
+                "Metros Totales": st.column_config.NumberColumn("Metros Totales", format="%d m"),
                 "Precio Lista": st.column_config.NumberColumn("Precio Lista", format="$%d"),
                 "Precio Oferta": st.column_config.NumberColumn("Precio Oferta", format="$%d"),
                 "$/Metro": st.column_config.ProgressColumn(
@@ -135,35 +132,56 @@ if not df.empty:
             }
         )
 
+    # 4. PESTAÑAS BASADAS EN LOS METROS TOTALES DE OVELLA
+    st.markdown("### Detalle por Formato y Metraje")
+    
+    tab1, tab2, tab3, tab4, tab5 = st.tabs([
+        "📊 Todos los SKUs", 
+        "🧻 200 m (50m x 4)", 
+        "🧻 120 m (30m x 4)", 
+        "🧻 88 m (22m x 4)", 
+        "🧻 132 m (22m x 6)"
+    ])
+
     with tab1:
-        st.subheader("Vista Consolidada de Mercado")
-        # Aquí se muestran TODOS los SKUs sin excepción para que no falte ninguno
+        st.subheader("Consolidado General de Mercado")
         renderizar_tabla(df_vista)
 
     with tab2:
-        st.subheader("Filtro: Papel Higiénico")
-        if "producto" in df.columns:
-            df_papel = df[~df["producto"].str.contains("Toalla", case=False, na=False)]
-            cols_p = [c for c in columnas_mostrar.keys() if c in df_papel.columns]
-            vista_p = df_papel[cols_p].rename(columns=columnas_mostrar)
-            if "Retailer" in vista_p.columns: vista_p["Retailer"] = vista_p["Retailer"].str.title()
-            if "Marca" in vista_p.columns: vista_p["Marca"] = vista_p["Marca"].str.title()
-            renderizar_tabla(vista_p)
+        st.subheader("Formato: 200 Metros Totales (Equivalente Ovella 50m 4un)")
+        df_f1 = df[df["metros_totales"] == 200]
+        if not df_f1.empty:
+            cols_f = [c for c in columnas_mostrar.keys() if c in df_f1.columns]
+            renderizar_tabla(df_f1[cols_f].rename(columns=columnas_mostrar))
         else:
-            renderizar_tabla(df_vista)
+            st.info("No hay productos asociados a este metraje.")
 
     with tab3:
-        st.subheader("Filtro: Toallas de Papel y Otros")
-        if "producto" in df.columns:
-            df_toalla = df[df["producto"].str.contains("Toalla", case=False, na=False)]
-            if not df_toalla.empty:
-                cols_t = [c for c in columnas_mostrar.keys() if c in df_toalla.columns]
-                vista_t = df_toalla[cols_t].rename(columns=columnas_mostrar)
-                if "Retailer" in vista_t.columns: vista_t["Retailer"] = vista_t["Retailer"].str.title()
-                if "Marca" in vista_t.columns: vista_t["Marca"] = vista_t["Marca"].str.title()
-                renderizar_tabla(vista_t)
-            else:
-                st.info("No hay productos de toallas de papel registrados con esa etiqueta.")
+        st.subheader("Formato: 120 Metros Totales (Equivalente Ovella 30m 4un)")
+        df_f2 = df[df["metros_totales"] == 120]
+        if not df_f2.empty:
+            cols_f = [c for c in columnas_mostrar.keys() if c in df_f2.columns]
+            renderizar_tabla(df_f2[cols_f].rename(columns=columnas_mostrar))
+        else:
+            st.info("No hay productos asociados a este metraje.")
+
+    with tab4:
+        st.subheader("Formato: 88 Metros Totales (Equivalente Ovella 22m 4un)")
+        df_f3 = df[df["metros_totales"] == 88]
+        if not df_f3.empty:
+            cols_f = [c for c in columnas_mostrar.keys() if c in df_f3.columns]
+            renderizar_tabla(df_f3[cols_f].rename(columns=columnas_mostrar))
+        else:
+            st.info("No hay productos asociados a este metraje.")
+
+    with tab5:
+        st.subheader("Formato: 132 Metros Totales (Equivalente Ovella 22m 6un)")
+        df_f4 = df[df["metros_totales"] == 132]
+        if not df_f4.empty:
+            cols_f = [c for c in columnas_mostrar.keys() if c in df_f4.columns]
+            renderizar_tabla(df_f4[cols_f].rename(columns=columnas_mostrar))
+        else:
+            st.info("No hay productos asociados a este metraje.")
 
 else:
     st.warning("No se encontraron datos procesados. Por favor, revisa que el archivo datos_procesados.json exista.")
