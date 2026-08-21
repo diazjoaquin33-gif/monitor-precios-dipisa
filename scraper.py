@@ -19,7 +19,7 @@ SCRAPERAPI_KEY = os.environ.get("SCRAPERAPI_KEY")
 
 HEADERS_GENERICOS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept": "text/html,application/xhtml+xml,application/json,application/xml;q=0.9,*/*;q=0.8",
 }
 
 def cargar_config():
@@ -35,21 +35,30 @@ def _consultar_lider_api(url: str):
     sku_raw = m_id.group(1)
     sku_limpio = sku_raw.lstrip("0") or sku_raw
     
-    # INTENTO 1: BLINDAJE CORPORATIVO (ScraperAPI)
+    # INTENTO 1: ScraperAPI con cabeceras forzadas
     if SCRAPERAPI_KEY:
         try:
             target_url = f"https://bff.lider.cl/catalog/product/{sku_raw}"
-            payload = {'api_key': SCRAPERAPI_KEY, 'url': target_url, 'country_code': 'cl'}
-            res = requests.get('https://api.scraperapi.com/', params=payload, timeout=20)
+            # Quitamos el country_code='cl' porque a veces el plan gratuito de ScraperAPI lo bloquea
+            payload = {'api_key': SCRAPERAPI_KEY, 'url': target_url, 'keep_headers': 'true'}
+            headers_lider = {"x-channel": "WEB", "User-Agent": HEADERS_GENERICOS["User-Agent"]}
+            
+            res = requests.get('https://api.scraperapi.com/', params=payload, headers=headers_lider, timeout=25)
+            
             if res.status_code == 200:
-                data = res.json()
-                p_oferta = data.get("price") or data.get("salePrice") or data.get("basePrice")
-                p_normal = data.get("originalPrice") or data.get("listPrice")
-                if p_oferta: return float(p_oferta), float(p_normal or p_oferta), True, None
+                try:
+                    data = res.json()
+                    p_oferta = data.get("price") or data.get("salePrice") or data.get("basePrice")
+                    p_normal = data.get("originalPrice") or data.get("listPrice")
+                    if p_oferta: return float(p_oferta), float(p_normal or p_oferta), True, None
+                except json.JSONDecodeError:
+                    return None, None, False, f"ScraperAPI devolvió HTML (Captcha): {res.text[:40]}..."
+            else:
+                return None, None, False, f"ScraperAPI HTTP {res.status_code}: {res.text[:40]}..."
         except Exception as e:
-            pass # Si falla el blindaje, pasa al plan B
+            return None, None, False, f"Error de red ScraperAPI: {str(e)[:40]}"
 
-    # INTENTO 2: API GraphQL Pública (Gratis pero propensa a bloqueos)
+    # INTENTO 2: API GraphQL Pública
     try:
         graphql_url = "https://www.lider.cl/graphql"
         payload = {
@@ -69,7 +78,7 @@ def _consultar_lider_api(url: str):
     except Exception: 
         pass
 
-    return None, None, False, "Bloqueo total Líder (Ni ScraperAPI ni GraphQL funcionaron)"
+    return None, None, False, "Bloqueo total Líder (Fallaron ambos)"
 
 def _consultar_curl_cffi(url: str, cfg: dict):
     for intento in range(3): 
