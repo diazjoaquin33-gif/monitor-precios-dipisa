@@ -14,16 +14,19 @@ PRODUCTOS_PATH = BASE_DIR / "productos.csv"
 @st.cache_data(ttl=60)
 def cargar_datos():
     try:
-        # Cargar catálogo ignorando los marcados con #
+        # Cargar catálogo completo ignorando los marcados con #
         df_prod = pd.read_csv(PRODUCTOS_PATH, comment="#")
         # Cargar precios procesados por el bot
         with open(DATOS_PATH, "r", encoding="utf-8") as f:
             precios = json.load(f)
         df_precios = pd.DataFrame(precios)
         
-        # Unir ambas tablas por el SKU interno
-        if not df_precios.empty and not df_prod.empty:
-            df = pd.merge(df_prod, df_precios, on="sku_interno", how="left")
+        # Unir ambas tablas por el SKU interno (Left join para no perder ningún SKU del CSV)
+        if not df_prod.empty:
+            if not df_precios.empty:
+                df = pd.merge(df_prod, df_precios, on="sku_interno", how="left")
+            else:
+                df = df_prod.copy()
             return df
     except Exception as e:
         st.error(f"Error cargando datos: {e}")
@@ -55,14 +58,20 @@ if not df.empty:
     # 3. MÉTRICAS EJECUTIVAS SUPERIORES
     skus_totales = len(df)
     skus_ovella = len(df[df['marca'].str.lower() == 'ovella']) if 'marca' in df.columns else 0
-    # Contar cuántos tienen estado de alerta o error
-    errores = len(df[df['estado'].str.contains("⚠️|Últ|Error", na=False)]) if 'estado' in df.columns else 0
+    
+    # Manejo seguro de estados nulos o vacíos
+    if "estado" in df.columns:
+        df["estado"] = df["estado"].fillna("⚠️ Sin datos recientes")
+    else:
+        df["estado"] = "⚠️ Sin datos"
+
+    errores = len(df[df['estado'].str.contains("⚠️|Últ|Error|Sin", na=False)])
     
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("SKU de Ovella", skus_ovella)
     col2.metric("SKU Monitoreados", skus_totales)
     col3.metric("Disponibles", skus_totales - errores)
-    col4.metric("Con Advertencia / Respaldo", errores)
+    col4.metric("Con Advertencia / Error", errores)
     
     st.write("") 
 
@@ -72,7 +81,7 @@ if not df.empty:
     else:
         df["$/Metro"] = 0
 
-    # Calcular porcentaje de descuento si hay precio normal y oferta
+    # Calcular porcentaje de descuento
     if "precio" in df.columns and "precio_normal" in df.columns:
         df["Descuento"] = df.apply(
             lambda row: f"-{int(100 - (row['precio'] / row['precio_normal'] * 100))}%" 
@@ -82,11 +91,6 @@ if not df.empty:
         )
     else:
         df["Descuento"] = "—"
-
-    # Recuperar el estado original que venía del JSON (En vivo / Último precio)
-    # Si el bot actualizó hoy, ponemos "En vivo", si usó respaldo, mantenemos el texto del JSON
-    if "estado" not in df.columns:
-        df["estado"] = "Disponible"
 
     # Mapeo final de nombres para la tabla
     columnas_mostrar = {
@@ -106,55 +110,60 @@ if not df.empty:
     if "Retailer" in df_vista.columns: df_vista["Retailer"] = df_vista["Retailer"].str.title()
     if "Marca" in df_vista.columns: df_vista["Marca"] = df_vista["Marca"].str.title()
 
-    # 5. ORGANIZACIÓN POR PESTAÑAS (Filtrando por formato real si existe la columna en el CSV)
-    st.markdown("### Detalle por Producto y Formato")
+    # 5. ORGANIZACIÓN POR PESTAÑAS (Muestra todo el catálogo o agrupa sin perder SKUs)
+    st.markdown("### Detalle General del Portafolio")
     
-    # Creamos pestañas basadas en los formatos reales que maneja tu portafolio
-    tab1, tab2, tab3 = st.tabs(["🧻 Doble Hoja 50m", "🧻 Doble Hoja 30m / Otros", "🧻 Toallas de Papel"])
+    tab1, tab2, tab3 = st.tabs(["📊 Todos los SKUs Analizados", "🧻 Papel Higiénico", "🧹 Toallas / Otros"])
 
-    def renderizar_tabla_filtrada(filtro_texto):
-        """Función auxiliar para filtrar el DataFrame según el formato"""
-        if "producto" in df.columns:
-            # Filtramos el dataframe original usando la palabra clave
-            df_filtrado = df[df["producto"].str.contains(filtro_texto, case=False, na=False)]
-            if not df_filtrado.empty:
-                # Reconstruimos la vista para el subgrupo
-                cols_f = [c for c in columnas_mostrar.keys() if c in df_filtrado.columns]
-                vista_f = df_filtrado[cols_f].rename(columns=columnas_mostrar)
-                if "Retailer" in vista_f.columns: vista_f["Retailer"] = vista_f["Retailer"].str.title()
-                if "Marca" in vista_f.columns: vista_f["Marca"] = vista_f["Marca"].str.title()
-                
-                st.dataframe(
-                    vista_f,
-                    use_container_width=True,
-                    hide_index=True,
-                    column_config={
-                        "Precio Lista": st.column_config.NumberColumn("Precio Lista", format="$%d"),
-                        "Precio Oferta": st.column_config.NumberColumn("Precio Oferta", format="$%d"),
-                        "$/Metro": st.column_config.ProgressColumn(
-                            "$/Metro",
-                            help="Costo por metro. Barra más llena = más caro.",
-                            format="$%.1f",
-                            min_value=int(df_vista["$/Metro"].min()) if not df_vista.empty else 10,
-                            max_value=int(df_vista["$/Metro"].max()) if not df_vista.empty else 40
-                        ),
-                        "Estado": st.column_config.TextColumn("Estado")
-                    }
-                )
-                return
-        st.info(f"No hay productos específicos registrados para el filtro: {filtro_texto}")
+    def renderizar_tabla(dataframe_a_mostrar):
+        """Renderiza la tabla de manera segura y limpia"""
+        st.dataframe(
+            dataframe_a_mostrar,
+            use_container_width=True,
+            hide_index=True,
+            column_config={
+                "Precio Lista": st.column_config.NumberColumn("Precio Lista", format="$%d"),
+                "Precio Oferta": st.column_config.NumberColumn("Precio Oferta", format="$%d"),
+                "$/Metro": st.column_config.ProgressColumn(
+                    "$/Metro",
+                    help="Costo por metro. Barra más llena = más caro.",
+                    format="$%.1f",
+                    min_value=int(df_vista["$/Metro"].min()) if not df_vista.empty and df_vista["$/Metro"].min() > 0 else 10,
+                    max_value=int(df_vista["$/Metro"].max()) if not df_vista.empty else 40
+                ),
+                "Estado": st.column_config.TextColumn("Estado")
+            }
+        )
 
     with tab1:
-        st.subheader("Formato 50 metros (Ej: Doble Hoja 50m 4un)")
-        renderizar_tabla_filtrada("50 m")
+        st.subheader("Vista Consolidada de Mercado")
+        # Aquí se muestran TODOS los SKUs sin excepción para que no falte ninguno
+        renderizar_tabla(df_vista)
 
     with tab2:
-        st.subheader("Otros Formatos / Metrajes")
-        renderizar_tabla_filtrada("30 m") # O el texto que identifique a los otros formatos
+        st.subheader("Filtro: Papel Higiénico")
+        if "producto" in df.columns:
+            df_papel = df[~df["producto"].str.contains("Toalla", case=False, na=False)]
+            cols_p = [c for c in columnas_mostrar.keys() if c in df_papel.columns]
+            vista_p = df_papel[cols_p].rename(columns=columnas_mostrar)
+            if "Retailer" in vista_p.columns: vista_p["Retailer"] = vista_p["Retailer"].str.title()
+            if "Marca" in vista_p.columns: vista_p["Marca"] = vista_p["Marca"].str.title()
+            renderizar_tabla(vista_p)
+        else:
+            renderizar_tabla(df_vista)
 
     with tab3:
-        st.subheader("Toallas de Papel")
-        renderizar_tabla_filtrada("Toalla")
+        st.subheader("Filtro: Toallas de Papel y Otros")
+        if "producto" in df.columns:
+            df_toalla = df[df["producto"].str.contains("Toalla", case=False, na=False)]
+            if not df_toalla.empty:
+                cols_t = [c for c in columnas_mostrar.keys() if c in df_toalla.columns]
+                vista_t = df_toalla[cols_t].rename(columns=columnas_mostrar)
+                if "Retailer" in vista_t.columns: vista_t["Retailer"] = vista_t["Retailer"].str.title()
+                if "Marca" in vista_t.columns: vista_t["Marca"] = vista_t["Marca"].str.title()
+                renderizar_tabla(vista_t)
+            else:
+                st.info("No hay productos de toallas de papel registrados con esa etiqueta.")
 
 else:
     st.warning("No se encontraron datos procesados. Por favor, revisa que el archivo datos_procesados.json exista.")
