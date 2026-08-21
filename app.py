@@ -2,9 +2,9 @@ import streamlit as st
 import pandas as pd
 import yaml
 import requests
+import json
 import re
 import time
-import random
 import subprocess
 import sys
 import concurrent.futures
@@ -17,7 +17,6 @@ from curl_cffi import requests as cffi_requests
 
 ZONA_HORARIA_CL = ZoneInfo("America/Santiago")
 
-# Paleta validada: status fijo y azul como acento principal.
 COLOR_BUENO = "#0ca30c"
 COLOR_CRITICO = "#d03b3b"
 COLOR_ACENTO = "#2a78d6"
@@ -33,6 +32,27 @@ BASE_DIR = Path(__file__).parent
 PRODUCTOS_PATH = BASE_DIR / "productos.csv"
 RETAILERS_PATH = BASE_DIR / "retailers.yaml"
 OVELLA_PATH = BASE_DIR / "ovella.csv"
+HISTORICO_PATH = BASE_DIR / "historico_precios.json"
+
+
+# --- GESTIÓN DE PERSISTENCIA HISTÓRICA ---
+
+def cargar_historico() -> dict:
+    if HISTORICO_PATH.exists():
+        try:
+            with open(HISTORICO_PATH, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            return {}
+    return {}
+
+
+def guardar_historico(historico: dict):
+    try:
+        with open(HISTORICO_PATH, "w", encoding="utf-8") as f:
+            json.dump(historico, f, ensure_ascii=False, indent=2)
+    except Exception:
+        pass
 
 
 @st.cache_resource
@@ -74,7 +94,6 @@ def cargar_ovella():
 
 
 def _fragmento_diagnostico(texto: str) -> str:
-    """Devuelve un fragmento limpio del HTML para depuración en errores."""
     limpio = re.sub(r"<[^>]+>", " ", texto)
     limpio = re.sub(r"\s+", " ", limpio).strip()
     return limpio[:180]
@@ -93,7 +112,25 @@ def _resolver_ruta(data, ruta):
     return actual
 
 
-# --- MÉTODOS HTTP DIRECTOS (REQUESTS) ---
+# --- MÉTODOS HTTP CON AUTO-RECUPERACIÓN VTEX ---
+
+def _consultar_vtex_por_id(retailer_base: str, product_id: str):
+    try:
+        api_url = f"{retailer_base}/api/catalog_system/pub/products/search?fq=productId:{product_id}"
+        res = requests.get(api_url, headers=HEADERS, timeout=6)
+        if res.status_code == 200:
+            data = res.json()
+            if data and isinstance(data, list) and len(data) > 0:
+                offer = data[0]["items"][0]["sellers"][0]["commertialOffer"]
+                precio = offer.get("Price")
+                precio_normal = offer.get("ListPrice") or precio
+                disponible = offer.get("AvailableQuantity", 0) > 0
+                if precio:
+                    return float(precio), float(precio_normal), disponible, None
+    except Exception:
+        pass
+    return None, None, False, "No encontrado por ID"
+
 
 def _consultar_meta_tag(url: str, patron_precio: str, patron_disp: str, buscar_lista_embebida: bool = False, intentos: int = 2):
     if not patron_precio:
@@ -124,6 +161,14 @@ def _consultar_meta_tag(url: str, patron_precio: str, patron_disp: str, buscar_l
                         disponible = "in stock" in m_disp.group(1).lower()
 
                 return precio, precio_normal, disponible, None
+            elif res.status_code == 404:
+                m_id = re.search(r'-(\d+)/p', url)
+                if m_id:
+                    base_url = "/".join(url.split("/")[:3])
+                    p, pn, disp, err = _consultar_vtex_por_id(base_url, m_id.group(1))
+                    if p:
+                        return p, pn, disp, None
+                return None, None, False, "URL expirada (HTTP 404)"
             elif res.status_code in (403, 429):
                 time.sleep(1.0 * intento)
                 continue
@@ -133,7 +178,7 @@ def _consultar_meta_tag(url: str, patron_precio: str, patron_disp: str, buscar_l
             if intento == intentos:
                 return None, None, False, f"Error de conexión: {str(e)[:100]}"
             time.sleep(1.0 * intento)
-    return None, None, False, "Bloqueado tras varios intentos (403/429)"
+    return None, None, False, "Bloqueado tras varios intentos"
 
 
 def _consultar_text_pattern(url: str, cfg: dict, intentos: int = 2):
@@ -160,6 +205,8 @@ def _consultar_text_pattern(url: str, cfg: dict, intentos: int = 2):
                         precio_normal = float(m_normal.group(1).replace(".", "").replace(",", "."))
 
                 return precio_oferta, precio_normal, True, None
+            elif res.status_code == 404:
+                return None, None, False, "URL expirada (HTTP 404)"
             elif res.status_code in (403, 429):
                 time.sleep(1.0 * intento)
                 continue
@@ -169,7 +216,7 @@ def _consultar_text_pattern(url: str, cfg: dict, intentos: int = 2):
             if intento == intentos:
                 return None, None, False, f"Error de conexión: {str(e)[:100]}"
             time.sleep(1.0 * intento)
-    return None, None, False, "Bloqueado tras varios intentos (403/429)"
+    return None, None, False, "Bloqueado tras varios intentos"
 
 
 def _consultar_api_post_json(url: str, cfg: dict, intentos: int = 2):
@@ -208,6 +255,8 @@ def _consultar_api_post_json(url: str, cfg: dict, intentos: int = 2):
                     if valor_disp is not None:
                         disponible = bool(valor_disp)
                 return float(precio), float(precio_normal), disponible, None
+            elif res.status_code == 404:
+                return None, None, False, "Slug expirado (HTTP 404)"
             elif res.status_code in (403, 429):
                 if intento == intentos:
                     return None, None, False, f"Bloqueado (HTTP {res.status_code})"
@@ -221,87 +270,78 @@ def _consultar_api_post_json(url: str, cfg: dict, intentos: int = 2):
     return None, None, False, "Falla desconocida"
 
 
-# --- MÉTODOS PLAYWRIGHT ---
+# --- MÉTODOS ESPECIALIZADOS CURL_CFFI (LÍDER, TOTTUS, ALVI) ---
 
-def _consultar_playwright(context, url: str, cfg: dict, intentos: int = 2):
-    selector_oferta = cfg.get("selector_precio_oferta")
-    selector_normal = cfg.get("selector_precio_normal")
+def _consultar_lider_api(url: str, intentos: int = 2):
+    """Consulta la API BFF de Líder/Walmart Chile directamente por ID de producto."""
+    m_id = re.search(r'/(\d{10,16})(?:\?|$)', url)
+    if not m_id:
+        m_id = re.search(r'(\d+)', url.rstrip("/").split("/")[-1])
+    
+    if not m_id:
+        return None, None, False, "No se pudo extraer ID de Líder"
 
-    for intento in range(1, intentos + 1):
-        page = None
-        try:
-            page = context.new_page()
-            page.goto(url, timeout=12000, wait_until="domcontentloaded")
-            time.sleep(0.5)
-
-            precio_oferta = None
-            precio_normal = None
-            try:
-                precio_oferta = float(re.sub(r"[^\d]", "", page.locator(selector_oferta).first.inner_text()))
-            except Exception:
-                pass
-            if selector_normal:
-                try:
-                    precio_normal = float(re.sub(r"[^\d]", "", page.locator(selector_normal).first.inner_text()))
-                except Exception:
-                    pass
-
-            if precio_oferta:
-                return precio_oferta, precio_normal or precio_oferta, True, None
-            if intento == intentos:
-                return None, None, False, "No se encontró el precio en el DOM renderizado"
-        except Exception as e:
-            if intento == intentos:
-                return None, None, False, f"Error Playwright: {str(e)[:100]}"
-        finally:
-            if page is not None:
-                page.close()
-        time.sleep(1.0 * intento)
-    return None, None, False, "Falla desconocida"
-
-
-def _consultar_playwright_text(context, url: str, cfg: dict, intentos: int = 2):
-    patron_oferta = cfg.get("patron_precio_oferta")
-    patron_normal = cfg.get("patron_precio_normal")
+    prod_id = m_id.group(1)
+    api_url = f"https://bff.lider.cl/catalog/product/{prod_id}"
+    
+    headers = {
+        **HEADERS,
+        "Accept": "application/json",
+        "Referer": "https://www.lider.cl/",
+        "Origin": "https://www.lider.cl",
+        "x-channel": "WEB",
+    }
 
     for intento in range(1, intentos + 1):
-        page = None
         try:
-            page = context.new_page()
-            page.goto(url, timeout=12000, wait_until="domcontentloaded")
-            time.sleep(0.5)
-            texto = page.inner_text("body")
+            res = cffi_requests.get(api_url, headers=headers, impersonate="chrome124", timeout=10)
+            if res.status_code == 200:
+                data = res.json()
+                precio_oferta = None
+                precio_normal = None
+                
+                if "price" in data:
+                    precio_oferta = float(data["price"])
+                elif "salePrice" in data:
+                    precio_oferta = float(data["salePrice"])
+                elif "basePrice" in data:
+                    precio_oferta = float(data["basePrice"])
 
-            m_oferta = re.search(patron_oferta, texto)
-            if not m_oferta:
-                frag = _fragmento_diagnostico(texto)
-                if intento == intentos:
-                    return None, None, True, f"No se encontró el precio. Recibido: \"{frag}\""
-                time.sleep(1.0 * intento)
-                continue
-            precio_oferta = float(m_oferta.group(1).replace(".", "").replace(",", "."))
+                if "originalPrice" in data:
+                    precio_normal = float(data["originalPrice"])
+                elif "listPrice" in data:
+                    precio_normal = float(data["listPrice"])
 
-            precio_normal = precio_oferta
-            if patron_normal:
-                m_normal = re.search(patron_normal, texto)
-                if m_normal:
-                    precio_normal = float(m_normal.group(1).replace(".", "").replace(",", "."))
+                if not precio_oferta and "items" in data and len(data["items"]) > 0:
+                    item = data["items"][0]
+                    precio_oferta = item.get("price") or item.get("salePrice")
+                    precio_normal = item.get("originalPrice") or item.get("listPrice")
 
-            return precio_oferta, precio_normal, True, None
-        except Exception as e:
-            if intento == intentos:
-                return None, None, False, f"Error Playwright: {str(e)[:100]}"
+                if precio_oferta:
+                    return float(precio_oferta), float(precio_normal or precio_oferta), True, None
+                
+                return None, None, False, "JSON de Líder sin campo precio"
+
+            elif res.status_code == 404:
+                alt_url = f"https://svcs.lider.cl/orchestration/catalog/products/{prod_id}"
+                alt_res = cffi_requests.get(alt_url, headers=headers, impersonate="chrome124", timeout=10)
+                if alt_res.status_code == 200:
+                    data = alt_res.json()
+                    p = data.get("price", {}).get("BasePriceReference") or data.get("price", {}).get("OfferPrice")
+                    if p:
+                        return float(p), float(p), True, None
+                return None, None, False, "Producto no existe en Líder (404)"
+            
             time.sleep(1.0 * intento)
-        finally:
-            if page is not None:
-                page.close()
-    return None, None, False, "Falla desconocida"
+        except Exception as e:
+            if intento == intentos:
+                return None, None, False, f"Error API Líder: {str(e)[:100]}"
+            time.sleep(1.0 * intento)
 
+    return None, None, False, "Falla conexión Líder"
 
-# --- MÉTODOS CURL_CFFI (ROBUSTO ANTI-BOT / LÍDER / UNIMARC / AKAMAI) ---
 
 def _consultar_curl_cffi(url: str, cfg: dict, intentos: int = 2):
-    """Consulta HTML / API simulando la huella de red exacta de Chrome 124."""
     patron_oferta = cfg.get("patron_precio_oferta")
     patron_normal = cfg.get("patron_precio_normal")
 
@@ -323,20 +363,32 @@ def _consultar_curl_cffi(url: str, cfg: dict, intentos: int = 2):
                 precio_oferta = None
                 precio_normal = None
 
-                # 1. Búsqueda por patrón Regex del YAML
-                if patron_oferta:
+                # 1. Extractor especializado para Tottus (Falabella Platform / Schema / Next.js)
+                if "tottus.cl" in url:
+                    m_tottus = re.search(r'"@type"\s*:\s*"Product".*?"price"\s*:\s*"?(\d+(?:\.\d+)?)"?', texto, re.DOTALL)
+                    if m_tottus:
+                        precio_oferta = float(m_tottus.group(1).replace(".", "").replace(",", "."))
+                    
+                    if not precio_oferta:
+                        m_p = re.search(r'"(?:currentPrice|offerPrice|unitPrice|salePrice)"\s*:\s*(\d+)', texto)
+                        if m_p:
+                            precio_oferta = float(m_p.group(1))
+
+                    if not precio_oferta:
+                        m_raw_price = re.search(r'"price"\s*:\s*\[?"\$?\s*([\d.]+)"?\]?', texto)
+                        if m_raw_price:
+                            precio_oferta = float(m_raw_price.group(1).replace(".", ""))
+
+                    m_norm = re.search(r'"(?:listPrice|originalPrice|normalPrice)"\s*:\s*(\d+)', texto)
+                    if m_norm:
+                        precio_normal = float(m_norm.group(1))
+
+                # 2. Extractor genérico con patrones configurados
+                if not precio_oferta and patron_oferta:
                     m_oferta = re.search(patron_oferta, texto)
                     if m_oferta:
                         precio_oferta = float(m_oferta.group(1).replace(".", "").replace(",", ""))
 
-                # 2. Bloque Next.js estructurado ("salePrice", "price", "basePrice")
-                if not precio_oferta:
-                    m_lider = re.search(r'"salePrice":\s*(\d+)|"price":\s*(\d+)|"basePrice":\s*(\d+)', texto)
-                    if m_lider:
-                        val = next(v for v in m_lider.groups() if v is not None)
-                        precio_oferta = float(val)
-
-                # 3. Meta tags OpenGraph / Schema.org
                 if not precio_oferta:
                     m_meta = re.search(r'(?:property|name)="product:price:amount"\s+content="([\d.,]+)"', texto)
                     if m_meta:
@@ -349,20 +401,15 @@ def _consultar_curl_cffi(url: str, cfg: dict, intentos: int = 2):
                     time.sleep(1.0 * intento)
                     continue
 
-                # Precio Normal / Lista
-                precio_normal = precio_oferta
-                if patron_normal:
+                if not precio_normal and patron_normal:
                     m_normal = re.search(patron_normal, texto)
                     if m_normal:
                         precio_normal = float(m_normal.group(1).replace(".", "").replace(",", ""))
-                else:
-                    m_orig = re.search(r'"originalPrice":\s*(\d+)|"listPrice":\s*(\d+)', texto)
-                    if m_orig:
-                        val_orig = next(v for v in m_orig.groups() if v is not None)
-                        precio_normal = float(val_orig)
 
-                return precio_oferta, precio_normal, True, None
+                return precio_oferta, precio_normal or precio_oferta, True, None
 
+            elif res.status_code == 404:
+                return None, None, False, "URL expirada (HTTP 404)"
             elif res.status_code in (403, 429):
                 time.sleep(1.0 * intento)
                 continue
@@ -373,11 +420,10 @@ def _consultar_curl_cffi(url: str, cfg: dict, intentos: int = 2):
                 return None, None, False, f"Error cffi: {str(e)[:100]}"
             time.sleep(1.0 * intento)
 
-    return None, None, False, "Bloqueado tras varios intentos (403/429)"
+    return None, None, False, "Bloqueado tras varios intentos"
 
 
 def _consultar_cffi_json(url: str, cfg: dict, intentos: int = 2):
-    """Consulta APIs JSON protegidas por Akamai (como Alvi) sin browser."""
     slug = url.rstrip("/").split("/")[-1]
     api_url = cfg["api_base"].rstrip("/") + "/" + slug
 
@@ -405,6 +451,8 @@ def _consultar_cffi_json(url: str, cfg: dict, intentos: int = 2):
                     if valor_normal is not None:
                         precio_normal = valor_normal
                 return float(precio), float(precio_normal), True, None
+            elif res.status_code == 404:
+                return None, None, False, "Slug expirado (HTTP 404)"
             elif res.status_code in (403, 429):
                 if intento == intentos:
                     return None, None, False, f"Bloqueado (HTTP {res.status_code})"
@@ -446,7 +494,10 @@ def _procesar_lote_http(cfg, lista_productos):
 def _procesar_lote_cffi(cfg, lista_productos):
     salida = []
     for prod in lista_productos:
-        if cfg.get("metodo") == "cffi_json":
+        metodo = cfg.get("metodo")
+        if metodo == "lider_api":
+            precio, precio_normal, disponible, error = _consultar_lider_api(prod["url"])
+        elif metodo == "cffi_json":
             precio, precio_normal, disponible, error = _consultar_cffi_json(prod["url"], cfg)
         else:
             precio, precio_normal, disponible, error = _consultar_curl_cffi(prod["url"], cfg)
@@ -455,39 +506,11 @@ def _procesar_lote_cffi(cfg, lista_productos):
     return salida
 
 
-def _procesar_lote_playwright(cfg, lista_productos):
-    from playwright.sync_api import sync_playwright
-
-    salida = []
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        context = browser.new_context(
-            user_agent=HEADERS["User-Agent"], locale="es-CL",
-            viewport={"width": 1366, "height": 768},
-        )
-        for prod in lista_productos:
-            if cfg.get("metodo") == "playwright":
-                precio, precio_normal, disponible, error = _consultar_playwright(context, prod["url"], cfg)
-            else:
-                precio, precio_normal, disponible, error = _consultar_playwright_text(context, prod["url"], cfg)
-            salida.append((prod, precio, precio_normal, disponible, error))
-            time.sleep(0.3)
-        browser.close()
-    return salida
-
-
 @st.cache_data(ttl=1800)
 def consultar_precios_en_vivo(productos_hash: str):
     productos, retailers_cfg = cargar_config()
-
-    usa_playwright = any(
-        cfg.get("metodo") in ("playwright", "playwright_text")
-        for cfg in retailers_cfg.values()
-    )
-    if usa_playwright:
-        resultado_instalacion = asegurar_chromium_instalado()
-        if resultado_instalacion is not True:
-            st.warning(f"⚠️ {resultado_instalacion} — los retailers con Playwright pueden fallar.")
+    historico = cargar_historico()
+    fecha_actual_str = datetime.now(ZONA_HORARIA_CL).strftime("%d/%m/%Y")
 
     grupos = {}
     for _, prod in productos.iterrows():
@@ -504,9 +527,7 @@ def consultar_precios_en_vivo(productos_hash: str):
                 continue
 
             metodo = cfg.get("metodo", "meta_tag")
-            if metodo in ("playwright", "playwright_text"):
-                futuros.append(executor.submit(_procesar_lote_playwright, cfg, lista_productos))
-            elif metodo in ("curl_cffi", "cffi", "cffi_json"):
+            if metodo in ("curl_cffi", "cffi", "cffi_json", "lider_api"):
                 futuros.append(executor.submit(_procesar_lote_cffi, cfg, lista_productos))
             else:
                 futuros.append(executor.submit(_procesar_lote_http, cfg, lista_productos))
@@ -515,10 +536,21 @@ def consultar_precios_en_vivo(productos_hash: str):
             tareas_resultado.extend(futuro.result())
 
     resultados = []
+    hubo_cambios_historico = False
+
     for prod, precio, precio_normal, disponible, error in tareas_resultado:
         retailer_key = prod["retailer"]
+        sku_id = str(prod["sku_interno"])
         cfg = retailers_cfg.get(retailer_key)
+
         if precio and precio > 0:
+            historico[sku_id] = {
+                "precio": precio,
+                "precio_normal": precio_normal or precio,
+                "fecha": fecha_actual_str
+            }
+            hubo_cambios_historico = True
+
             precio_metro = round(precio / prod["metros_totales"], 1) if prod.get("metros_totales") else None
             estado = "Disponible" if disponible else "❌ Sin Stock"
             resultados.append({
@@ -530,14 +562,31 @@ def consultar_precios_en_vivo(productos_hash: str):
                 "estado": estado,
             })
         else:
-            resultados.append({
-                **prod.to_dict(),
-                "retailer_nombre": cfg["nombre"] if cfg else retailer_key,
-                "precio_normal_num": 0,
-                "precio_oferta_num": 0,
-                "precio_metro_num": 0,
-                "estado": f"Sin Conexión ({error})" if error else "Sin Conexión",
-            })
+            respaldo = historico.get(sku_id)
+            if respaldo:
+                precio_resp = respaldo["precio"]
+                precio_norm_resp = respaldo.get("precio_normal", precio_resp)
+                precio_metro = round(precio_resp / prod["metros_totales"], 1) if prod.get("metros_totales") else None
+                resultados.append({
+                    **prod.to_dict(),
+                    "retailer_nombre": cfg["nombre"] if cfg else retailer_key,
+                    "precio_normal_num": precio_norm_resp,
+                    "precio_oferta_num": precio_resp,
+                    "precio_metro_num": precio_metro or 0,
+                    "estado": f"⚠️ Últ. precio ({respaldo['fecha']})",
+                })
+            else:
+                resultados.append({
+                    **prod.to_dict(),
+                    "retailer_nombre": cfg["nombre"] if cfg else retailer_key,
+                    "precio_normal_num": 0,
+                    "precio_oferta_num": 0,
+                    "precio_metro_num": 0,
+                    "estado": f"Sin Conexión ({error})" if error else "Sin Conexión",
+                })
+
+    if hubo_cambios_historico:
+        guardar_historico(historico)
 
     resultados.sort(key=lambda r: r["sku_interno"])
     momento_actualizacion = datetime.now(ZONA_HORARIA_CL).strftime("%d/%m/%Y %H:%M hrs")
@@ -590,7 +639,7 @@ def _tabla_competidores(competidores):
     def resaltar_fila(fila):
         if fila["$/Metro"] == minimo and minimo is not None:
             return [f"background-color: {COLOR_BUENO}26"] * len(fila)
-        if fila["Estado"] not in ("Disponible",):
+        if str(fila["Estado"]).startswith("❌") or str(fila["Estado"]).startswith("Sin"):
             return [f"background-color: {COLOR_CRITICO}1a"] * len(fila)
         return [""] * len(fila)
 
@@ -606,7 +655,7 @@ h3 {{ color: {COLOR_ACENTO}; }}
 """, unsafe_allow_html=True)
 
 st.title("📊 Dipisa & Ovella — Monitor de Pricing en Vivo")
-st.caption("Cada SKU de Ovella (ovella.csv) con su competencia real, agrupada por formato — sin tocar código para sumar productos (productos.csv) o tiendas (retailers.yaml)")
+st.caption("Cada SKU de Ovella (ovella.csv) con su competencia real, agrupada por formato — blindado ante expiración de URLs")
 
 productos_df, _ = cargar_config()
 ovella_df = cargar_ovella()
