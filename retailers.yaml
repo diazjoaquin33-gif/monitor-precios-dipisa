@@ -29,14 +29,10 @@ alvi:
 tottus:
   nombre: "Tottus"
   metodo: "curl_cffi"
-  patron_precio_oferta: '\$\s*([\d.,]+)\s*(?:UN|\n)'
-  patron_precio_normal: '\)\s*\n?\$\s*([\d.,]+)'
 
 lider:
   nombre: "Líder"
-  metodo: "curl_cffi"
-  patron_precio_oferta: '"price":\s*(\d+)'
-  patron_precio_normal: '"(?:originalPrice|listPrice)":\s*(\d+)'
+  metodo: "lider_api"
 
 unimarc:
   nombre: "Unimarc"
