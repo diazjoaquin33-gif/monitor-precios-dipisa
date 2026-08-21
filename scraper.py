@@ -4,6 +4,7 @@ import requests
 import json
 import re
 import time
+import os
 import concurrent.futures
 from datetime import datetime
 from zoneinfo import ZoneInfo
@@ -14,6 +15,7 @@ BASE_DIR = Path(__file__).parent
 PRODUCTOS_PATH = BASE_DIR / "productos.csv"
 RETAILERS_PATH = BASE_DIR / "retailers.yaml"
 DATOS_PATH = BASE_DIR / "datos_procesados.json"
+SCRAPERAPI_KEY = os.environ.get("SCRAPERAPI_KEY")
 
 HEADERS_GENERICOS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
@@ -33,7 +35,21 @@ def _consultar_lider_api(url: str):
     sku_raw = m_id.group(1)
     sku_limpio = sku_raw.lstrip("0") or sku_raw
     
-    # NUEVA CAPA 1: API GraphQL Pública (Evade el error de DNS interno)
+    # INTENTO 1: BLINDAJE CORPORATIVO (ScraperAPI)
+    if SCRAPERAPI_KEY:
+        try:
+            target_url = f"https://bff.lider.cl/catalog/product/{sku_raw}"
+            payload = {'api_key': SCRAPERAPI_KEY, 'url': target_url, 'country_code': 'cl'}
+            res = requests.get('https://api.scraperapi.com/', params=payload, timeout=20)
+            if res.status_code == 200:
+                data = res.json()
+                p_oferta = data.get("price") or data.get("salePrice") or data.get("basePrice")
+                p_normal = data.get("originalPrice") or data.get("listPrice")
+                if p_oferta: return float(p_oferta), float(p_normal or p_oferta), True, None
+        except Exception as e:
+            pass # Si falla el blindaje, pasa al plan B
+
+    # INTENTO 2: API GraphQL Pública (Gratis pero propensa a bloqueos)
     try:
         graphql_url = "https://www.lider.cl/graphql"
         payload = {
@@ -41,11 +57,7 @@ def _consultar_lider_api(url: str):
             "variables": {"productId": sku_limpio},
             "query": "query GetProductById($productId: String!) { product(id: $productId) { price { offerPrice basePrice } } }"
         }
-        headers_gql = {
-            "User-Agent": HEADERS_GENERICOS["User-Agent"],
-            "Content-Type": "application/json",
-            "x-channel": "WEB"
-        }
+        headers_gql = {"User-Agent": HEADERS_GENERICOS["User-Agent"], "Content-Type": "application/json", "x-channel": "WEB"}
         res = cffi_requests.post(graphql_url, headers=headers_gql, json=payload, impersonate="chrome124", timeout=10)
         if res.status_code == 200:
             data = res.json()
@@ -54,22 +66,10 @@ def _consultar_lider_api(url: str):
                 p_oferta = p_info.get("offerPrice") or p_info.get("basePrice")
                 p_normal = p_info.get("basePrice") or p_oferta
                 if p_oferta: return float(p_oferta), float(p_normal), True, None
-    except Exception as e: 
+    except Exception: 
         pass
 
-    # CAPA 2: Proxy Edge de respaldo
-    try:
-        edge_url = f"https://api.allorigins.win/raw?url=https://bff.lider.cl/catalog/product/{sku_raw}"
-        res = requests.get(edge_url, timeout=10)
-        if res.status_code == 200:
-            data = res.json()
-            p_oferta = data.get("price") or data.get("salePrice") or data.get("basePrice")
-            p_normal = data.get("originalPrice") or data.get("listPrice")
-            if p_oferta: return float(p_oferta), float(p_normal or p_oferta), True, None
-    except Exception as e: 
-        pass
-
-    return None, None, False, "Bloqueo total Líder"
+    return None, None, False, "Bloqueo total Líder (Ni ScraperAPI ni GraphQL funcionaron)"
 
 def _consultar_curl_cffi(url: str, cfg: dict):
     for intento in range(3): 
@@ -100,17 +100,13 @@ def _consultar_curl_cffi(url: str, cfg: dict):
                 if precio_oferta:
                     return precio_oferta, precio_normal or precio_oferta, True, None
                 
-                if intento == 2:
-                    return None, None, False, "Regex no encontró el precio en el HTML"
+                if intento == 2: return None, None, False, "Regex no encontró el precio en el HTML"
             else:
-                if intento == 2:
-                    return None, None, False, f"HTTP {res.status_code}"
+                if intento == 2: return None, None, False, f"HTTP {res.status_code}"
         except Exception as e:
-            if intento == 2:
-                return None, None, False, f"Timeout o Error CFFI: {str(e)[:40]}"
+            if intento == 2: return None, None, False, f"Timeout o Error CFFI: {str(e)[:40]}"
             time.sleep(1)
             continue
-            
     return None, None, False, "Falla desconocida"
 
 def procesar_lote(retailer_key, lista_productos, cfg):
@@ -119,10 +115,6 @@ def procesar_lote(retailer_key, lista_productos, cfg):
         metodo = cfg.get("metodo")
         if metodo == "lider_api":
             p, pn, disp, err = _consultar_lider_api(prod["url"])
-        elif metodo == "api_post_json":
-            # PARCHE SANTA ISABEL: Como la API tira HTTP 403, 
-            # forzamos que use el mismo método exitoso de Jumbo.
-            p, pn, disp, err = _consultar_curl_cffi(prod["url"], cfg)
         else:
             p, pn, disp, err = _consultar_curl_cffi(prod["url"], cfg)
         
@@ -136,6 +128,9 @@ def procesar_lote(retailer_key, lista_productos, cfg):
 
 if __name__ == "__main__":
     print("🤖 Iniciando motor blindado de extracción de precios...")
+    if SCRAPERAPI_KEY:
+        print("🔐 Llave ScraperAPI detectada. Blindaje corporativo activado.")
+    
     productos, retailers_cfg = cargar_config()
     grupos = {}
     for _, prod in productos.iterrows():
@@ -155,8 +150,7 @@ if __name__ == "__main__":
     historico = []
     if DATOS_PATH.exists():
         try:
-            with open(DATOS_PATH, "r", encoding="utf-8") as f:
-                historico = json.load(f)
+            with open(DATOS_PATH, "r", encoding="utf-8") as f: historico = json.load(f)
         except json.JSONDecodeError: pass
     
     datos_finales = []
