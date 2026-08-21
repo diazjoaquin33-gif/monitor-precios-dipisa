@@ -84,7 +84,7 @@ def _consultar_curl_cffi(url: str, cfg: dict):
                         m_json = re.search(r'"(?:currentPrice|offerPrice|salePrice)"\s*:\s*"?(\d+(?:\.\d+)?)"?', texto, re.IGNORECASE)
                         if m_json: precio_oferta = float(m_json.group(1))
 
-                # 2. Búsqueda por Regex del YAML (Oferta y Normal)
+                # 2. Búsqueda por Regex del YAML
                 if not precio_oferta and cfg.get("patron_precio_oferta"):
                     m_oferta = re.search(cfg["patron_precio_oferta"], texto)
                     if m_oferta: precio_oferta = float(m_oferta.group(1).replace(".", "").replace(",", "."))
@@ -98,14 +98,13 @@ def _consultar_curl_cffi(url: str, cfg: dict):
                     m_meta = re.search(r'(?:property|name)="product:price:amount"\s+content="([\d.,]+)"', texto)
                     if m_meta: precio_oferta = float(m_meta.group(1).replace(".", "").replace(",", "."))
 
-                # 4. Búsqueda Genérica JSON para Precios Normales (Mejorada)
+                # 4. Búsqueda Genérica JSON para Precios Normales
                 if not precio_normal:
-                    # Busca listPrice, originalPrice, etc., soportando comillas y decimales (.0)
                     m_norm_gen = re.search(r'"(?:listPrice|originalPrice|normalPrice|basePrice|crossedPrice)"\s*:\s*"?(\d+(?:\.\d+)?)"?', texto, re.IGNORECASE)
                     if m_norm_gen: 
                         precio_normal = float(m_norm_gen.group(1))
                 
-                # 5. Búsqueda de Respaldo (highPrice de Schema.org)
+                # 5. Búsqueda de Respaldo (highPrice)
                 if not precio_normal:
                     m_high = re.search(r'"highPrice"\s*:\s*"?(\d+(?:\.\d+)?)"?', texto, re.IGNORECASE)
                     if m_high:
@@ -113,20 +112,9 @@ def _consultar_curl_cffi(url: str, cfg: dict):
 
                 # 6. Retorno final seguro
                 if precio_oferta:
-                    # Si al final de todo encontró precio normal, pero es menor o igual al de oferta, es un falso positivo de la web.
                     if precio_normal and precio_normal <= precio_oferta:
                         precio_normal = precio_oferta
-                        
                     return precio_oferta, precio_normal or precio_oferta, True, None
-                
-                if intento == 2: return None, None, False, "Regex no encontró el precio en el HTML"
-            else:
-                if intento == 2: return None, None, False, f"HTTP {res.status_code}"
-        except Exception as e:
-            if intento == 2: return None, None, False, f"Timeout o Error CFFI: {str(e)[:40]}"
-            time.sleep(1)
-            continue
-    return None, None, False, "Falla desconocida"
                 
                 if intento == 2: return None, None, False, "Regex no encontró el precio en el HTML"
             else:
@@ -144,7 +132,6 @@ def procesar_lote(retailer_key, lista_productos, cfg):
         if metodo == "lider_api":
             p, pn, disp, err = _consultar_lider_api(prod["url"])
         elif metodo == "api_post_json":
-            # Parche Santa Isabel para que funcione perfecto como Jumbo
             p, pn, disp, err = _consultar_curl_cffi(prod["url"], cfg)
         else:
             p, pn, disp, err = _consultar_curl_cffi(prod["url"], cfg)
