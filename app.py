@@ -195,7 +195,7 @@ st.markdown(f"""
 
 con_descuento = df[df["descuento_pct"].notna()]
 ofertas_agresivas = df[df["descuento_pct"] >= 20]
-pendientes = df[df["precio"].isna()]
+pendientes = df[df["estado"] != "Disponible"]
 
 c1, c2, c3, c4 = st.columns(4)
 c1.metric("SKU de Ovella", len(ovella_df))
