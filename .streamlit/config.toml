@@ -1,6 +1,15 @@
 [theme]
-primaryColor = "#4314A7"
-backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "#F4F6F8"
-textColor = "#1B2228"
+# Azul corporativo profundo (estilo Dipisa/Ovella)
+primaryColor = "#004B87" 
+
+# Fondo de la página gris perla muy limpio
+backgroundColor = "#F4F6F9" 
+
+# Fondo de las tarjetas y menú lateral en blanco puro
+secondaryBackgroundColor = "#FFFFFF" 
+
+# Texto oscuro elegante
+textColor = "#1E293B" 
+
+# Tipografía moderna y sin serifa
 font = "sans serif"
