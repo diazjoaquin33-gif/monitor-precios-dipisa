@@ -76,55 +76,58 @@ def _consultar_curl_cffi(url: str, cfg: dict):
                 texto = res.text
                 precio_oferta, precio_normal = None, None
 
-                # 1. Lógica Tottus específica
-                if "tottus.cl" in url:
-                    m_ld = re.search(r'"@type"\s*:\s*"Product".*?"price"\s*:\s*"?(\d+(?:\.\d+)?)"?', texto, re.DOTALL)
-                    if m_ld: precio_oferta = float(m_ld.group(1).replace(".", ""))
-                    if not precio_oferta:
-                        m_json = re.search(r'"(?:currentPrice|offerPrice|salePrice)"\s*:\s*"?(\d+(?:\.\d+)?)"?', texto, re.IGNORECASE)
-                        if m_json: precio_oferta = float(m_json.group(1))
+                # 1. FRANCOTIRADOR CENCOSUD (Jumbo y Santa Isabel - Plataforma VTEX)
+                # Busca el bloque exacto donde ListPrice y Price están juntos
+                m_vtex = re.search(r'"ListPrice"\s*:\s*([\d.]+).*?"Price"\s*:\s*([\d.]+)', texto, re.IGNORECASE)
+                if m_vtex:
+                    p_lista = float(m_vtex.group(1))
+                    p_ofer = float(m_vtex.group(2))
+                    if p_lista > p_ofer:
+                        precio_normal = p_lista
+                        precio_oferta = p_ofer
+                    else:
+                        precio_oferta = p_ofer
+                        precio_normal = p_ofer
 
-                # 2. Búsqueda por Regex del YAML
+                # 2. FRANCOTIRADOR TOTTUS / FALABELLA
+                if not precio_oferta and "tottus" in url:
+                    m_falabella = re.search(r'"originalPrice"\s*:\s*([\d.]+).*?"currentPrice"\s*:\s*([\d.]+)', texto, re.IGNORECASE)
+                    if m_falabella:
+                        precio_normal = float(m_falabella.group(1))
+                        precio_oferta = float(m_falabella.group(2))
+                    else:
+                        # Respaldo Tottus si no hay oferta
+                        m_ld = re.search(r'"@type"\s*:\s*"Product".*?"price"\s*:\s*"?(\d+(?:\.\d+)?)"?', texto, re.DOTALL)
+                        if m_ld: precio_oferta = float(m_ld.group(1).replace(".", ""))
+
+                # 3. Búsqueda por Regex personalizada desde tu retailers.yaml (si la tienes configurada)
                 if not precio_oferta and cfg.get("patron_precio_oferta"):
                     m_oferta = re.search(cfg["patron_precio_oferta"], texto)
                     if m_oferta: precio_oferta = float(m_oferta.group(1).replace(".", "").replace(",", "."))
-
-                if cfg.get("patron_precio_normal"):
+                if not precio_normal and cfg.get("patron_precio_normal"):
                     m_normal = re.search(cfg["patron_precio_normal"], texto)
                     if m_normal: precio_normal = float(m_normal.group(1).replace(".", "").replace(",", "."))
 
-                # 3. Búsqueda Genérica Meta Tags (Oferta)
+                # 4. Búsqueda Genérica Meta Tags (Último recurso)
                 if not precio_oferta:
                     m_meta = re.search(r'(?:property|name)="product:price:amount"\s+content="([\d.,]+)"', texto)
                     if m_meta: precio_oferta = float(m_meta.group(1).replace(".", "").replace(",", "."))
-
-                # 4. Búsqueda Genérica JSON para Precios Normales
-                if not precio_normal:
-                    m_norm_gen = re.search(r'"(?:listPrice|originalPrice|normalPrice|basePrice|crossedPrice)"\s*:\s*"?(\d+(?:\.\d+)?)"?', texto, re.IGNORECASE)
-                    if m_norm_gen: 
-                        precio_normal = float(m_norm_gen.group(1))
                 
-                # 5. Búsqueda de Respaldo (highPrice)
-                if not precio_normal:
-                    m_high = re.search(r'"highPrice"\s*:\s*"?(\d+(?:\.\d+)?)"?', texto, re.IGNORECASE)
-                    if m_high:
-                        precio_normal = float(m_high.group(1))
-
-                # 6. Retorno final seguro
+                # 5. Retorno final seguro
                 if precio_oferta:
+                    # Filtro de seguridad por si la web tiene errores lógicos
                     if precio_normal and precio_normal <= precio_oferta:
                         precio_normal = precio_oferta
                     return precio_oferta, precio_normal or precio_oferta, True, None
                 
-                if intento == 2: return None, None, False, "Regex no encontró el precio en el HTML"
+                if intento == 2: return None, None, False, "No se encontró el precio en el HTML"
             else:
                 if intento == 2: return None, None, False, f"HTTP {res.status_code}"
         except Exception as e:
-            if intento == 2: return None, None, False, f"Timeout o Error CFFI: {str(e)[:40]}"
+            if intento == 2: return None, None, False, f"Error CFFI: {str(e)[:40]}"
             time.sleep(1)
             continue
     return None, None, False, "Falla desconocida"
-
 def procesar_lote(retailer_key, lista_productos, cfg):
     salida = []
     for prod in lista_productos:
