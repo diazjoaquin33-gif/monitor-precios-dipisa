@@ -36,7 +36,17 @@ st.markdown(f"""
 footer {{visibility: hidden;}}
 header {{visibility: hidden;}}
 
-.stApp {{ background: linear-gradient(180deg, #F7F3FC 0%, #F4F6F9 55%); }}
+/* Fondo entretenido: manchas suaves de los dos colores de marca en las
+   esquinas, bien translúcidas para no restarle lectura a las tablas. */
+.stApp {{
+    background-color: #F7F6FB;
+    background-image:
+        radial-gradient(circle at 6% 10%, {COLOR_MORADO}33 0%, transparent 32%),
+        radial-gradient(circle at 95% 15%, {COLOR_VERDE}2E 0%, transparent 28%),
+        radial-gradient(circle at 12% 92%, {COLOR_VERDE}26 0%, transparent 30%),
+        radial-gradient(circle at 96% 88%, {COLOR_MORADO}2E 0%, transparent 34%);
+    background-attachment: fixed;
+}}
 
 /* Tarjetas con borde superior de marca en vez de gris genérico */
 [data-testid="stVerticalBlockBorderWrapper"] {{
@@ -149,20 +159,35 @@ except Exception as e:
     st.error(f"Aún no hay datos procesados o hubo un error al cargar. Ejecuta el Scraper en Actions. Error: {e}")
     st.stop()
 
+ultima_fecha = None
+if "fecha_act" in df.columns and df["fecha_act"].notna().any():
+    ultima_fecha = df["fecha_act"].dropna().max()
+
+chip_fecha = f"""
+<div style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.35);
+            border-radius: 999px; padding: 8px 18px; color: #FFFFFF; font-size: 0.9rem;
+            white-space: nowrap;">
+    🕒 Último reporte: <strong>{ultima_fecha or "sin datos aún"}</strong>
+</div>
+""" if ultima_fecha else ""
+
 st.markdown(f"""
 <div style="background: linear-gradient(135deg, {COLOR_MORADO} 0%, {COLOR_MORADO_OSCURO} 100%);
             border-bottom: 5px solid {COLOR_VERDE};
             padding: 22px 32px; border-radius: 12px; margin-bottom: 28px;
-            display: flex; align-items: center; gap: 22px;">
-    <img src="data:image/png;base64,{_logo_base64()}" style="height: 48px;">
-    <div>
-        <div style="color: #FFFFFF; font-size: 1.7rem; font-weight: 700; line-height: 1.2;">
-            Monitor Competitivo de Precios
-        </div>
-        <div style="color: #E4D7F7; font-size: 0.95rem; margin-top: 2px;">
-            Inteligencia de mercado: pricing de Ovella vs. la competencia en retail
+            display: flex; align-items: center; justify-content: space-between; gap: 22px; flex-wrap: wrap;">
+    <div style="display: flex; align-items: center; gap: 22px;">
+        <img src="data:image/png;base64,{_logo_base64()}" style="height: 48px;">
+        <div>
+            <div style="color: #FFFFFF; font-size: 1.7rem; font-weight: 700; line-height: 1.2;">
+                Monitor Competitivo de Precios
+            </div>
+            <div style="color: #E4D7F7; font-size: 0.95rem; margin-top: 2px;">
+                Inteligencia de mercado: pricing de Ovella vs. la competencia en retail
+            </div>
         </div>
     </div>
+    {chip_fecha}
 </div>
 """, unsafe_allow_html=True)
 
@@ -220,6 +245,4 @@ if not sin_match.empty:
         st.caption("Mismo metraje que ningún SKU en ovella.csv — agrégalo ahí si corresponde a un formato propio.")
         _mostrar_tabla(sin_match)
 
-if "fecha_act" in df.columns and df["fecha_act"].notna().any():
-    ultima_fecha = df["fecha_act"].dropna().max()
-    st.caption(f"Última actualización de precios: {ultima_fecha} · se actualiza automáticamente vía GitHub Actions.")
+st.caption("Se actualiza automáticamente 3 veces al día vía GitHub Actions.")
