@@ -76,31 +76,36 @@ def _consultar_curl_cffi(url: str, cfg: dict):
                 texto = res.text
                 precio_oferta, precio_normal = None, None
 
-                # 1. FRANCOTIRADOR CENCOSUD (Jumbo y Santa Isabel - Plataforma VTEX)
-                # Busca el bloque exacto donde ListPrice y Price están juntos
-                m_vtex = re.search(r'"ListPrice"\s*:\s*([\d.]+).*?"Price"\s*:\s*([\d.]+)', texto, re.IGNORECASE)
-                if m_vtex:
-                    p_lista = float(m_vtex.group(1))
-                    p_ofer = float(m_vtex.group(2))
-                    if p_lista > p_ofer:
-                        precio_normal = p_lista
-                        precio_oferta = p_ofer
+                # 1. FRANCOTIRADOR TOTTUS / FALABELLA
+                if "tottus" in url or "falabella" in url:
+                    # Buscamos la estructura exacta del array "prices" de Falabella
+                    m_event = re.search(r'"type"\s*:\s*"eventPrice".*?"price"\s*:\s*\[\s*"?([\d.]+)"?\s*\]', texto, re.IGNORECASE)
+                    m_normal = re.search(r'"type"\s*:\s*"normalPrice".*?"price"\s*:\s*\[\s*"?([\d.]+)"?\s*\]', texto, re.IGNORECASE)
+                    
+                    if m_event:
+                        precio_oferta = float(m_event.group(1).replace(".", ""))
+                        if m_normal:
+                            precio_normal = float(m_normal.group(1).replace(".", ""))
+                        else:
+                            precio_normal = precio_oferta
                     else:
-                        precio_oferta = p_ofer
-                        precio_normal = p_ofer
+                        # Si el producto no tiene oferta, Falabella solo muestra el normalPrice
+                        if m_normal:
+                            precio_oferta = float(m_normal.group(1).replace(".", ""))
+                            precio_normal = precio_oferta
 
-                # 2. FRANCOTIRADOR TOTTUS / FALABELLA
-                if not precio_oferta and "tottus" in url:
-                    m_falabella = re.search(r'"originalPrice"\s*:\s*([\d.]+).*?"currentPrice"\s*:\s*([\d.]+)', texto, re.IGNORECASE)
-                    if m_falabella:
-                        precio_normal = float(m_falabella.group(1))
-                        precio_oferta = float(m_falabella.group(2))
-                    else:
-                        # Respaldo Tottus si no hay oferta
-                        m_ld = re.search(r'"@type"\s*:\s*"Product".*?"price"\s*:\s*"?(\d+(?:\.\d+)?)"?', texto, re.DOTALL)
-                        if m_ld: precio_oferta = float(m_ld.group(1).replace(".", ""))
+                # 2. FRANCOTIRADOR CENCOSUD (Jumbo y Santa Isabel - Plataforma VTEX)
+                if not precio_oferta and ("jumbo" in url or "santaisabel" in url):
+                    m_vtex = re.search(r'"ListPrice"\s*:\s*([\d.]+).*?"Price"\s*:\s*([\d.]+)', texto, re.IGNORECASE)
+                    if m_vtex:
+                        p_lista = float(m_vtex.group(1))
+                        p_ofer = float(m_vtex.group(2))
+                        if p_lista > p_ofer:
+                            precio_normal, precio_oferta = p_lista, p_ofer
+                        else:
+                            precio_oferta, precio_normal = p_ofer, p_ofer
 
-                # 3. Búsqueda por Regex personalizada desde tu retailers.yaml (si la tienes configurada)
+                # 3. Búsqueda por Regex personalizada del YAML
                 if not precio_oferta and cfg.get("patron_precio_oferta"):
                     m_oferta = re.search(cfg["patron_precio_oferta"], texto)
                     if m_oferta: precio_oferta = float(m_oferta.group(1).replace(".", "").replace(",", "."))
@@ -115,7 +120,6 @@ def _consultar_curl_cffi(url: str, cfg: dict):
                 
                 # 5. Retorno final seguro
                 if precio_oferta:
-                    # Filtro de seguridad por si la web tiene errores lógicos
                     if precio_normal and precio_normal <= precio_oferta:
                         precio_normal = precio_oferta
                     return precio_oferta, precio_normal or precio_oferta, True, None
