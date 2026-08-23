@@ -94,26 +94,26 @@ def _consultar_curl_cffi(url: str, cfg: dict):
 
                 # 2. FRANCOTIRADOR CENCOSUD (Jumbo y Santa Isabel)
                 if not precio_oferta and ("jumbo" in url or "santaisabel" in url):
-                    # Búsqueda limpia
-                    m_vtex = re.search(r'"ListPrice"\s*:\s*([\d.]+).*?"Price"\s*:\s*([\d.]+)', texto, re.DOTALL | re.IGNORECASE)
-                    if m_vtex:
-                        p_lista = float(m_vtex.group(1))
-                        p_ofer = float(m_vtex.group(2))
-                        if p_lista > p_ofer:
-                            precio_normal, precio_oferta = p_lista, p_ofer
-                        else:
-                            precio_oferta, precio_normal = p_ofer, p_ofer
-                    else:
-                        # Aplanadora tolerante a ofuscación JSON (\") y etiquetas alternativas (sellingPrice)
-                        p_listas = re.findall(r'(?:ListPrice|listPrice|highPrice)["\\]*\s*:\s*([\d.]+)', texto, re.IGNORECASE)
-                        p_ofers = re.findall(r'(?:Price|sellingPrice|lowPrice|price)["\\]*\s*:\s*([\d.]+)', texto, re.IGNORECASE)
+                    # 2A) Anclaje SEO: El precio real de este producto exacto (ignora los relacionados)
+                    m_meta = re.search(r'(?:property|name)="(?:product:price:amount|og:price:amount)"\s+content="([\d.,]+)"', texto)
+                    if m_meta:
+                        precio_oferta = float(m_meta.group(1).replace(".", "").replace(",", "."))
                         
-                        if p_ofers:
-                            ofers_limpios = [float(p) for p in p_ofers if float(p) > 100]
-                            if ofers_limpios: precio_oferta = min(ofers_limpios)
-                        if p_listas:
-                            listas_limpios = [float(p) for p in p_listas if float(p) > 100]
-                            if listas_limpios: precio_normal = max(listas_limpios)
+                        # 2B) Buscar bloques de precios en el JSON interno (con o sin barras ofuscadoras)
+                        bloques = re.findall(r'{[^{}]*?(?:\"|\\")ListPrice(?:\"|\\")[^{}]*?}', texto, re.IGNORECASE)
+                        for bloque in bloques:
+                            m_ofer = re.search(r'(?:\"|\\")(?:Price|sellingPrice)(?:\"|\\")\s*:\s*([\d.]+)', bloque, re.IGNORECASE)
+                            m_list = re.search(r'(?:\"|\\")(?:ListPrice|listPrice)(?:\"|\\")\s*:\s*([\d.]+)', bloque, re.IGNORECASE)
+                            if m_ofer and m_list:
+                                ofer_val = float(m_ofer.group(1))
+                                list_val = float(m_list.group(1))
+                                # Si el precio del bloque coincide con el del meta tag, encontramos el producto principal
+                                if ofer_val == precio_oferta:
+                                    precio_normal = list_val if list_val > ofer_val else ofer_val
+                                    break
+                                    
+                        if not precio_normal:
+                            precio_normal = precio_oferta
 
                 # 3. Búsqueda YAML genérica
                 if not precio_oferta and cfg.get("patron_precio_oferta"):
