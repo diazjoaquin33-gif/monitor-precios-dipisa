@@ -76,27 +76,28 @@ def _consultar_curl_cffi(url: str, cfg: dict):
                 texto = res.text
                 precio_oferta, precio_normal = None, None
 
-                # 1. FRANCOTIRADOR TOTTUS / FALABELLA
+                # 1. FRANCOTIRADOR TOTTUS / FALABELLA (CON re.DOTALL PARA SALTOS DE LÍNEA)
                 if "tottus" in url or "falabella" in url:
-                    # Buscamos la estructura exacta del array "prices" de Falabella
-                    m_event = re.search(r'"type"\s*:\s*"eventPrice".*?"price"\s*:\s*\[\s*"?([\d.]+)"?\s*\]', texto, re.IGNORECASE)
-                    m_normal = re.search(r'"type"\s*:\s*"normalPrice".*?"price"\s*:\s*\[\s*"?([\d.]+)"?\s*\]', texto, re.IGNORECASE)
+                    m_event = re.search(r'"type"\s*:\s*"eventPrice".*?"price"\s*:\s*\[\s*"?([\d.]+)"?\s*\]', texto, re.DOTALL | re.IGNORECASE)
+                    m_normal = re.search(r'"type"\s*:\s*"normalPrice".*?"price"\s*:\s*\[\s*"?([\d.]+)"?\s*\]', texto, re.DOTALL | re.IGNORECASE)
                     
                     if m_event:
                         precio_oferta = float(m_event.group(1).replace(".", ""))
                         if m_normal:
                             precio_normal = float(m_normal.group(1).replace(".", ""))
-                        else:
-                            precio_normal = precio_oferta
-                    else:
-                        # Si el producto no tiene oferta, Falabella solo muestra el normalPrice
-                        if m_normal:
-                            precio_oferta = float(m_normal.group(1).replace(".", ""))
-                            precio_normal = precio_oferta
+                    
+                    # Respaldo Aplanadora Tottus: extrae TODOS los precios del JSON y los ordena
+                    if not precio_oferta:
+                        m_prices = re.findall(r'"price"\s*:\s*\[\s*"?(\d+(?:\.\d+)?)"?\s*\]', texto, re.IGNORECASE)
+                        if m_prices:
+                            precios = [float(p.replace(".", "")) for p in m_prices if float(p.replace(".", "")) > 100]
+                            if precios:
+                                precio_oferta = min(precios)
+                                precio_normal = max(precios)
 
-                # 2. FRANCOTIRADOR CENCOSUD (Jumbo y Santa Isabel - Plataforma VTEX)
+                # 2. FRANCOTIRADOR CENCOSUD (Jumbo y Santa Isabel)
                 if not precio_oferta and ("jumbo" in url or "santaisabel" in url):
-                    m_vtex = re.search(r'"ListPrice"\s*:\s*([\d.]+).*?"Price"\s*:\s*([\d.]+)', texto, re.IGNORECASE)
+                    m_vtex = re.search(r'"ListPrice"\s*:\s*([\d.]+).*?"Price"\s*:\s*([\d.]+)', texto, re.DOTALL | re.IGNORECASE)
                     if m_vtex:
                         p_lista = float(m_vtex.group(1))
                         p_ofer = float(m_vtex.group(2))
@@ -104,25 +105,39 @@ def _consultar_curl_cffi(url: str, cfg: dict):
                             precio_normal, precio_oferta = p_lista, p_ofer
                         else:
                             precio_oferta, precio_normal = p_ofer, p_ofer
+                    else:
+                        # Respaldo Aplanadora Cencosud
+                        p_listas = re.findall(r'"ListPrice"\s*:\s*([\d.]+)', texto, re.IGNORECASE)
+                        p_ofers = re.findall(r'"Price"\s*:\s*([\d.]+)', texto, re.IGNORECASE)
+                        if p_ofers:
+                            ofers_limpios = [float(p) for p in p_ofers if float(p) > 100]
+                            if ofers_limpios: precio_oferta = min(ofers_limpios)
+                        if p_listas:
+                            listas_limpios = [float(p) for p in p_listas if float(p) > 100]
+                            if listas_limpios: precio_normal = max(listas_limpios)
 
-                # 3. Búsqueda por Regex personalizada del YAML
+                # 3. Búsqueda por Regex personalizada de tu retailers.yaml (para otros sitios)
                 if not precio_oferta and cfg.get("patron_precio_oferta"):
-                    m_oferta = re.search(cfg["patron_precio_oferta"], texto)
+                    m_oferta = re.search(cfg.get("patron_precio_oferta"), texto, re.DOTALL)
                     if m_oferta: precio_oferta = float(m_oferta.group(1).replace(".", "").replace(",", "."))
                 if not precio_normal and cfg.get("patron_precio_normal"):
-                    m_normal = re.search(cfg["patron_precio_normal"], texto)
+                    m_normal = re.search(cfg.get("patron_precio_normal"), texto, re.DOTALL)
                     if m_normal: precio_normal = float(m_normal.group(1).replace(".", "").replace(",", "."))
 
-                # 4. Búsqueda Genérica Meta Tags (Último recurso)
-                if not precio_oferta:
-                    m_meta = re.search(r'(?:property|name)="product:price:amount"\s+content="([\d.,]+)"', texto)
-                    if m_meta: precio_oferta = float(m_meta.group(1).replace(".", "").replace(",", "."))
-                
-                # 5. Retorno final seguro
+                # 4. Retorno final seguro
                 if precio_oferta:
-                    if precio_normal and precio_normal <= precio_oferta:
+                    if not precio_normal or precio_normal <= precio_oferta:
                         precio_normal = precio_oferta
-                    return precio_oferta, precio_normal or precio_oferta, True, None
+                    return precio_oferta, precio_normal, True, None
+                
+                if intento == 2: return None, None, False, "No se encontró el precio en el HTML"
+            else:
+                if intento == 2: return None, None, False, f"HTTP {res.status_code}"
+        except Exception as e:
+            if intento == 2: return None, None, False, f"Error CFFI: {str(e)[:40]}"
+            time.sleep(1)
+            continue
+    return None, None, False, "Falla desconocida"
                 
                 if intento == 2: return None, None, False, "No se encontró el precio en el HTML"
             else:
