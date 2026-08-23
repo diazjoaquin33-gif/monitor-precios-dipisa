@@ -1,15 +1,15 @@
 [theme]
-# Azul corporativo profundo (estilo Dipisa/Ovella)
-primaryColor = "#004B87" 
+# Morado/índigo de la marca Dipisa (del logo real, no un azul genérico)
+primaryColor = "#4917A1"
 
 # Fondo de la página gris perla muy limpio
-backgroundColor = "#F4F6F9" 
+backgroundColor = "#F4F6F9"
 
 # Fondo de las tarjetas y menú lateral en blanco puro
-secondaryBackgroundColor = "#FFFFFF" 
+secondaryBackgroundColor = "#FFFFFF"
 
-# Texto oscuro elegante
-textColor = "#1E293B" 
+# Texto oscuro tomado del logo (gris carbón, no negro puro)
+textColor = "#1B252C"
 
 # Tipografía moderna y sin serifa
 font = "sans serif"
