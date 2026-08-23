@@ -74,6 +74,7 @@ def _consultar_curl_cffi(url: str, cfg: dict):
                 texto = res.text
                 precio_oferta, precio_normal = None, None
 
+                # 1. FRANCOTIRADOR TOTTUS / FALABELLA
                 if "tottus" in url or "falabella" in url:
                     m_event = re.search(r'"type"\s*:\s*"eventPrice".*?"price"\s*:\s*\[\s*"?([\d.]+)"?\s*\]', texto, re.DOTALL | re.IGNORECASE)
                     m_normal = re.search(r'"type"\s*:\s*"normalPrice".*?"price"\s*:\s*\[\s*"?([\d.]+)"?\s*\]', texto, re.DOTALL | re.IGNORECASE)
@@ -91,7 +92,9 @@ def _consultar_curl_cffi(url: str, cfg: dict):
                                 precio_oferta = min(precios)
                                 precio_normal = max(precios)
 
+                # 2. FRANCOTIRADOR CENCOSUD (Jumbo y Santa Isabel)
                 if not precio_oferta and ("jumbo" in url or "santaisabel" in url):
+                    # Búsqueda limpia
                     m_vtex = re.search(r'"ListPrice"\s*:\s*([\d.]+).*?"Price"\s*:\s*([\d.]+)', texto, re.DOTALL | re.IGNORECASE)
                     if m_vtex:
                         p_lista = float(m_vtex.group(1))
@@ -101,8 +104,10 @@ def _consultar_curl_cffi(url: str, cfg: dict):
                         else:
                             precio_oferta, precio_normal = p_ofer, p_ofer
                     else:
-                        p_listas = re.findall(r'"ListPrice"\s*:\s*([\d.]+)', texto, re.IGNORECASE)
-                        p_ofers = re.findall(r'"Price"\s*:\s*([\d.]+)', texto, re.IGNORECASE)
+                        # Aplanadora tolerante a ofuscación JSON (\") y etiquetas alternativas (sellingPrice)
+                        p_listas = re.findall(r'(?:ListPrice|listPrice|highPrice)["\\]*\s*:\s*([\d.]+)', texto, re.IGNORECASE)
+                        p_ofers = re.findall(r'(?:Price|sellingPrice|lowPrice|price)["\\]*\s*:\s*([\d.]+)', texto, re.IGNORECASE)
+                        
                         if p_ofers:
                             ofers_limpios = [float(p) for p in p_ofers if float(p) > 100]
                             if ofers_limpios: precio_oferta = min(ofers_limpios)
@@ -110,6 +115,7 @@ def _consultar_curl_cffi(url: str, cfg: dict):
                             listas_limpios = [float(p) for p in p_listas if float(p) > 100]
                             if listas_limpios: precio_normal = max(listas_limpios)
 
+                # 3. Búsqueda YAML genérica
                 if not precio_oferta and cfg.get("patron_precio_oferta"):
                     m_oferta = re.search(cfg.get("patron_precio_oferta"), texto, re.DOTALL)
                     if m_oferta: precio_oferta = float(m_oferta.group(1).replace(".", "").replace(",", "."))
