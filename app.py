@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import yaml
 import json
+import base64
 from pathlib import Path
 
 st.set_page_config(
@@ -17,17 +18,42 @@ BASE_DIR = Path(__file__).parent
 # paleta de estado fija (verde/rojo) que nunca se usa para identidad, solo
 # para señalar "más barato" / "sin dato reciente" en las tablas.
 COLOR_MORADO = "#4917A1"
+COLOR_MORADO_OSCURO = "#2E0F66"
+COLOR_VERDE = "#08C44E"
 COLOR_TEXTO = "#1B252C"
 COLOR_BUENO = "#0ca30c"
 COLOR_CRITICO = "#d03b3b"
+
+
+def _logo_base64():
+    with open(BASE_DIR / "logo.png", "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
 
 st.markdown(f"""
 <style>
 #MainMenu {{visibility: hidden;}}
 footer {{visibility: hidden;}}
 header {{visibility: hidden;}}
-h2, h3 {{ color: {COLOR_MORADO}; }}
+
+.stApp {{ background: linear-gradient(180deg, #F7F3FC 0%, #F4F6F9 55%); }}
+
+/* Tarjetas con borde superior de marca en vez de gris genérico */
+[data-testid="stVerticalBlockBorderWrapper"] {{
+    border-top: 4px solid {COLOR_MORADO} !important;
+    border-radius: 10px !important;
+}}
+
+/* Métricas con un tinte sutil de marca, no transparentes */
+[data-testid="stMetric"] {{
+    background-color: {COLOR_MORADO}0D;
+    border: 1px solid {COLOR_MORADO}26;
+    border-radius: 10px;
+    padding: 10px 14px;
+}}
 [data-testid="stMetricValue"] {{ color: {COLOR_TEXTO}; }}
+
+h2, h3 {{ color: {COLOR_MORADO}; }}
 </style>
 """, unsafe_allow_html=True)
 
@@ -76,7 +102,8 @@ def _tabla_categoria(df_grupo):
     """Arma la tabla de una categoría con la fila más barata resaltada en
     verde y las sin dato reciente en rojo translúcido — mismos colores de
     status de siempre, nunca los de marca, para no mezclar identidad con
-    semántica de datos."""
+    semántica de datos. Incluye la URL cruda del producto en una columna
+    aparte para que column_config la muestre como link clickeable."""
     filas = []
     for _, r in df_grupo.iterrows():
         filas.append({
@@ -88,6 +115,7 @@ def _tabla_categoria(df_grupo):
             "Desc.": f"-{int(r['descuento_pct'])}%" if pd.notna(r["descuento_pct"]) else "—",
             "$/Metro": r["precio_metro"] if pd.notna(r["precio_metro"]) else None,
             "Estado": r["estado"],
+            "Ver": r.get("url"),
         })
     tabla = pd.DataFrame(filas)
     minimo = tabla["$/Metro"].dropna().min() if tabla["$/Metro"].notna().any() else None
@@ -102,11 +130,16 @@ def _tabla_categoria(df_grupo):
     return tabla.style.apply(resaltar, axis=1).format({"$/Metro": lambda v: f"${v}/m" if pd.notna(v) else "N/D"})
 
 
+COLUMN_CONFIG = {
+    "Ver": st.column_config.LinkColumn("Ver", display_text="Ver ↗", width="small"),
+}
+
+
 def _mostrar_tabla(df_grupo):
     try:
-        st.dataframe(_tabla_categoria(df_grupo), width="stretch", hide_index=True)
+        st.dataframe(_tabla_categoria(df_grupo), width="stretch", hide_index=True, column_config=COLUMN_CONFIG)
     except TypeError:
-        st.dataframe(_tabla_categoria(df_grupo), use_container_width=True, hide_index=True)
+        st.dataframe(_tabla_categoria(df_grupo), use_container_width=True, hide_index=True, column_config=COLUMN_CONFIG)
 
 
 # --- Interfaz ---
@@ -116,14 +149,22 @@ except Exception as e:
     st.error(f"Aún no hay datos procesados o hubo un error al cargar. Ejecuta el Scraper en Actions. Error: {e}")
     st.stop()
 
-col_logo, col_titulo = st.columns([1, 6])
-with col_logo:
-    st.image(str(BASE_DIR / "logo.png"), width=90)
-with col_titulo:
-    st.title("Monitor Competitivo de Precios")
-    st.caption("Inteligencia de mercado: pricing de Ovella vs. la competencia en retail")
-
-st.divider()
+st.markdown(f"""
+<div style="background: linear-gradient(135deg, {COLOR_MORADO} 0%, {COLOR_MORADO_OSCURO} 100%);
+            border-bottom: 5px solid {COLOR_VERDE};
+            padding: 22px 32px; border-radius: 12px; margin-bottom: 28px;
+            display: flex; align-items: center; gap: 22px;">
+    <img src="data:image/png;base64,{_logo_base64()}" style="height: 48px;">
+    <div>
+        <div style="color: #FFFFFF; font-size: 1.7rem; font-weight: 700; line-height: 1.2;">
+            Monitor Competitivo de Precios
+        </div>
+        <div style="color: #E4D7F7; font-size: 0.95rem; margin-top: 2px;">
+            Inteligencia de mercado: pricing de Ovella vs. la competencia en retail
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 con_descuento = df[df["descuento_pct"].notna()]
 ofertas_agresivas = df[df["descuento_pct"] >= 20]
@@ -137,14 +178,27 @@ c4.metric("Sin dato reciente", len(pendientes))
 
 st.divider()
 
+# Arma primero los grupos (para saber si hay "otros" antes de crear los tabs)
+grupos = []
 usados = set()
 for _, ov in ovella_df.iterrows():
     grupo = df[df["metros_totales"] == ov["metros_totales"]]
     usados.update(grupo.index)
-    with st.container(border=True):
-        st.subheader(f"🧻 Ovella — {ov['producto']} ({int(ov['metros_totales'])} m totales)")
+    grupos.append((ov, grupo))
+
+sin_match = df[~df.index.isin(usados)]
+
+nombres_tabs = [f"🧻 {ov['producto']}" for ov, _ in grupos]
+if not sin_match.empty:
+    nombres_tabs.append(f"📦 Otros ({len(sin_match)})")
+
+tabs = st.tabs(nombres_tabs)
+
+for tab, (ov, grupo) in zip(tabs, grupos):
+    with tab:
+        st.caption(f"{int(ov['metros_totales'])} m totales por paquete")
         if grupo.empty:
-            st.caption("Todavía no hay competidores monitoreados con este mismo metraje.")
+            st.info("Todavía no hay competidores monitoreados con este mismo metraje.")
             continue
 
         validos = grupo[grupo["precio_metro"].notna()]
@@ -161,9 +215,8 @@ for _, ov in ovella_df.iterrows():
 
         _mostrar_tabla(grupo)
 
-sin_match = df[~df.index.isin(usados)]
 if not sin_match.empty:
-    with st.expander(f"📦 Otros {len(sin_match)} productos monitoreados (sin formato Ovella equivalente)"):
+    with tabs[-1]:
         st.caption("Mismo metraje que ningún SKU en ovella.csv — agrégalo ahí si corresponde a un formato propio.")
         _mostrar_tabla(sin_match)
 
