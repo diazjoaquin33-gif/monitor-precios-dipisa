@@ -177,7 +177,9 @@ st.markdown(f"""
             padding: 22px 32px; border-radius: 12px; margin-bottom: 28px;
             display: flex; align-items: center; justify-content: space-between; gap: 22px; flex-wrap: wrap;">
     <div style="display: flex; align-items: center; gap: 22px;">
-        <img src="data:image/png;base64,{_logo_base64()}" style="height: 48px;">
+        <div style="background: #FFFFFF; border-radius: 10px; padding: 8px 14px; display: flex; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.15);">
+            <img src="data:image/png;base64,{_logo_base64()}" style="height: 38px; display: block;">
+        </div>
         <div>
             <div style="color: #FFFFFF; font-size: 1.7rem; font-weight: 700; line-height: 1.2;">
                 Monitor Competitivo de Precios
