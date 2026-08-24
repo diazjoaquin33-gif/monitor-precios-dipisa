@@ -35,3 +35,15 @@ unimarc:
   nombre: "Unimarc"
   metodo: "curl_cffi"
   patron_precio_oferta: '\$\s*([\d.,]+)'
+
+knasta:
+  nombre: "Knasta (Líder)"
+  # Comparador de precios independiente, no es el sitio de Líder — su
+  # robots.txt permite explícitamente /detail/... (solo prohíbe /api y
+  # /redirect, que no usamos). Trae el precio en meta tag estándar
+  # product:price:amount, sin protección anti-bot. Verificado 24/08/2026:
+  # no expone precio de lista para el producto principal en la página
+  # de detalle (el "originalPrice" que aparece ahí es de productos
+  # relacionados en el carrusel, no del producto en cuestión) — solo se
+  # trackea el precio actual, sin oferta/lista por ahora.
+  patron_precio_oferta: '(?:property|name)="product:price:amount"\s+content="([\d.,]+)"'
