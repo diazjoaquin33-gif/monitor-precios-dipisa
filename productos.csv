@@ -1,39 +1,44 @@
-sku_interno,producto,marca,metros_totales,retailer,url
-#TC-001,Doble Hoja 23m 4 un,Noble,92,santaisabel,https://www.santaisabel.cl/papel-higienico-doble-hoja-23-m-4-un-1859328/p
-#TC-002,Doble Hoja 22m 40 un,Noble,880,santaisabel,https://www.santaisabel.cl/ph-doble-hoja-noble-dh-40-rollos-1960588/p
-#TC-003,Doble Hoja 22m 40 un,Confort,880,santaisabel,https://www.santaisabel.cl/papel-higienico-confort-dh-22mt-40un-1997284/p
-#TC-004,Doble Hoja 22m 40 un,Confort,880,jumbo,https://www.jumbo.cl/papel-higienico-confort-dh-22mt-40un-1997284/p
-#TC-006,PAPEL HIG DH NOBLE 6X23 MT,Noble,138,alvi,https://www.alvi.cl/product/papel-hig-dh-noble-6x23-mt-2
-TC-007,Doble Hoja 50 m 4 un,Favorita,200,jumbo,https://www.jumbo.cl/papel-hig-favorita-soft-care-50dh-4un-2004277/p
-TC-008,Doble Hoja 50 m 4 un,Favorita,200,santaisabel,https://www.santaisabel.cl/papel-hig-favorita-soft-care-50dh-4un-2004277/p
-#TC-009,Doble Hoja 50 mts 12 un,Favorita,600,tottus,https://www.tottus.cl/tottus-cl/articulo/148257118/papel-higienico-12-50-favorita-nag-und/148257119
-#TC-010,Doble Hoja 8 x 40 mts,Confort,320,tottus,https://www.tottus.cl/tottus-cl/articulo/119823952/ph-dh-super-40m-x8-confort-und/119823953
-TC-011,Soft Care 4 x 50 mts,Favorita,200,tottus,https://www.tottus.cl/tottus-cl/articulo/138899719/papel-higienico-soft-care-favorita-4-und/138899721
-TC-012,Doble Hoja 50 m 4 un,Confort,200,santaisabel,https://www.santaisabel.cl/papel-higienico-confort-doble-hoja-4-rollos-50-m-c-u/p
-TC-013,Mi Hogar 50 m 4 un,Swan,200,santaisabel,https://www.santaisabel.cl/papel-higienico-mi-hogar-50-m-4-un-1899135/p
-TC-014,Rindemax 50 m 4 un,Scott,200,santaisabel,https://www.santaisabel.cl/papel-higienico-scott-rindemax-50-m-4-un-2044412/p
-TC-015,Doble Hoja Ultra 50 m 4 un,Elite,200,santaisabel,https://www.santaisabel.cl/papel-higienico-elite-doble-hoja-4-rollos-50-m-c-u/p
-#TC-016,Doble Hoja Rendiplus 18 m 4 un,Confort,72,santaisabel,https://www.santaisabel.cl/papel-higienico-2037001/p
-TC-017,Sensación 22 m 4 un,Favorita,88,santaisabel,https://www.santaisabel.cl/ph-fav-sensacion-winter-dh-4-uni-22m-c-u-1957550/p
-TC-018,Rindemax Doble Hoja 22 m 4 un,Scott,88,santaisabel,https://www.santaisabel.cl/papel-higienico-rindemax-4-unid-22-m-c-u/p
-#TC-019,Ultra Suave Doble Hoja 25 m 4 un,Elite,100,santaisabel,https://www.santaisabel.cl/ph-elite-ulta-dh-4-roll-25-m-1960058/p
-#TC-020,Doble Hoja 25 m 6 un,Confort,150,santaisabel,https://www.santaisabel.cl/papel-higienico-dh-6-un-25-m-c-u/p
-TC-021,Doble Hoja 22 m 6 un,Noble,132,santaisabel,https://www.santaisabel.cl/papel-higienico-doble-hoja-22-m-6-un/p
-#TC-022,Rendidor 20 m 6 un,Swan,120,santaisabel,https://www.santaisabel.cl/papel-higienico-swan-rendidor-20-mts-6un-2042618/p
-TC-023,Doble Hoja 4 x 50 mts,Elite,200,tottus,https://www.tottus.cl/tottus-cl/articulo/144745465/papel-higienico-elite-50m-x-4/144745466
-#TC-024,Protect Care Doble Hoja 8 x 65 mts,Scott,520,tottus,https://www.tottus.cl/tottus-cl/articulo/142842662/papel-higienico-protect-care-dh-65mx8un/142842664
-TC-025,Doble Hoja 4 x 30 mts,Confort,120,tottus,https://www.tottus.cl/tottus-cl/articulo/110610609/papel-hig-dh-4-rolllos-30-mt-confort/110610611
-#TC-026,Doble Hoja 4 x 23 mts,Noble,92,tottus,https://www.tottus.cl/tottus-cl/articulo/141162898/papel-higienico-noble-23mx4/141162900
-#TC-027,Doble Hoja Rindeplus 4x18 mts,Confort,72,tottus,https://www.tottus.cl/tottus-cl/articulo/144955224/papel-higienico-rindeplus-18x4/144955225
-TC-028,Acolchado Doble Hoja 4x22 mts,Favorita,88,tottus,https://www.tottus.cl/tottus-cl/articulo/115855542/higienico-acolchado-22mt-favorita-4/115855543
-#TC-029,Ultra Doble Hoja 4 x 25 mts,Elite,100,tottus,https://www.tottus.cl/tottus-cl/articulo/120528832/ph-ultra-dh-25m-x4-und-elite/120528833
-TC-030,Doble Hoja Soft 4 x 25 mts,Tottus,100,tottus,https://www.tottus.cl/tottus-cl/articulo/112988502/ph-doble-hoja-soft-tottus-4-un-x-25-mt/112988503
-TC-031,Rindemax Doble Hoja 4 x 21 mts,Scott,84,tottus,https://www.tottus.cl/tottus-cl/articulo/110617520/papel-higienico-rindemax-dh-21mx4un/110617521
-TC-032,Doble Hoja 6 x 23 mts,Noble,138,tottus,https://www.tottus.cl/tottus-cl/articulo/124540262/noble-dh-x6-noble-23mt/124540264
-TC-033,Rendiplus Doble Hoja 6 x 20 mts,Confort,120,tottus,https://www.tottus.cl/tottus-cl/articulo/144334960/papel-higienico-confort-20-mts-x6/144334961
-TC-034,Familiar Doble Hoja 22 m 4 un,Lider,88,knasta,https://knasta.cl/detail/lider_supermercado/00780465334184/papel-higienico-familiar-doble-hoja-22-metros-4-un-lider
-TC-035,Doble Hoja 50 m 4 un,Swan,200,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-50-metros-4-un-swan-4851927
-TC-036,Familiar Doble Hoja 22 m 4 un,Lider,88,acuenta,https://www.acuenta.cl/p/papel-higienico-familiar-doble-hoja-22-metros-4-un-lider-4790111
-TC-037,Family Care Doble Hoja 22 m 4 un,Family Care,88,jumbo,https://www.jumbo.cl/papel-higienico-family-care-doble-hoja-22-m-4-un-2017471/p
-TC-038,Rindemax Doble Hoja 22 m 4 un,Scott,88,jumbo,https://www.jumbo.cl/papel-higienico-rindemax-4-unid-22-m-c-u/p
+sku_interno,producto,marca,metros_totales,retailer,url,categoria,subcategoria
+#TC-001,Doble Hoja 23m 4 un,Noble,92,santaisabel,https://www.santaisabel.cl/papel-higienico-doble-hoja-23-m-4-un-1859328/p,Papel Higienico,Doble Hoja
+#TC-002,Doble Hoja 22m 40 un,Noble,880,santaisabel,https://www.santaisabel.cl/ph-doble-hoja-noble-dh-40-rollos-1960588/p,Papel Higienico,Doble Hoja
+#TC-003,Doble Hoja 22m 40 un,Confort,880,santaisabel,https://www.santaisabel.cl/papel-higienico-confort-dh-22mt-40un-1997284/p,Papel Higienico,Doble Hoja
+#TC-004,Doble Hoja 22m 40 un,Confort,880,jumbo,https://www.jumbo.cl/papel-higienico-confort-dh-22mt-40un-1997284/p,Papel Higienico,Doble Hoja
+#TC-006,PAPEL HIG DH NOBLE 6X23 MT,Noble,138,alvi,https://www.alvi.cl/product/papel-hig-dh-noble-6x23-mt-2,Papel Higienico,Doble Hoja
+TC-007,Doble Hoja 50 m 4 un,Favorita,200,jumbo,https://www.jumbo.cl/papel-hig-favorita-soft-care-50dh-4un-2004277/p,Papel Higienico,Doble Hoja
+TC-008,Doble Hoja 50 m 4 un,Favorita,200,santaisabel,https://www.santaisabel.cl/papel-hig-favorita-soft-care-50dh-4un-2004277/p,Papel Higienico,Doble Hoja
+#TC-009,Doble Hoja 50 mts 12 un,Favorita,600,tottus,https://www.tottus.cl/tottus-cl/articulo/148257118/papel-higienico-12-50-favorita-nag-und/148257119,Papel Higienico,Doble Hoja
+#TC-010,Doble Hoja 8 x 40 mts,Confort,320,tottus,https://www.tottus.cl/tottus-cl/articulo/119823952/ph-dh-super-40m-x8-confort-und/119823953,Papel Higienico,Doble Hoja
+TC-011,Soft Care 4 x 50 mts,Favorita,200,tottus,https://www.tottus.cl/tottus-cl/articulo/138899719/papel-higienico-soft-care-favorita-4-und/138899721,Papel Higienico,Doble Hoja
+TC-012,Doble Hoja 50 m 4 un,Confort,200,santaisabel,https://www.santaisabel.cl/papel-higienico-confort-doble-hoja-4-rollos-50-m-c-u/p,Papel Higienico,Doble Hoja
+TC-013,Mi Hogar 50 m 4 un,Swan,200,santaisabel,https://www.santaisabel.cl/papel-higienico-mi-hogar-50-m-4-un-1899135/p,Papel Higienico,Doble Hoja
+TC-014,Rindemax 50 m 4 un,Scott,200,santaisabel,https://www.santaisabel.cl/papel-higienico-scott-rindemax-50-m-4-un-2044412/p,Papel Higienico,Doble Hoja
+TC-015,Doble Hoja Ultra 50 m 4 un,Elite,200,santaisabel,https://www.santaisabel.cl/papel-higienico-elite-doble-hoja-4-rollos-50-m-c-u/p,Papel Higienico,Doble Hoja
+#TC-016,Doble Hoja Rendiplus 18 m 4 un,Confort,72,santaisabel,https://www.santaisabel.cl/papel-higienico-2037001/p,Papel Higienico,Doble Hoja
+TC-017,Sensación 22 m 4 un,Favorita,88,santaisabel,https://www.santaisabel.cl/ph-fav-sensacion-winter-dh-4-uni-22m-c-u-1957550/p,Papel Higienico,Doble Hoja
+TC-018,Rindemax Doble Hoja 22 m 4 un,Scott,88,santaisabel,https://www.santaisabel.cl/papel-higienico-rindemax-4-unid-22-m-c-u/p,Papel Higienico,Doble Hoja
+#TC-019,Ultra Suave Doble Hoja 25 m 4 un,Elite,100,santaisabel,https://www.santaisabel.cl/ph-elite-ulta-dh-4-roll-25-m-1960058/p,Papel Higienico,Doble Hoja
+#TC-020,Doble Hoja 25 m 6 un,Confort,150,santaisabel,https://www.santaisabel.cl/papel-higienico-dh-6-un-25-m-c-u/p,Papel Higienico,Doble Hoja
+TC-021,Doble Hoja 22 m 6 un,Noble,132,santaisabel,https://www.santaisabel.cl/papel-higienico-doble-hoja-22-m-6-un/p,Papel Higienico,Doble Hoja
+#TC-022,Rendidor 20 m 6 un,Swan,120,santaisabel,https://www.santaisabel.cl/papel-higienico-swan-rendidor-20-mts-6un-2042618/p,Papel Higienico,Doble Hoja
+TC-023,Doble Hoja 4 x 50 mts,Elite,200,tottus,https://www.tottus.cl/tottus-cl/articulo/144745465/papel-higienico-elite-50m-x-4/144745466,Papel Higienico,Doble Hoja
+#TC-024,Protect Care Doble Hoja 8 x 65 mts,Scott,520,tottus,https://www.tottus.cl/tottus-cl/articulo/142842662/papel-higienico-protect-care-dh-65mx8un/142842664,Papel Higienico,Doble Hoja
+TC-025,Doble Hoja 4 x 30 mts,Confort,120,tottus,https://www.tottus.cl/tottus-cl/articulo/110610609/papel-hig-dh-4-rolllos-30-mt-confort/110610611,Papel Higienico,Doble Hoja
+#TC-026,Doble Hoja 4 x 23 mts,Noble,92,tottus,https://www.tottus.cl/tottus-cl/articulo/141162898/papel-higienico-noble-23mx4/141162900,Papel Higienico,Doble Hoja
+#TC-027,Doble Hoja Rindeplus 4x18 mts,Confort,72,tottus,https://www.tottus.cl/tottus-cl/articulo/144955224/papel-higienico-rindeplus-18x4/144955225,Papel Higienico,Doble Hoja
+TC-028,Acolchado Doble Hoja 4x22 mts,Favorita,88,tottus,https://www.tottus.cl/tottus-cl/articulo/115855542/higienico-acolchado-22mt-favorita-4/115855543,Papel Higienico,Doble Hoja
+#TC-029,Ultra Doble Hoja 4 x 25 mts,Elite,100,tottus,https://www.tottus.cl/tottus-cl/articulo/120528832/ph-ultra-dh-25m-x4-und-elite/120528833,Papel Higienico,Doble Hoja
+TC-030,Doble Hoja Soft 4 x 25 mts,Tottus,100,tottus,https://www.tottus.cl/tottus-cl/articulo/112988502/ph-doble-hoja-soft-tottus-4-un-x-25-mt/112988503,Papel Higienico,Doble Hoja
+TC-031,Rindemax Doble Hoja 4 x 21 mts,Scott,84,tottus,https://www.tottus.cl/tottus-cl/articulo/110617520/papel-higienico-rindemax-dh-21mx4un/110617521,Papel Higienico,Doble Hoja
+TC-032,Doble Hoja 6 x 23 mts,Noble,138,tottus,https://www.tottus.cl/tottus-cl/articulo/124540262/noble-dh-x6-noble-23mt/124540264,Papel Higienico,Doble Hoja
+TC-033,Rendiplus Doble Hoja 6 x 20 mts,Confort,120,tottus,https://www.tottus.cl/tottus-cl/articulo/144334960/papel-higienico-confort-20-mts-x6/144334961,Papel Higienico,Doble Hoja
+TC-034,Familiar Doble Hoja 22 m 4 un,Lider,88,knasta,https://knasta.cl/detail/lider_supermercado/00780465334184/papel-higienico-familiar-doble-hoja-22-metros-4-un-lider,Papel Higienico,Doble Hoja
+TC-035,Doble Hoja 50 m 4 un,Swan,200,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-50-metros-4-un-swan-4851927,Papel Higienico,Doble Hoja
+TC-036,Familiar Doble Hoja 22 m 4 un,Lider,88,acuenta,https://www.acuenta.cl/p/papel-higienico-familiar-doble-hoja-22-metros-4-un-lider-4790111,Papel Higienico,Doble Hoja
+TC-037,Family Care Doble Hoja 22 m 4 un,Family Care,88,jumbo,https://www.jumbo.cl/papel-higienico-family-care-doble-hoja-22-m-4-un-2017471/p,Papel Higienico,Doble Hoja
+TC-038,Rindemax Doble Hoja 22 m 4 un,Scott,88,jumbo,https://www.jumbo.cl/papel-higienico-rindemax-4-unid-22-m-c-u/p,Papel Higienico,Doble Hoja
+#
+# categoria/subcategoria deben coincidir EXACTO (mismo texto) con las de
+# ovella.csv para que el dashboard agrupe bien — ej. "Papel Higienico"/
+# "Doble Hoja" o "Toalla de Papel"/"Hoja Simple". El metraje no necesita ser
+# exacto, se agrupa dentro de un rango de +-15% respecto al SKU de Ovella.
 

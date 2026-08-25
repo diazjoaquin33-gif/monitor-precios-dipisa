@@ -24,6 +24,12 @@ COLOR_TEXTO = "#1B252C"
 COLOR_BUENO = "#0ca30c"
 COLOR_CRITICO = "#d03b3b"
 
+# +-15% de metraje para considerar dos productos "comparables" dentro de la
+# misma categoria+subcategoria — ya no exige metraje idéntico.
+RANGO_TOLERANCIA_METROS = 0.15
+
+ICONO_CATEGORIA = {"Papel Higienico": "🧻", "Toalla de Papel": "🧺"}
+
 
 def _logo_base64():
     with open(BASE_DIR / "logo.png", "rb") as f:
@@ -205,17 +211,26 @@ c4.metric("Sin dato reciente", len(pendientes))
 
 st.divider()
 
-# Arma primero los grupos (para saber si hay "otros" antes de crear los tabs)
+# Arma primero los grupos (para saber si hay "otros" antes de crear los tabs).
+# Coinciden por categoria+subcategoria EXACTA, y metraje dentro de +-15% del
+# SKU de Ovella (no exige metraje idéntico, para no perder competidores de
+# formato parecido pero no igual).
 grupos = []
 usados = set()
 for _, ov in ovella_df.iterrows():
-    grupo = df[df["metros_totales"] == ov["metros_totales"]]
+    margen = ov["metros_totales"] * RANGO_TOLERANCIA_METROS
+    grupo = df[
+        (df["categoria"] == ov["categoria"])
+        & (df["subcategoria"] == ov["subcategoria"])
+        & (df["metros_totales"] >= ov["metros_totales"] - margen)
+        & (df["metros_totales"] <= ov["metros_totales"] + margen)
+    ]
     usados.update(grupo.index)
     grupos.append((ov, grupo))
 
 sin_match = df[~df.index.isin(usados)]
 
-nombres_tabs = [f"🧻 {ov['producto']}" for ov, _ in grupos]
+nombres_tabs = [f"{ICONO_CATEGORIA.get(ov['categoria'], '📄')} {ov['producto']}" for ov, _ in grupos]
 if not sin_match.empty:
     nombres_tabs.append(f"📦 Otros ({len(sin_match)})")
 
@@ -223,7 +238,7 @@ tabs = st.tabs(nombres_tabs)
 
 for tab, (ov, grupo) in zip(tabs, grupos):
     with tab:
-        st.caption(f"{int(ov['metros_totales'])} m totales por paquete")
+        st.caption(f"{ov['categoria']} · {ov['subcategoria']} · ~{int(ov['metros_totales'])} m por paquete (rango ±15%)")
         if grupo.empty:
             st.info("Todavía no hay competidores monitoreados con este mismo metraje.")
             continue
@@ -244,7 +259,7 @@ for tab, (ov, grupo) in zip(tabs, grupos):
 
 if not sin_match.empty:
     with tabs[-1]:
-        st.caption("Mismo metraje que ningún SKU en ovella.csv — agrégalo ahí si corresponde a un formato propio.")
+        st.caption("No calza con ningún SKU de Ovella (categoría/subcategoría distinta, o metraje fuera del rango ±15%) — revisa si corresponde agregar un formato nuevo en ovella.csv.")
         _mostrar_tabla(sin_match)
 
 st.caption("Se actualiza automáticamente 3 veces al día vía GitHub Actions.")
