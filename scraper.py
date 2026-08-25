@@ -26,6 +26,61 @@ def cargar_config():
         retailers = yaml.safe_load(f)
     return productos, retailers
 
+INSTALEAP_QUERY = (
+    "fragment CategoryFields on CategoryModel {\n  active\n  boost\n  hasChildren\n  categoryNamesPath\n  isAvailableInHome\n  level\n  name\n  path\n  reference\n  slug\n  photoUrl\n  imageUrl\n  shortName\n  isFeatured\n  isAssociatedToCatalog\n  __typename\n}\n\n"
+    "fragment CatalogProductTagModel on CatalogProductTagModel {\n  description\n  enabled\n  textColor\n  filter\n  tagReference\n  backgroundColor\n  name\n  __typename\n}\n\n"
+    "fragment CatalogProductFormatModel on CatalogProductFormatModel {\n  format\n  equivalence\n  unitEquivalence\n  clickMultiplier\n  minQty\n  maxQty\n  __typename\n}\n\n"
+    "fragment Taxes on ProductTaxModel {\n  taxId\n  taxName\n  taxType\n  taxValue\n  taxSubTotal\n  __typename\n}\n\n"
+    "fragment PromotionCondition on PromotionCondition {\n  quantity\n  price\n  priceBeforeTaxes\n  taxTotal\n  taxes {\n    ...Taxes\n    __typename\n  }\n  __typename\n}\n\n"
+    "fragment Promotion on Promotion {\n  type\n  isActive\n  conditions {\n    ...PromotionCondition\n    __typename\n  }\n  description\n  endDateTime\n  startDateTime\n  __typename\n}\n\n"
+    "fragment PromotedModel on PromotedModel {\n  isPromoted\n  onLoadBeacon\n  onClickBeacon\n  onViewBeacon\n  onBasketChangeBeacon\n  onWishlistBeacon\n  __typename\n}\n\n"
+    "fragment SpecificationModel on SpecificationModel {\n  title\n  values {\n    label\n    value\n    __typename\n  }\n  __typename\n}\n\n"
+    "fragment NutritionalDetailsInformation on NutritionalDetailsInformation {\n  servingName\n  servingSize\n  servingUnit\n  servingsPerPortion\n  nutritionalTable {\n    nutrientName\n    quantity\n    unit\n    quantityPerPortion\n    dailyValue\n    __typename\n  }\n  bottomInfo\n  __typename\n}\n\n"
+    "fragment Promotions on PromotionV2 {\n  type\n  description\n  promotionReference\n  startDateTime\n  endDateTime\n  isActive\n  conditions {\n    field\n    operator\n    values\n    value\n    __typename\n  }\n  restrictions {\n    field\n    operator\n    value\n    __typename\n  }\n  benefit {\n    type\n    label\n    value\n    values\n    imagesURL\n    qty\n    __typename\n  }\n  __typename\n}\n\n"
+    "fragment CatalogProductModel on CatalogProductModel {\n  name\n  price\n  photosUrl\n  unit\n  subUnit\n  subQty\n  description\n  sku\n  ean\n  maxQty\n  minQty\n  clickMultiplier\n  nutritionalDetails\n  isActive\n  slug\n  brand\n  stock\n  securityStock\n  boost\n  isAvailable\n  location\n  priceBeforeTaxes\n  taxTotal\n  allowSubstitutions\n  promotion {\n    ...Promotion\n    __typename\n  }\n  taxes {\n    ...Taxes\n    __typename\n  }\n  categories {\n    ...CategoryFields\n    __typename\n  }\n  categoriesData {\n    ...CategoryFields\n    __typename\n  }\n  formats {\n    ...CatalogProductFormatModel\n    __typename\n  }\n  tags {\n    ...CatalogProductTagModel\n    __typename\n  }\n  specifications {\n    ...SpecificationModel\n    __typename\n  }\n  promoted {\n    ...PromotedModel\n    __typename\n  }\n  score\n  relatedProducts\n  ingredients\n  stockWarning\n  nutritionalDetailsInformation {\n    ...NutritionalDetailsInformation\n    __typename\n  }\n  productVariants\n  isVariant\n  isDominant\n  promotions {\n    ...Promotions\n    __typename\n  }\n  seals\n  previousPrice\n  previousPricePerSubUnit\n  promotionPricePerSubUnit\n  pricePerSubUnit\n  hasAgeRestriction\n  type\n  __typename\n}\n\n"
+    "query GetProductsBySKU($getProductsBySkuInput: GetProductsBySKUInput!) {\n  getProductsBySKU(getProductsBySKUInput: $getProductsBySkuInput) {\n    ...CatalogProductModel\n    __typename\n  }\n}"
+)
+
+
+def _consultar_instaleap(url: str, cfg: dict):
+    """Varios supermercados chilenos (ej. aCuenta) usan Instaleap como backend
+    de catálogo — la ficha de producto es una SPA que renderiza el precio con
+    JS, pero el propio frontend lo pide a esta API GraphQL pública, sin
+    protección anti-bot ni problema de certificado (a diferencia del dominio
+    principal del retailer). El SKU se saca del último tramo de la URL
+    (todas las fichas terminan en "-{sku}")."""
+    sku = url.rstrip("/").split("-")[-1]
+    payload = [{
+        "operationName": "GetProductsBySKU",
+        "variables": {"getProductsBySkuInput": {
+            "clientId": cfg["client_id"],
+            "skus": [sku],
+            "storeReference": cfg["store_reference"],
+        }},
+        "query": INSTALEAP_QUERY,
+    }]
+    try:
+        res = requests.post(
+            "https://nextgentheadless.instaleap.io/api/v3",
+            json=payload, headers=HEADERS_GENERICOS, timeout=12,
+        )
+        if res.status_code != 200:
+            return None, None, False, f"HTTP {res.status_code}"
+        data = res.json()
+        productos_resp = data[0]["data"]["getProductsBySKU"]
+        if not productos_resp:
+            return None, None, False, f"SKU '{sku}' no encontrado en Instaleap"
+        p = productos_resp[0]
+        precio = p.get("price")
+        if not precio:
+            return None, None, False, "Sin precio en la respuesta"
+        precio_normal = p.get("previousPrice") or precio
+        disponible = bool(p.get("isAvailable")) and (p.get("stock") or 0) > 0
+        return float(precio), float(precio_normal), disponible, None
+    except Exception as e:
+        return None, None, False, f"Error Instaleap: {str(e)[:80]}"
+
+
 def _consultar_lider_api(url: str):
     m_id = re.search(r'/(\d{8,16})(?:\?|$)', url)
     if not m_id: m_id = re.search(r'(\d+)', url.rstrip("/").split("/")[-1])
@@ -98,20 +153,21 @@ def _consultar_curl_cffi(url: str, cfg: dict):
                     m_meta = re.search(r'(?:property|name)="(?:product:price:amount|og:price:amount)"\s+content="([\d.,]+)"', texto)
                     if m_meta:
                         precio_oferta = float(m_meta.group(1).replace(".", "").replace(",", "."))
-                        
-                        # 2B) Buscar bloques de precios en el JSON interno (con o sin barras ofuscadoras)
-                        bloques = re.findall(r'{[^{}]*?(?:\"|\\")ListPrice(?:\"|\\")[^{}]*?}', texto, re.IGNORECASE)
-                        for bloque in bloques:
-                            m_ofer = re.search(r'(?:\"|\\")(?:Price|sellingPrice)(?:\"|\\")\s*:\s*([\d.]+)', bloque, re.IGNORECASE)
-                            m_list = re.search(r'(?:\"|\\")(?:ListPrice|listPrice)(?:\"|\\")\s*:\s*([\d.]+)', bloque, re.IGNORECASE)
-                            if m_ofer and m_list:
-                                ofer_val = float(m_ofer.group(1))
-                                list_val = float(m_list.group(1))
-                                # Si el precio del bloque coincide con el del meta tag, encontramos el producto principal
-                                if ofer_val == precio_oferta:
-                                    precio_normal = list_val if list_val > ofer_val else ofer_val
-                                    break
-                                    
+
+                        # 2B) listPrice embebido en el bloque de hidratación: NO es un objeto
+                        # {} aislado (viene suelto entre otros campos de un objeto más grande
+                        # con arrays/objetos anidados alrededor, así que buscar un bloque {}
+                        # sin llaves internas nunca calzaba con la estructura real). Se busca
+                        # directo "price":X,"listPrice":Y anclado al precio ya confirmado por
+                        # el meta tag, para no traer el descuento de un producto relacionado.
+                        m_lista = re.search(
+                            rf'\\?"price\\?":{int(precio_oferta)},\\?"listPrice\\?":([\d.]+)',
+                            texto, re.IGNORECASE,
+                        )
+                        if m_lista:
+                            list_val = float(m_lista.group(1))
+                            precio_normal = list_val if list_val > precio_oferta else precio_oferta
+
                         if not precio_normal:
                             precio_normal = precio_oferta
 
@@ -143,6 +199,8 @@ def procesar_lote(retailer_key, lista_productos, cfg):
         metodo = cfg.get("metodo")
         if metodo == "lider_api":
             p, pn, disp, err = _consultar_lider_api(prod["url"])
+        elif metodo == "instaleap":
+            p, pn, disp, err = _consultar_instaleap(prod["url"], cfg)
         elif metodo == "api_post_json":
             p, pn, disp, err = _consultar_curl_cffi(prod["url"], cfg)
         else:

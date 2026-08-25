@@ -36,6 +36,19 @@ unimarc:
   metodo: "curl_cffi"
   patron_precio_oferta: '\$\s*([\d.,]+)'
 
+acuenta:
+  nombre: "aCuenta"
+  metodo: "instaleap"
+  # Verificado 24/08/2026: acuenta.cl es una SPA (el precio no está en el
+  # HTML crudo) y además su certificado SSL está mal configurado (falta la
+  # cadena intermedia) — falla tanto con requests como con curl_cffi. Pero
+  # su propio frontend pide los datos a la API pública de Instaleap
+  # (nextgentheadless.instaleap.io), que no tiene ninguno de esos dos
+  # problemas. client_id/store_reference identifican la tienda específica
+  # (580 = aCuenta El Monte) — el precio podría variar levemente por local.
+  client_id: "SUPER_BODEGA"
+  store_reference: "580"
+
 knasta:
   nombre: "Knasta (Líder)"
   # Comparador de precios independiente, no es el sitio de Líder — su
