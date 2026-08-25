@@ -2,10 +2,10 @@
   {
     "sku_interno": "TC-007",
     "precio": 3000.0,
-    "precio_normal": 3000.0,
+    "precio_normal": 4690.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "24/08/2026 17:05 hrs"
+    "fecha_act": "24/08/2026 22:03 hrs"
   },
   {
     "sku_interno": "TC-008",
@@ -21,7 +21,7 @@
     "precio_normal": 4590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "24/08/2026 17:05 hrs"
+    "fecha_act": "24/08/2026 22:03 hrs"
   },
   {
     "sku_interno": "TC-012",
@@ -29,7 +29,7 @@
     "precio_normal": 5090.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "24/08/2026 17:05 hrs"
+    "fecha_act": "24/08/2026 22:03 hrs"
   },
   {
     "sku_interno": "TC-013",
@@ -37,7 +37,7 @@
     "precio_normal": 2990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "24/08/2026 17:05 hrs"
+    "fecha_act": "24/08/2026 22:03 hrs"
   },
   {
     "sku_interno": "TC-014",
@@ -45,7 +45,7 @@
     "precio_normal": 3590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "24/08/2026 17:05 hrs"
+    "fecha_act": "24/08/2026 22:03 hrs"
   },
   {
     "sku_interno": "TC-015",
@@ -61,7 +61,7 @@
     "precio_normal": 1790.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "24/08/2026 17:05 hrs"
+    "fecha_act": "24/08/2026 22:03 hrs"
   },
   {
     "sku_interno": "TC-018",
@@ -69,7 +69,7 @@
     "precio_normal": 1690.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "24/08/2026 17:05 hrs"
+    "fecha_act": "24/08/2026 22:03 hrs"
   },
   {
     "sku_interno": "TC-021",
@@ -77,13 +77,13 @@
     "precio_normal": 2150.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "24/08/2026 17:05 hrs"
+    "fecha_act": "24/08/2026 22:03 hrs"
   },
   {
     "sku_interno": "TC-023",
     "precio": 4650.0,
     "precio_normal": 5790.0,
-    "estado": "Disponible",
+    "estado": "⚠️ Últ. precio (24/08/2026)",
     "error": null,
     "fecha_act": "24/08/2026 17:05 hrs"
   },
@@ -93,13 +93,13 @@
     "precio_normal": 3250.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "24/08/2026 17:05 hrs"
+    "fecha_act": "24/08/2026 22:03 hrs"
   },
   {
     "sku_interno": "TC-028",
     "precio": 1690.0,
     "precio_normal": 1750.0,
-    "estado": "Disponible",
+    "estado": "⚠️ Últ. precio (24/08/2026)",
     "error": null,
     "fecha_act": "24/08/2026 17:05 hrs"
   },
@@ -109,13 +109,13 @@
     "precio_normal": 1290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "24/08/2026 17:05 hrs"
+    "fecha_act": "24/08/2026 22:03 hrs"
   },
   {
     "sku_interno": "TC-031",
     "precio": 1450.0,
     "precio_normal": 1590.0,
-    "estado": "Disponible",
+    "estado": "⚠️ Últ. precio (24/08/2026)",
     "error": null,
     "fecha_act": "24/08/2026 17:05 hrs"
   },
@@ -123,7 +123,7 @@
     "sku_interno": "TC-032",
     "precio": 2790.0,
     "precio_normal": 2790.0,
-    "estado": "Disponible",
+    "estado": "⚠️ Últ. precio (24/08/2026)",
     "error": null,
     "fecha_act": "24/08/2026 17:05 hrs"
   },
@@ -131,8 +131,40 @@
     "sku_interno": "TC-033",
     "precio": 2350.0,
     "precio_normal": 2950.0,
-    "estado": "Disponible",
+    "estado": "⚠️ Últ. precio (24/08/2026)",
     "error": null,
     "fecha_act": "24/08/2026 17:05 hrs"
+  },
+  {
+    "sku_interno": "TC-035",
+    "precio": 2000.0,
+    "precio_normal": 2000.0,
+    "estado": "Disponible",
+    "error": null,
+    "fecha_act": "24/08/2026 22:03 hrs"
+  },
+  {
+    "sku_interno": "TC-036",
+    "precio": 1000.0,
+    "precio_normal": 1000.0,
+    "estado": "Disponible",
+    "error": null,
+    "fecha_act": "24/08/2026 22:03 hrs"
+  },
+  {
+    "sku_interno": "TC-037",
+    "precio": 990.0,
+    "precio_normal": 1290.0,
+    "estado": "Disponible",
+    "error": null,
+    "fecha_act": "24/08/2026 22:03 hrs"
+  },
+  {
+    "sku_interno": "TC-038",
+    "precio": 1890.0,
+    "precio_normal": 1890.0,
+    "estado": "Disponible",
+    "error": null,
+    "fecha_act": "24/08/2026 22:03 hrs"
   }
 ]
