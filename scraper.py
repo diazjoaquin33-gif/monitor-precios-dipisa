@@ -4,6 +4,7 @@ import requests
 import json
 import re
 import time
+import random
 import concurrent.futures
 from datetime import datetime
 from zoneinfo import ZoneInfo
@@ -151,6 +152,15 @@ def _consultar_curl_cffi(url: str, cfg: dict):
                 if not precio_oferta and ("jumbo" in url or "santaisabel" in url):
                     # 2A) Anclaje SEO: El precio real de este producto exacto (ignora los relacionados)
                     m_meta = re.search(r'(?:property|name)="(?:product:price:amount|og:price:amount)"\s+content="([\d.,]+)"', texto)
+                    if not m_meta:
+                        # VTEX no publica product:price:amount cuando el producto está
+                        # agotado (no hay "oferta" que describir) — no es una falla de
+                        # scraping, es el estado real del producto. Se corta acá mismo
+                        # (sin gastar los 3 reintentos con distintos perfiles) y se
+                        # etiqueta como "Sin stock" en vez del genérico "no encontrado".
+                        m_disp = re.search(r'(?:property|name)="product:availability"\s+content="([^"]+)"', texto)
+                        if m_disp and "out of stock" in m_disp.group(1).lower():
+                            return None, None, False, "Sin stock"
                     if m_meta:
                         precio_oferta = float(m_meta.group(1).replace(".", "").replace(",", "."))
 
@@ -215,6 +225,10 @@ def procesar_lote(retailer_key, lista_productos, cfg):
             print(f"❌ {retailer_key} | {prod['sku_interno']} -> FALLÓ: {err}")
             
         salida.append((prod["sku_interno"], p, pn, disp, err))
+        # Espacio entre productos del MISMO retailer — sin esto, varios
+        # productos seguidos del mismo sitio uno detrás de otro es justo el
+        # patrón que hace escalar bloqueos tipo Cloudflare (ej. Tottus).
+        time.sleep(random.uniform(0.8, 1.8))
     return salida
 
 if __name__ == "__main__":
