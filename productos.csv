@@ -71,6 +71,7 @@ TC-070,Elite Ultra Suave Doble Hoja 50 m 9 un,Elite,450,jumbo,https://www.jumbo.
 TC-071,Family Care Doble Hoja 50 m 8 un,Family Care,400,jumbo,https://www.jumbo.cl/papel-higienico-f-and-c-dh-50mt-8un-2022182/p,Papel Higienico,Doble Hoja
 TC-072,Family Care Hoja Simple 100 m 8 un,Family Care,800,jumbo,https://www.jumbo.cl/papel-higienico-fc-uh-100-mt-8-un-2017474/p,Papel Higienico,Hoja Simple
 TC-073,Family Care Doble Hoja 25 m 12 un,Family Care,300,jumbo,https://www.jumbo.cl/papel-higienico-f-y-c-dh-25mt-12un/p,Papel Higienico,Doble Hoja
+TC-074,Nubelin Hoja Simple 120 m 8 un,Nubelin,960,unimarc,https://www.unimarc.cl/product/papel-hig-uh-nubelin-8x120-mt,Papel Higienico,Hoja Simple
 
 # categoria/subcategoria deben coincidir EXACTO (mismo texto) con las de
 # ovella.csv para que el dashboard agrupe bien — ej. "Papel Higienico"/

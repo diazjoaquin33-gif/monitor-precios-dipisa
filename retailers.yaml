@@ -34,7 +34,13 @@ lider:
 unimarc:
   nombre: "Unimarc"
   metodo: "curl_cffi"
-  patron_precio_oferta: '\$\s*([\d.,]+)'
+  # Ancla al bloque JSON de hidratación price:{price, listPrice, ...} de la
+  # ficha (verificado 25/08/2026) en vez de agarrar el primer "$" de la
+  # página — la ficha también muestra una escalera de precios por cantidad
+  # (compra más, paga menos por unidad) que un regex genérico confundiría
+  # con precio de oferta.
+  patron_precio_oferta: '"price":\{"price":"\$([\d.,]+)"'
+  patron_precio_normal: '"price":\{"price":"\$[\d.,]+","listPrice":"\$([\d.,]+)"'
 
 acuenta:
   nombre: "aCuenta"
