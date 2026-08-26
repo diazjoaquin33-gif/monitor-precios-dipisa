@@ -114,36 +114,53 @@ def _formatear_clp(valor):
     return f"${valor:,.0f}".replace(",", ".")
 
 
-def _tabla_categoria(df_grupo):
+def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False):
     """Arma la tabla de una categoría con la fila más barata resaltada en
     verde y las sin dato reciente en rojo translúcido — mismos colores de
     status de siempre, nunca los de marca, para no mezclar identidad con
     semántica de datos. Incluye la URL cruda del producto en una columna
-    aparte para que column_config la muestre como link clickeable."""
+    aparte para que column_config la muestre como link clickeable.
+    `ocultar_columnas` permite no repetir Retailer/Marca cuando ya están
+    fijos por el contexto (ej. dentro de la pestaña de ese supermercado)."""
+    # $/Metro se guarda ya formateado como texto ("N/D" incluido) en vez de
+    # dejar que un Styler.format() lo resuelva: st.dataframe muestra "None"
+    # crudo para celdas nulas de un Styler sin importar el formatter that se
+    # le pase, así que el string final tiene que nacer en la celda misma. El
+    # valor numérico crudo se guarda aparte (misma posición que las filas)
+    # para el resaltado de "más barato", que sí necesita comparar números.
     filas = []
+    precios_metro = []
     for _, r in df_grupo.iterrows():
-        filas.append({
-            "Retailer": r["retailer_nombre"],
-            "Marca": r["marca"],
+        fila = {"Retailer": r["retailer_nombre"], "Marca": r["marca"]}
+        if mostrar_formato:
+            fila["Formato"] = f"{r['categoria']} · {r['subcategoria']}"
+        precio_metro = r["precio_metro"] if pd.notna(r["precio_metro"]) else None
+        fila.update({
             "Producto": r["producto"],
             "Precio Lista": _formatear_clp(r["precio_normal"]),
             "Precio Oferta": _formatear_clp(r["precio"]) if pd.notna(r["descuento_pct"]) else "—",
             "Desc.": f"-{int(r['descuento_pct'])}%" if pd.notna(r["descuento_pct"]) else "—",
-            "$/Metro": r["precio_metro"] if pd.notna(r["precio_metro"]) else None,
+            "$/Metro": f"${precio_metro}/m" if precio_metro is not None else "N/D",
             "Estado": r["estado"],
             "Ver": r.get("url"),
         })
+        filas.append(fila)
+        precios_metro.append(precio_metro)
+
     tabla = pd.DataFrame(filas)
-    minimo = tabla["$/Metro"].dropna().min() if tabla["$/Metro"].notna().any() else None
+    if ocultar_columnas:
+        tabla = tabla.drop(columns=[c for c in ocultar_columnas if c in tabla.columns])
+    validos = [v for v in precios_metro if v is not None]
+    minimo = min(validos) if validos else None
 
     def resaltar(fila):
-        if minimo is not None and fila["$/Metro"] == minimo:
+        if minimo is not None and precios_metro[fila.name] == minimo:
             return [f"background-color: {COLOR_BUENO}26"] * len(fila)
         if fila["Estado"] != "Disponible":
             return [f"background-color: {COLOR_CRITICO}1a"] * len(fila)
         return [""] * len(fila)
 
-    return tabla.style.apply(resaltar, axis=1).format({"$/Metro": lambda v: f"${v}/m" if pd.notna(v) else "N/D"})
+    return tabla.style.apply(resaltar, axis=1)
 
 
 COLUMN_CONFIG = {
@@ -151,11 +168,11 @@ COLUMN_CONFIG = {
 }
 
 
-def _mostrar_tabla(df_grupo):
+def _mostrar_tabla(df_grupo, **kwargs):
     try:
-        st.dataframe(_tabla_categoria(df_grupo), width="stretch", hide_index=True, column_config=COLUMN_CONFIG)
+        st.dataframe(_tabla_categoria(df_grupo, **kwargs), width="stretch", hide_index=True, column_config=COLUMN_CONFIG)
     except TypeError:
-        st.dataframe(_tabla_categoria(df_grupo), use_container_width=True, hide_index=True, column_config=COLUMN_CONFIG)
+        st.dataframe(_tabla_categoria(df_grupo, **kwargs), use_container_width=True, hide_index=True, column_config=COLUMN_CONFIG)
 
 
 # --- Interfaz ---
@@ -211,55 +228,79 @@ c4.metric("Sin dato reciente", len(pendientes))
 
 st.divider()
 
-# Arma primero los grupos (para saber si hay "otros" antes de crear los tabs).
-# Coinciden por categoria+subcategoria EXACTA, y metraje dentro de +-15% del
-# SKU de Ovella (no exige metraje idéntico, para no perder competidores de
-# formato parecido pero no igual).
-grupos = []
-usados = set()
-for _, ov in ovella_df.iterrows():
-    margen = ov["metros_totales"] * RANGO_TOLERANCIA_METROS
-    grupo = df[
-        (df["categoria"] == ov["categoria"])
-        & (df["subcategoria"] == ov["subcategoria"])
-        & (df["metros_totales"] >= ov["metros_totales"] - margen)
-        & (df["metros_totales"] <= ov["metros_totales"] + margen)
-    ]
-    usados.update(grupo.index)
-    grupos.append((ov, grupo))
+modo = st.radio(
+    "Ver por:", ["SKU de Ovella", "Supermercado"],
+    horizontal=True, label_visibility="collapsed",
+)
+st.divider()
 
-sin_match = df[~df.index.isin(usados)]
+if modo == "SKU de Ovella":
+    # Arma primero los grupos (para saber si hay "otros" antes de crear los
+    # tabs). Coinciden por categoria+subcategoria EXACTA, y metraje dentro de
+    # +-15% del SKU de Ovella (no exige metraje idéntico, para no perder
+    # competidores de formato parecido pero no igual).
+    grupos = []
+    usados = set()
+    for _, ov in ovella_df.iterrows():
+        margen = ov["metros_totales"] * RANGO_TOLERANCIA_METROS
+        grupo = df[
+            (df["categoria"] == ov["categoria"])
+            & (df["subcategoria"] == ov["subcategoria"])
+            & (df["metros_totales"] >= ov["metros_totales"] - margen)
+            & (df["metros_totales"] <= ov["metros_totales"] + margen)
+        ]
+        usados.update(grupo.index)
+        grupos.append((ov, grupo))
 
-nombres_tabs = [f"{ICONO_CATEGORIA.get(ov['categoria'], '📄')} {ov['producto']}" for ov, _ in grupos]
-if not sin_match.empty:
-    nombres_tabs.append(f"📦 Otros ({len(sin_match)})")
+    sin_match = df[~df.index.isin(usados)]
 
-tabs = st.tabs(nombres_tabs)
+    nombres_tabs = [f"{ICONO_CATEGORIA.get(ov['categoria'], '📄')} {ov['producto']}" for ov, _ in grupos]
+    if not sin_match.empty:
+        nombres_tabs.append(f"📦 Otros ({len(sin_match)})")
 
-for tab, (ov, grupo) in zip(tabs, grupos):
-    with tab:
-        st.caption(f"{ov['categoria']} · {ov['subcategoria']} · ~{int(ov['metros_totales'])} m por paquete (rango ±15%)")
-        if grupo.empty:
-            st.info("Todavía no hay competidores monitoreados con este mismo metraje.")
-            continue
+    tabs = st.tabs(nombres_tabs)
 
-        validos = grupo[grupo["precio_metro"].notna()]
-        if not validos.empty:
-            fila_barata = validos.loc[validos["precio_metro"].idxmin()]
-            fila_cara = validos.loc[validos["precio_metro"].idxmax()]
-            promedio = round(validos["precio_metro"].mean(), 1)
-            m1, m2, m3 = st.columns(3)
-            m1.metric("Más barato ($/m)", f"${fila_barata['precio_metro']}",
-                      help=f"{fila_barata['marca']} — {fila_barata['retailer_nombre']}")
-            m2.metric("Promedio ($/m)", f"${promedio}")
-            m3.metric("Más caro ($/m)", f"${fila_cara['precio_metro']}",
-                      help=f"{fila_cara['marca']} — {fila_cara['retailer_nombre']}")
+    for tab, (ov, grupo) in zip(tabs, grupos):
+        with tab:
+            st.caption(f"{ov['categoria']} · {ov['subcategoria']} · ~{int(ov['metros_totales'])} m por paquete (rango ±15%)")
+            if grupo.empty:
+                st.info("Todavía no hay competidores monitoreados con este mismo metraje.")
+                continue
 
-        _mostrar_tabla(grupo)
+            validos = grupo[grupo["precio_metro"].notna()]
+            if not validos.empty:
+                fila_barata = validos.loc[validos["precio_metro"].idxmin()]
+                fila_cara = validos.loc[validos["precio_metro"].idxmax()]
+                promedio = round(validos["precio_metro"].mean(), 1)
+                m1, m2, m3 = st.columns(3)
+                m1.metric("Más barato ($/m)", f"${fila_barata['precio_metro']}",
+                          help=f"{fila_barata['marca']} — {fila_barata['retailer_nombre']}")
+                m2.metric("Promedio ($/m)", f"${promedio}")
+                m3.metric("Más caro ($/m)", f"${fila_cara['precio_metro']}",
+                          help=f"{fila_cara['marca']} — {fila_cara['retailer_nombre']}")
 
-if not sin_match.empty:
-    with tabs[-1]:
-        st.caption("No calza con ningún SKU de Ovella (categoría/subcategoría distinta, o metraje fuera del rango ±15%) — revisa si corresponde agregar un formato nuevo en ovella.csv.")
-        _mostrar_tabla(sin_match)
+            _mostrar_tabla(grupo)
+
+    if not sin_match.empty:
+        with tabs[-1]:
+            st.caption("No calza con ningún SKU de Ovella (categoría/subcategoría distinta, o metraje fuera del rango ±15%) — revisa si corresponde agregar un formato nuevo en ovella.csv.")
+            _mostrar_tabla(sin_match)
+
+else:
+    # Vista de catálogo: un tab por supermercado, y dentro de cada uno las
+    # filas agrupadas por marca — para navegar "qué tiene este retailer"
+    # en vez de "quién compite con este SKU de Ovella".
+    retailers_activos = sorted(df["retailer_nombre"].dropna().unique())
+    tabs_retailer = st.tabs(retailers_activos)
+
+    for tab, retailer_nombre in zip(tabs_retailer, retailers_activos):
+        with tab:
+            df_retailer = df[df["retailer_nombre"] == retailer_nombre]
+            st.caption(f"{len(df_retailer)} productos monitoreados en {retailer_nombre}")
+
+            for marca in sorted(df_retailer["marca"].dropna().unique()):
+                grupo_marca = df_retailer[df_retailer["marca"] == marca]
+                st.markdown(f"##### {marca} ({len(grupo_marca)})")
+                _mostrar_tabla(grupo_marca, ocultar_columnas=["Retailer", "Marca"], mostrar_formato=True)
 
 st.caption("Se actualiza automáticamente 3 veces al día vía GitHub Actions.")
