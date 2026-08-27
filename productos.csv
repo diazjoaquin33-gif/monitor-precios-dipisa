@@ -127,6 +127,21 @@ TC-126,Favorita Acolchado Doble Hoja 25 m 24 un,Favorita,600,tottus,https://www.
 TC-127,Scott Premium Triple Hoja 19 m 24 un,Scott,456,tottus,https://www.tottus.cl/tottus-cl/articulo/117696107/ph-scott-premium-19-mts-24-un/117696108,Papel Higienico,Triple Hoja
 TC-128,Elite Soft & Strong Triple Hoja 40 m 4 un,Elite,160,tottus,https://www.tottus.cl/tottus-cl/articulo/141162873/papel-higienico-elite-40mx4/141162877,Papel Higienico,Triple Hoja
 TC-129,Confort Hoja Simple 50 m 8 un,Confort,400,tottus,https://www.tottus.cl/tottus-cl/articulo/144745503/papel-higienico-confort-50mx8/144745504,Papel Higienico,Hoja Simple
+TC-130,Confort Doble Hoja 20 m 4 un,Confort,80,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-20-metros-4-un-confort-901918,Papel Higienico,Doble Hoja
+TC-131,Confort Doble Hoja 22 m 40 un,Confort,880,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-22-metros-40-un-confort-1103955,Papel Higienico,Doble Hoja
+TC-132,Acuenta Doble Hoja 22 m 40 un,Acuenta,880,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-22-metros-40-un-acuenta-4774403,Papel Higienico,Doble Hoja
+TC-133,Noble Doble Hoja 22 m 40 un,Noble,880,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-22-m-40-un-noble-4482278,Papel Higienico,Doble Hoja
+TC-134,Confort Max Una Hoja 100 m 8 un,Confort,800,acuenta,https://www.acuenta.cl/p/papel-higienico-max-una-hoja-100-m-8-un-confort-309377,Papel Higienico,Hoja Simple
+TC-135,Lider Familiar Doble Hoja 22 m 40 un,Lider,880,acuenta,https://www.acuenta.cl/p/papel-higienico-familiar-doble-hoja-22-m-40-un-lider-1091010,Papel Higienico,Doble Hoja
+TC-136,Favorita Sensación Doble Hoja 22 m 40 un,Favorita,880,acuenta,https://www.acuenta.cl/p/papel-higienico-sensacion-doble-hoja-22-m-40-un-favorita-1358801,Papel Higienico,Doble Hoja
+TC-137,Confort Doble Hoja 30 m 8 un,Confort,240,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-30-m-8-un-confort-4524518,Papel Higienico,Doble Hoja
+TC-138,Confort Rendiplus Doble Hoja 27 m 18 un,Confort,486,acuenta,https://www.acuenta.cl/p/papel-higienico-rendiplus-doble-hoja-27-m-18-un-confort-4528517,Papel Higienico,Doble Hoja
+TC-139,Lider Una Hoja 100 m 8 un,Lider,800,acuenta,https://www.acuenta.cl/p/papel-higienico-una-hoja-100-m-8-un-lider-916156,Papel Higienico,Hoja Simple
+TC-140,Confort Doble Hoja 50 m 12 un,Confort,600,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-50-mts-cu-paquete-12-un-confort-395004,Papel Higienico,Doble Hoja
+TC-141,Confort Doble Hoja 45 m 4 un,Confort,180,acuenta,https://www.acuenta.cl/p/papel-higienico-confort-doble-hoja-45m-x4-4-un-confort-4938078,Papel Higienico,Doble Hoja
+TC-142,Noble Doble Hoja 32 m 6 un,Noble,192,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-32-m-6-un-noble-883368,Papel Higienico,Doble Hoja
+TC-143,Lider Doble Hoja 50 m 12 un,Lider,600,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-50-m-12-un-lider-1020215,Papel Higienico,Doble Hoja
+TC-144,Elite Doble Hoja Ultra 50 m 8 un,Elite,400,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-ultra-50-mts-8-un-marca-elite-475492,Papel Higienico,Doble Hoja
 
 # categoria/subcategoria deben coincidir EXACTO (mismo texto) con las de
 # ovella.csv para que el dashboard agrupe bien — ej. "Papel Higienico"/
