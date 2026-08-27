@@ -21,7 +21,9 @@ jumbo:
 
 alvi:
   nombre: "Alvi"
-  patron_precio_oferta: 'Desde 1 un[^\$]*\$([\d.,]+)'
+  # Método especial (ver _consultar_alvi en scraper.py): Alvi es mayorista y
+  # muestra 3 precios (lista, socio 1 unidad, socio 2+ unidades) que se leen
+  # directo del JSON de hidratación de la página, no de un patrón de texto.
 
 tottus:
   nombre: "Tottus"

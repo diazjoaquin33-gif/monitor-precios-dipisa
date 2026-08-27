@@ -203,19 +203,76 @@ def _consultar_curl_cffi(url: str, cfg: dict):
             continue
     return None, None, False, "Falla desconocida"
 
+
+def _consultar_alvi(url: str):
+    """Alvi es mayorista: además del precio de lista, muestra un precio
+    'socio' que baja según cuántas unidades compras (1 unidad, 2+ unidades).
+    Los tres viven ya calculados en el JSON de hidratación de Next.js
+    (__NEXT_DATA__), sin necesidad de regex frágiles sobre el texto
+    renderizado — se parsea como el JSON válido que es. Verificado
+    27/08/2026 contra la ficha real: sellers[0].listPrice = precio lista,
+    priceSteps = [{minQuantity:1, promotionalPrice}, {minQuantity:2, ...}]."""
+    for intento in range(3):
+        impersonate_profile = ["chrome124", "safari15_5", "chrome120"][intento]
+        try:
+            res = cffi_requests.get(url, headers=HEADERS_GENERICOS, impersonate=impersonate_profile, timeout=12)
+            if res.status_code == 200:
+                m = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', res.text, re.DOTALL)
+                producto = None
+                if m:
+                    try:
+                        data = json.loads(m.group(1))
+                        producto = data.get("props", {}).get("pageProps", {}).get("product")
+                    except json.JSONDecodeError:
+                        producto = None
+                if not producto:
+                    if intento == 2: return None, None, None, False, "No se encontró el producto en Alvi"
+                else:
+                    seller = (producto.get("sellers") or [{}])[0]
+                    precio_lista = seller.get("listPrice")
+                    pasos = producto.get("priceSteps") or []
+                    precio_socio1 = next((p.get("promotionalPrice") for p in pasos if p.get("minQuantity") == 1), None)
+                    precio_socio2 = next((p.get("promotionalPrice") for p in pasos if p.get("minQuantity") == 2), None)
+                    disponible = (seller.get("availableQuantity") or 0) > 0
+                    if precio_lista:
+                        return (
+                            float(precio_lista),
+                            float(precio_socio1) if precio_socio1 else None,
+                            float(precio_socio2) if precio_socio2 else None,
+                            disponible, None,
+                        )
+                    if intento == 2: return None, None, None, False, "Sin precio en Alvi"
+            else:
+                if intento == 2: return None, None, None, False, f"HTTP {res.status_code}"
+        except Exception as e:
+            if intento == 2: return None, None, None, False, f"Error Alvi: {str(e)[:60]}"
+            time.sleep(1)
+            continue
+    return None, None, None, False, "Falla desconocida"
+
+
 def procesar_lote(retailer_key, lista_productos, cfg):
     salida = []
     for prod in lista_productos:
+        extra = None
         metodo = cfg.get("metodo")
-        if metodo == "lider_api":
+        if retailer_key == "alvi":
+            precio_lista, precio_socio1, precio_socio2, disp, err = _consultar_alvi(prod["url"])
+            # Se compara/agrupa con el resto usando el precio socio de 1
+            # unidad (el lograble sin mínimo de compra) como "precio", y el
+            # de lista como "precio normal" — el de 2+ unidades es propio de
+            # Alvi y se guarda aparte para mostrarlo como tercera columna.
+            p = precio_socio1 or precio_lista
+            pn = precio_lista
+            if p:
+                extra = {"precio_socio2": precio_socio2}
+        elif metodo == "lider_api":
             p, pn, disp, err = _consultar_lider_api(prod["url"])
         elif metodo == "instaleap":
             p, pn, disp, err = _consultar_instaleap(prod["url"], cfg)
-        elif metodo == "api_post_json":
-            p, pn, disp, err = _consultar_curl_cffi(prod["url"], cfg)
         else:
             p, pn, disp, err = _consultar_curl_cffi(prod["url"], cfg)
-        
+
         if p:
             if pn and p < pn:
                 print(f"✅ {retailer_key} | {prod['sku_interno']} -> OFERTA: ${p} (Normal: ${pn})")
@@ -223,8 +280,8 @@ def procesar_lote(retailer_key, lista_productos, cfg):
                 print(f"✅ {retailer_key} | {prod['sku_interno']} -> Extraído: ${p}")
         else:
             print(f"❌ {retailer_key} | {prod['sku_interno']} -> FALLÓ: {err}")
-            
-        salida.append((prod["sku_interno"], p, pn, disp, err))
+
+        salida.append((prod["sku_interno"], p, pn, disp, err, extra))
         # Espacio entre productos del MISMO retailer — sin esto, varios
         # productos seguidos del mismo sitio uno detrás de otro es justo el
         # patrón que hace escalar bloqueos tipo Cloudflare (ej. Tottus).
@@ -243,12 +300,15 @@ if __name__ == "__main__":
     with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
         futuros = [executor.submit(procesar_lote, k, v, retailers_cfg.get(k, {})) for k, v in grupos.items()]
         for futuro in concurrent.futures.as_completed(futuros):
-            for sku, p, pn, disp, err in futuro.result():
+            for sku, p, pn, disp, err, extra in futuro.result():
                 if p and p > 0:
-                    resultados_actuales[sku] = {
+                    entry = {
                         "sku_interno": sku, "precio": p, "precio_normal": pn,
                         "estado": "Disponible", "error": None
                     }
+                    if extra:
+                        entry.update({k: v for k, v in extra.items() if v is not None})
+                    resultados_actuales[sku] = entry
 
     historico = []
     if DATOS_PATH.exists():

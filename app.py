@@ -94,6 +94,9 @@ def cargar_datos():
 
     df["precio"] = pd.to_numeric(df["precio"], errors="coerce")
     df["precio_normal"] = pd.to_numeric(df["precio_normal"], errors="coerce")
+    # Solo Alvi trae este campo (precio socio comprando 2+ unidades) — no
+    # existe como columna si aún no hay ningún SKU de Alvi con datos.
+    df["precio_socio2"] = pd.to_numeric(df["precio_socio2"], errors="coerce") if "precio_socio2" in df.columns else pd.NA
     df["precio_metro"] = (df["precio"] / df["metros_totales"]).round(1)
 
     descuento = (1 - df["precio"] / df["precio_normal"]) * 100
@@ -121,13 +124,17 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False):
     semántica de datos. Incluye la URL cruda del producto en una columna
     aparte para que column_config la muestre como link clickeable.
     `ocultar_columnas` permite no repetir Retailer/Marca cuando ya están
-    fijos por el contexto (ej. dentro de la pestaña de ese supermercado)."""
+    fijos por el contexto (ej. dentro de la pestaña de ese supermercado).
+    Alvi es mayorista y muestra 3 precios (lista, socio 1 unidad, socio 2+
+    unidades) en vez del par lista/oferta de todos los demás — cuando la
+    tabla es 100% Alvi se arman esas 3 columnas en su lugar."""
     # $/Metro se guarda ya formateado como texto ("N/D" incluido) en vez de
     # dejar que un Styler.format() lo resuelva: st.dataframe muestra "None"
     # crudo para celdas nulas de un Styler sin importar el formatter that se
     # le pase, así que el string final tiene que nacer en la celda misma. El
     # valor numérico crudo se guarda aparte (misma posición que las filas)
     # para el resaltado de "más barato", que sí necesita comparar números.
+    es_alvi = not df_grupo.empty and (df_grupo["retailer"] == "alvi").all()
     filas = []
     precios_metro = []
     for _, r in df_grupo.iterrows():
@@ -135,15 +142,18 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False):
         if mostrar_formato:
             fila["Formato"] = f"{r['categoria']} · {r['subcategoria']}"
         precio_metro = r["precio_metro"] if pd.notna(r["precio_metro"]) else None
-        fila.update({
-            "Producto": r["producto"],
-            "Precio Lista": _formatear_clp(r["precio_normal"]),
-            "Precio Oferta": _formatear_clp(r["precio"]) if pd.notna(r["descuento_pct"]) else "—",
-            "Desc.": f"-{int(r['descuento_pct'])}%" if pd.notna(r["descuento_pct"]) else "—",
-            "$/Metro": f"${precio_metro}/m" if precio_metro is not None else "N/D",
-            "Estado": r["estado"],
-            "Ver": r.get("url"),
-        })
+        fila["Producto"] = r["producto"]
+        if es_alvi:
+            fila["Precio Lista"] = _formatear_clp(r["precio_normal"])
+            fila["Socio 1 un"] = _formatear_clp(r["precio"])
+            fila["Socio 2 un"] = _formatear_clp(r.get("precio_socio2"))
+        else:
+            fila["Precio Lista"] = _formatear_clp(r["precio_normal"])
+            fila["Precio Oferta"] = _formatear_clp(r["precio"]) if pd.notna(r["descuento_pct"]) else "—"
+            fila["Desc."] = f"-{int(r['descuento_pct'])}%" if pd.notna(r["descuento_pct"]) else "—"
+        fila["$/Metro"] = f"${precio_metro}/m" if precio_metro is not None else "N/D"
+        fila["Estado"] = r["estado"]
+        fila["Ver"] = r.get("url")
         filas.append(fila)
         precios_metro.append(precio_metro)
 
