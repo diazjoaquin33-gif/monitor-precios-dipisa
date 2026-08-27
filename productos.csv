@@ -26,7 +26,7 @@ TC-025,Doble Hoja 4 x 30 mts,Confort,120,tottus,https://www.tottus.cl/tottus-cl/
 TC-026,Doble Hoja 4 x 23 mts,Noble,92,tottus,https://www.tottus.cl/tottus-cl/articulo/141162898/papel-higienico-noble-23mx4/141162900,Papel Higienico,Doble Hoja
 TC-027,Doble Hoja Rindeplus 4x18 mts,Confort,72,tottus,https://www.tottus.cl/tottus-cl/articulo/144955224/papel-higienico-rindeplus-18x4/144955225,Papel Higienico,Doble Hoja
 TC-028,Acolchado Doble Hoja 4x22 mts,Favorita,88,tottus,https://www.tottus.cl/tottus-cl/articulo/115855542/higienico-acolchado-22mt-favorita-4/115855543,Papel Higienico,Doble Hoja
-#TC-029,Ultra Doble Hoja 4 x 25 mts,Elite,100,tottus,https://www.tottus.cl/tottus-cl/articulo/120528832/ph-ultra-dh-25m-x4-und-elite/120528833,Papel Higienico,Doble Hoja
+TC-029,Ultra Doble Hoja 4 x 25 mts,Elite,100,tottus,https://www.tottus.cl/tottus-cl/articulo/120528832/ph-ultra-dh-25m-x4-und-elite/120528833,Papel Higienico,Doble Hoja
 TC-030,Doble Hoja Soft 4 x 25 mts,Tottus,100,tottus,https://www.tottus.cl/tottus-cl/articulo/112988502/ph-doble-hoja-soft-tottus-4-un-x-25-mt/112988503,Papel Higienico,Doble Hoja
 TC-031,Rindemax Doble Hoja 4 x 21 mts,Scott,84,tottus,https://www.tottus.cl/tottus-cl/articulo/110617520/papel-higienico-rindemax-dh-21mx4un/110617521,Papel Higienico,Doble Hoja
 TC-032,Doble Hoja 6 x 23 mts,Noble,138,tottus,https://www.tottus.cl/tottus-cl/articulo/124540262/noble-dh-x6-noble-23mt/124540264,Papel Higienico,Doble Hoja
@@ -98,6 +98,35 @@ TC-097,Merkat Una Hoja 40 m 10 un,Merkat,400,unimarc,https://www.unimarc.cl/prod
 TC-098,Favorita Soft Care 50 m 4 un,Favorita,200,unimarc,https://www.unimarc.cl/product/papel-hig-sofcare-favorita-50mtx4,Papel Higienico,Doble Hoja
 TC-099,Nubelin Premium Doble Hoja 40 m 18 un,Nubelin,720,unimarc,https://www.unimarc.cl/product/papel-hig-premium-dh-nubelin-40mtx18,Papel Higienico,Doble Hoja
 TC-100,Nubelin Doble Hoja 30 m 8 un,Nubelin,240,unimarc,https://www.unimarc.cl/product/papel-hig-dh-nubelin-30mtx8,Papel Higienico,Doble Hoja
+TC-101,Confort Doble Hoja 25 m 24 un,Confort,600,tottus,https://www.tottus.cl/tottus-cl/articulo/110611809/ph-doble-hoja-confort-x24-und/110611811,Papel Higienico,Doble Hoja
+TC-102,Elite Doble Hoja 50 m 8 un,Elite,400,tottus,https://www.tottus.cl/tottus-cl/articulo/110613449/papel-hig-dh-8-rollos-50-mt-elite/110613450,Papel Higienico,Doble Hoja
+TC-103,Confort Una Hoja 100 m 8 un,Confort,800,tottus,https://www.tottus.cl/tottus-cl/articulo/110612103/papel-hig-uh-max-8-rollos-100-mt-confort/110612104,Papel Higienico,Hoja Simple
+TC-104,Tottus Doble Hoja Soft 25 m 40 un,Tottus,1000,tottus,https://www.tottus.cl/tottus-cl/articulo/123891417/ph-doble-hoja-25mt-soft-tottus-40-un/123891418,Papel Higienico,Doble Hoja
+TC-105,Tottus Doble Hoja Soft 25 m 16 un,Tottus,400,tottus,https://www.tottus.cl/tottus-cl/articulo/112989045/ph-doble-hoja-soft-tottus-16-un-x-25-mt/112989046,Papel Higienico,Doble Hoja
+TC-106,Confort Rendiplus Doble Hoja 27 m 18 un,Confort,486,tottus,https://www.tottus.cl/tottus-cl/articulo/124677744/ph-rendiplus-27x18-confort/124677745,Papel Higienico,Doble Hoja
+TC-107,Elite Ultra Doble Hoja 40 m 18 un,Elite,720,tottus,https://www.tottus.cl/tottus-cl/articulo/119823966/ph-ultra-dh-40x18-elite-und/119823967,Papel Higienico,Doble Hoja
+TC-108,Scott Rindemax Doble Hoja 22 m 16 un,Scott,352,tottus,https://www.tottus.cl/tottus-cl/articulo/142243611/papel-higienico-rindemax-16x22-mts-scott/142243615,Papel Higienico,Doble Hoja
+TC-109,Confort Doble Hoja 25 m 8 un,Confort,200,tottus,https://www.tottus.cl/tottus-cl/articulo/110610849/ph-dh-25m-confort-8-und/110610850,Papel Higienico,Doble Hoja
+TC-110,Scott Rindemax Doble Hoja 22 m 6 un,Scott,132,tottus,https://www.tottus.cl/tottus-cl/articulo/120286360/papel-hig-scott-rindemax-22-mts-6-un/120286361,Papel Higienico,Doble Hoja
+TC-111,Elite Soft & Strong Triple Hoja 40 m 12 un,Elite,480,tottus,https://www.tottus.cl/tottus-cl/articulo/118567768/ph-ph-softstrong-th-40x12-elite-und/118567769,Papel Higienico,Triple Hoja
+TC-112,Favorita Acolchado Doble Hoja 25 m 40 un,Favorita,1000,tottus,https://www.tottus.cl/tottus-cl/articulo/125312485/papel-higenico-acolchado-dh-favorita-x40/125312488,Papel Higienico,Doble Hoja
+TC-113,Scott Rindemax Doble Hoja 22 m 24 un,Scott,528,tottus,https://www.tottus.cl/tottus-cl/articulo/110616464/papel-hig-scott-rindemax-21-mts-24-un/110616465,Papel Higienico,Doble Hoja
+TC-114,Noble Doble Hoja 22 m 40 un,Noble,880,tottus,https://www.tottus.cl/tottus-cl/articulo/120482069/ph-noble-dh-x40-noble-und/120482070,Papel Higienico,Doble Hoja
+TC-115,Favorita Sensación Doble Hoja 22 m 4 un,Favorita,88,tottus,https://www.tottus.cl/tottus-cl/articulo/136303351/ph-sensacion-favorita-4-und-x-22-mts/136303352,Papel Higienico,Doble Hoja
+TC-116,Swan Premium Doble Hoja 50 m 4 un,Swan,200,tottus,https://www.tottus.cl/tottus-cl/articulo/129395135/papel-higienico-swan-premium-4x50/129395136,Papel Higienico,Doble Hoja
+TC-117,Noble Doble Hoja 23 m 16 un,Noble,368,tottus,https://www.tottus.cl/tottus-cl/articulo/112182856/papel-higienico-noble-23-m-x-16-und/112182857,Papel Higienico,Doble Hoja
+TC-118,Scott Protect Care Doble Hoja 22 m 16 un,Scott,352,tottus,https://www.tottus.cl/tottus-cl/articulo/115855534/ph-scott-prot-care-22-mts-16-un/115855536,Papel Higienico,Doble Hoja
+TC-119,Confort Doble Hoja 22 m 40 un,Confort,880,tottus,https://www.tottus.cl/tottus-cl/articulo/132866018/papel-higienico-confort-22m-x-40un/132866019,Papel Higienico,Doble Hoja
+TC-120,Favorita Doble Hoja 22 m 40 un,Favorita,880,tottus,https://www.tottus.cl/tottus-cl/articulo/120217124/papel-higienico-22-m-x-40-und-favorita/120217125,Papel Higienico,Doble Hoja
+TC-121,Elite Ultra Suave Doble Hoja 25 m 24 un,Elite,600,tottus,https://www.tottus.cl/tottus-cl/articulo/141162893/papel-higienico-elite-25mx24/141162895,Papel Higienico,Doble Hoja
+TC-122,Elite Doble Hoja Ultra Suave 50 m 9 un,Elite,450,tottus,https://www.tottus.cl/tottus-cl/articulo/110611201/ph-doble-hoja-eco-elite-x9-und/110611202,Papel Higienico,Doble Hoja
+TC-123,Elite Ultra Doble Hoja 25 m 12 un,Elite,300,tottus,https://www.tottus.cl/tottus-cl/articulo/119824036/ph-ph-elite-ultra-dh-25x12-elite-und/119824037,Papel Higienico,Doble Hoja
+TC-124,Favorita Soft Care Aloe Vera Doble Hoja 38 m 18 un,Favorita,684,tottus,https://www.tottus.cl/tottus-cl/articulo/137258487/ph-softcare-aloe-vera-favorita-18-und/137258489,Papel Higienico,Doble Hoja
+TC-125,Scott Premium Triple Hoja 40 m 4 un,Scott,160,tottus,https://www.tottus.cl/tottus-cl/articulo/147657868/papel-higie-premium-4x40mts-scott-und/147657869,Papel Higienico,Triple Hoja
+TC-126,Favorita Acolchado Doble Hoja 25 m 24 un,Favorita,600,tottus,https://www.tottus.cl/tottus-cl/articulo/110618350/papel-higienico-acolchado-favorita-24/110618352,Papel Higienico,Doble Hoja
+TC-127,Scott Premium Triple Hoja 19 m 24 un,Scott,456,tottus,https://www.tottus.cl/tottus-cl/articulo/117696107/ph-scott-premium-19-mts-24-un/117696108,Papel Higienico,Triple Hoja
+TC-128,Elite Soft & Strong Triple Hoja 40 m 4 un,Elite,160,tottus,https://www.tottus.cl/tottus-cl/articulo/141162873/papel-higienico-elite-40mx4/141162877,Papel Higienico,Triple Hoja
+TC-129,Confort Hoja Simple 50 m 8 un,Confort,400,tottus,https://www.tottus.cl/tottus-cl/articulo/144745503/papel-higienico-confort-50mx8/144745504,Papel Higienico,Hoja Simple
 
 # categoria/subcategoria deben coincidir EXACTO (mismo texto) con las de
 # ovella.csv para que el dashboard agrupe bien — ej. "Papel Higienico"/
