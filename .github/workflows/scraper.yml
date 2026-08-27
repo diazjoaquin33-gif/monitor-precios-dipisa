@@ -2,7 +2,10 @@ name: Actualizador de Precios Dipisa
 
 on:
   schedule:
-    # Se ejecuta a las 07:00, 16:00 y 23:00 (Hora de Chile)
+    # Se ejecuta a las 07:00, 16:00 y 23:00 (Hora de Chile).
+    # Nota: si el cron deja de dispararse solo por varias horas, GitHub a
+    # veces "congela" el registro del schedule para repos con poca
+    # actividad; tocar este archivo (aunque sea un comentario) lo reactiva.
     - cron: '0 11,20,3 * * *'
   workflow_dispatch: # Te agrega un botón en GitHub para correrlo manualmente cuando quieras
 
