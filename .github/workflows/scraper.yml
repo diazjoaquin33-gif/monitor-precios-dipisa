@@ -2,11 +2,19 @@ name: Actualizador de Precios Dipisa
 
 on:
   schedule:
-    # Se ejecuta a las 07:00, 16:00 y 23:00 (Hora de Chile).
-    # Nota: si el cron deja de dispararse solo por varias horas, GitHub a
-    # veces "congela" el registro del schedule para repos con poca
-    # actividad; tocar este archivo (aunque sea un comentario) lo reactiva.
-    - cron: '0 11,20,3 * * *'
+    # Objetivo: ~07:00, 16:00 y 23:00 (Hora de Chile). Dos horarios por
+    # franja (a los :07 y a los :37, no en punto) en vez de uno solo: el
+    # schedule de GitHub Actions es conocido por perder o retrasar corridas
+    # en repos de poco tráfico, sobre todo justo en la hora exacta (todo el
+    # mundo agenda cron ahí, así que GitHub prioriza/descarta bajo esa
+    # congestión). Confirmado el 27-28/08/2026: incluso después de "tocar"
+    # este archivo para reactivar el registro del cron, se disparó una vez
+    # y volvió a saltarse el siguiente horario — asumimos que va a seguir
+    # fallando ocasionalmente y la redundancia es la mitigación, no una
+    # curita puntual. Si de todas formas se saltan ambos intentos de una
+    # franja, el fallback a "último precio conocido" ya cubre eso en la
+    # página sin que se rompa nada.
+    - cron: '7,37 11,20,3 * * *'
   workflow_dispatch: # Te agrega un botón en GitHub para correrlo manualmente cuando quieras
 
 jobs:
