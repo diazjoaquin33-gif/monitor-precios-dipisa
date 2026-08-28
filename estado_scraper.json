@@ -1,7 +1,7 @@
 {
-  "fecha": "27/08/2026 21:21 hrs",
+  "fecha": "27/08/2026 22:23 hrs",
   "total_skus": 195,
-  "exitosos": 193,
+  "exitosos": 171,
   "fallos": [
     {
       "retailer": "santaisabel",
@@ -12,6 +12,116 @@
       "retailer": "santaisabel",
       "sku_interno": "TC-022",
       "error": "Sin stock"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-034",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-145",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-146",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-147",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-148",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-149",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-150",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-151",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-152",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-153",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-154",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-155",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-156",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-157",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-158",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-159",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-160",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-161",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-162",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-163",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-164",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-165",
+      "error": "HTTP 403"
     }
   ]
 }
