@@ -37,6 +37,6 @@ jobs:
         run: |
           git config --global user.name "Dipisa-Bot"
           git config --global user.email "bot@dipisa.cl"
-          git add datos_procesados.json historial_precios.csv
+          git add datos_procesados.json historial_precios.csv estado_scraper.json
           # Si hay cambios en los precios, los sube a GitHub automáticamente
           git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Actualización automática de precios" && git push)

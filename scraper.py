@@ -16,6 +16,7 @@ PRODUCTOS_PATH = BASE_DIR / "productos.csv"
 RETAILERS_PATH = BASE_DIR / "retailers.yaml"
 DATOS_PATH = BASE_DIR / "datos_procesados.json"
 HISTORIAL_PATH = BASE_DIR / "historial_precios.csv"
+ESTADO_SCRAPER_PATH = BASE_DIR / "estado_scraper.json"
 
 HEADERS_GENERICOS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
@@ -282,7 +283,7 @@ def procesar_lote(retailer_key, lista_productos, cfg):
         else:
             print(f"❌ {retailer_key} | {prod['sku_interno']} -> FALLÓ: {err}")
 
-        salida.append((prod["sku_interno"], p, pn, disp, err, extra))
+        salida.append((retailer_key, prod["sku_interno"], p, pn, disp, err, extra))
         # Espacio entre productos del MISMO retailer — sin esto, varios
         # productos seguidos del mismo sitio uno detrás de otro es justo el
         # patrón que hace escalar bloqueos tipo Cloudflare (ej. Tottus).
@@ -339,10 +340,11 @@ if __name__ == "__main__":
         grupos.setdefault(prod["retailer"], []).append(prod)
 
     resultados_actuales = {}
+    fallos_ultima_corrida = []
     with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
         futuros = [executor.submit(procesar_lote, k, v, retailers_cfg.get(k, {})) for k, v in grupos.items()]
         for futuro in concurrent.futures.as_completed(futuros):
-            for sku, p, pn, disp, err, extra in futuro.result():
+            for retailer_key, sku, p, pn, disp, err, extra in futuro.result():
                 if p and p > 0:
                     entry = {
                         "sku_interno": sku, "precio": p, "precio_normal": pn,
@@ -351,6 +353,8 @@ if __name__ == "__main__":
                     if extra:
                         entry.update({k: v for k, v in extra.items() if v is not None})
                     resultados_actuales[sku] = entry
+                else:
+                    fallos_ultima_corrida.append({"retailer": retailer_key, "sku_interno": sku, "error": err})
 
     historico = []
     if DATOS_PATH.exists():
@@ -378,4 +382,16 @@ if __name__ == "__main__":
         json.dump(datos_finales, f, ensure_ascii=False, indent=2)
 
     actualizar_historial(resultados_actuales, fecha_hoy)
+
+    # Snapshot de la última corrida (no historial acumulado, se pisa cada
+    # vez) para que la página pueda mostrar un indicador de salud sin que
+    # alguien tenga que ir a leer los logs de GitHub Actions.
+    with open(ESTADO_SCRAPER_PATH, "w", encoding="utf-8") as f:
+        json.dump({
+            "fecha": fecha_hoy,
+            "total_skus": len(productos),
+            "exitosos": len(resultados_actuales),
+            "fallos": fallos_ultima_corrida,
+        }, f, ensure_ascii=False, indent=2)
+
     print("🏁 Extracción terminada. JSON actualizado.")

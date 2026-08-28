@@ -74,6 +74,25 @@ h2, h3 {{ color: {COLOR_MORADO}; }}
 """, unsafe_allow_html=True)
 
 
+HISTORIAL_PATH = BASE_DIR / "historial_precios.csv"
+ESTADO_SCRAPER_PATH = BASE_DIR / "estado_scraper.json"
+
+
+@st.cache_data(ttl=600)
+def cargar_historial():
+    if not HISTORIAL_PATH.exists():
+        return pd.DataFrame(columns=["semana", "sku_interno", "precio", "precio_normal", "fecha_act"])
+    return pd.read_csv(HISTORIAL_PATH)
+
+
+@st.cache_data(ttl=600)
+def cargar_estado_scraper():
+    if not ESTADO_SCRAPER_PATH.exists():
+        return None
+    with open(ESTADO_SCRAPER_PATH, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
 @st.cache_data(ttl=600)
 def cargar_datos():
     with open(BASE_DIR / "datos_procesados.json", "r", encoding="utf-8") as f:
@@ -235,6 +254,97 @@ c1.metric("SKU de Ovella", len(ovella_df))
 c2.metric("Competidores monitoreados", len(df))
 c3.metric("En oferta", len(con_descuento), f"{len(ofertas_agresivas)} con descuento ≥20%", delta_color="off")
 c4.metric("Sin dato reciente", len(pendientes))
+
+st.divider()
+
+col_buscar, col_descargar = st.columns([3, 1])
+busqueda = col_buscar.text_input(
+    "Buscar por marca o producto", placeholder="Ej. Elite, Confort, doble hoja...",
+)
+if busqueda:
+    coincide = (
+        df["marca"].str.contains(busqueda, case=False, na=False)
+        | df["producto"].str.contains(busqueda, case=False, na=False)
+    )
+    df = df[coincide]
+
+col_descargar.markdown("<div style='margin-top: 28px'></div>", unsafe_allow_html=True)
+col_descargar.download_button(
+    "⬇️ Descargar CSV",
+    data=df.drop(columns=["retailer"], errors="ignore").to_csv(index=False).encode("utf-8-sig"),
+    file_name="precios_dipisa.csv",
+    mime="text/csv",
+    width="stretch",
+)
+
+estado_scraper = cargar_estado_scraper()
+if estado_scraper:
+    fallos = estado_scraper.get("fallos", [])
+    total = estado_scraper.get("total_skus", 0)
+    exitosos = estado_scraper.get("exitosos", 0)
+    icono = "✅" if not fallos else "⚠️"
+    with st.expander(f"{icono} Salud del scraper — última corrida: {exitosos}/{total} SKU actualizados ({estado_scraper.get('fecha', '')})"):
+        if not fallos:
+            st.success("Todos los SKU se actualizaron correctamente en la última corrida.")
+        else:
+            with open(BASE_DIR / "retailers.yaml", encoding="utf-8") as f:
+                retailers_cfg_local = yaml.safe_load(f)
+            fallos_df = pd.DataFrame(fallos)
+            fallos_df["retailer_nombre"] = fallos_df["retailer"].map(
+                lambda r: retailers_cfg_local.get(r, {}).get("nombre", r)
+            )
+            por_retailer = fallos_df.groupby("retailer_nombre").size().sort_values(ascending=False)
+            st.caption("Fallos por retailer en la última corrida (el sitio se cae con un fallback al último precio conocido, no rompe la página):")
+            st.dataframe(
+                por_retailer.rename("Fallos").reset_index().rename(columns={"retailer_nombre": "Retailer"}),
+                hide_index=True, width="stretch",
+            )
+            with st.popover("Ver detalle de cada fallo"):
+                detalle = fallos_df.merge(
+                    df[["sku_interno", "producto", "marca"]].drop_duplicates("sku_interno"),
+                    on="sku_interno", how="left",
+                )
+                st.dataframe(
+                    detalle[["retailer_nombre", "sku_interno", "marca", "producto", "error"]]
+                    .rename(columns={"retailer_nombre": "Retailer", "sku_interno": "SKU", "marca": "Marca", "producto": "Producto", "error": "Error"}),
+                    hide_index=True, width="stretch",
+                )
+
+historial = cargar_historial()
+semanas = sorted(historial["semana"].unique()) if not historial.empty else []
+with st.expander("📈 Cambios de precio esta semana"):
+    if len(semanas) < 2:
+        st.info("Todavía no hay dos semanas de historial para comparar — el sistema recién empezó a guardar precios semana a semana. Vuelve a revisar más adelante.")
+    else:
+        semana_actual, semana_anterior = semanas[-1], semanas[-2]
+        pivote = historial[historial["semana"].isin([semana_actual, semana_anterior])].pivot_table(
+            index="sku_interno", columns="semana", values="precio", aggfunc="last"
+        )
+        pivote = pivote.dropna(subset=[semana_actual, semana_anterior])
+        pivote["variacion_pct"] = ((pivote[semana_actual] - pivote[semana_anterior]) / pivote[semana_anterior] * 100).round(1)
+        pivote = pivote[pivote["variacion_pct"] != 0].reset_index()
+        pivote = pivote.merge(df[["sku_interno", "marca", "producto", "retailer_nombre"]].drop_duplicates("sku_interno"), on="sku_interno", how="inner")
+
+        if pivote.empty:
+            st.info("Ningún precio cambió entre la semana pasada y esta.")
+        else:
+            def _tabla_movimientos(sub_df):
+                vista = sub_df[["retailer_nombre", "marca", "producto", semana_anterior, semana_actual, "variacion_pct"]].copy()
+                vista.columns = ["Retailer", "Marca", "Producto", "Precio anterior", "Precio actual", "Variación %"]
+                vista["Precio anterior"] = vista["Precio anterior"].map(_formatear_clp)
+                vista["Precio actual"] = vista["Precio actual"].map(_formatear_clp)
+                vista["Variación %"] = vista["Variación %"].map(lambda v: f"{'+' if v > 0 else ''}{v:g}%")
+                st.dataframe(vista, hide_index=True, width="stretch")
+
+            subieron = pivote[pivote["variacion_pct"] > 0].sort_values("variacion_pct", ascending=False).head(10)
+            bajaron = pivote[pivote["variacion_pct"] < 0].sort_values("variacion_pct").head(10)
+            col_sube, col_baja = st.columns(2)
+            with col_sube:
+                st.markdown("**⬆️ Subieron más**")
+                _tabla_movimientos(subieron) if not subieron.empty else st.caption("Ninguno.")
+            with col_baja:
+                st.markdown("**⬇️ Bajaron más**")
+                _tabla_movimientos(bajaron) if not bajaron.empty else st.caption("Ninguno.")
 
 st.divider()
 
