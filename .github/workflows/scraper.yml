@@ -15,6 +15,7 @@ on:
     # franja, el fallback a "último precio conocido" ya cubre eso en la
     # página sin que se rompa nada.
     - cron: '7,37 11,20,3 * * *'
+    - cron: '40 13 28 8 *' # prueba puntual 28/08 13:40 UTC (9:40 Chile) — sacar después de confirmar
   workflow_dispatch: # Te agrega un botón en GitHub para correrlo manualmente cuando quieras
 
 jobs:
