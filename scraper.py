@@ -6,7 +6,7 @@ import re
 import time
 import random
 import concurrent.futures
-from datetime import datetime
+from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 from pathlib import Path
 from curl_cffi import requests as cffi_requests
@@ -15,6 +15,7 @@ BASE_DIR = Path(__file__).parent
 PRODUCTOS_PATH = BASE_DIR / "productos.csv"
 RETAILERS_PATH = BASE_DIR / "retailers.yaml"
 DATOS_PATH = BASE_DIR / "datos_procesados.json"
+HISTORIAL_PATH = BASE_DIR / "historial_precios.csv"
 
 HEADERS_GENERICOS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
@@ -288,6 +289,47 @@ def procesar_lote(retailer_key, lista_productos, cfg):
         time.sleep(random.uniform(0.8, 1.8))
     return salida
 
+LIMITE_HISTORIAL_SEMANAS = 104  # ~2 años — alcanza para comparar temporadas de un año a otro sin acumular para siempre.
+
+
+def actualizar_historial(resultados_actuales, fecha_hoy):
+    """Guarda un precio por SKU por semana (no cada corrida) para poder ver
+    más adelante cómo evoluciona el precio en el tiempo, sin que el archivo
+    crezca sin control corriendo 3 veces al día. Si ya hay un dato de esta
+    misma semana ISO para ese SKU, se reemplaza por el más reciente; solo se
+    guardan precios recién obtenidos (resultados_actuales), nunca el
+    fallback de "último precio conocido" de un SKU que falló esta corrida —
+    eso repetiría un dato viejo como si fuera nuevo. Los datos de más de
+    LIMITE_HISTORIAL_SEMANAS se podan en cada corrida."""
+    if not resultados_actuales:
+        return
+    ahora = datetime.now(ZoneInfo("America/Santiago"))
+    semana = ahora.strftime("%G-W%V")
+
+    filas = {}
+    if HISTORIAL_PATH.exists():
+        hist_df = pd.read_csv(HISTORIAL_PATH)
+        for _, r in hist_df.iterrows():
+            filas[(r["sku_interno"], r["semana"])] = r.to_dict()
+
+    for sku, res in resultados_actuales.items():
+        filas[(sku, semana)] = {
+            "semana": semana,
+            "sku_interno": sku,
+            "precio": res["precio"],
+            "precio_normal": res["precio_normal"],
+            "fecha_act": fecha_hoy,
+        }
+
+    # Las semanas ISO ("YYYY-Www", ancho fijo) ordenan igual como texto que
+    # como fecha, así que comparar strings alcanza para podar lo viejo.
+    corte = (ahora - timedelta(weeks=LIMITE_HISTORIAL_SEMANAS)).strftime("%G-W%V")
+    filas = {k: v for k, v in filas.items() if k[1] >= corte}
+
+    df_out = pd.DataFrame(filas.values()).sort_values(["sku_interno", "semana"])
+    df_out.to_csv(HISTORIAL_PATH, index=False)
+
+
 if __name__ == "__main__":
     print("🤖 Iniciando motor de extracción de precios (Modo Autónomo)...")
     
@@ -334,4 +376,6 @@ if __name__ == "__main__":
             
     with open(DATOS_PATH, "w", encoding="utf-8") as f:
         json.dump(datos_finales, f, ensure_ascii=False, indent=2)
+
+    actualizar_historial(resultados_actuales, fecha_hoy)
     print("🏁 Extracción terminada. JSON actualizado.")
