@@ -74,6 +74,22 @@ h2, h3 {{ color: {COLOR_MORADO}; }}
 """, unsafe_allow_html=True)
 
 
+HISTORIAL_PATH = BASE_DIR / "historial_precios.csv"
+
+# Tolerancia para decidir que dos filas de retailers distintos son "el
+# mismo producto" al abrir el detalle — más angosta que el ±15% que usa el
+# match contra Ovella, porque acá se compara marca+metraje contra sí mismo,
+# no contra un formato de referencia distinto.
+RANGO_TOLERANCIA_MISMO_PRODUCTO = 0.10
+
+
+@st.cache_data(ttl=600)
+def cargar_historial():
+    if not HISTORIAL_PATH.exists():
+        return pd.DataFrame(columns=["semana", "sku_interno", "precio", "precio_normal", "fecha_act"])
+    return pd.read_csv(HISTORIAL_PATH)
+
+
 @st.cache_data(ttl=600)
 def cargar_datos():
     with open(BASE_DIR / "datos_procesados.json", "r", encoding="utf-8") as f:
@@ -178,11 +194,72 @@ COLUMN_CONFIG = {
 }
 
 
-def _mostrar_tabla(df_grupo, **kwargs):
+def _grupo_mismo_producto(fila):
+    """Todas las filas (de cualquier retailer) que son el mismo producto
+    real que `fila`: misma marca+categoría+subcategoría, y metraje dentro
+    de un rango angosto (algunos sitios redondean el metraje distinto para
+    lo que es, en la práctica, el mismo producto)."""
+    margen = fila["metros_totales"] * RANGO_TOLERANCIA_MISMO_PRODUCTO
+    return df[
+        (df["marca"] == fila["marca"])
+        & (df["categoria"] == fila["categoria"])
+        & (df["subcategoria"] == fila["subcategoria"])
+        & (df["metros_totales"] >= fila["metros_totales"] - margen)
+        & (df["metros_totales"] <= fila["metros_totales"] + margen)
+    ]
+
+
+@st.dialog("Detalle del producto", width="large")
+def _mostrar_detalle_producto(fila):
+    st.markdown(f"#### {fila['marca']} — {fila['producto']}")
+    st.caption(f"{fila['categoria']} · {fila['subcategoria']} · {fila['metros_totales']:g} m totales")
+
+    grupo = _grupo_mismo_producto(fila)
+
+    st.markdown("**Comparación entre retailers**")
+    _mostrar_tabla(grupo, seleccionable=False)
+
+    st.markdown("**Evolución de precio**")
+    historial = cargar_historial()
+    hist_grupo = historial[historial["sku_interno"].isin(grupo["sku_interno"])]
+    if hist_grupo["semana"].nunique() < 2:
+        st.info("Todavía no hay suficientes semanas de historial para graficar la tendencia — el sistema recién empezó a guardarlo. Vuelve a revisar en unas semanas.")
+    else:
+        hist_grupo = hist_grupo.merge(
+            grupo[["sku_interno", "retailer_nombre"]].drop_duplicates("sku_interno"),
+            on="sku_interno",
+        )
+        pivote = hist_grupo.pivot_table(index="semana", columns="retailer_nombre", values="precio", aggfunc="last")
+        st.line_chart(pivote)
+
+
+def _mostrar_tabla(df_grupo, ocultar_columnas=None, mostrar_formato=False, seleccionable=True, key=None):
+    tabla_estilo = _tabla_categoria(df_grupo, ocultar_columnas=ocultar_columnas, mostrar_formato=mostrar_formato)
+    kwargs = {"hide_index": True, "column_config": COLUMN_CONFIG}
+    clave = None
+    if seleccionable:
+        clave = key or f"tabla_{abs(hash(tuple(df_grupo['sku_interno'])))}"
+        kwargs.update(on_select="rerun", selection_mode="single-row", key=clave)
+
     try:
-        st.dataframe(_tabla_categoria(df_grupo, **kwargs), width="stretch", hide_index=True, column_config=COLUMN_CONFIG)
+        evento = st.dataframe(tabla_estilo, width="stretch", **kwargs)
     except TypeError:
-        st.dataframe(_tabla_categoria(df_grupo, **kwargs), use_container_width=True, hide_index=True, column_config=COLUMN_CONFIG)
+        evento = st.dataframe(tabla_estilo, use_container_width=True, **kwargs)
+
+    if not seleccionable or evento is None:
+        return
+    filas_sel = list(evento.selection.rows) if evento.selection else []
+    if not filas_sel:
+        return
+    # Sin esto, cerrar el panel de detalle lo vuelve a abrir de inmediato en
+    # el siguiente rerun — la selección de la tabla sigue "marcada" aunque
+    # el usuario ya cerró el panel, así que solo se abre de nuevo si la
+    # selección realmente cambió a una fila distinta.
+    marca_seleccion = (clave, filas_sel[0])
+    if st.session_state.get("_detalle_visto") != marca_seleccion:
+        st.session_state["_detalle_visto"] = marca_seleccion
+        fila = df_grupo.reset_index(drop=True).iloc[filas_sel[0]]
+        _mostrar_detalle_producto(fila)
 
 
 # --- Interfaz ---
