@@ -1,12 +1,12 @@
 {
-  "fecha": "29/08/2026 07:45 hrs",
+  "fecha": "29/08/2026 16:15 hrs",
   "total_skus": 195,
   "exitosos": 172,
   "fallos": [
     {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-015",
-      "error": "Sin stock"
+      "retailer": "tottus",
+      "sku_interno": "TC-125",
+      "error": "HTTP 403"
     },
     {
       "retailer": "knasta",
