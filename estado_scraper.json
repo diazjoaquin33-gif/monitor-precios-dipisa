@@ -1,8 +1,13 @@
 {
-  "fecha": "29/08/2026 23:45 hrs",
+  "fecha": "30/08/2026 07:15 hrs",
   "total_skus": 195,
-  "exitosos": 173,
+  "exitosos": 172,
   "fallos": [
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-028",
+      "error": "HTTP 403"
+    },
     {
       "retailer": "knasta",
       "sku_interno": "TC-034",
