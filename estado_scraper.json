@@ -1,166 +1,36 @@
 {
-  "fecha": "30/08/2026 07:44 hrs",
+  "fecha": "30/08/2026 16:15 hrs",
   "total_skus": 195,
-  "exitosos": 114,
+  "exitosos": 167,
   "fallos": [
     {
-      "retailer": "alvi",
-      "sku_interno": "TC-006",
+      "retailer": "tottus",
+      "sku_interno": "TC-009",
       "error": "HTTP 403"
     },
     {
-      "retailer": "alvi",
-      "sku_interno": "TC-166",
+      "retailer": "tottus",
+      "sku_interno": "TC-010",
       "error": "HTTP 403"
     },
     {
-      "retailer": "alvi",
-      "sku_interno": "TC-167",
+      "retailer": "tottus",
+      "sku_interno": "TC-011",
       "error": "HTTP 403"
     },
     {
-      "retailer": "alvi",
-      "sku_interno": "TC-168",
+      "retailer": "tottus",
+      "sku_interno": "TC-024",
       "error": "HTTP 403"
     },
     {
-      "retailer": "alvi",
-      "sku_interno": "TC-169",
+      "retailer": "tottus",
+      "sku_interno": "TC-028",
       "error": "HTTP 403"
     },
     {
-      "retailer": "alvi",
-      "sku_interno": "TC-170",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-171",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-172",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-173",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-174",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-175",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-176",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-177",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-178",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-179",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-180",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-181",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-182",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-183",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-184",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-185",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-186",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-187",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-188",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-189",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-190",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-191",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-192",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-193",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-194",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-195",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-196",
+      "retailer": "tottus",
+      "sku_interno": "TC-107",
       "error": "HTTP 403"
     },
     {
@@ -271,141 +141,6 @@
     {
       "retailer": "knasta",
       "sku_interno": "TC-165",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-074",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-075",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-076",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-077",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-078",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-079",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-080",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-081",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-082",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-083",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-084",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-085",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-086",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-087",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-088",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-089",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-090",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-091",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-092",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-093",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-094",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-095",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-096",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-097",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-098",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-099",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-100",
       "error": "HTTP 403"
     }
   ]
