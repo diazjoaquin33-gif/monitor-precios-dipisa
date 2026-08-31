@@ -24,12 +24,6 @@ COLOR_TEXTO = "#1B252C"
 COLOR_BUENO = "#0ca30c"
 COLOR_CRITICO = "#d03b3b"
 
-# +-15% de metraje para considerar dos productos "comparables" dentro de la
-# misma categoria+subcategoria — ya no exige metraje idéntico.
-RANGO_TOLERANCIA_METROS = 0.15
-
-ICONO_CATEGORIA = {"Papel Higienico": "🧻", "Toalla de Papel": "🧺"}
-
 
 def _logo_base64():
     with open(BASE_DIR / "logo.png", "rb") as f:
@@ -348,79 +342,20 @@ with st.expander("📈 Cambios de precio esta semana"):
 
 st.divider()
 
-modo = st.radio(
-    "Ver por:", ["SKU de Ovella", "Supermercado"],
-    horizontal=True, label_visibility="collapsed",
-)
-st.divider()
+# Vista de catálogo: un tab por supermercado, y dentro de cada uno las filas
+# agrupadas por marca. La vista "por SKU de Ovella" se sacó por ahora — se
+# retoma más adelante.
+retailers_activos = sorted(df["retailer_nombre"].dropna().unique())
+tabs_retailer = st.tabs(retailers_activos)
 
-if modo == "SKU de Ovella":
-    # Arma primero los grupos (para saber si hay "otros" antes de crear los
-    # tabs). Coinciden por categoria+subcategoria EXACTA, y metraje dentro de
-    # +-15% del SKU de Ovella (no exige metraje idéntico, para no perder
-    # competidores de formato parecido pero no igual).
-    grupos = []
-    usados = set()
-    for _, ov in ovella_df.iterrows():
-        margen = ov["metros_totales"] * RANGO_TOLERANCIA_METROS
-        grupo = df[
-            (df["categoria"] == ov["categoria"])
-            & (df["subcategoria"] == ov["subcategoria"])
-            & (df["metros_totales"] >= ov["metros_totales"] - margen)
-            & (df["metros_totales"] <= ov["metros_totales"] + margen)
-        ]
-        usados.update(grupo.index)
-        grupos.append((ov, grupo))
+for tab, retailer_nombre in zip(tabs_retailer, retailers_activos):
+    with tab:
+        df_retailer = df[df["retailer_nombre"] == retailer_nombre]
+        st.caption(f"{len(df_retailer)} productos monitoreados en {retailer_nombre}")
 
-    sin_match = df[~df.index.isin(usados)]
-
-    nombres_tabs = [f"{ICONO_CATEGORIA.get(ov['categoria'], '📄')} {ov['producto']}" for ov, _ in grupos]
-    if not sin_match.empty:
-        nombres_tabs.append(f"📦 Otros ({len(sin_match)})")
-
-    tabs = st.tabs(nombres_tabs)
-
-    for tab, (ov, grupo) in zip(tabs, grupos):
-        with tab:
-            st.caption(f"{ov['categoria']} · {ov['subcategoria']} · ~{int(ov['metros_totales'])} m por paquete (rango ±15%)")
-            if grupo.empty:
-                st.info("Todavía no hay competidores monitoreados con este mismo metraje.")
-                continue
-
-            validos = grupo[grupo["precio_metro"].notna()]
-            if not validos.empty:
-                fila_barata = validos.loc[validos["precio_metro"].idxmin()]
-                fila_cara = validos.loc[validos["precio_metro"].idxmax()]
-                promedio = round(validos["precio_metro"].mean(), 1)
-                m1, m2, m3 = st.columns(3)
-                m1.metric("Más barato ($/m)", f"${fila_barata['precio_metro']}",
-                          help=f"{fila_barata['marca']} — {fila_barata['retailer_nombre']}")
-                m2.metric("Promedio ($/m)", f"${promedio}")
-                m3.metric("Más caro ($/m)", f"${fila_cara['precio_metro']}",
-                          help=f"{fila_cara['marca']} — {fila_cara['retailer_nombre']}")
-
-            _mostrar_tabla(grupo)
-
-    if not sin_match.empty:
-        with tabs[-1]:
-            st.caption("No calza con ningún SKU de Ovella (categoría/subcategoría distinta, o metraje fuera del rango ±15%) — revisa si corresponde agregar un formato nuevo en ovella.csv.")
-            _mostrar_tabla(sin_match)
-
-else:
-    # Vista de catálogo: un tab por supermercado, y dentro de cada uno las
-    # filas agrupadas por marca — para navegar "qué tiene este retailer"
-    # en vez de "quién compite con este SKU de Ovella".
-    retailers_activos = sorted(df["retailer_nombre"].dropna().unique())
-    tabs_retailer = st.tabs(retailers_activos)
-
-    for tab, retailer_nombre in zip(tabs_retailer, retailers_activos):
-        with tab:
-            df_retailer = df[df["retailer_nombre"] == retailer_nombre]
-            st.caption(f"{len(df_retailer)} productos monitoreados en {retailer_nombre}")
-
-            for marca in sorted(df_retailer["marca"].dropna().unique()):
-                grupo_marca = df_retailer[df_retailer["marca"] == marca]
-                st.markdown(f"##### {marca} ({len(grupo_marca)})")
-                _mostrar_tabla(grupo_marca, ocultar_columnas=["Retailer", "Marca"], mostrar_formato=True)
+        for marca in sorted(df_retailer["marca"].dropna().unique()):
+            grupo_marca = df_retailer[df_retailer["marca"] == marca]
+            st.markdown(f"##### {marca} ({len(grupo_marca)})")
+            _mostrar_tabla(grupo_marca, ocultar_columnas=["Retailer", "Marca"], mostrar_formato=True)
 
 st.caption("Se actualiza automáticamente 3 veces al día vía GitHub Actions.")
