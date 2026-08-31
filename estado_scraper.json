@@ -1,8 +1,33 @@
 {
-  "fecha": "31/08/2026 07:45 hrs",
+  "fecha": "31/08/2026 16:15 hrs",
   "total_skus": 195,
-  "exitosos": 173,
+  "exitosos": 168,
   "fallos": [
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-027",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-033",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-113",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-119",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-128",
+      "error": "HTTP 403"
+    },
     {
       "retailer": "knasta",
       "sku_interno": "TC-034",
