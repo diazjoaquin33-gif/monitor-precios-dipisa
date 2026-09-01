@@ -216,6 +216,27 @@ TC-215,Abolengo 10 m 3 un,Abolengo,30,unimarc,https://www.unimarc.cl/product/toa
 TC-216,Nubelin Doble Hoja 26 m 2 un,Nubelin,52,unimarc,https://www.unimarc.cl/product/toalla-papel-dh-nubelin-26mtx2,Toalla de Papel,Doble Hoja
 TC-217,Nubelin Doble Hoja 100 m 1 un,Nubelin,100,unimarc,https://www.unimarc.cl/product/toalla-papel-dh-nubelin-100mtx1,Toalla de Papel,Doble Hoja
 TC-218,Scott Multiusos 20 m 2 un,Scott,40,unimarc,https://www.unimarc.cl/product/toalla-papel-multiusos-scott-2x20-mt,Toalla de Papel,Doble Hoja
+TC-219,Nova Ultra Doble Hoja 26 m 2 un,Nova,52,jumbo,https://www.jumbo.cl/toalla-papel-nova-ultra-dh-26mt-2un-1939056/p,Toalla de Papel,Doble Hoja
+TC-220,Nova Evolution Absorb 14 m 3 un,Nova,42,jumbo,https://www.jumbo.cl/toalla-de-papel-nova-evolution-x3-1947750/p,Toalla de Papel,Doble Hoja
+TC-221,Elite Deco Maxi Rollo Triple Hoja 20 m 2 un,Elite,40,jumbo,https://www.jumbo.cl/toalla-elite-deco-maxi-rollo-20mt-2un-1895065/p,Toalla de Papel,Triple Hoja
+TC-222,Nova Gigante Doble Hoja 100 m 1 un,Nova,100,jumbo,https://www.jumbo.cl/toalla-papel-nova-gigante-dh-100mt-1923549/p,Toalla de Papel,Doble Hoja
+TC-223,Home Care Doble Hoja 45 m 1 un,Home Care,45,jumbo,https://www.jumbo.cl/toalla-home-care-doble-hoja-45-metros-2042443/p,Toalla de Papel,Doble Hoja
+TC-224,Home Care Doble Hoja 100 m 1 un,Home Care,100,jumbo,https://www.jumbo.cl/toalla-doble-hoja-home-care-100-metros-2042885/p,Toalla de Papel,Doble Hoja
+TC-225,Nova Clásica Doble Hoja 12 m 3 un,Nova,36,jumbo,https://www.jumbo.cl/toalla-de-papel-nova-clasica-12-m-3-un-2008455/p,Toalla de Papel,Doble Hoja
+TC-226,Nova Clásica Doble Hoja 12 m 12 un,Nova,144,jumbo,https://www.jumbo.cl/toalla-de-papel-nova-clasica-12-m-12-un-2008456/p,Toalla de Papel,Doble Hoja
+TC-227,Abolengo XL 100 m 1 un,Abolengo,100,jumbo,https://www.jumbo.cl/toalla-abolengo-xl-100-mt/p,Toalla de Papel,Doble Hoja
+TC-228,Máxima Doble Hoja 100 m 1 un,Máxima,100,jumbo,https://www.jumbo.cl/toalla-maxima-doble-hoja-100-metros-2011595/p,Toalla de Papel,Doble Hoja
+TC-229,Nova Ultra Gigante Doble Hoja 70 m 1 un,Nova,70,jumbo,https://www.jumbo.cl/toalla-de-papel-nova-ultra-70-m-1970652/p,Toalla de Papel,Doble Hoja
+TC-230,Nova Evolution Mega Rollo Doble Hoja 26 m 2 un,Nova,52,jumbo,https://www.jumbo.cl/toalla-de-papel-nova-evolution-mr-x2-1947749/p,Toalla de Papel,Doble Hoja
+TC-231,Favorita Estilo 24 m 2 un,Favorita,48,jumbo,https://www.jumbo.cl/toalla-favorita-estilo-24mt-2un-2025110/p,Toalla de Papel,Doble Hoja
+TC-232,Nova Clásica Doble Hoja 40 m 1 un,Nova,40,jumbo,https://www.jumbo.cl/toalla-papel-nova-clasica-4omt-1un-2017217/p,Toalla de Papel,Doble Hoja
+TC-233,Home Care Doble Hoja 12 m 3 un,Home Care,36,jumbo,https://www.jumbo.cl/toalla-home-care-doble-hoja-3-un-x-12-mt-2042444/p,Toalla de Papel,Doble Hoja
+TC-234,Nova Gigante Clásica Doble Hoja 70 m 1 un,Nova,70,jumbo,https://www.jumbo.cl/toalla-papel-nova-gigante-clasica-70mt-2021823/p,Toalla de Papel,Doble Hoja
+TC-235,Favorita Hogar Mega Doble Hoja 100 m 1 un,Favorita,100,jumbo,https://www.jumbo.cl/toalla-de-papel-favorita-hogar-mega-1-unid-100-metros/p,Toalla de Papel,Doble Hoja
+TC-236,Home Care Doble Hoja 26 m 2 un,Home Care,52,jumbo,https://www.jumbo.cl/toalla-home-care-doble-hoja-2-un-x-26-mt-2042446/p,Toalla de Papel,Doble Hoja
+TC-237,Nova Ultra Doble Hoja 14 m 2 un,Nova,28,jumbo,https://www.jumbo.cl/toalla-papel-nova-ultra-14mt-2un-1997285/p,Toalla de Papel,Doble Hoja
+TC-238,Favorita Extra Hogar Doble Hoja 60 m 2 un,Favorita,120,jumbo,https://www.jumbo.cl/toalla-favorita-extra-hogar-60m-2un-1884769/p,Toalla de Papel,Doble Hoja
+TC-239,Máxima Doble Hoja 10 m 2 un,Máxima,20,jumbo,https://www.jumbo.cl/toalla-max-3x10-2067051/p,Toalla de Papel,Doble Hoja
 
 # categoria/subcategoria deben coincidir EXACTO (mismo texto) con las de
 # ovella.csv para que el dashboard agrupe bien — ej. "Papel Higienico"/

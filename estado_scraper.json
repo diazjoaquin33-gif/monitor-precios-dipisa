@@ -1,7 +1,7 @@
 {
-  "fecha": "01/09/2026 11:49 hrs",
-  "total_skus": 217,
-  "exitosos": 212,
+  "fecha": "01/09/2026 13:04 hrs",
+  "total_skus": 238,
+  "exitosos": 232,
   "fallos": [
     {
       "retailer": "knasta",
@@ -27,6 +27,11 @@
       "retailer": "knasta",
       "sku_interno": "TC-163",
       "error": "No se encontró el precio en el HTML"
+    },
+    {
+      "retailer": "acuenta",
+      "sku_interno": "TC-035",
+      "error": "SKU '4851927' no encontrado en Instaleap"
     }
   ]
 }
