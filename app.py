@@ -207,7 +207,13 @@ except Exception as e:
 
 ultima_fecha = None
 if "fecha_act" in df.columns and df["fecha_act"].notna().any():
-    ultima_fecha = df["fecha_act"].dropna().max()
+    # "27/08/2026..." le gana a "01/09/2026..." como texto (el '2' de "27"
+    # pesa más que el '0' de "01"), así que hay que parsear la fecha antes
+    # de comparar — si no, un SKU con dato viejo (ej. Knasta trabado) puede
+    # aparecer como "más reciente" que uno recién actualizado.
+    fechas = pd.to_datetime(df["fecha_act"], format="%d/%m/%Y %H:%M hrs", errors="coerce")
+    if fechas.notna().any():
+        ultima_fecha = fechas.max().strftime("%d/%m/%Y %H:%M hrs")
 
 chip_fecha = f"""
 <div style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.35);
