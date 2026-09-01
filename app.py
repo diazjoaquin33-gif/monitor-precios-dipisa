@@ -341,10 +341,16 @@ with st.expander("📈 Cambios de precio esta semana"):
             col_sube, col_baja = st.columns(2)
             with col_sube:
                 st.markdown("**⬆️ Subieron más**")
-                _tabla_movimientos(subieron) if not subieron.empty else st.caption("Ninguno.")
+                if not subieron.empty:
+                    _tabla_movimientos(subieron)
+                else:
+                    st.caption("Ninguno.")
             with col_baja:
                 st.markdown("**⬇️ Bajaron más**")
-                _tabla_movimientos(bajaron) if not bajaron.empty else st.caption("Ninguno.")
+                if not bajaron.empty:
+                    _tabla_movimientos(bajaron)
+                else:
+                    st.caption("Ninguno.")
 
 st.divider()
 
