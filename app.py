@@ -354,6 +354,16 @@ with st.expander("📈 Cambios de precio esta semana"):
 
 st.divider()
 
+ICONO_CATEGORIA = {"Papel Higienico": "🧻", "Toalla de Papel": "🧺", "Servilletas": "🍽️"}
+
+
+def _mostrar_marcas(df_sub):
+    for marca in sorted(df_sub["marca"].dropna().unique()):
+        grupo_marca = df_sub[df_sub["marca"] == marca]
+        st.markdown(f"##### {marca} ({len(grupo_marca)})")
+        _mostrar_tabla(grupo_marca, ocultar_columnas=["Retailer", "Marca"], mostrar_formato=True)
+
+
 # Vista de catálogo: un tab por supermercado, y dentro de cada uno las filas
 # agrupadas por marca. La vista "por SKU de Ovella" se sacó por ahora — se
 # retoma más adelante.
@@ -365,9 +375,15 @@ for tab, retailer_nombre in zip(tabs_retailer, retailers_activos):
         df_retailer = df[df["retailer_nombre"] == retailer_nombre]
         st.caption(f"{len(df_retailer)} productos monitoreados en {retailer_nombre}")
 
-        for marca in sorted(df_retailer["marca"].dropna().unique()):
-            grupo_marca = df_retailer[df_retailer["marca"] == marca]
-            st.markdown(f"##### {marca} ({len(grupo_marca)})")
-            _mostrar_tabla(grupo_marca, ocultar_columnas=["Retailer", "Marca"], mostrar_formato=True)
+        # Solo se separa por categoría (Higiénico/Toalla/Servilletas) si ese
+        # retailer tiene más de una — si no, el sub-selector no aportaría nada.
+        categorias_retailer = sorted(df_retailer["categoria"].dropna().unique())
+        if len(categorias_retailer) <= 1:
+            _mostrar_marcas(df_retailer)
+        else:
+            tabs_categoria = st.tabs([f"{ICONO_CATEGORIA.get(c, '📄')} {c}" for c in categorias_retailer])
+            for tab_cat, categoria in zip(tabs_categoria, categorias_retailer):
+                with tab_cat:
+                    _mostrar_marcas(df_retailer[df_retailer["categoria"] == categoria])
 
 st.caption("Se actualiza automáticamente 3 veces al día vía GitHub Actions.")
