@@ -1,32 +1,117 @@
 {
-  "fecha": "01/09/2026 14:58 hrs",
+  "fecha": "01/09/2026 16:24 hrs",
   "total_skus": 261,
-  "exitosos": 255,
+  "exitosos": 238,
   "fallos": [
     {
       "retailer": "knasta",
       "sku_interno": "TC-034",
-      "error": "No se encontró el precio en el HTML"
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-145",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-146",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-147",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-148",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-149",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-150",
+      "error": "HTTP 403"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-151",
-      "error": "No se encontró el precio en el HTML"
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-152",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-153",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-154",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-155",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-156",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-157",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-158",
+      "error": "HTTP 403"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-159",
-      "error": "No se encontró el precio en el HTML"
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-160",
+      "error": "HTTP 403"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-161",
-      "error": "No se encontró el precio en el HTML"
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-162",
+      "error": "HTTP 403"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-163",
-      "error": "No se encontró el precio en el HTML"
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-164",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "knasta",
+      "sku_interno": "TC-165",
+      "error": "HTTP 403"
     },
     {
       "retailer": "acuenta",
