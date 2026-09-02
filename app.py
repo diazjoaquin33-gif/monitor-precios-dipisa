@@ -130,6 +130,32 @@ def _formatear_clp(valor):
     return f"${valor:,.0f}".replace(",", ".")
 
 
+def _armar_export(df_export):
+    """Versión "para humanos" del dataframe interno, pensada para abrirse en
+    Excel: nombres de columna en español, precios ya formateados en CLP en
+    vez de floats crudos, y sin las columnas internas (sku_interno, index de
+    merge, etc.) que no significan nada fuera de la app."""
+    filas = []
+    for _, r in df_export.iterrows():
+        filas.append({
+            "Retailer": r["retailer_nombre"],
+            "Categoría": r["categoria"],
+            "Subcategoría": r["subcategoria"],
+            "Marca": r["marca"],
+            "Producto": r["producto"],
+            "Metros totales": r["metros_totales"],
+            "Precio Lista": _formatear_clp(r["precio_normal"]),
+            "Precio Oferta": _formatear_clp(r["precio"]) if pd.notna(r["descuento_pct"]) else "",
+            "Descuento %": f"{int(r['descuento_pct'])}%" if pd.notna(r["descuento_pct"]) else "",
+            "Precio Socio 2 un (solo Alvi)": _formatear_clp(r.get("precio_socio2")) if r["retailer"] == "alvi" and pd.notna(r.get("precio_socio2")) else "",
+            "$/Metro": f"${r['precio_metro']}/m" if pd.notna(r["precio_metro"]) else "N/D",
+            "Estado": r["estado"],
+            "Última actualización": r.get("fecha_act") or "",
+            "Link": r.get("url"),
+        })
+    return pd.DataFrame(filas)
+
+
 def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False):
     """Arma la tabla de una categoría con la fila más barata resaltada en
     verde y las sin dato reciente en rojo translúcido — mismos colores de
@@ -271,7 +297,10 @@ if busqueda:
 col_descargar.markdown("<div style='margin-top: 28px'></div>", unsafe_allow_html=True)
 col_descargar.download_button(
     "⬇️ Descargar CSV",
-    data=df.drop(columns=["retailer"], errors="ignore").to_csv(index=False).encode("utf-8-sig"),
+    # separador ";" porque el Excel en español/Chile usa "," como separador
+    # decimal, así que espera ";" entre columnas — con "," todo el CSV
+    # aparece amontonado en una sola columna al abrirlo.
+    data=_armar_export(df).to_csv(index=False, sep=";").encode("utf-8-sig"),
     file_name="precios_dipisa.csv",
     mime="text/csv",
     width="stretch",
