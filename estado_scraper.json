@@ -1,7 +1,7 @@
 {
-  "fecha": "02/09/2026 07:25 hrs",
+  "fecha": "02/09/2026 07:50 hrs",
   "total_skus": 261,
-  "exitosos": 235,
+  "exitosos": 239,
   "fallos": [
     {
       "retailer": "knasta",
@@ -111,26 +111,6 @@
     {
       "retailer": "knasta",
       "sku_interno": "TC-165",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-032",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-101",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-106",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-110",
       "error": "HTTP 403"
     }
   ]
