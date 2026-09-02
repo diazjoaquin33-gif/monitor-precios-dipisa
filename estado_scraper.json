@@ -1,8 +1,13 @@
 {
-  "fecha": "02/09/2026 07:50 hrs",
+  "fecha": "02/09/2026 16:26 hrs",
   "total_skus": 261,
-  "exitosos": 239,
+  "exitosos": 237,
   "fallos": [
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-017",
+      "error": "Sin stock"
+    },
     {
       "retailer": "knasta",
       "sku_interno": "TC-034",
@@ -112,6 +117,11 @@
       "retailer": "knasta",
       "sku_interno": "TC-165",
       "error": "HTTP 403"
+    },
+    {
+      "retailer": "jumbo",
+      "sku_interno": "TC-229",
+      "error": "HTTP 404"
     }
   ]
 }
