@@ -1,8 +1,13 @@
 {
-  "fecha": "03/09/2026 11:29 hrs",
-  "total_skus": 261,
-  "exitosos": 239,
+  "fecha": "03/09/2026 15:21 hrs",
+  "total_skus": 326,
+  "exitosos": 303,
   "fallos": [
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-115",
+      "error": "No se encontró el precio en el HTML"
+    },
     {
       "retailer": "knasta",
       "sku_interno": "TC-034",
@@ -114,6 +119,8 @@
       "error": "HTTP 403"
     }
   ],
-  "overrides_url_aplicados": 1,
-  "overrides_url_aviso": null
+  "overrides_url_aplicados": 0,
+  "overrides_url_aviso": null,
+  "sku_desde_planilla": 1,
+  "sku_desde_planilla_aviso": null
 }
