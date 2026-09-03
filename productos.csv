@@ -408,6 +408,16 @@ TC-406,Nubelin Mesa 200 un,Nubelin,,alvi,https://www.alvi.cl/product/servilleta-
 TC-407,Nova Clásica Mesa Hoja Simple 200 un,Nova,,alvi,https://www.alvi.cl/product/servilleta-clasica-mesa,Servilletas,Mesa,,,200
 TC-408,Elite Cocktail 200 un,Elite,,alvi,https://www.alvi.cl/product/servilletas-cocktail,Servilletas,Cocktail,,,200
 TC-409,Elite Mesa 50 un,Elite,,alvi,https://www.alvi.cl/product/servilletas-mesa,Servilletas,Mesa,,,50
+TC-410,Elite Cocktail 400 un,Elite,,acuenta,https://www.acuenta.cl/p/servilletas-coctel-24x24-cm-400-un-elite-113664,Servilletas,Cocktail,,,400
+TC-411,Nova Clásica Cocktail 180 un,Nova,,acuenta,https://www.acuenta.cl/p/servilleta-clasica-coctel-x-180-180-un-nova-4938084,Servilletas,Cocktail,,,180
+TC-412,Nova Cocktail 300 un,Nova,,acuenta,https://www.acuenta.cl/p/servilletas-coctel-23x22-cm-300-un-nova-294839,Servilletas,Cocktail,,,300
+TC-413,Acuenta Cocktail 150 un,Acuenta,,acuenta,https://www.acuenta.cl/p/servilletas-coctel-23x22-cm-150-un-acuenta-4922003,Servilletas,Cocktail,,,150
+TC-414,Elite Cocktail 220 un,Elite,,acuenta,https://www.acuenta.cl/p/servilletas-coctel-24x24-cm-220-un-elite-517312,Servilletas,Cocktail,,,220
+TC-415,Acuenta Cocktail 300 un,Acuenta,,acuenta,https://www.acuenta.cl/p/servilletas-coctel-23x22-cm-300-un-acuenta-4922006,Servilletas,Cocktail,,,300
+TC-416,Abolengo Cocktail 40 un,Abolengo,,acuenta,https://www.acuenta.cl/p/servilleta-coctel-40-u-abolengo-560484,Servilletas,Cocktail,,,40
+TC-417,Lider Mesa 200 un,Lider,,acuenta,https://www.acuenta.cl/p/servilletas-mesa-33x33-cm-200-un-lider-759108,Servilletas,Mesa,,,200
+TC-418,Nova Clásica Mesa 200 un,Nova,,acuenta,https://www.acuenta.cl/p/servilletas-mesa-33x33-cm-200-un-nova-1146124,Servilletas,Mesa,,,200
+TC-419,Lider Cocktail 50 un,Lider,,acuenta,https://www.acuenta.cl/p/servilletas-coctel-23x24-cm-50-un-lider-9555,Servilletas,Cocktail,,,50
 
 # Columnas: sku_interno,producto,marca,metros_totales,retailer,url,categoria,
 # subcategoria,rollos,metros_rollo,unidades
