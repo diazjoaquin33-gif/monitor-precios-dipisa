@@ -3,6 +3,7 @@ import pandas as pd
 import yaml
 import json
 import io
+import re
 import base64
 import requests
 from pathlib import Path
@@ -192,6 +193,22 @@ def cargar_datos():
     df = pd.merge(df_csv, df_json, on="sku_interno", how="left")
     df["retailer_nombre"] = df["retailer"].map(lambda r: retailers_cfg.get(r, {}).get("nombre", r))
 
+    df["rollos"] = pd.to_numeric(df.get("rollos"), errors="coerce")
+    df["metros_rollo"] = pd.to_numeric(df.get("metros_rollo"), errors="coerce")
+    df["metros_totales"] = pd.to_numeric(df["metros_totales"], errors="coerce")
+    # Red para filas que llegaron incompletas (ej. de la planilla productos_nuevos):
+    # rollos/metros_rollo se intentan sacar del nombre del producto, y con eso se
+    # completa metros_totales si falta. Si el nombre no da pistas, quedan sin
+    # segmento pero igual se muestran.
+    faltan = df["rollos"].isna() | df["metros_rollo"].isna()
+    if faltan.any():
+        parsed = df.loc[faltan, "producto"].map(_parse_rollos_metros)
+        df.loc[faltan, "rollos"] = df.loc[faltan, "rollos"].fillna(parsed.map(lambda t: t[0]))
+        df.loc[faltan, "metros_rollo"] = df.loc[faltan, "metros_rollo"].fillna(parsed.map(lambda t: t[1]))
+    sin_mt = df["metros_totales"].isna() & df["rollos"].notna() & df["metros_rollo"].notna()
+    df.loc[sin_mt, "metros_totales"] = df.loc[sin_mt, "rollos"] * df.loc[sin_mt, "metros_rollo"]
+    df["segmento"] = df.apply(_segmento, axis=1)
+
     df["precio"] = pd.to_numeric(df["precio"], errors="coerce")
     df["precio_normal"] = pd.to_numeric(df["precio_normal"], errors="coerce")
     # Solo Alvi trae este campo (precio socio comprando 2+ unidades) — no
@@ -204,10 +221,6 @@ def cargar_datos():
     df.loc[df["descuento_pct"] <= 0, "descuento_pct"] = pd.NA
 
     df["estado"] = df["estado"].fillna("Pendiente")
-
-    df["rollos"] = pd.to_numeric(df.get("rollos"), errors="coerce")
-    df["metros_rollo"] = pd.to_numeric(df.get("metros_rollo"), errors="coerce")
-    df["segmento"] = df.apply(_segmento, axis=1)
 
     ovella_df = pd.read_csv(BASE_DIR / "ovella.csv", comment="#", skip_blank_lines=True)
     ovella_df = ovella_df.dropna(subset=["sku_ovella"])
@@ -251,6 +264,24 @@ def _bucket_metros(metros_rollo):
     if m <= 60: return "~50 m/rollo"
     if m <= 90: return "~70 m/rollo"
     return "100+ m/rollo"
+
+
+def _parse_rollos_metros(nombre):
+    """Saca (rollos, metros_por_rollo) del nombre del producto — mismos patrones
+    que se usaron para rellenar productos.csv ("22 m 4 un", "4 un 22 m",
+    "2 x 26 mts"). Sirve de red para las filas de la planilla 'productos_nuevos'
+    a las que alguien no les cargó rollos/metros_rollo a mano."""
+    s = str(nombre).lower().replace("mts", "m").replace("metros", "m")
+    m3 = re.search(r"(\d+)\s*x\s*(\d+(?:\.\d+)?)\s*m", s)
+    if m3:
+        return int(m3.group(1)), float(m3.group(2))
+    m1 = re.search(r"(\d+(?:\.\d+)?)\s*m\b.*?(\d+)\s*un", s)
+    if m1:
+        return int(m1.group(2)), float(m1.group(1))
+    m2 = re.search(r"(\d+)\s*un.*?(\d+(?:\.\d+)?)\s*m\b", s)
+    if m2:
+        return int(m2.group(1)), float(m2.group(2))
+    return None, None
 
 
 def _segmento(row):
@@ -548,10 +579,11 @@ with st.expander("➕ Agregar un producto nuevo para monitorear"):
     if PRODUCTOS_NUEVOS_CSV_URL:
         nuevos_raw = cargar_productos_nuevos()
         if not nuevos_raw.empty:
-            retailers_ok = set(df["retailer"].dropna().unique())
-            cats_ok = set(df["categoria"].dropna().unique())
-            subcats_ok = set(df["subcategoria"].dropna().unique())
-            skus_ok = set(df["sku_interno"])
+            base = df[~df["origen_planilla"].fillna(False)]
+            retailers_ok = set(base["retailer"].dropna().unique())
+            cats_ok = set(base["categoria"].dropna().unique())
+            subcats_ok = set(base["subcategoria"].dropna().unique())
+            skus_ok = set(base["sku_interno"])
             problemas = []
             for _, r in nuevos_raw.iterrows():
                 sku = str(r["sku_interno"]).strip()
@@ -565,10 +597,20 @@ with st.expander("➕ Agregar un producto nuevo para monitorear"):
                 if pd.notna(r["subcategoria"]) and str(r["subcategoria"]).strip() not in subcats_ok:
                     errs.append(f"subcategoría '{r['subcategoria']}' no coincide")
                 rr, mr, mt = pd.to_numeric(pd.Series([r["rollos"], r["metros_rollo"], r["metros_totales"]]), errors="coerce")
-                if pd.isna(mt):
+                if pd.isna(rr) or pd.isna(mr):
+                    p_rr, p_mr = _parse_rollos_metros(r["producto"])
+                    if p_rr is None:
+                        errs.append("falta rollos y/o metros_rollo (y no se pueden sacar del nombre)")
+                if pd.isna(mt) and (pd.isna(rr) or pd.isna(mr)):
                     errs.append("falta metros_totales")
-                elif pd.notna(rr) and pd.notna(mr) and abs(rr * mr - mt) > max(2, mt * 0.05):
+                elif pd.notna(rr) and pd.notna(mr) and pd.notna(mt) and abs(rr * mr - mt) > max(2, mt * 0.05):
                     errs.append(f"rollos×metros_rollo ({rr:g}×{mr:g}) no da metros_totales ({mt:g})")
+                nom = str(r["producto"]).lower()
+                cat = str(r["categoria"]).strip().lower()
+                if "toall" in nom and "toalla" not in cat:
+                    errs.append(f"el nombre dice 'toalla' pero la categoría es '{r['categoria']}'")
+                if ("higien" in nom or "papel hig" in nom) and "higien" not in cat:
+                    errs.append(f"el nombre parece papel higiénico pero la categoría es '{r['categoria']}'")
                 if errs:
                     problemas.append(f"**{sku or '(sin código)'}**: " + "; ".join(errs))
             if problemas:
