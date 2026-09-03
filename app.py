@@ -226,6 +226,7 @@ def _armar_export(df_export):
             "Categoría": r["categoria"],
             "Subcategoría": r["subcategoria"],
             "Segmento": r.get("segmento") or "",
+            "Producto estándar": _producto_estandar(r),
             "Marca": r["marca"],
             "Producto": r["producto"],
             "Metros totales": r["metros_totales"],
@@ -241,10 +242,50 @@ def _armar_export(df_export):
     return pd.DataFrame(filas)
 
 
+def _armar_export_pivote(df_export):
+    """CSV en formato "largo" y con precios NUMÉRICOS (no "$1.234"), pensado
+    para armar una tabla dinámica en Excel: una fila por producto+retailer,
+    'Producto estándar' como campo de fila y 'Retailer' como campo de columna
+    para ver de un vistazo cuánto cuesta cada producto en cada supermercado."""
+    filas = []
+    for _, r in df_export.iterrows():
+        filas.append({
+            "Producto estándar": _producto_estandar(r),
+            "Marca": r["marca"],
+            "Categoría": r["categoria"],
+            "Subcategoría": r["subcategoria"],
+            "Segmento": r.get("segmento") or "",
+            "Rollos": int(r["rollos"]) if pd.notna(r.get("rollos")) else None,
+            "Metros por rollo": r["metros_rollo"] if pd.notna(r.get("metros_rollo")) else None,
+            "Metros totales": r["metros_totales"],
+            "Retailer": r["retailer_nombre"],
+            "Precio vigente": int(r["precio"]) if pd.notna(r["precio"]) else None,
+            "Precio lista": int(r["precio_normal"]) if pd.notna(r["precio_normal"]) else None,
+            "Descuento %": int(r["descuento_pct"]) if pd.notna(r["descuento_pct"]) else None,
+            "Precio por metro": r["precio_metro"] if pd.notna(r["precio_metro"]) else None,
+            "Estado": r["estado"],
+            "Actualización": r.get("fecha_act") or "",
+            "Link": r.get("url"),
+        })
+    return pd.DataFrame(filas)
+
+
 def _fmt_formato(r):
     if pd.notna(r.get("rollos")) and pd.notna(r.get("metros_rollo")):
         return f"{int(r['rollos'])}x{r['metros_rollo']:g}m · {r['subcategoria']}"
     return f"{r['categoria']} · {r['subcategoria']}"
+
+
+def _producto_estandar(r):
+    """Nombre idéntico para el mismo producto en cualquier retailer: marca +
+    tipo de hoja + formato. Sirve como campo de fila en una tabla dinámica de
+    Excel (filtrás por este nombre y ves el precio en cada supermercado).
+    Ojo: agrupa por marca+formato, así que sub-líneas de una misma marca con
+    igual formato (ej. "Elite Ultra" y "Elite Soft & Strong" 4x40) caen bajo
+    el mismo nombre — si eso pasa se nota como dos precios muy distintos."""
+    if pd.notna(r.get("rollos")) and pd.notna(r.get("metros_rollo")):
+        return f"{r['marca']} {r['subcategoria']} {r['metros_rollo']:g}m x{int(r['rollos'])}un"
+    return f"{r['marca']} {r['producto']}"
 
 
 def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, resaltar_ovella=False):
@@ -391,15 +432,25 @@ if busqueda:
     df = df[coincide]
 
 col_descargar.markdown("<div style='margin-top: 28px'></div>", unsafe_allow_html=True)
+# separador ";" y decimal "," porque el Excel en español/Chile usa "," como
+# separador decimal y por lo tanto ";" entre columnas — con "," todo el CSV
+# aparece amontonado en una sola columna al abrirlo.
 col_descargar.download_button(
-    "⬇️ Descargar CSV",
-    # separador ";" porque el Excel en español/Chile usa "," como separador
-    # decimal, así que espera ";" entre columnas — con "," todo el CSV
-    # aparece amontonado en una sola columna al abrirlo.
+    "⬇️ CSV para leer",
     data=_armar_export(df).to_csv(index=False, sep=";").encode("utf-8-sig"),
     file_name="precios_dipisa.csv",
     mime="text/csv",
     width="stretch",
+)
+col_descargar.download_button(
+    "📊 CSV para tabla dinámica",
+    data=_armar_export_pivote(df).to_csv(index=False, sep=";", decimal=",").encode("utf-8-sig"),
+    file_name="precios_dipisa_pivote.csv",
+    mime="text/csv",
+    width="stretch",
+    help="Precios numéricos, una fila por producto+supermercado. En Excel: "
+         "Insertar → Tabla dinámica; fila = 'Producto estándar', columna = "
+         "'Retailer', valor = 'Precio vigente'.",
 )
 
 with st.expander("🔗 ¿Un link de producto está roto o cambió?"):
