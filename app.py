@@ -337,36 +337,6 @@ def _armar_export(df_export):
     return pd.DataFrame(filas)
 
 
-def _armar_export_pivote(df_export):
-    """CSV en formato "largo" y con precios NUMÉRICOS (no "$1.234"), pensado
-    para armar una tabla dinámica en Excel: una fila por producto+retailer,
-    'Producto estándar' como campo de fila y 'Retailer' como campo de columna
-    para ver de un vistazo cuánto cuesta cada producto en cada supermercado."""
-    filas = []
-    for _, r in df_export.iterrows():
-        filas.append({
-            "Producto estándar": _producto_estandar(r),
-            "Marca": r["marca"],
-            "Categoría": r["categoria"],
-            "Subcategoría": r["subcategoria"],
-            "Segmento": r.get("segmento") or "",
-            "Rollos": int(r["rollos"]) if pd.notna(r.get("rollos")) else None,
-            "Metros por rollo": r["metros_rollo"] if pd.notna(r.get("metros_rollo")) else None,
-            "Metros totales": r["metros_totales"],
-            "Unidades": int(r["unidades"]) if r["categoria"] == "Servilletas" and pd.notna(r.get("unidades")) else None,
-            "Retailer": r["retailer_nombre"],
-            "Precio vigente": int(r["precio"]) if pd.notna(r["precio"]) else None,
-            "Precio lista": int(r["precio_normal"]) if pd.notna(r["precio_normal"]) else None,
-            "Descuento %": int(r["descuento_pct"]) if pd.notna(r["descuento_pct"]) else None,
-            "Precio por metro": r["precio_metro"] if pd.notna(r["precio_metro"]) else None,
-            "Precio por unidad": r["precio_unidad"] if pd.notna(r.get("precio_unidad")) else None,
-            "Estado": r["estado"],
-            "Actualización": r.get("fecha_act") or "",
-            "Link": r.get("url"),
-        })
-    return pd.DataFrame(filas)
-
-
 def _fmt_formato(r):
     if r.get("categoria") == "Servilletas" and pd.notna(r.get("unidades")):
         return f"{int(r['unidades'])} un · {r['subcategoria']}"
@@ -523,11 +493,10 @@ con_descuento = df[df["descuento_pct"].notna()]
 ofertas_agresivas = df[df["descuento_pct"] >= 20]
 pendientes = df[df["estado"] != "Disponible"]
 
-c1, c2, c3, c4 = st.columns(4)
-c1.metric("SKU de Ovella", len(ovella_df))
-c2.metric("Competidores monitoreados", len(df))
-c3.metric("En oferta", len(con_descuento), f"{len(ofertas_agresivas)} con descuento ≥20%", delta_color="off")
-c4.metric("Sin dato reciente", len(pendientes))
+c1, c2, c3 = st.columns(3)
+c1.metric("SKU monitoreados", len(df))
+c2.metric("En oferta", len(con_descuento), f"{len(ofertas_agresivas)} con descuento ≥20%", delta_color="off")
+c3.metric("Sin dato reciente", len(pendientes))
 
 st.divider()
 
@@ -543,25 +512,15 @@ if busqueda:
     df = df[coincide]
 
 col_descargar.markdown("<div style='margin-top: 28px'></div>", unsafe_allow_html=True)
-# separador ";" y decimal "," porque el Excel en español/Chile usa "," como
-# separador decimal y por lo tanto ";" entre columnas — con "," todo el CSV
-# aparece amontonado en una sola columna al abrirlo.
+# separador ";" porque el Excel en español/Chile usa "," como separador decimal
+# y por lo tanto ";" entre columnas — con "," todo el CSV aparece amontonado en
+# una sola columna al abrirlo.
 col_descargar.download_button(
-    "⬇️ CSV para leer",
+    "⬇️ Descargar CSV",
     data=_armar_export(df).to_csv(index=False, sep=";").encode("utf-8-sig"),
     file_name="precios_dipisa.csv",
     mime="text/csv",
     width="stretch",
-)
-col_descargar.download_button(
-    "📊 CSV para tabla dinámica",
-    data=_armar_export_pivote(df).to_csv(index=False, sep=";", decimal=",").encode("utf-8-sig"),
-    file_name="precios_dipisa_pivote.csv",
-    mime="text/csv",
-    width="stretch",
-    help="Precios numéricos, una fila por producto+supermercado. En Excel: "
-         "Insertar → Tabla dinámica; fila = 'Producto estándar', columna = "
-         "'Retailer', valor = 'Precio vigente'.",
 )
 
 with st.expander("🔗 ¿Un link de producto está roto o cambió?"):
