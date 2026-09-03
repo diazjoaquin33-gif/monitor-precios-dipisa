@@ -67,26 +67,6 @@ header {{visibility: hidden;}}
 [data-testid="stMetricValue"] {{ color: {COLOR_TEXTO}; }}
 
 h2, h3 {{ color: {COLOR_MORADO}; }}
-
-/* --- Responsive: pantallas de celular (siempre activo) --- */
-@media (max-width: 640px) {{
-    /* Menos aire lateral para aprovechar el ancho */
-    .block-container {{ padding-left: 0.6rem !important; padding-right: 0.6rem !important; padding-top: 1rem !important; }}
-    /* El encabezado morado ocupa menos y su texto encoge */
-    .encabezado-app {{ padding: 14px 16px !important; gap: 12px !important; }}
-    .encabezado-app .titulo {{ font-size: 1.15rem !important; }}
-    .encabezado-app .bajada {{ font-size: 0.8rem !important; }}
-    .encabezado-app img {{ height: 26px !important; }}
-    /* Filas de columnas de Streamlit se apilan en vez de encogerse */
-    [data-testid="stHorizontalBlock"] {{ flex-wrap: wrap !important; }}
-    [data-testid="stHorizontalBlock"] > [data-testid="column"] {{ flex: 1 1 100% !important; min-width: 100% !important; }}
-    /* Las métricas sí quedan de a dos por fila */
-    [data-testid="stHorizontalBlock"] > [data-testid="column"]:has([data-testid="stMetric"]) {{ flex: 1 1 45% !important; min-width: 45% !important; }}
-    /* Tablas: que se deslicen dentro de su recuadro, no que rompan la página */
-    [data-testid="stDataFrame"] {{ overflow-x: auto !important; }}
-    .stTabs [data-baseweb="tab-list"] {{ flex-wrap: wrap; gap: 2px; }}
-    .stTabs [data-baseweb="tab"] {{ font-size: 0.8rem; padding: 4px 8px; }}
-}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -427,7 +407,6 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
     # valor numérico crudo se guarda aparte (misma posición que las filas)
     # para el resaltado de "más barato", que sí necesita comparar números.
     es_alvi = not df_grupo.empty and (df_grupo["retailer"] == "alvi").all()
-    compacto = bool(st.session_state.get("compacto"))
     # Servilletas se comparan en $/unidad; el resto en $/metro. Si la tabla
     # mezcla (no debería, las vistas son por categoría) gana $/metro.
     unidad_ref = "u" if (not df_grupo.empty and (df_grupo["categoria"] == "Servilletas").all()) else "m"
@@ -436,7 +415,7 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
     precios_metro = []
     for _, r in df_grupo.iterrows():
         fila = {"Retailer": r["retailer_nombre"], "Marca": r["marca"]}
-        if mostrar_formato and not compacto:
+        if mostrar_formato:
             fila["Formato"] = _fmt_formato(r)
         precio_metro = r["precio_ref"] if pd.notna(r.get("precio_ref")) else None
         # ✏️ = URL reemplazado desde la planilla · 🆕 = SKU nuevo cargado en la
@@ -447,10 +426,7 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
         if r.get("origen_planilla"):
             nombre += " 🆕"
         fila["Producto"] = nombre
-        if compacto:
-            # En celular: solo el precio vigente y el $/ref.
-            fila["Precio"] = _formatear_clp(r["precio"])
-        elif es_alvi:
+        if es_alvi:
             fila["Precio Lista"] = _formatear_clp(r["precio_normal"])
             fila["Socio 1 un"] = _formatear_clp(r["precio"])
             fila["Socio 2 un"] = _formatear_clp(r.get("precio_socio2"))
@@ -459,7 +435,7 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
             fila["Precio Oferta"] = _formatear_clp(r["precio"]) if pd.notna(r["descuento_pct"]) else "—"
             fila["Desc."] = f"-{int(r['descuento_pct'])}%" if pd.notna(r["descuento_pct"]) else "—"
         fila[col_ref] = f"${precio_metro}/{unidad_ref}" if precio_metro is not None else "N/D"
-        fila["Estado"] = "⚠️" if (compacto and r["estado"] != "Disponible") else ("" if compacto else r["estado"])
+        fila["Estado"] = r["estado"]
         fila["Ver"] = r.get("url")
         filas.append(fila)
         precios_metro.append(precio_metro)
@@ -471,12 +447,11 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
     minimo = min(validos) if validos else None
 
     marcas = list(df_grupo["marca"]) if resaltar_ovella else []
-    estados = list(df_grupo["estado"])
 
     def resaltar(fila):
         if minimo is not None and precios_metro[fila.name] == minimo:
             return [f"background-color: {COLOR_BUENO}26"] * len(fila)
-        if estados[fila.name] != "Disponible":
+        if fila["Estado"] != "Disponible":
             return [f"background-color: {COLOR_CRITICO}1a"] * len(fila)
         if resaltar_ovella and str(marcas[fila.name]).strip().lower() == "ovella":
             return [f"background-color: {COLOR_MORADO}1f"] * len(fila)
@@ -523,7 +498,7 @@ chip_fecha = f"""
 """ if ultima_fecha else ""
 
 st.markdown(f"""
-<div class="encabezado-app" style="background: linear-gradient(135deg, {COLOR_MORADO} 0%, {COLOR_MORADO_OSCURO} 100%);
+<div style="background: linear-gradient(135deg, {COLOR_MORADO} 0%, {COLOR_MORADO_OSCURO} 100%);
             border-bottom: 5px solid {COLOR_VERDE};
             padding: 22px 32px; border-radius: 12px; margin-bottom: 28px;
             display: flex; align-items: center; justify-content: space-between; gap: 22px; flex-wrap: wrap;">
@@ -532,10 +507,10 @@ st.markdown(f"""
             <img src="data:image/png;base64,{_logo_base64()}" style="height: 38px; display: block;">
         </div>
         <div>
-            <div class="titulo" style="color: #FFFFFF; font-size: 1.7rem; font-weight: 700; line-height: 1.2;">
+            <div style="color: #FFFFFF; font-size: 1.7rem; font-weight: 700; line-height: 1.2;">
                 Monitor Competitivo de Precios
             </div>
-            <div class="bajada" style="color: #E4D7F7; font-size: 0.95rem; margin-top: 2px;">
+            <div style="color: #E4D7F7; font-size: 0.95rem; margin-top: 2px;">
                 Inteligencia de mercado: pricing de Ovella vs. la competencia en retail
             </div>
         </div>
@@ -555,14 +530,6 @@ c3.metric("En oferta", len(con_descuento), f"{len(ofertas_agresivas)} con descue
 c4.metric("Sin dato reciente", len(pendientes))
 
 st.divider()
-
-st.checkbox(
-    "📱 Vista compacta (para celular)",
-    key="compacto",
-    help="Achica las tablas a lo esencial (marca, producto, precio, $/unidad) y "
-         "cambia las pestañas de supermercado por un menú.",
-)
-compacto = bool(st.session_state.get("compacto"))
 
 col_buscar, col_descargar = st.columns([3, 1])
 busqueda = col_buscar.text_input(
@@ -783,40 +750,26 @@ vista = st.radio(
     label_visibility="collapsed",
 )
 
-def _vista_retailer(df_retailer):
-    categorias_retailer = sorted(df_retailer["categoria"].dropna().unique())
-    # Solo se separa por categoría si ese retailer tiene más de una.
-    if len(categorias_retailer) <= 1:
-        _mostrar_marcas(df_retailer)
-    elif compacto:
-        cat_sel = st.selectbox(
-            "Categoría",
-            categorias_retailer,
-            format_func=lambda c: f"{ICONO_CATEGORIA.get(c, '📄')} {c}",
-            key=f"catsel_{df_retailer['retailer'].iloc[0]}",
-        )
-        _mostrar_marcas(df_retailer[df_retailer["categoria"] == cat_sel])
-    else:
-        tabs_categoria = st.tabs([f"{ICONO_CATEGORIA.get(c, '📄')} {c}" for c in categorias_retailer])
-        for tab_cat, categoria in zip(tabs_categoria, categorias_retailer):
-            with tab_cat:
-                _mostrar_marcas(df_retailer[df_retailer["categoria"] == categoria])
-
-
 if vista == "🏪 Retailer":
+    # Un tab por supermercado, y dentro de cada uno las filas agrupadas por marca.
     retailers_activos = sorted(df["retailer_nombre"].dropna().unique())
-    if compacto:
-        # En celular: un menú en vez de pestañas.
-        r_sel = st.selectbox("Supermercado", retailers_activos, key="retsel")
-        df_retailer = df[df["retailer_nombre"] == r_sel]
-        st.caption(f"{len(df_retailer)} productos monitoreados en {r_sel}")
-        _vista_retailer(df_retailer)
-    else:
-        for tab, retailer_nombre in zip(st.tabs(retailers_activos), retailers_activos):
-            with tab:
-                df_retailer = df[df["retailer_nombre"] == retailer_nombre]
-                st.caption(f"{len(df_retailer)} productos monitoreados en {retailer_nombre}")
-                _vista_retailer(df_retailer)
+    tabs_retailer = st.tabs(retailers_activos)
+
+    for tab, retailer_nombre in zip(tabs_retailer, retailers_activos):
+        with tab:
+            df_retailer = df[df["retailer_nombre"] == retailer_nombre]
+            st.caption(f"{len(df_retailer)} productos monitoreados en {retailer_nombre}")
+
+            # Solo se separa por categoría (Higiénico/Toalla/Servilletas) si ese
+            # retailer tiene más de una — si no, el sub-selector no aportaría nada.
+            categorias_retailer = sorted(df_retailer["categoria"].dropna().unique())
+            if len(categorias_retailer) <= 1:
+                _mostrar_marcas(df_retailer)
+            else:
+                tabs_categoria = st.tabs([f"{ICONO_CATEGORIA.get(c, '📄')} {c}" for c in categorias_retailer])
+                for tab_cat, categoria in zip(tabs_categoria, categorias_retailer):
+                    with tab_cat:
+                        _mostrar_marcas(df_retailer[df_retailer["categoria"] == categoria])
 
 else:
     # Un segmento = tipo de hoja + tamaño de pack + metros por rollo. Filtrar
