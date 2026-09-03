@@ -59,6 +59,7 @@ acuenta:
 
 knasta:
   nombre: "Knasta (Líder)"
+  metodo: "knasta"
   # Comparador de precios independiente, no es el sitio de Líder — su
   # robots.txt permite explícitamente /detail/... (solo prohíbe /api y
   # /redirect, que no usamos). Trae el precio en meta tag estándar

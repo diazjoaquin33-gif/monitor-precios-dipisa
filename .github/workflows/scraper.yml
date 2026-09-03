@@ -14,7 +14,14 @@ on:
     # curita puntual. Si de todas formas se saltan ambos intentos de una
     # franja, el fallback a "último precio conocido" ya cubre eso en la
     # página sin que se rompa nada.
-    - cron: '7,37 11,20,3 * * *'
+    #
+    # Minutos "raros" (:14 y :47) a propósito: las corridas manuales scrapean
+    # Knasta bien pero las programadas caían con 403, y la diferencia es la IP
+    # del runner — los minutos redondos (0/15/30/45) y los "clásicos para
+    # evitar la hora" (7/37) comparten los pools de IP más castigados por
+    # otros scrapers. Con un minuto poco común el runner suele caer en una IP
+    # menos quemada.
+    - cron: '14,47 11,20,3 * * *'
   workflow_dispatch: # Te agrega un botón en GitHub para correrlo manualmente cuando quieras
 
 jobs:
