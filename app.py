@@ -2,7 +2,9 @@ import streamlit as st
 import pandas as pd
 import yaml
 import json
+import io
 import base64
+import requests
 from pathlib import Path
 
 st.set_page_config(
@@ -70,6 +72,38 @@ h2, h3 {{ color: {COLOR_MORADO}; }}
 
 HISTORIAL_PATH = BASE_DIR / "historial_precios.csv"
 ESTADO_SCRAPER_PATH = BASE_DIR / "estado_scraper.json"
+OVERRIDES_CACHE_PATH = BASE_DIR / "url_overrides_cache.json"
+
+# Misma planilla publicada que lee el scraper (sku_interno,url_nuevo,nota): así
+# la app muestra el URL ya corregido. Para editarla, el equipo entra al link de
+# abajo (planilla normal, no el CSV). Vive en moitor.de.precios1@gmail.com.
+OVERRIDES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZ7qyGdu79TJ5CUPN5dfIf4YZDgV9JqDpDdW8dA_jiqCrYDcW3RO_hGqjRp12QnKWKTvlkKvV1nWX/pub?gid=0&single=true&output=csv"
+# Link para EDITAR la planilla (el de la barra de direcciones al abrirla, termina
+# en /edit). Si queda vacío, la app no muestra el botón.
+PLANILLA_EDIT_URL = "https://docs.google.com/spreadsheets/d/1Ka3EM2FEWd3uyfZ3CgzxeJhwQ9adETOvU0cihdPiBRw/edit"
+
+
+@st.cache_data(ttl=600)
+def cargar_overrides_url():
+    """Correcciones de URL cargadas por el equipo en la planilla de Google. Si la
+    planilla no responde, cae a la copia local del repo. Nunca rompe la app."""
+    try:
+        res = requests.get(OVERRIDES_CSV_URL, timeout=15)
+        res.raise_for_status()
+        df = pd.read_csv(io.StringIO(res.text)).dropna(subset=["sku_interno", "url_nuevo"])
+        return {
+            str(r["sku_interno"]).strip(): str(r["url_nuevo"]).strip()
+            for _, r in df.iterrows()
+            if str(r["url_nuevo"]).strip().startswith("http")
+        }
+    except Exception:
+        if OVERRIDES_CACHE_PATH.exists():
+            try:
+                with open(OVERRIDES_CACHE_PATH, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception:
+                pass
+        return {}
 
 
 @st.cache_data(ttl=600)
@@ -95,6 +129,14 @@ def cargar_datos():
 
     df_csv = pd.read_csv(BASE_DIR / "productos.csv", comment="#", skip_blank_lines=True)
     df_csv = df_csv.dropna(subset=["sku_interno"])
+
+    # URLs corregidos a mano por el equipo desde la planilla de Google — se
+    # aplican encima del CSV para que el "Ver ↗" apunte al link vigente.
+    overrides = cargar_overrides_url()
+    df_csv["url_corregido"] = df_csv["sku_interno"].isin(list(overrides))
+    df_csv["url"] = df_csv.apply(
+        lambda r: overrides.get(r["sku_interno"], r["url"]), axis=1
+    )
 
     with open(BASE_DIR / "retailers.yaml", "r", encoding="utf-8") as f:
         retailers_cfg = yaml.safe_load(f)
@@ -181,7 +223,8 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False):
         if mostrar_formato:
             fila["Formato"] = f"{r['categoria']} · {r['subcategoria']}"
         precio_metro = r["precio_metro"] if pd.notna(r["precio_metro"]) else None
-        fila["Producto"] = r["producto"]
+        # ✏️ = alguien reemplazó el URL de este SKU desde la planilla de correcciones
+        fila["Producto"] = f"{r['producto']} ✏️" if r.get("url_corregido") else r["producto"]
         if es_alvi:
             fila["Precio Lista"] = _formatear_clp(r["precio_normal"])
             fila["Socio 1 un"] = _formatear_clp(r["precio"])
@@ -305,6 +348,25 @@ col_descargar.download_button(
     mime="text/csv",
     width="stretch",
 )
+
+with st.expander("🔗 ¿Un link de producto está roto o cambió?"):
+    st.markdown(
+        "Cuando un supermercado cambia la dirección de un producto, su precio "
+        "deja de actualizarse (aparece como *“⚠️ Últ. precio”*). Para arreglarlo "
+        "**no hace falta tocar código**: se corrige en una planilla de Google.\n\n"
+        "1. Abrí la planilla de correcciones.\n"
+        "2. Agregá una fila con el **código del producto** (ej. `TC-034`), el "
+        "**URL nuevo** y una nota opcional.\n"
+        "3. En la próxima actualización automática (máx. ~8 h) el precio vuelve solo.\n\n"
+        "Los productos con URL ya corregido se muestran con un ✏️ al lado del nombre."
+    )
+    if PLANILLA_EDIT_URL:
+        st.link_button("✏️ Abrir la planilla de correcciones", PLANILLA_EDIT_URL)
+    else:
+        st.caption(
+            "⚠️ Falta configurar el link de la planilla en `app.py` "
+            "(`PLANILLA_EDIT_URL`) — ver `TRASPASO.md`."
+        )
 
 estado_scraper = cargar_estado_scraper()
 if estado_scraper:

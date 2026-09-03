@@ -50,6 +50,6 @@ jobs:
           # rechazo "non-fast-forward" y la corrida quedaría marcada en rojo
           # aunque el scraping en sí haya salido perfecto.
           git pull --rebase --autostash origin main
-          git add datos_procesados.json historial_precios.csv estado_scraper.json
+          git add datos_procesados.json historial_precios.csv estado_scraper.json url_overrides_cache.json
           # Si hay cambios en los precios, los sube a GitHub automáticamente
           git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Actualización automática de precios" && git push)

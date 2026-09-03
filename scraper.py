@@ -2,6 +2,7 @@ import pandas as pd
 import yaml
 import requests
 import json
+import io
 import re
 import time
 import random
@@ -17,6 +18,14 @@ RETAILERS_PATH = BASE_DIR / "retailers.yaml"
 DATOS_PATH = BASE_DIR / "datos_procesados.json"
 HISTORIAL_PATH = BASE_DIR / "historial_precios.csv"
 ESTADO_SCRAPER_PATH = BASE_DIR / "estado_scraper.json"
+OVERRIDES_CACHE_PATH = BASE_DIR / "url_overrides_cache.json"
+
+# Planilla de Google publicada (Archivo → Compartir → Publicar en la Web → CSV)
+# con columnas sku_interno,url_nuevo,nota. Es la forma de que alguien del equipo
+# reemplace un URL que murió sin tocar código: escribe el SKU y el URL nuevo en
+# la planilla y el scraper lo toma en la próxima corrida. La planilla vive en la
+# cuenta moitor.de.precios1@gmail.com (ver TRASPASO.md), no en una cuenta personal.
+OVERRIDES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZ7qyGdu79TJ5CUPN5dfIf4YZDgV9JqDpDdW8dA_jiqCrYDcW3RO_hGqjRp12QnKWKTvlkKvV1nWX/pub?gid=0&single=true&output=csv"
 
 HEADERS_GENERICOS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
@@ -28,6 +37,36 @@ def cargar_config():
     with open(RETAILERS_PATH, "r", encoding="utf-8") as f:
         retailers = yaml.safe_load(f)
     return productos, retailers
+
+
+def cargar_overrides_url():
+    """Devuelve ({sku_interno: url_nuevo}, aviso_o_None) con las correcciones de
+    URL que el equipo cargó en la planilla de Google. Si la planilla no responde
+    (sin internet, la despublicaron), cae a la última copia buena guardada en el
+    repo (url_overrides_cache.json) para no perder correcciones ya hechas ni
+    voltear la corrida. Cada lectura exitosa refresca esa copia."""
+    try:
+        res = requests.get(OVERRIDES_CSV_URL, headers=HEADERS_GENERICOS, timeout=15)
+        res.raise_for_status()
+        df = pd.read_csv(io.StringIO(res.text))
+        df = df.dropna(subset=["sku_interno", "url_nuevo"])
+        overrides = {}
+        for _, r in df.iterrows():
+            sku = str(r["sku_interno"]).strip()
+            url = str(r["url_nuevo"]).strip()
+            if sku and url.startswith("http"):
+                overrides[sku] = url
+        with open(OVERRIDES_CACHE_PATH, "w", encoding="utf-8") as f:
+            json.dump(overrides, f, ensure_ascii=False, indent=2)
+        return overrides, None
+    except Exception as e:
+        if OVERRIDES_CACHE_PATH.exists():
+            try:
+                with open(OVERRIDES_CACHE_PATH, "r", encoding="utf-8") as f:
+                    return json.load(f), f"planilla no disponible ({str(e)[:60]}); usando copia local"
+            except Exception:
+                pass
+        return {}, f"planilla no disponible y sin copia local ({str(e)[:60]})"
 
 INSTALEAP_QUERY = (
     "fragment CategoryFields on CategoryModel {\n  active\n  boost\n  hasChildren\n  categoryNamesPath\n  isAvailableInHome\n  level\n  name\n  path\n  reference\n  slug\n  photoUrl\n  imageUrl\n  shortName\n  isFeatured\n  isAssociatedToCatalog\n  __typename\n}\n\n"
@@ -335,6 +374,19 @@ if __name__ == "__main__":
     print("🤖 Iniciando motor de extracción de precios (Modo Autónomo)...")
     
     productos, retailers_cfg = cargar_config()
+
+    overrides_url, overrides_aviso = cargar_overrides_url()
+    if overrides_url:
+        aplicados = productos["sku_interno"].isin(list(overrides_url)).sum()
+        productos["url"] = productos.apply(
+            lambda row: overrides_url.get(row["sku_interno"], row["url"]), axis=1
+        )
+        print(f"🔧 {aplicados} URL(s) reemplazado(s) desde la planilla de correcciones")
+    else:
+        aplicados = 0
+    if overrides_aviso:
+        print(f"⚠️ Overrides: {overrides_aviso}")
+
     grupos = {}
     for _, prod in productos.iterrows():
         grupos.setdefault(prod["retailer"], []).append(prod)
@@ -392,6 +444,8 @@ if __name__ == "__main__":
             "total_skus": len(productos),
             "exitosos": len(resultados_actuales),
             "fallos": fallos_ultima_corrida,
+            "overrides_url_aplicados": int(aplicados),
+            "overrides_url_aviso": overrides_aviso,
         }, f, ensure_ascii=False, indent=2)
 
     print("🏁 Extracción terminada. JSON actualizado.")
