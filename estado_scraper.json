@@ -1,5 +1,5 @@
 {
-  "fecha": "03/09/2026 07:50 hrs",
+  "fecha": "03/09/2026 11:29 hrs",
   "total_skus": 261,
   "exitosos": 239,
   "fallos": [
@@ -113,5 +113,7 @@
       "sku_interno": "TC-165",
       "error": "HTTP 403"
     }
-  ]
+  ],
+  "overrides_url_aplicados": 1,
+  "overrides_url_aviso": null
 }
