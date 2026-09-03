@@ -545,6 +545,37 @@ with st.expander("➕ Agregar un producto nuevo para monitorear"):
     if PLANILLA_EDIT_URL:
         st.link_button("📋 Abrir la planilla", PLANILLA_EDIT_URL)
 
+    if PRODUCTOS_NUEVOS_CSV_URL:
+        nuevos_raw = cargar_productos_nuevos()
+        if not nuevos_raw.empty:
+            retailers_ok = set(df["retailer"].dropna().unique())
+            cats_ok = set(df["categoria"].dropna().unique())
+            subcats_ok = set(df["subcategoria"].dropna().unique())
+            skus_ok = set(df["sku_interno"])
+            problemas = []
+            for _, r in nuevos_raw.iterrows():
+                sku = str(r["sku_interno"]).strip()
+                errs = []
+                if sku in skus_ok:
+                    errs.append("el código ya existe en productos.csv")
+                if str(r["retailer"]).strip() not in retailers_ok:
+                    errs.append(f"retailer '{r['retailer']}' no es una clave válida")
+                if pd.notna(r["categoria"]) and str(r["categoria"]).strip() not in cats_ok:
+                    errs.append(f"categoría '{r['categoria']}' no coincide con las existentes")
+                if pd.notna(r["subcategoria"]) and str(r["subcategoria"]).strip() not in subcats_ok:
+                    errs.append(f"subcategoría '{r['subcategoria']}' no coincide")
+                rr, mr, mt = pd.to_numeric(pd.Series([r["rollos"], r["metros_rollo"], r["metros_totales"]]), errors="coerce")
+                if pd.isna(mt):
+                    errs.append("falta metros_totales")
+                elif pd.notna(rr) and pd.notna(mr) and abs(rr * mr - mt) > max(2, mt * 0.05):
+                    errs.append(f"rollos×metros_rollo ({rr:g}×{mr:g}) no da metros_totales ({mt:g})")
+                if errs:
+                    problemas.append(f"**{sku or '(sin código)'}**: " + "; ".join(errs))
+            if problemas:
+                st.warning("Filas de la planilla con algo para revisar:\n\n- " + "\n- ".join(problemas))
+            else:
+                st.caption(f"✅ {len(nuevos_raw)} fila(s) en la planilla, todas válidas.")
+
 estado_scraper = cargar_estado_scraper()
 if estado_scraper:
     fallos = estado_scraper.get("fallos", [])
