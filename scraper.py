@@ -19,24 +19,76 @@ DATOS_PATH = BASE_DIR / "datos_procesados.json"
 HISTORIAL_PATH = BASE_DIR / "historial_precios.csv"
 ESTADO_SCRAPER_PATH = BASE_DIR / "estado_scraper.json"
 OVERRIDES_CACHE_PATH = BASE_DIR / "url_overrides_cache.json"
+PRODUCTOS_NUEVOS_CACHE_PATH = BASE_DIR / "productos_nuevos_cache.csv"
 
-# Planilla de Google publicada (Archivo → Compartir → Publicar en la Web → CSV)
-# con columnas sku_interno,url_nuevo,nota. Es la forma de que alguien del equipo
-# reemplace un URL que murió sin tocar código: escribe el SKU y el URL nuevo en
-# la planilla y el scraper lo toma en la próxima corrida. La planilla vive en la
-# cuenta monitor.de.precios1@gmail.com (ver TRASPASO.md), no en una cuenta personal.
+# Planilla de Google publicada (Archivo → Compartir → Publicar en la Web → CSV),
+# cuenta monitor.de.precios1@gmail.com (ver TRASPASO.md), no una cuenta personal.
+#
+# Pestaña 1 (url_fixes): columnas sku_interno,url_nuevo,nota — para reemplazar un
+# URL que murió sin tocar código.
 OVERRIDES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZ7qyGdu79TJ5CUPN5dfIf4YZDgV9JqDpDdW8dA_jiqCrYDcW3RO_hGqjRp12QnKWKTvlkKvV1nWX/pub?gid=0&single=true&output=csv"
+# Pestaña 2 (productos_nuevos): mismas columnas que productos.csv — para sumar un
+# SKU nuevo sin tocar código. Se scrapean como cualquier otro; cada tanto alguien
+# los pasa a productos.csv y limpia la pestaña. Vacío = función desactivada.
+PRODUCTOS_NUEVOS_CSV_URL = ""
 
 HEADERS_GENERICOS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
     "Accept": "text/html,application/xhtml+xml,application/json,application/xml;q=0.9,*/*;q=0.8",
 }
 
+COLUMNAS_PRODUCTOS = [
+    "sku_interno", "producto", "marca", "metros_totales", "retailer", "url",
+    "categoria", "subcategoria", "rollos", "metros_rollo",
+]
+
+
+def cargar_productos_nuevos():
+    """Devuelve (DataFrame_o_None, aviso_o_None) con los SKU que el equipo cargó
+    en la pestaña 'productos_nuevos' de la planilla. Si la planilla no responde,
+    cae a la copia local (productos_nuevos_cache.csv). Solo se exigen
+    sku_interno + retailer + url; el resto lo completa quien luego los pase a
+    productos.csv."""
+    if not PRODUCTOS_NUEVOS_CSV_URL:
+        return None, None
+    try:
+        res = requests.get(PRODUCTOS_NUEVOS_CSV_URL, headers=HEADERS_GENERICOS, timeout=15)
+        res.raise_for_status()
+        df = pd.read_csv(io.StringIO(res.text))
+        df = df.dropna(subset=["sku_interno", "retailer", "url"])
+        df = df[df["url"].astype(str).str.startswith("http")]
+        for col in COLUMNAS_PRODUCTOS:
+            if col not in df.columns:
+                df[col] = pd.NA
+        df = df[COLUMNAS_PRODUCTOS]
+        df.to_csv(PRODUCTOS_NUEVOS_CACHE_PATH, index=False)
+        return df, None
+    except Exception as e:
+        if PRODUCTOS_NUEVOS_CACHE_PATH.exists():
+            try:
+                return pd.read_csv(PRODUCTOS_NUEVOS_CACHE_PATH), f"planilla no disponible ({str(e)[:60]}); usando copia local"
+            except Exception:
+                pass
+        return None, f"planilla de productos nuevos no disponible ({str(e)[:60]})"
+
+
 def cargar_config():
+    """Devuelve (productos_df, retailers_cfg, meta). meta trae cuántos SKU se
+    sumaron desde la planilla y cualquier aviso, para el panel de salud."""
     productos = pd.read_csv(PRODUCTOS_PATH, comment="#", skip_blank_lines=True).dropna(subset=["sku_interno"])
+    nuevos, aviso_nuevos = cargar_productos_nuevos()
+    sumados = 0
+    if nuevos is not None and not nuevos.empty:
+        nuevos = nuevos[~nuevos["sku_interno"].isin(productos["sku_interno"])]
+        if not nuevos.empty:
+            productos = pd.concat([productos, nuevos], ignore_index=True)
+            sumados = len(nuevos)
+            print(f"➕ {sumados} SKU nuevo(s) sumado(s) desde la planilla")
+    if aviso_nuevos:
+        print(f"⚠️ Productos nuevos: {aviso_nuevos}")
     with open(RETAILERS_PATH, "r", encoding="utf-8") as f:
         retailers = yaml.safe_load(f)
-    return productos, retailers
+    return productos, retailers, {"sku_planilla": sumados, "aviso": aviso_nuevos}
 
 
 def cargar_overrides_url():
@@ -373,7 +425,7 @@ def actualizar_historial(resultados_actuales, fecha_hoy):
 if __name__ == "__main__":
     print("🤖 Iniciando motor de extracción de precios (Modo Autónomo)...")
     
-    productos, retailers_cfg = cargar_config()
+    productos, retailers_cfg, meta_config = cargar_config()
 
     overrides_url, overrides_aviso = cargar_overrides_url()
     if overrides_url:
@@ -446,6 +498,8 @@ if __name__ == "__main__":
             "fallos": fallos_ultima_corrida,
             "overrides_url_aplicados": int(aplicados),
             "overrides_url_aviso": overrides_aviso,
+            "sku_desde_planilla": meta_config["sku_planilla"],
+            "sku_desde_planilla_aviso": meta_config["aviso"],
         }, f, ensure_ascii=False, indent=2)
 
     print("🏁 Extracción terminada. JSON actualizado.")

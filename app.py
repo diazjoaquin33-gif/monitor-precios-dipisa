@@ -73,13 +73,16 @@ h2, h3 {{ color: {COLOR_MORADO}; }}
 HISTORIAL_PATH = BASE_DIR / "historial_precios.csv"
 ESTADO_SCRAPER_PATH = BASE_DIR / "estado_scraper.json"
 OVERRIDES_CACHE_PATH = BASE_DIR / "url_overrides_cache.json"
+PRODUCTOS_NUEVOS_CACHE_PATH = BASE_DIR / "productos_nuevos_cache.csv"
 
-# Misma planilla publicada que lee el scraper (sku_interno,url_nuevo,nota): así
-# la app muestra el URL ya corregido. Para editarla, el equipo entra al link de
-# abajo (planilla normal, no el CSV). Vive en monitor.de.precios1@gmail.com.
+# Planilla de Google publicada (cuenta monitor.de.precios1@gmail.com).
+# Pestaña 1 (url_fixes): sku_interno,url_nuevo,nota — reemplazar un URL muerto.
 OVERRIDES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZ7qyGdu79TJ5CUPN5dfIf4YZDgV9JqDpDdW8dA_jiqCrYDcW3RO_hGqjRp12QnKWKTvlkKvV1nWX/pub?gid=0&single=true&output=csv"
-# Link para EDITAR la planilla (el de la barra de direcciones al abrirla, termina
-# en /edit). Si queda vacío, la app no muestra el botón.
+# Pestaña 2 (productos_nuevos): mismas columnas que productos.csv — sumar un SKU
+# nuevo sin tocar código. Vacío = función desactivada.
+PRODUCTOS_NUEVOS_CSV_URL = ""
+# Link para EDITAR la planilla (barra de direcciones al abrirla, termina en /edit).
+# Si queda vacío, la app no muestra los botones que llevan a ella.
 PLANILLA_EDIT_URL = "https://docs.google.com/spreadsheets/d/1Ka3EM2FEWd3uyfZ3CgzxeJhwQ9adETOvU0cihdPiBRw/edit"
 
 
@@ -106,6 +109,37 @@ def cargar_overrides_url():
         return {}
 
 
+COLUMNAS_PRODUCTOS = [
+    "sku_interno", "producto", "marca", "metros_totales", "retailer", "url",
+    "categoria", "subcategoria", "rollos", "metros_rollo",
+]
+
+
+@st.cache_data(ttl=600)
+def cargar_productos_nuevos():
+    """SKU que el equipo cargó en la pestaña 'productos_nuevos' de la planilla.
+    Si la planilla no responde, cae a la copia local. Nunca rompe la app."""
+    if not PRODUCTOS_NUEVOS_CSV_URL:
+        return pd.DataFrame(columns=COLUMNAS_PRODUCTOS)
+    try:
+        res = requests.get(PRODUCTOS_NUEVOS_CSV_URL, timeout=15)
+        res.raise_for_status()
+        df = pd.read_csv(io.StringIO(res.text))
+    except Exception:
+        if PRODUCTOS_NUEVOS_CACHE_PATH.exists():
+            try:
+                df = pd.read_csv(PRODUCTOS_NUEVOS_CACHE_PATH)
+            except Exception:
+                return pd.DataFrame(columns=COLUMNAS_PRODUCTOS)
+        else:
+            return pd.DataFrame(columns=COLUMNAS_PRODUCTOS)
+    df = df.dropna(subset=["sku_interno", "retailer", "url"])
+    for col in COLUMNAS_PRODUCTOS:
+        if col not in df.columns:
+            df[col] = pd.NA
+    return df[COLUMNAS_PRODUCTOS]
+
+
 @st.cache_data(ttl=600)
 def cargar_historial():
     if not HISTORIAL_PATH.exists():
@@ -129,6 +163,17 @@ def cargar_datos():
 
     df_csv = pd.read_csv(BASE_DIR / "productos.csv", comment="#", skip_blank_lines=True)
     df_csv = df_csv.dropna(subset=["sku_interno"])
+    df_csv["origen_planilla"] = False
+
+    # SKU nuevos cargados por el equipo en la planilla (pestaña productos_nuevos):
+    # se muestran como cualquier otro pero marcados "provisorio" hasta que alguien
+    # los pase a productos.csv formalmente.
+    nuevos = cargar_productos_nuevos()
+    nuevos = nuevos[~nuevos["sku_interno"].isin(df_csv["sku_interno"])]
+    if not nuevos.empty:
+        nuevos = nuevos.copy()
+        nuevos["origen_planilla"] = True
+        df_csv = pd.concat([df_csv, nuevos], ignore_index=True)
 
     # URLs corregidos a mano por el equipo desde la planilla de Google — se
     # aplican encima del CSV para que el "Ver ↗" apunte al link vigente.
@@ -313,8 +358,14 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
         if mostrar_formato:
             fila["Formato"] = _fmt_formato(r)
         precio_metro = r["precio_metro"] if pd.notna(r["precio_metro"]) else None
-        # ✏️ = alguien reemplazó el URL de este SKU desde la planilla de correcciones
-        fila["Producto"] = f"{r['producto']} ✏️" if r.get("url_corregido") else r["producto"]
+        # ✏️ = URL reemplazado desde la planilla · 🆕 = SKU nuevo cargado en la
+        # planilla, todavía no pasado a productos.csv (provisorio)
+        nombre = str(r["producto"])
+        if r.get("url_corregido"):
+            nombre += " ✏️"
+        if r.get("origen_planilla"):
+            nombre += " 🆕"
+        fila["Producto"] = nombre
         if es_alvi:
             fila["Precio Lista"] = _formatear_clp(r["precio_normal"])
             fila["Socio 1 un"] = _formatear_clp(r["precio"])
@@ -471,6 +522,28 @@ with st.expander("🔗 ¿Un link de producto está roto o cambió?"):
             "⚠️ Falta configurar el link de la planilla en `app.py` "
             "(`PLANILLA_EDIT_URL`) — ver `TRASPASO.md`."
         )
+
+with st.expander("➕ Agregar un producto nuevo para monitorear"):
+    if not PRODUCTOS_NUEVOS_CSV_URL:
+        st.info(
+            "Función en preparación: falta publicar la pestaña **productos_nuevos** "
+            "de la planilla y pegar su link en `app.py` / `scraper.py` "
+            "(`PRODUCTOS_NUEVOS_CSV_URL`). Ver `TRASPASO.md`."
+        )
+    else:
+        st.markdown(
+            "Para sumar un producto **sin tocar código**, cargalo en la pestaña "
+            "**productos_nuevos** de la planilla, una fila con estas columnas:\n\n"
+            "`sku_interno` (código libre, ej. `TC-500`) · `producto` · `marca` · "
+            "`metros_totales` · `retailer` (clave exacta: `jumbo`, `santaisabel`, "
+            "`tottus`, `unimarc`, `alvi`, `acuenta`) · `url` · `categoria` · "
+            "`subcategoria` · `rollos` · `metros_rollo`\n\n"
+            "En la próxima corrida (máx. ~8 h) aparece en el dashboard marcado "
+            "con 🆕 (provisorio). Cada tanto alguien pasa esas filas a "
+            "`productos.csv` y limpia la pestaña."
+        )
+    if PLANILLA_EDIT_URL:
+        st.link_button("📋 Abrir la planilla", PLANILLA_EDIT_URL)
 
 estado_scraper = cargar_estado_scraper()
 if estado_scraper:
