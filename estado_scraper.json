@@ -1,13 +1,8 @@
 {
-  "fecha": "02/09/2026 16:51 hrs",
+  "fecha": "03/09/2026 01:33 hrs",
   "total_skus": 261,
-  "exitosos": 238,
+  "exitosos": 229,
   "fallos": [
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-017",
-      "error": "Sin stock"
-    },
     {
       "retailer": "knasta",
       "sku_interno": "TC-034",
@@ -116,6 +111,56 @@
     {
       "retailer": "knasta",
       "sku_interno": "TC-165",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-009",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-011",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-025",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-026",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-027",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-028",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-032",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-101",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-108",
+      "error": "No se encontró el precio en el HTML"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-123",
       "error": "HTTP 403"
     }
   ]
