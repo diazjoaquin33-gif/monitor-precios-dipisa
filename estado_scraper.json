@@ -1,121 +1,121 @@
 {
-  "fecha": "03/09/2026 16:27 hrs",
+  "fecha": "03/09/2026 17:05 hrs",
   "total_skus": 418,
   "exitosos": 396,
   "fallos": [
     {
       "retailer": "knasta",
       "sku_interno": "TC-034",
-      "error": "HTTP 403"
+      "error": "403 (IP bloqueada)"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-145",
-      "error": "HTTP 403"
+      "error": "403 (IP bloqueada)"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-146",
-      "error": "HTTP 403"
+      "error": "403 (IP bloqueada)"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-147",
-      "error": "HTTP 403"
+      "error": "403 (IP bloqueada)"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-148",
-      "error": "HTTP 403"
+      "error": "403 (IP bloqueada)"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-149",
-      "error": "HTTP 403"
+      "error": "403 (IP bloqueada)"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-150",
-      "error": "HTTP 403"
+      "error": "403 (IP bloqueada)"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-151",
-      "error": "HTTP 403"
+      "error": "403 (IP bloqueada)"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-152",
-      "error": "HTTP 403"
+      "error": "403 (IP bloqueada)"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-153",
-      "error": "HTTP 403"
+      "error": "403 (IP bloqueada)"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-154",
-      "error": "HTTP 403"
+      "error": "403 (IP bloqueada)"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-155",
-      "error": "HTTP 403"
+      "error": "403 (IP bloqueada)"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-156",
-      "error": "HTTP 403"
+      "error": "403 (IP bloqueada)"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-157",
-      "error": "HTTP 403"
+      "error": "403 (IP bloqueada)"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-158",
-      "error": "HTTP 403"
+      "error": "403 (IP bloqueada)"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-159",
-      "error": "HTTP 403"
+      "error": "403 (IP bloqueada)"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-160",
-      "error": "HTTP 403"
+      "error": "403 (IP bloqueada)"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-161",
-      "error": "HTTP 403"
+      "error": "403 (IP bloqueada)"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-162",
-      "error": "HTTP 403"
+      "error": "403 (IP bloqueada)"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-163",
-      "error": "HTTP 403"
+      "error": "403 (IP bloqueada)"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-164",
-      "error": "HTTP 403"
+      "error": "403 (IP bloqueada)"
     },
     {
       "retailer": "knasta",
       "sku_interno": "TC-165",
-      "error": "HTTP 403"
+      "error": "403 (IP bloqueada)"
     }
   ],
   "overrides_url_aplicados": 0,
-  "overrides_url_aviso": "planilla no disponible (503 Server Error: Service Unavailable for url: https://doc-0); usando copia local",
+  "overrides_url_aviso": null,
   "sku_desde_planilla": 0,
   "sku_desde_planilla_aviso": null
 }
