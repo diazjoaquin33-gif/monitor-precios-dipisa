@@ -20,6 +20,12 @@ on:
 jobs:
   scraping:
     runs-on: ubuntu-latest
+    # Una corrida normal tarda ~6 min. Si algún retailer se pone a bloquear en
+    # masa, el scraper reintenta y la corrida se estira — nunca es un cuelgue
+    # infinito (cada request tiene timeout y los reintentos están topeados),
+    # pero para no dejar un job dando vueltas ni quemar minutos de Actions se
+    # corta a los 20. Si se corta, esa franja usa el "último precio conocido".
+    timeout-minutes: 20
     permissions:
       contents: write
 
