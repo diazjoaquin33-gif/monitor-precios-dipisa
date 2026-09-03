@@ -24,7 +24,7 @@ OVERRIDES_CACHE_PATH = BASE_DIR / "url_overrides_cache.json"
 # con columnas sku_interno,url_nuevo,nota. Es la forma de que alguien del equipo
 # reemplace un URL que murió sin tocar código: escribe el SKU y el URL nuevo en
 # la planilla y el scraper lo toma en la próxima corrida. La planilla vive en la
-# cuenta moitor.de.precios1@gmail.com (ver TRASPASO.md), no en una cuenta personal.
+# cuenta monitor.de.precios1@gmail.com (ver TRASPASO.md), no en una cuenta personal.
 OVERRIDES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZ7qyGdu79TJ5CUPN5dfIf4YZDgV9JqDpDdW8dA_jiqCrYDcW3RO_hGqjRp12QnKWKTvlkKvV1nWX/pub?gid=0&single=true&output=csv"
 
 HEADERS_GENERICOS = {

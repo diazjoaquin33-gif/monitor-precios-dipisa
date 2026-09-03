@@ -17,7 +17,7 @@ Piezas:
 | `app.py` | **Streamlit Community Cloud** | Muestra el dashboard |
 | `productos.csv` | Repo de GitHub | Lista de productos de la competencia a monitorear |
 | `ovella.csv` | Repo de GitHub | Productos de Ovella (referencia de cada comparación) |
-| Planilla de correcciones de URL | **Google Sheets** (cuenta `moitor.de.precios1@gmail.com`) | Permite reemplazar un link roto sin tocar código |
+| Planilla de correcciones de URL | **Google Sheets** (cuenta `monitor.de.precios1@gmail.com`) | Permite reemplazar un link roto sin tocar código |
 
 ## Cuentas y accesos
 
@@ -25,7 +25,7 @@ Piezas:
 > contraseñas de la empresa (o donde corresponda). **No dejar contraseñas en
 > este archivo si el repo es público.**
 
-- **Correo del monitor:** `moitor.de.precios1@gmail.com` — es la cuenta "de servicio".
+- **Correo del monitor:** `monitor.de.precios1@gmail.com` — es la cuenta "de servicio".
   Es dueña de la planilla de Google. Sirve de recuperación para todo lo demás.
 - **GitHub:** el repositorio está en la cuenta `_______`. Para editar `productos.csv`
   hace falta ser colaborador.
@@ -65,7 +65,7 @@ cambió la dirección (URL) de ese producto en su sitio.
 
 ### Si hay que recrear la planilla
 
-Tiene que ser una Google Sheet en la cuenta `moitor.de.precios1@gmail.com` con una
+Tiene que ser una Google Sheet en la cuenta `monitor.de.precios1@gmail.com` con una
 hoja cuyas columnas sean exactamente `sku_interno`, `url_nuevo`, `nota`. Después:
 
 1. *Archivo → Compartir → Publicar en la Web → "Valores separados por comas (.csv)"* → Publicar.

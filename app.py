@@ -76,7 +76,7 @@ OVERRIDES_CACHE_PATH = BASE_DIR / "url_overrides_cache.json"
 
 # Misma planilla publicada que lee el scraper (sku_interno,url_nuevo,nota): así
 # la app muestra el URL ya corregido. Para editarla, el equipo entra al link de
-# abajo (planilla normal, no el CSV). Vive en moitor.de.precios1@gmail.com.
+# abajo (planilla normal, no el CSV). Vive en monitor.de.precios1@gmail.com.
 OVERRIDES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZ7qyGdu79TJ5CUPN5dfIf4YZDgV9JqDpDdW8dA_jiqCrYDcW3RO_hGqjRp12QnKWKTvlkKvV1nWX/pub?gid=0&single=true&output=csv"
 # Link para EDITAR la planilla (el de la barra de direcciones al abrirla, termina
 # en /edit). Si queda vacío, la app no muestra el botón.
