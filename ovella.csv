@@ -1,20 +1,22 @@
-sku_ovella,producto,categoria,subcategoria,metros_totales
-OV-001,Doble Hoja 50 m 4 un,Papel Higienico,Doble Hoja,200
-OV-002,Doble Hoja 30 m 4 un,Papel Higienico,Doble Hoja,120
-OV-003,Doble Hoja 22 m 4 un,Papel Higienico,Doble Hoja,88
-OV-004,Doble Hoja 22 m 6 un,Papel Higienico,Doble Hoja,132
-OV-005,Toalla Ovella 11x3,Toalla de Papel,Doble Hoja,33
-OV-006,Toalla Ovella 70x1,Toalla de Papel,Doble Hoja,70
-OV-007,Toalla Ovella 80x1,Toalla de Papel,Doble Hoja,80
-OV-008,Toalla Ovella 100x1,Toalla de Papel,Doble Hoja,100
-OV-009,Toalla HS Ovella 100x1,Toalla de Papel,Hoja Simple,100
+sku_ovella,producto,categoria,subcategoria,metros_totales,rollos,metros_rollo
+OV-001,Doble Hoja 50 m 4 un,Papel Higienico,Doble Hoja,200,4,50
+OV-002,Doble Hoja 30 m 4 un,Papel Higienico,Doble Hoja,120,4,30
+OV-003,Doble Hoja 22 m 4 un,Papel Higienico,Doble Hoja,88,4,22
+OV-004,Doble Hoja 22 m 6 un,Papel Higienico,Doble Hoja,132,6,22
+OV-005,Toalla Ovella 11x3,Toalla de Papel,Doble Hoja,33,3,11
+OV-006,Toalla Ovella 70x1,Toalla de Papel,Doble Hoja,70,1,70
+OV-007,Toalla Ovella 80x1,Toalla de Papel,Doble Hoja,80,1,80
+OV-008,Toalla Ovella 100x1,Toalla de Papel,Doble Hoja,100,1,100
+OV-009,Toalla HS Ovella 100x1,Toalla de Papel,Hoja Simple,100,1,100
 #
 # Para agregar un formato nuevo de Ovella: copia una fila, cambia sku_ovella
 # (correlativo propio), producto (nombre/formato), categoria (ej. "Papel
 # Higienico", "Toalla de Papel" — debe coincidir EXACTO con la de
 # productos.csv), subcategoria (ej. "Doble Hoja", "Hoja Simple" — también
-# debe coincidir exacto) y metros_totales (metraje total del paquete —
-# rollos x metros por rollo). El dashboard agrupa automáticamente cualquier
+# debe coincidir exacto), metros_totales (metraje total del paquete —
+# rollos x metros por rollo), rollos (cuántos rollos trae) y metros_rollo
+# (metros de cada rollo). El dashboard agrupa automáticamente cualquier
 # competidor de productos.csv que tenga la MISMA categoria+subcategoria y un
 # metraje dentro de un rango de +-15% (no exacto, para no perder
-# competidores con formatos parecidos pero no idénticos).
+# competidores con formatos parecidos pero no idénticos); rollos y
+# metros_rollo se usan además para el "segmento competitivo".

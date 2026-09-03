@@ -80,10 +80,11 @@ hoja cuyas columnas sean exactamente `sku_interno`, `url_nuevo`, `nota`. Despué
 ## Tarea de rutina #2 — Agregar un producto nuevo a monitorear
 
 Editar `productos.csv` en GitHub (ícono de lápiz en la página del archivo) y
-agregar una fila con: `sku_interno,producto,marca,metros_totales,retailer,url,categoria,subcategoria`.
+agregar una fila con: `sku_interno,producto,marca,metros_totales,retailer,url,categoria,subcategoria,rollos,metros_rollo`.
 El `sku_interno` es un código libre que no se repita (seguir la serie `TC-###`).
 `categoria` y `subcategoria` deben escribirse igual que en `ovella.csv` para que
-el dashboard agrupe bien.
+el dashboard agrupe bien. `rollos` es cuántos rollos trae el pack y `metros_rollo`
+los metros de cada rollo (y `metros_totales` = `rollos` × `metros_rollo`).
 
 ## Correr el scraper a mano
 

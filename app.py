@@ -160,8 +160,13 @@ def cargar_datos():
 
     df["estado"] = df["estado"].fillna("Pendiente")
 
+    df["rollos"] = pd.to_numeric(df.get("rollos"), errors="coerce")
+    df["metros_rollo"] = pd.to_numeric(df.get("metros_rollo"), errors="coerce")
+    df["segmento"] = df.apply(_segmento, axis=1)
+
     ovella_df = pd.read_csv(BASE_DIR / "ovella.csv", comment="#", skip_blank_lines=True)
     ovella_df = ovella_df.dropna(subset=["sku_ovella"])
+    ovella_df["segmento"] = ovella_df.apply(_segmento, axis=1)
 
     return df, ovella_df
 
@@ -170,6 +175,43 @@ def _formatear_clp(valor):
     if pd.isna(valor):
         return "N/D"
     return f"${valor:,.0f}".replace(",", ".")
+
+
+# --- Segmento competitivo -------------------------------------------------
+# Dos productos compiten de verdad cuando el comprador elige entre ellos en
+# la góndola: mismo tipo de hoja, mismo tamaño de pack (a más rollos, mejor
+# precio por metro — no se cruza un pack de 4 con uno de 40) y metraje por
+# rollo parecido. El segmento junta esos tres ejes. Los cortes de pack son
+# casi exactos abajo (1/2/3/4/6) porque ahí está la pelea real; arriba se
+# agrupan formatos vecinos (16-18, 20-24). Ajustar acá si hace falta.
+def _bucket_pack(rollos):
+    r = int(rollos)
+    if r <= 1: return "1 un"
+    if r <= 3: return f"{r} un"
+    if r == 4: return "4 un"
+    if r in (5, 6): return "6 un"
+    if 7 <= r <= 10: return "8-10 un"
+    if r in (11, 12): return "12 un"
+    if 13 <= r <= 18: return "16-18 un"
+    if 19 <= r <= 30: return "24 un"
+    return "40+ un"
+
+
+def _bucket_metros(metros_rollo):
+    m = float(metros_rollo)
+    if m <= 17: return "~15 m/rollo"
+    if m <= 25: return "~20 m/rollo"
+    if m <= 35: return "~30 m/rollo"
+    if m <= 48: return "~40 m/rollo"
+    if m <= 60: return "~50 m/rollo"
+    if m <= 90: return "~70 m/rollo"
+    return "100+ m/rollo"
+
+
+def _segmento(row):
+    if pd.isna(row.get("rollos")) or pd.isna(row.get("metros_rollo")):
+        return None
+    return f"{row['subcategoria']} · {_bucket_pack(row['rollos'])} · {_bucket_metros(row['metros_rollo'])}"
 
 
 def _armar_export(df_export):
@@ -183,6 +225,7 @@ def _armar_export(df_export):
             "Retailer": r["retailer_nombre"],
             "Categoría": r["categoria"],
             "Subcategoría": r["subcategoria"],
+            "Segmento": r.get("segmento") or "",
             "Marca": r["marca"],
             "Producto": r["producto"],
             "Metros totales": r["metros_totales"],
@@ -198,7 +241,13 @@ def _armar_export(df_export):
     return pd.DataFrame(filas)
 
 
-def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False):
+def _fmt_formato(r):
+    if pd.notna(r.get("rollos")) and pd.notna(r.get("metros_rollo")):
+        return f"{int(r['rollos'])}x{r['metros_rollo']:g}m · {r['subcategoria']}"
+    return f"{r['categoria']} · {r['subcategoria']}"
+
+
+def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, resaltar_ovella=False):
     """Arma la tabla de una categoría con la fila más barata resaltada en
     verde y las sin dato reciente en rojo translúcido — mismos colores de
     status de siempre, nunca los de marca, para no mezclar identidad con
@@ -221,7 +270,7 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False):
     for _, r in df_grupo.iterrows():
         fila = {"Retailer": r["retailer_nombre"], "Marca": r["marca"]}
         if mostrar_formato:
-            fila["Formato"] = f"{r['categoria']} · {r['subcategoria']}"
+            fila["Formato"] = _fmt_formato(r)
         precio_metro = r["precio_metro"] if pd.notna(r["precio_metro"]) else None
         # ✏️ = alguien reemplazó el URL de este SKU desde la planilla de correcciones
         fila["Producto"] = f"{r['producto']} ✏️" if r.get("url_corregido") else r["producto"]
@@ -245,11 +294,15 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False):
     validos = [v for v in precios_metro if v is not None]
     minimo = min(validos) if validos else None
 
+    marcas = list(df_grupo["marca"]) if resaltar_ovella else []
+
     def resaltar(fila):
         if minimo is not None and precios_metro[fila.name] == minimo:
             return [f"background-color: {COLOR_BUENO}26"] * len(fila)
         if fila["Estado"] != "Disponible":
             return [f"background-color: {COLOR_CRITICO}1a"] * len(fila)
+        if resaltar_ovella and str(marcas[fila.name]).strip().lower() == "ovella":
+            return [f"background-color: {COLOR_MORADO}1f"] * len(fila)
         return [""] * len(fila)
 
     return tabla.style.apply(resaltar, axis=1)
@@ -455,26 +508,69 @@ def _mostrar_marcas(df_sub):
         _mostrar_tabla(grupo_marca, ocultar_columnas=["Retailer", "Marca"], mostrar_formato=True)
 
 
-# Vista de catálogo: un tab por supermercado, y dentro de cada uno las filas
-# agrupadas por marca. La vista "por SKU de Ovella" se sacó por ahora — se
-# retoma más adelante.
-retailers_activos = sorted(df["retailer_nombre"].dropna().unique())
-tabs_retailer = st.tabs(retailers_activos)
+vista = st.radio(
+    "Ver por",
+    ["🏪 Retailer", "🥊 Segmento competitivo"],
+    horizontal=True,
+    label_visibility="collapsed",
+)
 
-for tab, retailer_nombre in zip(tabs_retailer, retailers_activos):
-    with tab:
-        df_retailer = df[df["retailer_nombre"] == retailer_nombre]
-        st.caption(f"{len(df_retailer)} productos monitoreados en {retailer_nombre}")
+if vista == "🏪 Retailer":
+    # Un tab por supermercado, y dentro de cada uno las filas agrupadas por marca.
+    retailers_activos = sorted(df["retailer_nombre"].dropna().unique())
+    tabs_retailer = st.tabs(retailers_activos)
 
-        # Solo se separa por categoría (Higiénico/Toalla/Servilletas) si ese
-        # retailer tiene más de una — si no, el sub-selector no aportaría nada.
-        categorias_retailer = sorted(df_retailer["categoria"].dropna().unique())
-        if len(categorias_retailer) <= 1:
-            _mostrar_marcas(df_retailer)
-        else:
-            tabs_categoria = st.tabs([f"{ICONO_CATEGORIA.get(c, '📄')} {c}" for c in categorias_retailer])
-            for tab_cat, categoria in zip(tabs_categoria, categorias_retailer):
-                with tab_cat:
-                    _mostrar_marcas(df_retailer[df_retailer["categoria"] == categoria])
+    for tab, retailer_nombre in zip(tabs_retailer, retailers_activos):
+        with tab:
+            df_retailer = df[df["retailer_nombre"] == retailer_nombre]
+            st.caption(f"{len(df_retailer)} productos monitoreados en {retailer_nombre}")
+
+            # Solo se separa por categoría (Higiénico/Toalla/Servilletas) si ese
+            # retailer tiene más de una — si no, el sub-selector no aportaría nada.
+            categorias_retailer = sorted(df_retailer["categoria"].dropna().unique())
+            if len(categorias_retailer) <= 1:
+                _mostrar_marcas(df_retailer)
+            else:
+                tabs_categoria = st.tabs([f"{ICONO_CATEGORIA.get(c, '📄')} {c}" for c in categorias_retailer])
+                for tab_cat, categoria in zip(tabs_categoria, categorias_retailer):
+                    with tab_cat:
+                        _mostrar_marcas(df_retailer[df_retailer["categoria"] == categoria])
+
+else:
+    # Un segmento = tipo de hoja + tamaño de pack + metros por rollo. Filtrar
+    # por uno muestra todos los competidores directos de ese formato, de todos
+    # los supermercados, ordenados del $/metro más barato al más caro. Las
+    # filas de Ovella van resaltadas en morado.
+    st.caption(
+        "Cada segmento junta productos que compiten de verdad: mismo tipo de hoja, "
+        "pack parecido (a más rollos, mejor $/metro) y metraje por rollo similar."
+    )
+    df_seg = df[df["segmento"].notna()]
+    cats = sorted(df_seg["categoria"].dropna().unique())
+    cat_sel = st.radio("Categoría", cats, horizontal=True, key="seg_cat")
+    df_seg = df_seg[df_seg["categoria"] == cat_sel]
+
+    conteo = df_seg.groupby("segmento").size()
+    segs_ovella = set(ovella_df.loc[ovella_df["categoria"] == cat_sel, "segmento"].dropna())
+    # Los segmentos donde Ovella tiene un producto van primero y marcados.
+    opciones = sorted(conteo.index, key=lambda s: (s not in segs_ovella, s))
+    etiqueta = {
+        s: f"{'⭐ ' if s in segs_ovella else ''}{s}  ({conteo[s]} SKU)"
+        for s in opciones
+    }
+    seg_sel = st.selectbox(
+        "Segmento", opciones, format_func=lambda s: etiqueta[s], key="seg_sel"
+    )
+
+    df_match = df_seg[df_seg["segmento"] == seg_sel].sort_values(
+        "precio_metro", na_position="last"
+    )
+    n_marcas = df_match["marca"].nunique()
+    n_retailers = df_match["retailer_nombre"].nunique()
+    st.markdown(
+        f"**{len(df_match)} productos** · {n_marcas} marcas · {n_retailers} supermercados"
+        + ("  ·  ⭐ Ovella compite en este segmento" if seg_sel in segs_ovella else "")
+    )
+    _mostrar_tabla(df_match, mostrar_formato=True, resaltar_ovella=True)
 
 st.caption("Se actualiza automáticamente 3 veces al día vía GitHub Actions.")
