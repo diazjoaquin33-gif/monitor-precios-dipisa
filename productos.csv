@@ -306,6 +306,24 @@ TC-305,Merkat Gigante Doble Hoja 100 m 1 un,Merkat,100,alvi,https://www.alvi.cl/
 TC-306,Nova Gigante Doble Hoja 100 m 1 un,Nova,100,alvi,https://www.alvi.cl/product/toalla-papel-gigante-dh-nova-1x100-mt,Toalla de Papel,Doble Hoja
 TC-307,Scott Multiusos Doble Hoja 20 m 2 un,Scott,40,alvi,https://www.alvi.cl/product/toalla-papel-multiusos-scott-2-un-20-m,Toalla de Papel,Doble Hoja
 TC-308,Nova Clásica XL Doble Hoja 40 m 1 un,Nova,40,alvi,https://www.alvi.cl/product/toalla-papel-clasica-xl-dh-nova-40mtx1-2,Toalla de Papel,Doble Hoja
+TC-309,Acuenta XL Doble Hoja 100 m 1 un,Acuenta,100,acuenta,https://www.acuenta.cl/p/toalla-de-papel-xl-doble-hoja-100-m-1-un-acuenta-1159106,Toalla de Papel,Doble Hoja
+TC-310,Abolengo XL Doble Hoja 100 m 1 un,Abolengo,100,acuenta,https://www.acuenta.cl/p/toalla-de-papel-xl-100-m-1-un-abolengo-853185,Toalla de Papel,Doble Hoja
+TC-311,Ovella Doble Hoja 80 m 1 un,Ovella,80,acuenta,https://www.acuenta.cl/p/toalla-de-papel-doble-hoja-80-metros-1-un-ovella-4779121,Toalla de Papel,Doble Hoja
+TC-312,Nova Doble Hoja 14 m 2 un,Nova,28,acuenta,https://www.acuenta.cl/p/toalla-de-papel-nova-14m-2-un-nova-891014,Toalla de Papel,Doble Hoja
+TC-313,Lider Super Mega Doble Hoja 26 m 2 un,Lider,52,acuenta,https://www.acuenta.cl/p/toalla-de-papel-super-mega-doble-hoja-26-m-2-un-lider-889607,Toalla de Papel,Doble Hoja
+TC-314,Abolengo Clásica Doble Hoja 10 m 3 un,Abolengo,30,acuenta,https://www.acuenta.cl/p/toalla-de-papel-clasica-doble-hoja-10-metros-3-un-abolengo-437437,Toalla de Papel,Doble Hoja
+TC-315,Acuenta Clásica Doble Hoja 10 m 3 un,Acuenta,30,acuenta,https://www.acuenta.cl/p/toalla-de-papel-doble-hoja-10-m-clasica-bolsa-3-un-acuenta-877805,Toalla de Papel,Doble Hoja
+TC-316,Favorita Multiuso Doble Hoja 22 m 2 un,Favorita,44,acuenta,https://www.acuenta.cl/p/toalla-de-papel-multiuso-22-metros-2-un-favorita-4686435,Toalla de Papel,Doble Hoja
+TC-317,Nova Gigante Doble Hoja 70 m 1 un,Nova,70,acuenta,https://www.acuenta.cl/p/toalla-de-papel-gigante-doble-hoja-70-m-1-un-nova-4528514,Toalla de Papel,Doble Hoja
+TC-318,Lider Tradicional Doble Hoja 12 m 3 un,Lider,36,acuenta,https://www.acuenta.cl/p/toalla-de-papel-tradicional-doble-hoja-12-m-3-un-lider-1142328,Toalla de Papel,Doble Hoja
+TC-319,Lider Premium Triple Hoja 20 m 2 un,Lider,40,acuenta,https://www.acuenta.cl/p/toalla-de-papel-premium-triple-hoja-20-metros-2-un-lider-889609,Toalla de Papel,Triple Hoja
+TC-320,Nova Ultra Mega Rollo Doble Hoja 26 m 2 un,Nova,52,acuenta,https://www.acuenta.cl/p/toalla-de-papel-ultra-megarollo-doble-hoja-26-m-2-un-nova-309257,Toalla de Papel,Doble Hoja
+TC-321,Elite Ultra Absorbente Triple Hoja 20 m 2 un,Elite,40,acuenta,https://www.acuenta.cl/p/toalla-de-papel-ultra-absorbente-triple-hoja-20-m-2-un-elite-309243,Toalla de Papel,Triple Hoja
+TC-322,Nova Clásica Gigante XL Doble Hoja 40 m 1 un,Nova,40,acuenta,https://www.acuenta.cl/p/toalla-de-papel-clasica-gigante-xl-doble-hoja-40-metros-1-un-nova-1195911,Toalla de Papel,Doble Hoja
+TC-323,Acuenta XL Doble Hoja 70 m 1 un,Acuenta,70,acuenta,https://www.acuenta.cl/p/toalla-de-papel-xl-70-metros-1-un-acuenta-4791741,Toalla de Papel,Doble Hoja
+TC-324,Swan Doble Hoja 40 m 1 un,Swan,40,acuenta,https://www.acuenta.cl/p/toalla-de-papel-1-un-swan-4936273,Toalla de Papel,Doble Hoja
+TC-325,Abolengo XL Doble Hoja 80 m 1 un,Abolengo,80,acuenta,https://www.acuenta.cl/p/toalla-de-papel-xl-80-m-1-un-abolengo-4937740,Toalla de Papel,Doble Hoja
+TC-326,Nova Clásica Mega Gigante Doble Hoja 100 m 1 un,Nova,100,acuenta,https://www.acuenta.cl/p/toalla-de-papel-clasica-mega-gigante-100m-1-un-nova-4938081,Toalla de Papel,Doble Hoja
 
 # categoria/subcategoria deben coincidir EXACTO (mismo texto) con las de
 # ovella.csv para que el dashboard agrupe bien — ej. "Papel Higienico"/
