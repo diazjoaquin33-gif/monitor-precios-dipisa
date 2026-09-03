@@ -70,7 +70,7 @@ Una Google Sheet en la cuenta `monitor.de.precios1@gmail.com` con **dos pestaña
 - `url_fixes` — columnas exactas: `sku_interno`, `url_nuevo`, `nota`.
 - `productos_nuevos` — columnas exactas: `sku_interno`, `producto`, `marca`,
   `metros_totales`, `retailer`, `url`, `categoria`, `subcategoria`, `rollos`,
-  `metros_rollo`.
+  `metros_rollo`, `unidades`.
 
 Para cada pestaña: *Archivo → Compartir → Publicar en la Web*, elegir **esa hoja**
 (no "todo el documento") y formato **CSV** → Publicar. Cada una da un link propio
@@ -89,15 +89,20 @@ Compartir la planilla (botón *Compartir*) con quien la va a mantener, como
 
 ## Tarea de rutina #2 — Agregar un producto nuevo a monitorear
 
-Columnas de una fila de producto: `sku_interno,producto,marca,metros_totales,retailer,url,categoria,subcategoria,rollos,metros_rollo`.
+Columnas de una fila de producto: `sku_interno,producto,marca,metros_totales,retailer,url,categoria,subcategoria,rollos,metros_rollo,unidades`.
 
 - `sku_interno`: código libre que no se repita (seguir la serie `TC-###`).
 - `retailer`: la **clave exacta** en minúscula — `jumbo`, `santaisabel`, `tottus`,
   `unimarc`, `alvi`, `acuenta` (no el nombre "bonito").
-- `categoria` y `subcategoria`: igual que en `ovella.csv` (ej. `Papel Higienico` /
-  `Doble Hoja`) para que el dashboard agrupe bien.
-- `rollos` = cuántos rollos trae el pack; `metros_rollo` = metros de cada rollo
-  (`metros_totales` = `rollos` × `metros_rollo`).
+- `categoria` y `subcategoria`: igual que en `ovella.csv` (o los valores ya usados)
+  para que el dashboard agrupe bien.
+- **Papel higiénico / toalla:** `metros_totales`, `rollos` (cuántos rollos trae el
+  pack) y `metros_rollo` (metros de cada rollo; `metros_totales` = `rollos` ×
+  `metros_rollo`). `subcategoria` = `Doble Hoja` / `Hoja Simple` / `Triple Hoja`.
+  Se comparan en $/metro.
+- **Servilletas:** dejar `metros_totales`/`rollos`/`metros_rollo` vacíos y llenar
+  `unidades` (cantidad del pack). `subcategoria` = `Cocktail` / `Mesa`. Se
+  comparan en $/unidad.
 
 **Opción A — desde la planilla (sin programar):** en la pestaña `productos_nuevos`
 agregá una fila con esas columnas. En la próxima corrida (~8 h) aparece en el

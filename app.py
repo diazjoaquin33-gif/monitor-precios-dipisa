@@ -112,7 +112,7 @@ def cargar_overrides_url():
 
 COLUMNAS_PRODUCTOS = [
     "sku_interno", "producto", "marca", "metros_totales", "retailer", "url",
-    "categoria", "subcategoria", "rollos", "metros_rollo",
+    "categoria", "subcategoria", "rollos", "metros_rollo", "unidades",
 ]
 
 
@@ -196,11 +196,13 @@ def cargar_datos():
     df["rollos"] = pd.to_numeric(df.get("rollos"), errors="coerce")
     df["metros_rollo"] = pd.to_numeric(df.get("metros_rollo"), errors="coerce")
     df["metros_totales"] = pd.to_numeric(df["metros_totales"], errors="coerce")
-    # Red para filas que llegaron incompletas (ej. de la planilla productos_nuevos):
-    # rollos/metros_rollo se intentan sacar del nombre del producto, y con eso se
-    # completa metros_totales si falta. Si el nombre no da pistas, quedan sin
-    # segmento pero igual se muestran.
-    faltan = df["rollos"].isna() | df["metros_rollo"].isna()
+    df["unidades"] = pd.to_numeric(df.get("unidades"), errors="coerce")
+    es_serv = df["categoria"] == "Servilletas"
+    # Red para filas de rollo (PH/toallas) que llegaron incompletas (ej. de la
+    # planilla productos_nuevos): rollos/metros_rollo se intentan sacar del
+    # nombre, y con eso se completa metros_totales. Las servilletas no tienen
+    # rollos ni metros — se comparan por unidades — así que se saltan.
+    faltan = (df["rollos"].isna() | df["metros_rollo"].isna()) & ~es_serv
     if faltan.any():
         parsed = df.loc[faltan, "producto"].map(_parse_rollos_metros)
         df.loc[faltan, "rollos"] = df.loc[faltan, "rollos"].fillna(parsed.map(lambda t: t[0]))
@@ -214,7 +216,14 @@ def cargar_datos():
     # Solo Alvi trae este campo (precio socio comprando 2+ unidades) — no
     # existe como columna si aún no hay ningún SKU de Alvi con datos.
     df["precio_socio2"] = pd.to_numeric(df["precio_socio2"], errors="coerce") if "precio_socio2" in df.columns else pd.NA
+    # precio_ref = métrica con la que se compara y se resalta el más barato:
+    # $/metro para papel higiénico y toalla, $/unidad para servilletas.
     df["precio_metro"] = (df["precio"] / df["metros_totales"]).round(1)
+    df["precio_unidad"] = (df["precio"] / df["unidades"]).round(1)
+    df["precio_ref"] = df["precio_metro"]
+    df.loc[es_serv, "precio_ref"] = df.loc[es_serv, "precio_unidad"]
+    df["ref_unidad"] = "m"
+    df.loc[es_serv, "ref_unidad"] = "u"
 
     descuento = (1 - df["precio"] / df["precio_normal"]) * 100
     df["descuento_pct"] = descuento.round(0)
@@ -285,6 +294,11 @@ def _parse_rollos_metros(nombre):
 
 
 def _segmento(row):
+    # Servilletas: se agrupan solo por tipo (Cocktail / Mesa / …), sin pack ni
+    # metros — la comparación es directa en $/unidad dentro del grupo.
+    if row.get("categoria") == "Servilletas":
+        sub = row.get("subcategoria")
+        return f"Servilletas · {sub}" if pd.notna(sub) else None
     if pd.isna(row.get("rollos")) or pd.isna(row.get("metros_rollo")):
         return None
     return f"{row['subcategoria']} · {_bucket_pack(row['rollos'])} · {_bucket_metros(row['metros_rollo'])}"
@@ -306,11 +320,12 @@ def _armar_export(df_export):
             "Marca": r["marca"],
             "Producto": r["producto"],
             "Metros totales": r["metros_totales"],
+            "Unidades": int(r["unidades"]) if pd.notna(r.get("unidades")) else "",
             "Precio Lista": _formatear_clp(r["precio_normal"]),
             "Precio Oferta": _formatear_clp(r["precio"]) if pd.notna(r["descuento_pct"]) else "",
             "Descuento %": f"{int(r['descuento_pct'])}%" if pd.notna(r["descuento_pct"]) else "",
             "Precio Socio 2 un (solo Alvi)": _formatear_clp(r.get("precio_socio2")) if r["retailer"] == "alvi" and pd.notna(r.get("precio_socio2")) else "",
-            "$/Metro": f"${r['precio_metro']}/m" if pd.notna(r["precio_metro"]) else "N/D",
+            "$/Metro o $/unidad": f"${r['precio_ref']}/{r.get('ref_unidad', 'm')}" if pd.notna(r.get("precio_ref")) else "N/D",
             "Estado": r["estado"],
             "Última actualización": r.get("fecha_act") or "",
             "Link": r.get("url"),
@@ -334,11 +349,13 @@ def _armar_export_pivote(df_export):
             "Rollos": int(r["rollos"]) if pd.notna(r.get("rollos")) else None,
             "Metros por rollo": r["metros_rollo"] if pd.notna(r.get("metros_rollo")) else None,
             "Metros totales": r["metros_totales"],
+            "Unidades": int(r["unidades"]) if pd.notna(r.get("unidades")) else None,
             "Retailer": r["retailer_nombre"],
             "Precio vigente": int(r["precio"]) if pd.notna(r["precio"]) else None,
             "Precio lista": int(r["precio_normal"]) if pd.notna(r["precio_normal"]) else None,
             "Descuento %": int(r["descuento_pct"]) if pd.notna(r["descuento_pct"]) else None,
             "Precio por metro": r["precio_metro"] if pd.notna(r["precio_metro"]) else None,
+            "Precio por unidad": r["precio_unidad"] if pd.notna(r.get("precio_unidad")) else None,
             "Estado": r["estado"],
             "Actualización": r.get("fecha_act") or "",
             "Link": r.get("url"),
@@ -347,6 +364,8 @@ def _armar_export_pivote(df_export):
 
 
 def _fmt_formato(r):
+    if r.get("categoria") == "Servilletas" and pd.notna(r.get("unidades")):
+        return f"{int(r['unidades'])} un · {r['subcategoria']}"
     if pd.notna(r.get("rollos")) and pd.notna(r.get("metros_rollo")):
         return f"{int(r['rollos'])}x{r['metros_rollo']:g}m · {r['subcategoria']}"
     return f"{r['categoria']} · {r['subcategoria']}"
@@ -359,6 +378,8 @@ def _producto_estandar(r):
     Ojo: agrupa por marca+formato, así que sub-líneas de una misma marca con
     igual formato (ej. "Elite Ultra" y "Elite Soft & Strong" 4x40) caen bajo
     el mismo nombre — si eso pasa se nota como dos precios muy distintos."""
+    if r.get("categoria") == "Servilletas" and pd.notna(r.get("unidades")):
+        return f"{r['marca']} Servilletas {r['subcategoria']} {int(r['unidades'])}un"
     if pd.notna(r.get("rollos")) and pd.notna(r.get("metros_rollo")):
         return f"{r['marca']} {r['subcategoria']} {r['metros_rollo']:g}m x{int(r['rollos'])}un"
     return f"{r['marca']} {r['producto']}"
@@ -382,13 +403,17 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
     # valor numérico crudo se guarda aparte (misma posición que las filas)
     # para el resaltado de "más barato", que sí necesita comparar números.
     es_alvi = not df_grupo.empty and (df_grupo["retailer"] == "alvi").all()
+    # Servilletas se comparan en $/unidad; el resto en $/metro. Si la tabla
+    # mezcla (no debería, las vistas son por categoría) gana $/metro.
+    unidad_ref = "u" if (not df_grupo.empty and (df_grupo["categoria"] == "Servilletas").all()) else "m"
+    col_ref = f"$/{unidad_ref}"
     filas = []
     precios_metro = []
     for _, r in df_grupo.iterrows():
         fila = {"Retailer": r["retailer_nombre"], "Marca": r["marca"]}
         if mostrar_formato:
             fila["Formato"] = _fmt_formato(r)
-        precio_metro = r["precio_metro"] if pd.notna(r["precio_metro"]) else None
+        precio_metro = r["precio_ref"] if pd.notna(r.get("precio_ref")) else None
         # ✏️ = URL reemplazado desde la planilla · 🆕 = SKU nuevo cargado en la
         # planilla, todavía no pasado a productos.csv (provisorio)
         nombre = str(r["producto"])
@@ -405,7 +430,7 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
             fila["Precio Lista"] = _formatear_clp(r["precio_normal"])
             fila["Precio Oferta"] = _formatear_clp(r["precio"]) if pd.notna(r["descuento_pct"]) else "—"
             fila["Desc."] = f"-{int(r['descuento_pct'])}%" if pd.notna(r["descuento_pct"]) else "—"
-        fila["$/Metro"] = f"${precio_metro}/m" if precio_metro is not None else "N/D"
+        fila[col_ref] = f"${precio_metro}/{unidad_ref}" if precio_metro is not None else "N/D"
         fila["Estado"] = r["estado"]
         fila["Ver"] = r.get("url")
         filas.append(fila)
@@ -566,9 +591,10 @@ with st.expander("➕ Agregar un producto nuevo para monitorear"):
             "Para sumar un producto **sin tocar código**, cargalo en la pestaña "
             "**productos_nuevos** de la planilla, una fila con estas columnas:\n\n"
             "`sku_interno` (código libre, ej. `TC-500`) · `producto` · `marca` · "
-            "`metros_totales` · `retailer` (clave exacta: `jumbo`, `santaisabel`, "
-            "`tottus`, `unimarc`, `alvi`, `acuenta`) · `url` · `categoria` · "
-            "`subcategoria` · `rollos` · `metros_rollo`\n\n"
+            "`retailer` (clave exacta: `jumbo`, `santaisabel`, `tottus`, `unimarc`, "
+            "`alvi`, `acuenta`) · `url` · `categoria` · `subcategoria`\n\n"
+            "Para papel higiénico y toalla: `rollos`, `metros_rollo` y `metros_totales`. "
+            "Para servilletas: `unidades` (y `subcategoria` = `Cocktail` o `Mesa`).\n\n"
             "En la próxima corrida (máx. ~8 h) aparece en el dashboard marcado "
             "con 🆕 (provisorio). Cada tanto alguien pasa esas filas a "
             "`productos.csv` y limpia la pestaña."
@@ -596,17 +622,21 @@ with st.expander("➕ Agregar un producto nuevo para monitorear"):
                     errs.append(f"categoría '{r['categoria']}' no coincide con las existentes")
                 if pd.notna(r["subcategoria"]) and str(r["subcategoria"]).strip() not in subcats_ok:
                     errs.append(f"subcategoría '{r['subcategoria']}' no coincide")
-                rr, mr, mt = pd.to_numeric(pd.Series([r["rollos"], r["metros_rollo"], r["metros_totales"]]), errors="coerce")
-                if pd.isna(rr) or pd.isna(mr):
-                    p_rr, p_mr = _parse_rollos_metros(r["producto"])
-                    if p_rr is None:
-                        errs.append("falta rollos y/o metros_rollo (y no se pueden sacar del nombre)")
-                if pd.isna(mt) and (pd.isna(rr) or pd.isna(mr)):
-                    errs.append("falta metros_totales")
-                elif pd.notna(rr) and pd.notna(mr) and pd.notna(mt) and abs(rr * mr - mt) > max(2, mt * 0.05):
-                    errs.append(f"rollos×metros_rollo ({rr:g}×{mr:g}) no da metros_totales ({mt:g})")
                 nom = str(r["producto"]).lower()
                 cat = str(r["categoria"]).strip().lower()
+                if cat == "servilletas":
+                    if pd.isna(pd.to_numeric(pd.Series([r["unidades"]]), errors="coerce")[0]):
+                        errs.append("servilletas: falta 'unidades'")
+                else:
+                    rr, mr, mt = pd.to_numeric(pd.Series([r["rollos"], r["metros_rollo"], r["metros_totales"]]), errors="coerce")
+                    if pd.isna(rr) or pd.isna(mr):
+                        p_rr, _ = _parse_rollos_metros(r["producto"])
+                        if p_rr is None:
+                            errs.append("falta rollos y/o metros_rollo (y no se pueden sacar del nombre)")
+                    if pd.isna(mt) and (pd.isna(rr) or pd.isna(mr)):
+                        errs.append("falta metros_totales")
+                    elif pd.notna(rr) and pd.notna(mr) and pd.notna(mt) and abs(rr * mr - mt) > max(2, mt * 0.05):
+                        errs.append(f"rollos×metros_rollo ({rr:g}×{mr:g}) no da metros_totales ({mt:g})")
                 if "toall" in nom and "toalla" not in cat:
                     errs.append(f"el nombre dice 'toalla' pero la categoría es '{r['categoria']}'")
                 if ("higien" in nom or "papel hig" in nom) and "higien" not in cat:

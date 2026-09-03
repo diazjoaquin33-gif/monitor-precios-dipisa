@@ -39,7 +39,7 @@ HEADERS_GENERICOS = {
 
 COLUMNAS_PRODUCTOS = [
     "sku_interno", "producto", "marca", "metros_totales", "retailer", "url",
-    "categoria", "subcategoria", "rollos", "metros_rollo",
+    "categoria", "subcategoria", "rollos", "metros_rollo", "unidades",
 ]
 
 

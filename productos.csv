@@ -1,340 +1,363 @@
-sku_interno,producto,marca,metros_totales,retailer,url,categoria,subcategoria,rollos,metros_rollo
-TC-001,Doble Hoja 23m 4 un,Noble,92,santaisabel,https://www.santaisabel.cl/papel-higienico-doble-hoja-23-m-4-un-1859328/p,Papel Higienico,Doble Hoja,4,23
-TC-002,Doble Hoja 22m 40 un,Noble,880,santaisabel,https://www.santaisabel.cl/ph-doble-hoja-noble-dh-40-rollos-1960588/p,Papel Higienico,Doble Hoja,40,22
-TC-003,Doble Hoja 22m 40 un,Confort,880,santaisabel,https://www.santaisabel.cl/papel-higienico-confort-dh-22mt-40un-1997284/p,Papel Higienico,Doble Hoja,40,22
-TC-004,Doble Hoja 22m 40 un,Confort,880,jumbo,https://www.jumbo.cl/papel-higienico-confort-dh-22mt-40un-1997284/p,Papel Higienico,Doble Hoja,40,22
-TC-006,PAPEL HIG DH NOBLE 6X23 MT,Noble,138,alvi,https://www.alvi.cl/product/papel-hig-dh-noble-6x23-mt-2,Papel Higienico,Doble Hoja,6,23
-TC-007,Doble Hoja 50 m 4 un,Favorita,200,jumbo,https://www.jumbo.cl/papel-hig-favorita-soft-care-50dh-4un-2004277/p,Papel Higienico,Doble Hoja,4,50
-TC-008,Doble Hoja 50 m 4 un,Favorita,200,santaisabel,https://www.santaisabel.cl/papel-hig-favorita-soft-care-50dh-4un-2004277/p,Papel Higienico,Doble Hoja,4,50
-TC-009,Doble Hoja 50 mts 12 un,Favorita,600,tottus,https://www.tottus.cl/tottus-cl/articulo/148257118/papel-higienico-12-50-favorita-nag-und/148257119,Papel Higienico,Doble Hoja,12,50
-TC-010,Doble Hoja 8 x 40 mts,Confort,320,tottus,https://www.tottus.cl/tottus-cl/articulo/119823952/ph-dh-super-40m-x8-confort-und/119823953,Papel Higienico,Doble Hoja,8,40
-TC-011,Soft Care 4 x 50 mts,Favorita,200,tottus,https://www.tottus.cl/tottus-cl/articulo/138899719/papel-higienico-soft-care-favorita-4-und/138899721,Papel Higienico,Doble Hoja,4,50
-TC-012,Doble Hoja 50 m 4 un,Confort,200,santaisabel,https://www.santaisabel.cl/papel-higienico-confort-doble-hoja-4-rollos-50-m-c-u/p,Papel Higienico,Doble Hoja,4,50
-TC-013,Mi Hogar 50 m 4 un,Swan,200,santaisabel,https://www.santaisabel.cl/papel-higienico-mi-hogar-50-m-4-un-1899135/p,Papel Higienico,Doble Hoja,4,50
-TC-014,Rindemax 50 m 4 un,Scott,200,santaisabel,https://www.santaisabel.cl/papel-higienico-scott-rindemax-50-m-4-un-2044412/p,Papel Higienico,Doble Hoja,4,50
-TC-015,Doble Hoja Ultra 50 m 4 un,Elite,200,santaisabel,https://www.santaisabel.cl/papel-higienico-elite-doble-hoja-4-rollos-50-m-c-u/p,Papel Higienico,Doble Hoja,4,50
-TC-016,Doble Hoja Rendiplus 18 m 4 un,Confort,72,santaisabel,https://www.santaisabel.cl/papel-higienico-2037001/p,Papel Higienico,Doble Hoja,4,18
-TC-017,Sensación 22 m 4 un,Favorita,88,santaisabel,https://www.santaisabel.cl/ph-fav-sensacion-winter-dh-4-uni-22m-c-u-1957550/p,Papel Higienico,Doble Hoja,4,22
-TC-018,Rindemax Doble Hoja 22 m 4 un,Scott,88,santaisabel,https://www.santaisabel.cl/papel-higienico-rindemax-4-unid-22-m-c-u/p,Papel Higienico,Doble Hoja,4,22
-TC-019,Ultra Suave Doble Hoja 25 m 4 un,Elite,100,santaisabel,https://www.santaisabel.cl/ph-elite-ulta-dh-4-roll-25-m-1960058/p,Papel Higienico,Doble Hoja,4,25
-TC-020,Doble Hoja 25 m 6 un,Confort,150,santaisabel,https://www.santaisabel.cl/papel-higienico-dh-6-un-25-m-c-u/p,Papel Higienico,Doble Hoja,6,25
-TC-021,Doble Hoja 22 m 6 un,Noble,132,santaisabel,https://www.santaisabel.cl/papel-higienico-doble-hoja-22-m-6-un/p,Papel Higienico,Doble Hoja,6,22
-TC-022,Rendidor 20 m 6 un,Swan,120,santaisabel,https://www.santaisabel.cl/papel-higienico-swan-rendidor-20-mts-6un-2042618/p,Papel Higienico,Doble Hoja,6,20
-TC-023,Doble Hoja 4 x 50 mts,Elite,200,tottus,https://www.tottus.cl/tottus-cl/articulo/144745465/papel-higienico-elite-50m-x-4/144745466,Papel Higienico,Doble Hoja,4,50
-TC-024,Protect Care Doble Hoja 8 x 65 mts,Scott,520,tottus,https://www.tottus.cl/tottus-cl/articulo/142842662/papel-higienico-protect-care-dh-65mx8un/142842664,Papel Higienico,Doble Hoja,8,65
-TC-025,Doble Hoja 4 x 30 mts,Confort,120,tottus,https://www.tottus.cl/tottus-cl/articulo/110610609/papel-hig-dh-4-rolllos-30-mt-confort/110610611,Papel Higienico,Doble Hoja,4,30
-TC-026,Doble Hoja 4 x 23 mts,Noble,92,tottus,https://www.tottus.cl/tottus-cl/articulo/141162898/papel-higienico-noble-23mx4/141162900,Papel Higienico,Doble Hoja,4,23
-TC-027,Doble Hoja Rindeplus 4x18 mts,Confort,72,tottus,https://www.tottus.cl/tottus-cl/articulo/144955224/papel-higienico-rindeplus-18x4/144955225,Papel Higienico,Doble Hoja,4,18
-TC-028,Acolchado Doble Hoja 4x22 mts,Favorita,88,tottus,https://www.tottus.cl/tottus-cl/articulo/115855542/higienico-acolchado-22mt-favorita-4/115855543,Papel Higienico,Doble Hoja,4,22
-TC-029,Ultra Doble Hoja 4 x 25 mts,Elite,100,tottus,https://www.tottus.cl/tottus-cl/articulo/120528832/ph-ultra-dh-25m-x4-und-elite/120528833,Papel Higienico,Doble Hoja,4,25
-TC-030,Doble Hoja Soft 4 x 25 mts,Tottus,100,tottus,https://www.tottus.cl/tottus-cl/articulo/112988502/ph-doble-hoja-soft-tottus-4-un-x-25-mt/112988503,Papel Higienico,Doble Hoja,4,25
-TC-031,Rindemax Doble Hoja 4 x 21 mts,Scott,84,tottus,https://www.tottus.cl/tottus-cl/articulo/110617520/papel-higienico-rindemax-dh-21mx4un/110617521,Papel Higienico,Doble Hoja,4,21
-TC-032,Doble Hoja 6 x 23 mts,Noble,138,tottus,https://www.tottus.cl/tottus-cl/articulo/124540262/noble-dh-x6-noble-23mt/124540264,Papel Higienico,Doble Hoja,6,23
-TC-033,Rendiplus Doble Hoja 6 x 20 mts,Confort,120,tottus,https://www.tottus.cl/tottus-cl/articulo/144334960/papel-higienico-confort-20-mts-x6/144334961,Papel Higienico,Doble Hoja,6,20
-TC-034,Familiar Doble Hoja 22 m 4 un,Lider,88,knasta,https://knasta.cl/detail/lider_supermercado/00780465334184/papel-higienico-familiar-doble-hoja-22-metros-4-un-lider,Papel Higienico,Doble Hoja,4,22
-TC-035,Doble Hoja 50 m 4 un,Swan,200,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-50-metros-4-un-swan-4851927,Papel Higienico,Doble Hoja,4,50
-TC-036,Familiar Doble Hoja 22 m 4 un,Lider,88,acuenta,https://www.acuenta.cl/p/papel-higienico-familiar-doble-hoja-22-metros-4-un-lider-4790111,Papel Higienico,Doble Hoja,4,22
-TC-037,Family Care Doble Hoja 22 m 4 un,Family Care,88,jumbo,https://www.jumbo.cl/papel-higienico-family-care-doble-hoja-22-m-4-un-2017471/p,Papel Higienico,Doble Hoja,4,22
-TC-038,Rindemax Doble Hoja 22 m 4 un,Scott,88,jumbo,https://www.jumbo.cl/papel-higienico-rindemax-4-unid-22-m-c-u/p,Papel Higienico,Doble Hoja,4,22
-TC-039,Elite Doble Hoja Ultra 50 m 8 un,Elite,400,jumbo,https://www.jumbo.cl/papel-higienico-elite-doble-hoja-8-unid-50-m-c-u/p,Papel Higienico,Doble Hoja,8,50
-TC-040,Scott Premium Triple Hoja 19 m 24 un,Scott,456,jumbo,https://www.jumbo.cl/papel-hig-scott-premium-th-19m-24un-1934161/p,Papel Higienico,Triple Hoja,24,19
-TC-041,Scott Premium Triple Hoja 40 m 8 un,Scott,320,jumbo,https://www.jumbo.cl/papel-higienico-scott-premium-th-4om-8un-2044413/p,Papel Higienico,Triple Hoja,8,40
-TC-042,Elite Ultra Suave Doble Hoja 50 m 18 un,Elite,900,jumbo,https://www.jumbo.cl/papel-higienico-elite-ultra-doble-hoja-18-rollos-50-m-c-u/p,Papel Higienico,Doble Hoja,18,50
-TC-043,Confort Rendiplus Doble Hoja 27 m 12 un,Confort,324,jumbo,https://www.jumbo.cl/confort-dh-rendiplus-12-un-1976167/p,Papel Higienico,Doble Hoja,12,27
-TC-044,Scott Rindemax Doble Hoja 22 m 24 un,Scott,528,jumbo,https://www.jumbo.cl/papel-hig-scott-rindemax-dh-22mt-24un-1884799/p,Papel Higienico,Doble Hoja,24,22
-TC-045,Favorita Soft Care Doble Hoja 50 m 12 un,Favorita,600,jumbo,https://www.jumbo.cl/paper-higienico-2036587/p,Papel Higienico,Doble Hoja,12,50
-TC-046,Scott Rindemax Doble Hoja 21.3 m 16 un,Scott,340.8,jumbo,https://www.jumbo.cl/papel-higienico-2030989/p,Papel Higienico,Doble Hoja,16,21.3
-TC-047,Elite Soft & Strong Triple Hoja 40 m 12 un,Elite,480,jumbo,https://www.jumbo.cl/ph-elite-soft-and-strong-th-40x12-1951027/p,Papel Higienico,Triple Hoja,12,40
-TC-048,Scott Protect Care Doble Hoja 22 m 16 un,Scott,352,jumbo,https://www.jumbo.cl/papel-hig-scott-protect-car-dh-22mt-16un-1929044/p,Papel Higienico,Doble Hoja,16,22
-TC-049,Elite Doble Hoja Ultra 50 m 4 un,Elite,200,jumbo,https://www.jumbo.cl/papel-higienico-elite-doble-hoja-4-rollos-50-m-c-u/p,Papel Higienico,Doble Hoja,4,50
-TC-050,Elite Ultra Doble Hoja 40 m 18 un,Elite,720,jumbo,https://www.jumbo.cl/papel-higienico-ultra-doble-hoja-40-m-18-un-1894042/p,Papel Higienico,Doble Hoja,18,40
-TC-051,Confort Doble Hoja 25 m 24 un,Confort,600,jumbo,https://www.jumbo.cl/papel-higienico-confort-dh-25mt-24un-1859327/p,Papel Higienico,Doble Hoja,24,25
-TC-052,Family Care Doble Hoja 22 m 40 un,Family Care,880,jumbo,https://www.jumbo.cl/papel-higienico-f-and-c-dh-22mt-40un-2017470/p,Papel Higienico,Doble Hoja,40,22
-TC-053,Family Care Doble Hoja 25 m 24 un,Family Care,600,jumbo,https://www.jumbo.cl/papel-higienico-f-and-c-dh-25mt-24un-2022179/p,Papel Higienico,Doble Hoja,24,25
-TC-054,Elite Soft & Strong Triple Hoja 40 m 4 un,Elite,160,jumbo,https://www.jumbo.cl/ph-elite-soft-and-strong-th-40x4-1951028/p,Papel Higienico,Triple Hoja,4,40
-TC-055,Family Care Doble Hoja 50 m 18 un,Family Care,900,jumbo,https://www.jumbo.cl/papel-higienico-f-and-c-dh-50mt-18un-2022183/p,Papel Higienico,Doble Hoja,18,50
-TC-056,Family Care Una Hoja 50 m 8 un,Family Care,400,jumbo,https://www.jumbo.cl/papel-higienico-f-and-c-uh-50mt-8un-2022180/p,Papel Higienico,Hoja Simple,8,50
-TC-057,Swan Mi Hogar 50 m 4 un,Swan,200,jumbo,https://www.jumbo.cl/papel-higienico-swan-mi-hogar-50mt-4un-1899135/p,Papel Higienico,Doble Hoja,4,50
-TC-058,Confort Una Hoja 50 m 8 un,Confort,400,jumbo,https://www.jumbo.cl/papel-higienico-confort-una-hoja-8-rollos-50-m-c-u/p,Papel Higienico,Hoja Simple,8,50
-TC-059,Family Care Triple Hoja 22 m 12 un,Family Care,264,jumbo,https://www.jumbo.cl/papel-higienico-f-and-c-th-22mt-12un-2022184/p,Papel Higienico,Triple Hoja,12,22
-TC-060,Favorita Soft Care Doble Hoja 38 m 18 un,Favorita,684,jumbo,https://www.jumbo.cl/p-hig-favorita-soft-care-dh-38mt-18un-1936542/p,Papel Higienico,Doble Hoja,18,38
-TC-061,Confort Súper Doble Hoja 40 m 8 un,Confort,320,jumbo,https://www.jumbo.cl/papel-higienico-doble-hoja-8-un-40-m-c-u/p,Papel Higienico,Doble Hoja,8,40
-TC-062,Confort Doble Hoja 25 m 8 un,Confort,200,jumbo,https://www.jumbo.cl/papel-higienico-confort-dh-25mt-8un-1859326/p,Papel Higienico,Doble Hoja,8,25
-TC-063,Confort Rendiplus Doble Hoja 20 m 6 un,Confort,120,jumbo,https://www.jumbo.cl/papel-higienico-2036249/p,Papel Higienico,Doble Hoja,6,20
-TC-064,Elite Doble Hoja Ultra 25 m 24 un,Elite,600,jumbo,https://www.jumbo.cl/papel-hig-elite-ultra-dh-25mt-24un/p,Papel Higienico,Doble Hoja,24,25
-TC-065,Favorita Acolchado Doble Hoja 22 m 4 un,Favorita,88,jumbo,https://www.jumbo.cl/papel-higienico-acolchado-doble-hoja-22-m-4-un-1888124/p,Papel Higienico,Doble Hoja,4,22
-TC-066,Confort Doble Hoja 30 m 4 un,Confort,120,jumbo,https://www.jumbo.cl/papel-higienico-confort-doble-hoja-4-rollos-30-m-c-u/p,Papel Higienico,Doble Hoja,4,30
-TC-067,Máxima Hoja Simple 120 m 8 un,Máxima,960,jumbo,https://www.jumbo.cl/papel-hig-max-8u-2026222/p,Papel Higienico,Hoja Simple,8,120
-TC-068,Swan Black 40 m 12 un,Swan,480,jumbo,https://www.jumbo.cl/papel-higienico-2065782/p,Papel Higienico,Doble Hoja,12,40
-TC-069,Favorita Acolchado 22 m 32 un,Favorita,704,jumbo,https://www.jumbo.cl/papel-higienico-fa-2084864/p,Papel Higienico,Doble Hoja,32,22
-TC-070,Elite Ultra Suave Doble Hoja 50 m 9 un,Elite,450,jumbo,https://www.jumbo.cl/ph-elite-eco-50mx9-1865644/p,Papel Higienico,Doble Hoja,9,50
-TC-071,Family Care Doble Hoja 50 m 8 un,Family Care,400,jumbo,https://www.jumbo.cl/papel-higienico-f-and-c-dh-50mt-8un-2022182/p,Papel Higienico,Doble Hoja,8,50
-TC-072,Family Care Hoja Simple 100 m 8 un,Family Care,800,jumbo,https://www.jumbo.cl/papel-higienico-fc-uh-100-mt-8-un-2017474/p,Papel Higienico,Hoja Simple,8,100
-TC-073,Family Care Doble Hoja 25 m 12 un,Family Care,300,jumbo,https://www.jumbo.cl/papel-higienico-f-y-c-dh-25mt-12un/p,Papel Higienico,Doble Hoja,12,25
-TC-074,Nubelin Hoja Simple 120 m 8 un,Nubelin,960,unimarc,https://www.unimarc.cl/product/papel-hig-uh-nubelin-8x120-mt,Papel Higienico,Hoja Simple,8,120
-TC-075,Confort Rendiplus Doble Hoja 18 m 4 un,Confort,72,unimarc,https://www.unimarc.cl/product/papel-hig-rendiplus-dh-confort-18mtx4,Papel Higienico,Doble Hoja,4,18
-TC-076,Confort Una Hoja Familiar 120 m 8 un,Confort,960,unimarc,https://www.unimarc.cl/product/ph-familiar-confort-8-x-120-mt,Papel Higienico,Hoja Simple,8,120
-TC-077,Nubelin Doble Hoja 22 m 40 un,Nubelin,880,unimarc,https://www.unimarc.cl/product/papel-hig-dh-nubelin-22mtx40-i,Papel Higienico,Doble Hoja,40,22
-TC-078,Nubelin Doble Hoja 24 m 4 un,Nubelin,96,unimarc,https://www.unimarc.cl/product/papel-hig-dh-nubelin-24mtx4,Papel Higienico,Doble Hoja,4,24
-TC-079,Elite Doble Hoja Ultra Suave 50 m 8 un,Elite,400,unimarc,https://www.unimarc.cl/product/papel-hig-elite-ultra-doble-hoja-8-u-50-m,Papel Higienico,Doble Hoja,8,50
-TC-080,Favorita Sensación Doble Hoja 22 m 40 un,Favorita,880,unimarc,https://www.unimarc.cl/product/papel-hig-sensacion-dh-favorita-40x22-mt,Papel Higienico,Doble Hoja,40,22
-TC-081,Confort Rendiplus Doble Hoja 27 m 12 un,Confort,324,unimarc,https://www.unimarc.cl/product/papel-hig-rendiplus-dh-confort-12x27-mt,Papel Higienico,Doble Hoja,12,27
-TC-082,Confort Doble Hoja 22 m 40 un,Confort,880,unimarc,https://www.unimarc.cl/product/papel-hig-dh-confort-40x22-mt,Papel Higienico,Doble Hoja,40,22
-TC-083,Confort Doble Hoja 22 m 24 un,Confort,528,unimarc,https://www.unimarc.cl/product/papel-hig-dh-confort-24x22-mt,Papel Higienico,Doble Hoja,24,22
-TC-084,Elite Doble Hoja Ultra Suave 40 m 18 un,Elite,720,unimarc,https://www.unimarc.cl/product/papel-hig-ultra-dh-elite-40mtx18,Papel Higienico,Doble Hoja,18,40
-TC-085,Noble Doble Hoja Super Pack 22 m 40 un,Noble,880,unimarc,https://www.unimarc.cl/product/papel-hig-dh-noble-40x22-mt,Papel Higienico,Doble Hoja,40,22
-TC-086,Nubelin Hoja Simple 100 m 8 un,Nubelin,800,unimarc,https://www.unimarc.cl/product/papel-hig-uh-nubelin-100mtx8,Papel Higienico,Hoja Simple,8,100
-TC-087,Confort Súper Doble Hoja 40 m 8 un,Confort,320,unimarc,https://www.unimarc.cl/product/papel-hig-super-dh-confort-8x40-mt,Papel Higienico,Doble Hoja,8,40
-TC-088,Elite Doble Hoja Ultra Suave 50 m 4 un,Elite,200,unimarc,https://www.unimarc.cl/product/ph-ultra-dh-elite-4x50-mt,Papel Higienico,Doble Hoja,4,50
-TC-089,Nubelin Doble Hoja 50 m 12 un,Nubelin,600,unimarc,https://www.unimarc.cl/product/papel-hig-dh-nubelin-12x50-mt,Papel Higienico,Doble Hoja,12,50
-TC-090,Favorita Acolchado Doble Hoja 22 m 24 un,Favorita,528,unimarc,https://www.unimarc.cl/product/papel-hig-acolchad-dh-favorita-24x23-5mt,Papel Higienico,Doble Hoja,24,22
-TC-091,Elite Doble Hoja Ultra Suave 25 m 4 un,Elite,100,unimarc,https://www.unimarc.cl/product/papel-hig-elite-ultra-4x25-mt,Papel Higienico,Doble Hoja,4,25
-TC-092,Scott Rindemax Doble Hoja 50 m 4 un,Scott,200,unimarc,https://www.unimarc.cl/product/papel-hig-rindemax-dh-scott-50mtx4,Papel Higienico,Doble Hoja,4,50
-TC-093,Elite Soft & Strong Triple Hoja 40 m 4 un,Elite,160,unimarc,https://www.unimarc.cl/product/papel-hig-soft-strong-th-elite-4x40-mt,Papel Higienico,Triple Hoja,4,40
-TC-094,Nubelin Doble Hoja 22 m 24 un,Nubelin,528,unimarc,https://www.unimarc.cl/product/papel-hig-dh-nubelin-22mtx24,Papel Higienico,Doble Hoja,24,22
-TC-095,Elite Soft & Strong Triple Hoja 40 m 12 un,Elite,480,unimarc,https://www.unimarc.cl/product/papel-hig-soft-strong-th-elite-12x40-mt,Papel Higienico,Triple Hoja,12,40
-TC-096,Noble Doble Hoja 23 m 16 un,Noble,368,unimarc,https://www.unimarc.cl/product/papel-hig-dh-noble-16x23-mt,Papel Higienico,Doble Hoja,16,23
-TC-097,Merkat Una Hoja 40 m 10 un,Merkat,400,unimarc,https://www.unimarc.cl/product/papel-hig-uh-merkat-40mtx10-2,Papel Higienico,Hoja Simple,10,40
-TC-098,Favorita Soft Care 50 m 4 un,Favorita,200,unimarc,https://www.unimarc.cl/product/papel-hig-sofcare-favorita-50mtx4,Papel Higienico,Doble Hoja,4,50
-TC-099,Nubelin Premium Doble Hoja 40 m 18 un,Nubelin,720,unimarc,https://www.unimarc.cl/product/papel-hig-premium-dh-nubelin-40mtx18,Papel Higienico,Doble Hoja,18,40
-TC-100,Nubelin Doble Hoja 30 m 8 un,Nubelin,240,unimarc,https://www.unimarc.cl/product/papel-hig-dh-nubelin-30mtx8,Papel Higienico,Doble Hoja,8,30
-TC-101,Confort Doble Hoja 25 m 24 un,Confort,600,tottus,https://www.tottus.cl/tottus-cl/articulo/110611809/ph-doble-hoja-confort-x24-und/110611811,Papel Higienico,Doble Hoja,24,25
-TC-102,Elite Doble Hoja 50 m 8 un,Elite,400,tottus,https://www.tottus.cl/tottus-cl/articulo/110613449/papel-hig-dh-8-rollos-50-mt-elite/110613450,Papel Higienico,Doble Hoja,8,50
-TC-103,Confort Una Hoja 100 m 8 un,Confort,800,tottus,https://www.tottus.cl/tottus-cl/articulo/110612103/papel-hig-uh-max-8-rollos-100-mt-confort/110612104,Papel Higienico,Hoja Simple,8,100
-TC-104,Tottus Doble Hoja Soft 25 m 40 un,Tottus,1000,tottus,https://www.tottus.cl/tottus-cl/articulo/123891417/ph-doble-hoja-25mt-soft-tottus-40-un/123891418,Papel Higienico,Doble Hoja,40,25
-TC-105,Tottus Doble Hoja Soft 25 m 16 un,Tottus,400,tottus,https://www.tottus.cl/tottus-cl/articulo/112989045/ph-doble-hoja-soft-tottus-16-un-x-25-mt/112989046,Papel Higienico,Doble Hoja,16,25
-TC-106,Confort Rendiplus Doble Hoja 27 m 18 un,Confort,486,tottus,https://www.tottus.cl/tottus-cl/articulo/124677744/ph-rendiplus-27x18-confort/124677745,Papel Higienico,Doble Hoja,18,27
-TC-107,Elite Ultra Doble Hoja 40 m 18 un,Elite,720,tottus,https://www.tottus.cl/tottus-cl/articulo/119823966/ph-ultra-dh-40x18-elite-und/119823967,Papel Higienico,Doble Hoja,18,40
-TC-108,Scott Rindemax Doble Hoja 22 m 16 un,Scott,352,tottus,https://www.tottus.cl/tottus-cl/articulo/142243611/papel-higienico-rindemax-16x22-mts-scott/142243615,Papel Higienico,Doble Hoja,16,22
-TC-109,Confort Doble Hoja 25 m 8 un,Confort,200,tottus,https://www.tottus.cl/tottus-cl/articulo/110610849/ph-dh-25m-confort-8-und/110610850,Papel Higienico,Doble Hoja,8,25
-TC-110,Scott Rindemax Doble Hoja 22 m 6 un,Scott,132,tottus,https://www.tottus.cl/tottus-cl/articulo/120286360/papel-hig-scott-rindemax-22-mts-6-un/120286361,Papel Higienico,Doble Hoja,6,22
-TC-111,Elite Soft & Strong Triple Hoja 40 m 12 un,Elite,480,tottus,https://www.tottus.cl/tottus-cl/articulo/118567768/ph-ph-softstrong-th-40x12-elite-und/118567769,Papel Higienico,Triple Hoja,12,40
-TC-112,Favorita Acolchado Doble Hoja 25 m 40 un,Favorita,1000,tottus,https://www.tottus.cl/tottus-cl/articulo/125312485/papel-higenico-acolchado-dh-favorita-x40/125312488,Papel Higienico,Doble Hoja,40,25
-TC-113,Scott Rindemax Doble Hoja 22 m 24 un,Scott,528,tottus,https://www.tottus.cl/tottus-cl/articulo/110616464/papel-hig-scott-rindemax-21-mts-24-un/110616465,Papel Higienico,Doble Hoja,24,22
-TC-114,Noble Doble Hoja 22 m 40 un,Noble,880,tottus,https://www.tottus.cl/tottus-cl/articulo/120482069/ph-noble-dh-x40-noble-und/120482070,Papel Higienico,Doble Hoja,40,22
-TC-115,Favorita Sensación Doble Hoja 22 m 4 un,Favorita,88,tottus,https://www.tottus.cl/tottus-cl/articulo/136303351/ph-sensacion-favorita-4-und-x-22-mts/136303352,Papel Higienico,Doble Hoja,4,22
-TC-116,Swan Premium Doble Hoja 50 m 4 un,Swan,200,tottus,https://www.tottus.cl/tottus-cl/articulo/129395135/papel-higienico-swan-premium-4x50/129395136,Papel Higienico,Doble Hoja,4,50
-TC-117,Noble Doble Hoja 23 m 16 un,Noble,368,tottus,https://www.tottus.cl/tottus-cl/articulo/112182856/papel-higienico-noble-23-m-x-16-und/112182857,Papel Higienico,Doble Hoja,16,23
-TC-118,Scott Protect Care Doble Hoja 22 m 16 un,Scott,352,tottus,https://www.tottus.cl/tottus-cl/articulo/115855534/ph-scott-prot-care-22-mts-16-un/115855536,Papel Higienico,Doble Hoja,16,22
-TC-119,Confort Doble Hoja 22 m 40 un,Confort,880,tottus,https://www.tottus.cl/tottus-cl/articulo/132866018/papel-higienico-confort-22m-x-40un/132866019,Papel Higienico,Doble Hoja,40,22
-TC-120,Favorita Doble Hoja 22 m 40 un,Favorita,880,tottus,https://www.tottus.cl/tottus-cl/articulo/120217124/papel-higienico-22-m-x-40-und-favorita/120217125,Papel Higienico,Doble Hoja,40,22
-TC-121,Elite Ultra Suave Doble Hoja 25 m 24 un,Elite,600,tottus,https://www.tottus.cl/tottus-cl/articulo/141162893/papel-higienico-elite-25mx24/141162895,Papel Higienico,Doble Hoja,24,25
-TC-122,Elite Doble Hoja Ultra Suave 50 m 9 un,Elite,450,tottus,https://www.tottus.cl/tottus-cl/articulo/110611201/ph-doble-hoja-eco-elite-x9-und/110611202,Papel Higienico,Doble Hoja,9,50
-TC-123,Elite Ultra Doble Hoja 25 m 12 un,Elite,300,tottus,https://www.tottus.cl/tottus-cl/articulo/119824036/ph-ph-elite-ultra-dh-25x12-elite-und/119824037,Papel Higienico,Doble Hoja,12,25
-TC-124,Favorita Soft Care Aloe Vera Doble Hoja 38 m 18 un,Favorita,684,tottus,https://www.tottus.cl/tottus-cl/articulo/137258487/ph-softcare-aloe-vera-favorita-18-und/137258489,Papel Higienico,Doble Hoja,18,38
-TC-125,Scott Premium Triple Hoja 40 m 4 un,Scott,160,tottus,https://www.tottus.cl/tottus-cl/articulo/147657868/papel-higie-premium-4x40mts-scott-und/147657869,Papel Higienico,Triple Hoja,4,40
-TC-126,Favorita Acolchado Doble Hoja 25 m 24 un,Favorita,600,tottus,https://www.tottus.cl/tottus-cl/articulo/110618350/papel-higienico-acolchado-favorita-24/110618352,Papel Higienico,Doble Hoja,24,25
-TC-127,Scott Premium Triple Hoja 19 m 24 un,Scott,456,tottus,https://www.tottus.cl/tottus-cl/articulo/117696107/ph-scott-premium-19-mts-24-un/117696108,Papel Higienico,Triple Hoja,24,19
-TC-128,Elite Soft & Strong Triple Hoja 40 m 4 un,Elite,160,tottus,https://www.tottus.cl/tottus-cl/articulo/141162873/papel-higienico-elite-40mx4/141162877,Papel Higienico,Triple Hoja,4,40
-TC-129,Confort Hoja Simple 50 m 8 un,Confort,400,tottus,https://www.tottus.cl/tottus-cl/articulo/144745503/papel-higienico-confort-50mx8/144745504,Papel Higienico,Hoja Simple,8,50
-TC-130,Confort Doble Hoja 20 m 4 un,Confort,80,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-20-metros-4-un-confort-901918,Papel Higienico,Doble Hoja,4,20
-TC-131,Confort Doble Hoja 22 m 40 un,Confort,880,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-22-metros-40-un-confort-1103955,Papel Higienico,Doble Hoja,40,22
-TC-132,Acuenta Doble Hoja 22 m 40 un,Acuenta,880,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-22-metros-40-un-acuenta-4774403,Papel Higienico,Doble Hoja,40,22
-TC-133,Noble Doble Hoja 22 m 40 un,Noble,880,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-22-m-40-un-noble-4482278,Papel Higienico,Doble Hoja,40,22
-TC-134,Confort Max Una Hoja 100 m 8 un,Confort,800,acuenta,https://www.acuenta.cl/p/papel-higienico-max-una-hoja-100-m-8-un-confort-309377,Papel Higienico,Hoja Simple,8,100
-TC-135,Lider Familiar Doble Hoja 22 m 40 un,Lider,880,acuenta,https://www.acuenta.cl/p/papel-higienico-familiar-doble-hoja-22-m-40-un-lider-1091010,Papel Higienico,Doble Hoja,40,22
-TC-136,Favorita Sensación Doble Hoja 22 m 40 un,Favorita,880,acuenta,https://www.acuenta.cl/p/papel-higienico-sensacion-doble-hoja-22-m-40-un-favorita-1358801,Papel Higienico,Doble Hoja,40,22
-TC-137,Confort Doble Hoja 30 m 8 un,Confort,240,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-30-m-8-un-confort-4524518,Papel Higienico,Doble Hoja,8,30
-TC-138,Confort Rendiplus Doble Hoja 27 m 18 un,Confort,486,acuenta,https://www.acuenta.cl/p/papel-higienico-rendiplus-doble-hoja-27-m-18-un-confort-4528517,Papel Higienico,Doble Hoja,18,27
-TC-139,Lider Una Hoja 100 m 8 un,Lider,800,acuenta,https://www.acuenta.cl/p/papel-higienico-una-hoja-100-m-8-un-lider-916156,Papel Higienico,Hoja Simple,8,100
-TC-140,Confort Doble Hoja 50 m 12 un,Confort,600,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-50-mts-cu-paquete-12-un-confort-395004,Papel Higienico,Doble Hoja,12,50
-TC-141,Confort Doble Hoja 45 m 4 un,Confort,180,acuenta,https://www.acuenta.cl/p/papel-higienico-confort-doble-hoja-45m-x4-4-un-confort-4938078,Papel Higienico,Doble Hoja,4,45
-TC-142,Noble Doble Hoja 32 m 6 un,Noble,192,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-32-m-6-un-noble-883368,Papel Higienico,Doble Hoja,6,32
-TC-143,Lider Doble Hoja 50 m 12 un,Lider,600,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-50-m-12-un-lider-1020215,Papel Higienico,Doble Hoja,12,50
-TC-144,Elite Doble Hoja Ultra 50 m 8 un,Elite,400,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-ultra-50-mts-8-un-marca-elite-475492,Papel Higienico,Doble Hoja,8,50
-TC-145,Lider Familiar Doble Hoja 22 m 40 un,Lider,880,knasta,https://knasta.cl/detail/lider_supermercado/00780465334132/papel-higienico-familiar-doble-hoja-22-m-40-un-lider,Papel Higienico,Doble Hoja,40,22
-TC-146,Elite Doble Hoja 45 m 4 un,Elite,180,knasta,https://knasta.cl/detail/lider_supermercado/00780650050779/papel-higienico-doble-hoja-45-metros-4-un-elite,Papel Higienico,Doble Hoja,4,45
-TC-147,Confort Rendiplus Doble Hoja 27 m 18 un,Confort,486,knasta,https://knasta.cl/detail/lider_supermercado/00780650050864/papel-higienico-rendiplus-doble-hoja-27-m-18-un-confort,Papel Higienico,Doble Hoja,18,27
-TC-148,Favorita Doble Hoja 22 m 24 un,Favorita,528,knasta,https://knasta.cl/detail/lider_supermercado/00780654000929/papel-higienico-doble-hoja-22-m-24-un-favorita,Papel Higienico,Doble Hoja,24,22
-TC-149,Elite Doble Hoja Ultra 40 m 18 un,Elite,720,knasta,https://knasta.cl/detail/lider_supermercado/00780650050997/papel-higienico-doble-hoja-ultra-40-m-18-un-elite,Papel Higienico,Doble Hoja,18,40
-TC-150,Confort Mega Doble Hoja 50 m 12 un,Confort,600,knasta,https://knasta.cl/detail/lider_supermercado/00780650050723/papel-higienico-mega-doble-hoja-50-m-12-un-confort,Papel Higienico,Doble Hoja,12,50
-TC-151,Confort Doble Hoja 20 m 4 un,Confort,80,knasta,https://knasta.cl/detail/lider_supermercado/00780650050694/papel-higienico-doble-hoja-20-metros-4-un-confort,Papel Higienico,Doble Hoja,4,20
-TC-152,Favorita Acolchado Doble Hoja 22 m 40 un,Favorita,880,knasta,https://knasta.cl/detail/lider_supermercado/00780654000975/papel-higienico-acolchado-doble-hoja-22-m-40-un-favorita,Papel Higienico,Doble Hoja,40,22
-TC-153,Favorita Soft Care Doble Hoja 50 m 12 un,Favorita,600,knasta,https://knasta.cl/detail/lider_supermercado/00780654001010/papel-higienico-soft-care-doble-hoja-50-metros-12-un-favorita,Papel Higienico,Doble Hoja,12,50
-TC-154,Lider Una Hoja 100 m 8 un,Lider,800,knasta,https://knasta.cl/detail/lider_supermercado/00780650053132/papel-higienico-una-hoja-100-m-8-un-lider,Papel Higienico,Hoja Simple,8,100
-TC-155,Noble Doble Hoja 32 m 6 un,Noble,192,knasta,https://knasta.cl/detail/lider_supermercado/00780650050878/papel-higienico-doble-hoja-32-m-6-un-noble,Papel Higienico,Doble Hoja,6,32
-TC-156,Elite Ultra Doble Hoja 50 m 12 un,Elite,600,knasta,https://knasta.cl/detail/lider_supermercado/00780650050984/papel-higienico-ultra-doble-hoja-50-m-12-un-elite,Papel Higienico,Doble Hoja,12,50
-TC-157,Lider Superior Doble Hoja 50 m 12 un,Lider,600,knasta,https://knasta.cl/detail/lider_supermercado/00780465334114/papel-higienico-superior-doble-hoja-50-m-12-un-lider,Papel Higienico,Doble Hoja,12,50
-TC-158,Confort Doble Hoja 30 m 8 un,Confort,240,knasta,https://knasta.cl/detail/lider_supermercado/00780650050879/papel-higienico-doble-hoja-30-m-8-un-confort,Papel Higienico,Doble Hoja,8,30
-TC-159,Scott Rindemax Doble Hoja 50 m 12 un,Scott,600,knasta,https://knasta.cl/detail/lider_supermercado/00775149301137/papel-higienico-rindemax-doble-hoja-50-metros-12-unidades-scott,Papel Higienico,Doble Hoja,12,50
-TC-160,Lider Doble Hoja 50 m 12 un,Lider,600,knasta,https://knasta.cl/detail/lider_supermercado/00780465334117/papel-higienico-doble-hoja-50-m-12-un-lider,Papel Higienico,Doble Hoja,12,50
-TC-161,Scott Protect Care Doble Hoja 22 m 16 un,Scott,352,knasta,https://knasta.cl/detail/lider_supermercado/00775149301041/papel-higienico-protect-care-doble-hoja-22-metros-16-un-scott,Papel Higienico,Doble Hoja,16,22
-TC-162,Elite Soft & Strong Triple Hoja 40 m 12 un,Elite,480,knasta,https://knasta.cl/detail/lider_supermercado/00780650051230/papel-higienico-soft-and-strong-triple-hoja-40-m-12-un-elite,Papel Higienico,Triple Hoja,12,40
-TC-163,Scott Rindemax Doble Hoja 22 m 16 un,Scott,352,knasta,https://knasta.cl/detail/lider_supermercado/00780960401947/papel-higienico-rindemax-doble-hoja-22-metros-16-un-scott,Papel Higienico,Doble Hoja,16,22
-TC-164,Favorita Soft Care Doble Hoja 50 m 4 un,Favorita,200,knasta,https://knasta.cl/detail/lider_supermercado/00780654000988/papel-higienico-soft-care-doble-hoja-50-m-4-un-favorita,Papel Higienico,Doble Hoja,4,50
-TC-165,Elite Ultra Suave Doble Hoja 25 m 12 un,Elite,300,knasta,https://knasta.cl/detail/lider_supermercado/00780650050839/papel-higienico-ultra-suave-doble-hoja-25-m-12-un-elite,Papel Higienico,Doble Hoja,12,25
-TC-166,Confort Doble Hoja 22 m 4 un,Confort,88,alvi,https://www.alvi.cl/product/papel-higienico-doble-hoja-4-un-de-22-m,Papel Higienico,Doble Hoja,4,22
-TC-167,Noble Doble Hoja 23 m 4 un,Noble,92,alvi,https://www.alvi.cl/product/ph-doble-hoja-noble-23mx4-mt,Papel Higienico,Doble Hoja,4,23
-TC-168,Favorita Acolchado Doble Hoja 22 m 4 un,Favorita,88,alvi,https://www.alvi.cl/product/papel-higienico-favorita-acolchado-doble-hoja-4-un-de-22-m,Papel Higienico,Doble Hoja,4,22
-TC-169,Confort Doble Hoja 22 m 40 un,Confort,880,alvi,https://www.alvi.cl/product/papel-hig-dh-confort-22mtx40,Papel Higienico,Doble Hoja,40,22
-TC-170,Ovella Doble Hoja 50 m 4 un,Ovella,200,alvi,https://www.alvi.cl/product/papel-hig-dh-ovella-50mtx4-2,Papel Higienico,Doble Hoja,4,50
-TC-171,Ovella Doble Hoja 22 m 4 un,Ovella,88,alvi,https://www.alvi.cl/product/papel-hig-dh-ovella-22mtx4-2,Papel Higienico,Doble Hoja,4,22
-TC-172,Scott Rindemax Doble Hoja 22 m 6 un,Scott,132,alvi,https://www.alvi.cl/product/papel-higienico-rindemax-doble-hoja-6-un-de-30-m,Papel Higienico,Doble Hoja,6,22
-TC-173,Nubelin Premium Doble Hoja 40 m 18 un,Nubelin,720,alvi,https://www.alvi.cl/product/papel-higienico-nubelin-premium-doble-hoja-18-un-de-40-m,Papel Higienico,Doble Hoja,18,40
-TC-174,Nubelin Doble Hoja 22 m 24 un,Nubelin,528,alvi,https://www.alvi.cl/product/papel-hig-dh-nubelin-22mtx24,Papel Higienico,Doble Hoja,24,22
-TC-175,Favorita Sensación Doble Hoja 22 m 4 un,Favorita,88,alvi,https://www.alvi.cl/product/papel-hig-sensacion-dh-favorita-4x22mt,Papel Higienico,Doble Hoja,4,22
-TC-176,Confort Una Hoja Familiar 120 m 8 un,Confort,960,alvi,https://www.alvi.cl/product/papel-hig-familiar-uh-confort-120mtx8-2,Papel Higienico,Hoja Simple,8,120
-TC-177,Confort Rendiplus Doble Hoja 27 m 12 un,Confort,324,alvi,https://www.alvi.cl/product/papel-hig-rendiplus-dh-confort-27mtx12-2,Papel Higienico,Doble Hoja,12,27
-TC-178,Confort Doble Hoja 40 m 8 un,Confort,320,alvi,https://www.alvi.cl/product/papel-hig-super-dh-confort-40mtx8,Papel Higienico,Doble Hoja,8,40
-TC-179,Ovella Doble Hoja 30 m 4 un,Ovella,120,alvi,https://www.alvi.cl/product/papel-hig-dh-ovella-30mtx4-2,Papel Higienico,Doble Hoja,4,30
-TC-180,Swan Rendidor Doble Hoja 20 m 4 un,Swan,80,alvi,https://www.alvi.cl/product/papel-hig-rendidor-dh-swan-20mtx4-2,Papel Higienico,Doble Hoja,4,20
-TC-181,Confort Doble Hoja 30 m 4 un,Confort,120,alvi,https://www.alvi.cl/product/papel-higienico-confort-doble-hoja-4-un-30-m,Papel Higienico,Doble Hoja,4,30
-TC-182,Swan Rendidor Doble Hoja 20 m 6 un,Swan,120,alvi,https://www.alvi.cl/product/papel-hig-rendidor-dh-swan-20mtx6-2,Papel Higienico,Doble Hoja,6,20
-TC-183,Elite Ultra Doble Hoja 25 m 4 un,Elite,100,alvi,https://www.alvi.cl/product/papel-higienico-ultra-doble-hoja-4-un-de-25-m,Papel Higienico,Doble Hoja,4,25
-TC-184,Confort Max Una Hoja 100 m 4 un,Confort,400,alvi,https://www.alvi.cl/product/papel-higienico-max-100mt-x-4,Papel Higienico,Hoja Simple,4,100
-TC-185,Confort Doble Hoja 25 m 24 un,Confort,600,alvi,https://www.alvi.cl/product/papel-higienico-confort-doble-hoja-24-rollos-de-25-m,Papel Higienico,Doble Hoja,24,25
-TC-186,Elite Ultra Doble Hoja 50 m 4 un,Elite,200,alvi,https://www.alvi.cl/product/papel-higienico-elite-ultra-doble-hoja-4-un-50-m,Papel Higienico,Doble Hoja,4,50
-TC-187,Confort Una Hoja 50 m 12 un,Confort,600,alvi,https://www.alvi.cl/product/papel-higienico-una-hoja-12-un-de-50-m,Papel Higienico,Hoja Simple,12,50
-TC-188,Nubelin Doble Hoja 50 m 12 un,Nubelin,600,alvi,https://www.alvi.cl/product/papel-hig-dh-nubelin-12x50-mt,Papel Higienico,Doble Hoja,12,50
-TC-189,Favorita Sensación Doble Hoja 22 m 6 un,Favorita,132,alvi,https://www.alvi.cl/product/papel-hig-sensacion-dh-favorita-6x22mt,Papel Higienico,Doble Hoja,6,22
-TC-190,Scott Rindemax Astro Doble Hoja 21 m 4 un,Scott,84,alvi,https://www.alvi.cl/product/papel-higienico-rindemax-4-rollos-de-22-m,Papel Higienico,Doble Hoja,4,21
-TC-191,Scott Aromas Doble Hoja 22 m 6 un,Scott,132,alvi,https://www.alvi.cl/product/papel-higienico-scott-aromas-6-un-22-m,Papel Higienico,Doble Hoja,6,22
-TC-192,Elite Ultra Doble Hoja 50 m 8 un,Elite,400,alvi,https://www.alvi.cl/product/papel-higienico-elite-ultra-doble-hoja-8-un-50-m,Papel Higienico,Doble Hoja,8,50
-TC-193,Nubelin Doble Hoja 24 m 4 un,Nubelin,96,alvi,https://www.alvi.cl/product/papel-hig-dh-nubelin-24mtx4,Papel Higienico,Doble Hoja,4,24
-TC-194,Noble Doble Hoja 22 m 40 un,Noble,880,alvi,https://www.alvi.cl/product/papel-hig-dh-noble-22mtx40-2,Papel Higienico,Doble Hoja,40,22
-TC-195,Favorita Sensación Doble Hoja 22 m 40 un,Favorita,880,alvi,https://www.alvi.cl/product/papel-hig-sensacion-dh-favorita-22mtx40-2,Papel Higienico,Doble Hoja,40,22
-TC-196,Nubelin Doble Hoja 22 m 40 un,Nubelin,880,alvi,https://www.alvi.cl/product/papel-higienico-nubelin-doble-hoja-40-un-de-22-m,Papel Higienico,Doble Hoja,40,22
-TC-197,Nova Clásica Doble Hoja 12 m 3 un,Nova,36,unimarc,https://www.unimarc.cl/product/toalla-papel-clasica-dh-nova-3x12-mt,Toalla de Papel,Doble Hoja,3,12
-TC-198,Nubelin Doble Hoja 14 m 2 un,Nubelin,28,unimarc,https://www.unimarc.cl/product/toalla-papel-dh-nubelin-14mtx2,Toalla de Papel,Doble Hoja,2,14
-TC-199,Nova Ultra Absorb Mega Rollo 26 m 2 un,Nova,52,unimarc,https://www.unimarc.cl/product/toalla-papel-megarollo-ultra-nova-2x26mt,Toalla de Papel,Doble Hoja,2,26
-TC-200,Abolengo XL 100 m 1 un,Abolengo,100,unimarc,https://www.unimarc.cl/product/toalla-de-papel-abolengo-xl-100-m,Toalla de Papel,Doble Hoja,1,100
-TC-201,Merkat Gigante Doble Hoja 100 m 1 un,Merkat,100,unimarc,https://www.unimarc.cl/product/toalla-papel-gigante-dh-merkat-100mtx1,Toalla de Papel,Doble Hoja,1,100
-TC-202,Nova Ultra Gigante Doble Hoja 70 m 1 un,Nova,70,unimarc,https://www.unimarc.cl/product/toalla-papel-ultra-gigante-dh-nova-70-mt,Toalla de Papel,Doble Hoja,1,70
-TC-203,Nova Doble Hoja Clásica 70 m 1 un,Nova,70,unimarc,https://www.unimarc.cl/product/toalla-papel-clasica-gigante-nova-1x70mt,Toalla de Papel,Doble Hoja,1,70
-TC-204,Nova Ultra Absorb Mega Rollo 26 m 1 un,Nova,26,unimarc,https://www.unimarc.cl/product/toalla-papel-megarollo-ultra-nova-1x26mt,Toalla de Papel,Doble Hoja,1,26
-TC-205,Nova Gigante Doble Hoja 100 m 1 un,Nova,100,unimarc,https://www.unimarc.cl/product/toalla-papel-gigante-dh-nova-100-mt,Toalla de Papel,Doble Hoja,1,100
-TC-206,Nova Clásica Doble Hoja 12 m 12 un,Nova,144,unimarc,https://www.unimarc.cl/product/toalla-papel-clasica-dh-nova-12x12-mt,Toalla de Papel,Doble Hoja,12,12
-TC-207,Nubelin Doble Hoja 12 m 3 un,Nubelin,36,unimarc,https://www.unimarc.cl/product/toalla-papel-doble-hoja-nubelin-3x12mt,Toalla de Papel,Doble Hoja,3,12
-TC-208,Nubelin Hoja Simple 150 m 1 un,Nubelin,150,unimarc,https://www.unimarc.cl/product/toalla-papel-hs-nubelin-150mtx1-2,Toalla de Papel,Hoja Simple,1,150
-TC-209,Favorita Estilo 24 m 2 un,Favorita,48,unimarc,https://www.unimarc.cl/product/toalla-papel-estilo-favorita-24mtx2,Toalla de Papel,Doble Hoja,2,24
-TC-210,Nova Clásica XL Doble Hoja 40 m 1 un,Nova,40,unimarc,https://www.unimarc.cl/product/toalla-papel-clasica-xl-dh-nova-40mtx1,Toalla de Papel,Doble Hoja,1,40
-TC-211,Elite Deco Maxi Rollo Triple Hoja 20 m 2 un,Elite,40,unimarc,https://www.unimarc.cl/product/toalla-papel-maxirollo-th-elite-2x20mt,Toalla de Papel,Triple Hoja,2,20
-TC-212,Nova Evolution Absorb Rollo 14 m 3 un,Nova,42,unimarc,https://www.unimarc.cl/product/toalla-papel-evolution-nova-3x14-mt,Toalla de Papel,Doble Hoja,3,14
-TC-213,Favorita Hogar Mega Doble Hoja 100 m 1 un,Favorita,100,unimarc,https://www.unimarc.cl/product/toalla-papel-hogar-mega-favorita-100-mt,Toalla de Papel,Doble Hoja,1,100
-TC-214,Nova Evolution Absorb Mega Rollo 26 m 2 un,Nova,52,unimarc,https://www.unimarc.cl/product/toalla-papel-mr-evolution-nova-2x26-mt,Toalla de Papel,Doble Hoja,2,26
-TC-215,Abolengo 10 m 3 un,Abolengo,30,unimarc,https://www.unimarc.cl/product/toalla-de-papel-abolengo-3-un-de-10-m,Toalla de Papel,Doble Hoja,3,10
-TC-216,Nubelin Doble Hoja 26 m 2 un,Nubelin,52,unimarc,https://www.unimarc.cl/product/toalla-papel-dh-nubelin-26mtx2,Toalla de Papel,Doble Hoja,2,26
-TC-217,Nubelin Doble Hoja 100 m 1 un,Nubelin,100,unimarc,https://www.unimarc.cl/product/toalla-papel-dh-nubelin-100mtx1,Toalla de Papel,Doble Hoja,1,100
-TC-218,Scott Multiusos 20 m 2 un,Scott,40,unimarc,https://www.unimarc.cl/product/toalla-papel-multiusos-scott-2x20-mt,Toalla de Papel,Doble Hoja,2,20
-TC-219,Nova Ultra Doble Hoja 26 m 2 un,Nova,52,jumbo,https://www.jumbo.cl/toalla-papel-nova-ultra-dh-26mt-2un-1939056/p,Toalla de Papel,Doble Hoja,2,26
-TC-220,Nova Evolution Absorb 14 m 3 un,Nova,42,jumbo,https://www.jumbo.cl/toalla-de-papel-nova-evolution-x3-1947750/p,Toalla de Papel,Doble Hoja,3,14
-TC-221,Elite Deco Maxi Rollo Triple Hoja 20 m 2 un,Elite,40,jumbo,https://www.jumbo.cl/toalla-elite-deco-maxi-rollo-20mt-2un-1895065/p,Toalla de Papel,Triple Hoja,2,20
-TC-222,Nova Gigante Doble Hoja 100 m 1 un,Nova,100,jumbo,https://www.jumbo.cl/toalla-papel-nova-gigante-dh-100mt-1923549/p,Toalla de Papel,Doble Hoja,1,100
-TC-223,Home Care Doble Hoja 45 m 1 un,Home Care,45,jumbo,https://www.jumbo.cl/toalla-home-care-doble-hoja-45-metros-2042443/p,Toalla de Papel,Doble Hoja,1,45
-TC-224,Home Care Doble Hoja 100 m 1 un,Home Care,100,jumbo,https://www.jumbo.cl/toalla-doble-hoja-home-care-100-metros-2042885/p,Toalla de Papel,Doble Hoja,1,100
-TC-225,Nova Clásica Doble Hoja 12 m 3 un,Nova,36,jumbo,https://www.jumbo.cl/toalla-de-papel-nova-clasica-12-m-3-un-2008455/p,Toalla de Papel,Doble Hoja,3,12
-TC-226,Nova Clásica Doble Hoja 12 m 12 un,Nova,144,jumbo,https://www.jumbo.cl/toalla-de-papel-nova-clasica-12-m-12-un-2008456/p,Toalla de Papel,Doble Hoja,12,12
-TC-227,Abolengo XL 100 m 1 un,Abolengo,100,jumbo,https://www.jumbo.cl/toalla-abolengo-xl-100-mt/p,Toalla de Papel,Doble Hoja,1,100
-TC-228,Máxima Doble Hoja 100 m 1 un,Máxima,100,jumbo,https://www.jumbo.cl/toalla-maxima-doble-hoja-100-metros-2011595/p,Toalla de Papel,Doble Hoja,1,100
-TC-229,Nova Ultra Gigante Doble Hoja 70 m 1 un,Nova,70,jumbo,https://www.jumbo.cl/toalla-de-papel-nova-ultra-70-m-1970652/p,Toalla de Papel,Doble Hoja,1,70
-TC-230,Nova Evolution Mega Rollo Doble Hoja 26 m 2 un,Nova,52,jumbo,https://www.jumbo.cl/toalla-de-papel-nova-evolution-mr-x2-1947749/p,Toalla de Papel,Doble Hoja,2,26
-TC-231,Favorita Estilo 24 m 2 un,Favorita,48,jumbo,https://www.jumbo.cl/toalla-favorita-estilo-24mt-2un-2025110/p,Toalla de Papel,Doble Hoja,2,24
-TC-232,Nova Clásica Doble Hoja 40 m 1 un,Nova,40,jumbo,https://www.jumbo.cl/toalla-papel-nova-clasica-4omt-1un-2017217/p,Toalla de Papel,Doble Hoja,1,40
-TC-233,Home Care Doble Hoja 12 m 3 un,Home Care,36,jumbo,https://www.jumbo.cl/toalla-home-care-doble-hoja-3-un-x-12-mt-2042444/p,Toalla de Papel,Doble Hoja,3,12
-TC-234,Nova Gigante Clásica Doble Hoja 70 m 1 un,Nova,70,jumbo,https://www.jumbo.cl/toalla-papel-nova-gigante-clasica-70mt-2021823/p,Toalla de Papel,Doble Hoja,1,70
-TC-235,Favorita Hogar Mega Doble Hoja 100 m 1 un,Favorita,100,jumbo,https://www.jumbo.cl/toalla-de-papel-favorita-hogar-mega-1-unid-100-metros/p,Toalla de Papel,Doble Hoja,1,100
-TC-236,Home Care Doble Hoja 26 m 2 un,Home Care,52,jumbo,https://www.jumbo.cl/toalla-home-care-doble-hoja-2-un-x-26-mt-2042446/p,Toalla de Papel,Doble Hoja,2,26
-TC-237,Nova Ultra Doble Hoja 14 m 2 un,Nova,28,jumbo,https://www.jumbo.cl/toalla-papel-nova-ultra-14mt-2un-1997285/p,Toalla de Papel,Doble Hoja,2,14
-TC-238,Favorita Extra Hogar Hoja Simple 60 m 2 un,Favorita,120,jumbo,https://www.jumbo.cl/toalla-favorita-extra-hogar-60m-2un-1884769/p,Toalla de Papel,Hoja Simple,2,60
-TC-239,Máxima Doble Hoja 10 m 2 un,Máxima,20,jumbo,https://www.jumbo.cl/toalla-max-3x10-2067051/p,Toalla de Papel,Doble Hoja,2,10
-TC-240,Home Care Doble Hoja 45 m 1 un,Home Care,45,santaisabel,https://www.santaisabel.cl/toalla-home-care-doble-hoja-45-metros-2042443/p,Toalla de Papel,Doble Hoja,1,45
-TC-241,Abolengo XL Doble Hoja 100 m 1 un,Abolengo,100,santaisabel,https://www.santaisabel.cl/toalla-abolengo-xl-100-mt/p,Toalla de Papel,Doble Hoja,1,100
-TC-242,Home Care Doble Hoja 12 m 3 un,Home Care,36,santaisabel,https://www.santaisabel.cl/toalla-home-care-doble-hoja-3-un-x-12-mt-2042444/p,Toalla de Papel,Doble Hoja,3,12
-TC-243,Home Care Doble Hoja 100 m 1 un,Home Care,100,santaisabel,https://www.santaisabel.cl/toalla-doble-hoja-home-care-100-metros-2042885/p,Toalla de Papel,Doble Hoja,1,100
-TC-244,Nova Clásica Doble Hoja 12 m 3 un,Nova,36,santaisabel,https://www.santaisabel.cl/toalla-de-papel-nova-clasica-12-m-3-un-2008455/p,Toalla de Papel,Doble Hoja,3,12
-TC-245,Home Care Doble Hoja 26 m 2 un,Home Care,52,santaisabel,https://www.santaisabel.cl/toalla-home-care-doble-hoja-2-un-x-26-mt-2042446/p,Toalla de Papel,Doble Hoja,2,26
-TC-246,Abolengo Doble Hoja 10 m 3 un,Abolengo,30,santaisabel,https://www.santaisabel.cl/toalla-de-papel-abolengo-3-unid-10-mt-c-u/p,Toalla de Papel,Doble Hoja,3,10
-TC-247,Nova Ultra Doble Hoja 26 m 2 un,Nova,52,santaisabel,https://www.santaisabel.cl/toalla-papel-nova-ultra-dh-26mt-2un-1939056/p,Toalla de Papel,Doble Hoja,2,26
-TC-248,Nova Ultra Gigante Doble Hoja 70 m 1 un,Nova,70,santaisabel,https://www.santaisabel.cl/toalla-de-papel-nova-ultra-70-m-1970652/p,Toalla de Papel,Doble Hoja,1,70
-TC-249,Nova Gigante Doble Hoja 100 m 1 un,Nova,100,santaisabel,https://www.santaisabel.cl/toalla-de-papel-gigante-doble-hoja-100-m-1923549/p,Toalla de Papel,Doble Hoja,1,100
-TC-250,Nova Gigante Clásica Doble Hoja 70 m 1 un,Nova,70,santaisabel,https://www.santaisabel.cl/toalla-papel-nova-gigante-clasica-70mt-2021823/p,Toalla de Papel,Doble Hoja,1,70
-TC-251,Elite Deco Maxi Rollo Triple Hoja 20 m 2 un,Elite,40,santaisabel,https://www.santaisabel.cl/toalla-deco-maxi-rollo-20-m-2-un/p,Toalla de Papel,Triple Hoja,2,20
-TC-252,Nova Ultra Doble Hoja 14 m 2 un,Nova,28,santaisabel,https://www.santaisabel.cl/toalla-papel-nova-ultra-14mt-2un-1997285/p,Toalla de Papel,Doble Hoja,2,14
-TC-253,Nova Clásica Doble Hoja 12 m 12 un,Nova,144,santaisabel,https://www.santaisabel.cl/toalla-de-papel-nova-clasica-12-m-12-un-2008456/p,Toalla de Papel,Doble Hoja,12,12
-TC-254,Máxima Doble Hoja 100 m 1 un,Máxima,100,santaisabel,https://www.santaisabel.cl/toalla-maxima-doble-hoja-100-m-2011595/p,Toalla de Papel,Doble Hoja,1,100
-TC-255,Favorita Estilo 24 m 2 un,Favorita,48,santaisabel,https://www.santaisabel.cl/toalla-favorita-estilo-24mt-2un-2025110/p,Toalla de Papel,Doble Hoja,2,24
-TC-256,Máxima Doble Hoja 10 m 2 un,Máxima,20,santaisabel,https://www.santaisabel.cl/toalla-max-3x10-2067051/p,Toalla de Papel,Doble Hoja,2,10
-TC-257,Swan Clásica Doble Hoja 40 m 1 un,Swan,40,santaisabel,https://www.santaisabel.cl/toalla-papel-swan-2072038/p,Toalla de Papel,Doble Hoja,1,40
-TC-258,Favorita Hogar Mega Doble Hoja 100 m 1 un,Favorita,100,santaisabel,https://www.santaisabel.cl/toalla-de-papel-favorita-hogar-mega-1-unid-100-metros/p,Toalla de Papel,Doble Hoja,1,100
-TC-259,Scott Multiuso Doble Hoja 19 m 2 un,Scott,38,santaisabel,https://www.santaisabel.cl/toalla-multiuso-2-un-19-m-c-u-1786954/p,Toalla de Papel,Doble Hoja,2,19
-TC-260,Favorita Extra Hogar Hoja Simple 60 m 2 un,Favorita,120,santaisabel,https://www.santaisabel.cl/toalla-de-papel-extra-hogar-2-un-60-m-1884769/p,Toalla de Papel,Hoja Simple,2,60
-TC-261,Scott Multiuso 70 m 1 un,Scott,70,santaisabel,https://www.santaisabel.cl/toalla-papel-scott-multiuso-70-m-1-un-2044411/p,Toalla de Papel,Doble Hoja,1,70
-TC-262,Nova Clásica Mega Gigante Doble Hoja 100 m 1 un,Nova,100,santaisabel,https://www.santaisabel.cl/toalla-papel-2093535/p,Toalla de Papel,Doble Hoja,1,100
-TC-263,Tottus Doble Hoja 30 m 2 un,Tottus,60,tottus,https://www.tottus.cl/tottus-cl/articulo/116362827/toalla-de-papel-dh-tottus-2-x30-mt/116362828,Toalla de Papel,Doble Hoja,2,30
-TC-264,Abolengo XL Doble Hoja 100 m 1 un,Abolengo,100,tottus,https://www.tottus.cl/tottus-cl/articulo/117637295/tp-abolengo-xl-abolengo-und/117637296,Toalla de Papel,Doble Hoja,1,100
-TC-265,Nova Ultra Doble Hoja 70 m 1 un,Nova,70,tottus,https://www.tottus.cl/tottus-cl/articulo/124677756/toalla-papel-utra-70m-nova/124677757,Toalla de Papel,Doble Hoja,1,70
-TC-266,Tottus Doble Hoja 100 m 1 un,Tottus,100,tottus,https://www.tottus.cl/tottus-cl/articulo/110610716/papel-toalla-dh-100mt-tottus-1-und/110610719,Toalla de Papel,Doble Hoja,1,100
-TC-267,Nova Ultra Mega Rollo Doble Hoja 26 m 2 un,Nova,52,tottus,https://www.tottus.cl/tottus-cl/articulo/110621018/toalla-de-papel-nova-ultra-mr-x2/110621019,Toalla de Papel,Doble Hoja,2,26
-TC-268,Swan Clásica Doble Hoja 45 m 1 un,Swan,45,tottus,https://www.tottus.cl/tottus-cl/articulo/129395187/papel-toalla-1x40-clasica-dh-swan/129395188,Toalla de Papel,Doble Hoja,1,45
-TC-269,Elite Deco Maxi Rollo Triple Hoja 20 m 2 un,Elite,40,tottus,https://www.tottus.cl/tottus-cl/articulo/112693248/toalla-papel-elite-und/112693249,Toalla de Papel,Triple Hoja,2,20
-TC-270,Abolengo Doble Hoja 10 m 3 un,Abolengo,30,tottus,https://www.tottus.cl/tottus-cl/articulo/117637291/tp-abolengo-10m-x3-abolengo-und/117637292,Toalla de Papel,Doble Hoja,3,10
-TC-271,Favorita Estilo Doble Hoja 26 m 2 un,Favorita,52,tottus,https://www.tottus.cl/tottus-cl/articulo/119445658/toalla-de-papel-estilo-favorita-2x24-mt/119445659,Toalla de Papel,Doble Hoja,2,26
-TC-272,Nova Evolution Doble Hoja 26 m 2 un,Nova,52,tottus,https://www.tottus.cl/tottus-cl/articulo/110611699/toalla-de-papel-nova-evolution-26-mt-x2/110611702,Toalla de Papel,Doble Hoja,2,26
-TC-273,Nova Mega Gigante Doble Hoja 100 m 1 un,Nova,100,tottus,https://www.tottus.cl/tottus-cl/articulo/110613483/toa-papel-gigante-dh-1-rollo-100-mt-nova/110613485,Toalla de Papel,Doble Hoja,1,100
-TC-274,Favorita Mega Doble Hoja 100 m 1 un,Favorita,100,tottus,https://www.tottus.cl/tottus-cl/articulo/113135171/toalla-de-papel-mega-favorita-100-mt/113135173,Toalla de Papel,Doble Hoja,1,100
-TC-275,Xplend Doble Hoja 100 m 1 un,Xplend,100,tottus,https://www.tottus.cl/tottus-cl/articulo/151075182/toalla-de-papel-dh-100-m-xplend-1-un/151075183,Toalla de Papel,Doble Hoja,1,100
-TC-276,Nova Mega Rollo Doble Hoja 26 m 1 un,Nova,26,tottus,https://www.tottus.cl/tottus-cl/articulo/140114054/toalla-de-papel-mega-rollo-nova-26m/140114055,Toalla de Papel,Doble Hoja,1,26
-TC-277,Nova Clásica Doble Hoja 12 m 3 un,Nova,36,tottus,https://www.tottus.cl/tottus-cl/articulo/136080602/toalla-de-papel-nova-clasica-12m-x3/136080603,Toalla de Papel,Doble Hoja,3,12
-TC-278,Nova Clásica XL Doble Hoja 40 m 1 un,Nova,40,tottus,https://www.tottus.cl/tottus-cl/articulo/136080689/toalla-de-papel-nova-clasica-40m-x1/136080690,Toalla de Papel,Doble Hoja,1,40
-TC-279,Nova Clásica Doble Hoja 12 m 12 un,Nova,144,tottus,https://www.tottus.cl/tottus-cl/articulo/136080675/toalla-de-papel-nova-clasica-12m-x12/136080676,Toalla de Papel,Doble Hoja,12,12
-TC-280,Nova Evolution Doble Hoja 14 m 3 un,Nova,42,tottus,https://www.tottus.cl/tottus-cl/articulo/110613119/toalla-de-papel-nova-evolution-14mt-x3/110613120,Toalla de Papel,Doble Hoja,3,14
-TC-281,Nova Mega Gigante Clásica Doble Hoja 100 m 1 un,Nova,100,tottus,https://www.tottus.cl/tottus-cl/articulo/155967383/toalla-papel-nova-100-mt/155967384,Toalla de Papel,Doble Hoja,1,100
-TC-282,Nova Gigante Clásica Doble Hoja 70 m 1 un,Nova,70,tottus,https://www.tottus.cl/tottus-cl/articulo/141162935/toalla-de-papel-clasica-nova-70-mt/141162936,Toalla de Papel,Doble Hoja,1,70
-TC-283,Nova Ultra Doble Hoja 14 m 2 un,Nova,28,tottus,https://www.tottus.cl/tottus-cl/articulo/132845749/toalla-papel-nova-ultra-14m-x-2un/132845750,Toalla de Papel,Doble Hoja,2,14
-TC-284,Xplend Doble Hoja 12 m 3 un,Xplend,36,tottus,https://www.tottus.cl/tottus-cl/articulo/151075272/toalla-de-papel-dh-12-m-xplend-3-un/151075273,Toalla de Papel,Doble Hoja,3,12
-TC-285,Xplend Doble Hoja 26 m 2 un,Xplend,52,tottus,https://www.tottus.cl/tottus-cl/articulo/151075126/toalla-de-papel-dh-26-m-xplend-2-un/151075128,Toalla de Papel,Doble Hoja,2,26
-TC-286,Nova Ultra Doble Hoja 14 m 2 un,Nova,28,alvi,https://www.alvi.cl/product/toalla-papel-ultra-dh-nova-14mtx2,Toalla de Papel,Doble Hoja,2,14
-TC-287,Ovella Gigante Hoja Simple 100 m 1 un,Ovella,100,alvi,https://www.alvi.cl/product/toalla-papel-gigante-hs-ovella-100mtx1-2,Toalla de Papel,Hoja Simple,1,100
-TC-288,Swan Clásica Doble Hoja 40 m 1 un,Swan,40,alvi,https://www.alvi.cl/product/toalla-papel-clasica-dh-swan-40mtx1-2,Toalla de Papel,Doble Hoja,1,40
-TC-289,Nova Ultra Mega Rollo Doble Hoja 26 m 2 un,Nova,52,alvi,https://www.alvi.cl/product/toalla-papel-megarollo-ultra-nova-2x26mt,Toalla de Papel,Doble Hoja,2,26
-TC-290,Ovella XL Doble Hoja 80 m 1 un,Ovella,80,alvi,https://www.alvi.cl/product/toalla-papel-xl-dh-ovella-80mtx1-2,Toalla de Papel,Doble Hoja,1,80
-TC-291,Nova Ultra Mega Rollo Doble Hoja 26 m 1 un,Nova,26,alvi,https://www.alvi.cl/product/toalla-papel-megarollo-ultra-nova-1x26mt,Toalla de Papel,Doble Hoja,1,26
-TC-292,Swan Ultra Doble Hoja 70 m 1 un,Swan,70,alvi,https://www.alvi.cl/product/toalla-papel-ultra-dh-swan-70mtx1-2,Toalla de Papel,Doble Hoja,1,70
-TC-293,Elite Maxi Rollo Triple Hoja 20 m 2 un,Elite,40,alvi,https://www.alvi.cl/product/toalla-papel-maxirollo-th-elite-20mtx2,Toalla de Papel,Triple Hoja,2,20
-TC-294,Nova Ultra Gigante Doble Hoja 70 m 1 un,Nova,70,alvi,https://www.alvi.cl/product/toalla-papel-ultra-gigante-dh-nova-70-mt,Toalla de Papel,Doble Hoja,1,70
-TC-295,Abolengo XL Doble Hoja 100 m 1 un,Abolengo,100,alvi,https://www.alvi.cl/product/toalla-de-papel-xl,Toalla de Papel,Doble Hoja,1,100
-TC-296,Nubelin Hoja Simple 150 m 1 un,Nubelin,150,alvi,https://www.alvi.cl/product/toalla-de-papel-nubelin-hoja-simple-1-un-de-150-m,Toalla de Papel,Hoja Simple,1,150
-TC-297,Favorita Hogar Mega Doble Hoja 100 m 1 un,Favorita,100,alvi,https://www.alvi.cl/product/toalla-de-papel-favorita-hogar-mega-doble-hoja-1-un-de-100-m,Toalla de Papel,Doble Hoja,1,100
-TC-298,Nubelin Doble Hoja 12 m 3 un,Nubelin,36,alvi,https://www.alvi.cl/product/toalla-papel-doble-hoja-nubelin-3x12mt,Toalla de Papel,Doble Hoja,3,12
-TC-299,Abolengo Doble Hoja 10 m 3 un,Abolengo,30,alvi,https://www.alvi.cl/product/toalla-de-papel-3-un-de-10-m,Toalla de Papel,Doble Hoja,3,10
-TC-300,Swan Mi Hogar Clásica Doble Hoja 12 m 3 un,Swan,36,alvi,https://www.alvi.cl/product/toalla-papel-dh-mi-hogar-3x12-mt,Toalla de Papel,Doble Hoja,3,12
-TC-301,Nubelin Doble Hoja 100 m 1 un,Nubelin,100,alvi,https://www.alvi.cl/product/toalla-de-papel-nubelin-doble-hoja-1-u-de-100-m,Toalla de Papel,Doble Hoja,1,100
-TC-302,Nubelin Doble Hoja 26 m 2 un,Nubelin,52,alvi,https://www.alvi.cl/product/toalla-papel-dh-nubelin-26mtx2-2,Toalla de Papel,Doble Hoja,2,26
-TC-303,Nova Clásica Doble Hoja 12 m 3 un,Nova,36,alvi,https://www.alvi.cl/product/toalla-papel-clasica-dh-nova-12mtx3,Toalla de Papel,Doble Hoja,3,12
-TC-304,Nova Clásica Doble Hoja 12 m 1 un,Nova,12,alvi,https://www.alvi.cl/product/toalla-papel-clasica-dh-nova-1x12-mt,Toalla de Papel,Doble Hoja,1,12
-TC-305,Merkat Gigante Doble Hoja 100 m 1 un,Merkat,100,alvi,https://www.alvi.cl/product/toalla-papel-gigante-dh-merkat-100mtx1,Toalla de Papel,Doble Hoja,1,100
-TC-306,Nova Gigante Doble Hoja 100 m 1 un,Nova,100,alvi,https://www.alvi.cl/product/toalla-papel-gigante-dh-nova-1x100-mt,Toalla de Papel,Doble Hoja,1,100
-TC-307,Scott Multiusos Doble Hoja 20 m 2 un,Scott,40,alvi,https://www.alvi.cl/product/toalla-papel-multiusos-scott-2-un-20-m,Toalla de Papel,Doble Hoja,2,20
-TC-308,Nova Clásica XL Doble Hoja 40 m 1 un,Nova,40,alvi,https://www.alvi.cl/product/toalla-papel-clasica-xl-dh-nova-40mtx1-2,Toalla de Papel,Doble Hoja,1,40
-TC-309,Acuenta XL Doble Hoja 100 m 1 un,Acuenta,100,acuenta,https://www.acuenta.cl/p/toalla-de-papel-xl-doble-hoja-100-m-1-un-acuenta-1159106,Toalla de Papel,Doble Hoja,1,100
-TC-310,Abolengo XL Doble Hoja 100 m 1 un,Abolengo,100,acuenta,https://www.acuenta.cl/p/toalla-de-papel-xl-100-m-1-un-abolengo-853185,Toalla de Papel,Doble Hoja,1,100
-TC-311,Ovella Doble Hoja 80 m 1 un,Ovella,80,acuenta,https://www.acuenta.cl/p/toalla-de-papel-doble-hoja-80-metros-1-un-ovella-4779121,Toalla de Papel,Doble Hoja,1,80
-TC-312,Nova Doble Hoja 14 m 2 un,Nova,28,acuenta,https://www.acuenta.cl/p/toalla-de-papel-nova-14m-2-un-nova-891014,Toalla de Papel,Doble Hoja,2,14
-TC-313,Lider Super Mega Doble Hoja 26 m 2 un,Lider,52,acuenta,https://www.acuenta.cl/p/toalla-de-papel-super-mega-doble-hoja-26-m-2-un-lider-889607,Toalla de Papel,Doble Hoja,2,26
-TC-314,Abolengo Clásica Doble Hoja 10 m 3 un,Abolengo,30,acuenta,https://www.acuenta.cl/p/toalla-de-papel-clasica-doble-hoja-10-metros-3-un-abolengo-437437,Toalla de Papel,Doble Hoja,3,10
-TC-315,Acuenta Clásica Doble Hoja 10 m 3 un,Acuenta,30,acuenta,https://www.acuenta.cl/p/toalla-de-papel-doble-hoja-10-m-clasica-bolsa-3-un-acuenta-877805,Toalla de Papel,Doble Hoja,3,10
-TC-316,Favorita Multiuso Doble Hoja 22 m 2 un,Favorita,44,acuenta,https://www.acuenta.cl/p/toalla-de-papel-multiuso-22-metros-2-un-favorita-4686435,Toalla de Papel,Doble Hoja,2,22
-TC-317,Nova Gigante Doble Hoja 70 m 1 un,Nova,70,acuenta,https://www.acuenta.cl/p/toalla-de-papel-gigante-doble-hoja-70-m-1-un-nova-4528514,Toalla de Papel,Doble Hoja,1,70
-TC-318,Lider Tradicional Doble Hoja 12 m 3 un,Lider,36,acuenta,https://www.acuenta.cl/p/toalla-de-papel-tradicional-doble-hoja-12-m-3-un-lider-1142328,Toalla de Papel,Doble Hoja,3,12
-TC-319,Lider Premium Triple Hoja 20 m 2 un,Lider,40,acuenta,https://www.acuenta.cl/p/toalla-de-papel-premium-triple-hoja-20-metros-2-un-lider-889609,Toalla de Papel,Triple Hoja,2,20
-TC-320,Nova Ultra Mega Rollo Doble Hoja 26 m 2 un,Nova,52,acuenta,https://www.acuenta.cl/p/toalla-de-papel-ultra-megarollo-doble-hoja-26-m-2-un-nova-309257,Toalla de Papel,Doble Hoja,2,26
-TC-321,Elite Ultra Absorbente Triple Hoja 20 m 2 un,Elite,40,acuenta,https://www.acuenta.cl/p/toalla-de-papel-ultra-absorbente-triple-hoja-20-m-2-un-elite-309243,Toalla de Papel,Triple Hoja,2,20
-TC-322,Nova Clásica Gigante XL Doble Hoja 40 m 1 un,Nova,40,acuenta,https://www.acuenta.cl/p/toalla-de-papel-clasica-gigante-xl-doble-hoja-40-metros-1-un-nova-1195911,Toalla de Papel,Doble Hoja,1,40
-TC-323,Acuenta XL Doble Hoja 70 m 1 un,Acuenta,70,acuenta,https://www.acuenta.cl/p/toalla-de-papel-xl-70-metros-1-un-acuenta-4791741,Toalla de Papel,Doble Hoja,1,70
-TC-324,Swan Doble Hoja 40 m 1 un,Swan,40,acuenta,https://www.acuenta.cl/p/toalla-de-papel-1-un-swan-4936273,Toalla de Papel,Doble Hoja,1,40
-TC-325,Abolengo XL Doble Hoja 80 m 1 un,Abolengo,80,acuenta,https://www.acuenta.cl/p/toalla-de-papel-xl-80-m-1-un-abolengo-4937740,Toalla de Papel,Doble Hoja,1,80
-TC-326,Nova Clásica Mega Gigante Doble Hoja 100 m 1 un,Nova,100,acuenta,https://www.acuenta.cl/p/toalla-de-papel-clasica-mega-gigante-100m-1-un-nova-4938081,Toalla de Papel,Doble Hoja,1,100
+sku_interno,producto,marca,metros_totales,retailer,url,categoria,subcategoria,rollos,metros_rollo,unidades
+TC-001,Doble Hoja 23m 4 un,Noble,92,santaisabel,https://www.santaisabel.cl/papel-higienico-doble-hoja-23-m-4-un-1859328/p,Papel Higienico,Doble Hoja,4,23,
+TC-002,Doble Hoja 22m 40 un,Noble,880,santaisabel,https://www.santaisabel.cl/ph-doble-hoja-noble-dh-40-rollos-1960588/p,Papel Higienico,Doble Hoja,40,22,
+TC-003,Doble Hoja 22m 40 un,Confort,880,santaisabel,https://www.santaisabel.cl/papel-higienico-confort-dh-22mt-40un-1997284/p,Papel Higienico,Doble Hoja,40,22,
+TC-004,Doble Hoja 22m 40 un,Confort,880,jumbo,https://www.jumbo.cl/papel-higienico-confort-dh-22mt-40un-1997284/p,Papel Higienico,Doble Hoja,40,22,
+TC-006,PAPEL HIG DH NOBLE 6X23 MT,Noble,138,alvi,https://www.alvi.cl/product/papel-hig-dh-noble-6x23-mt-2,Papel Higienico,Doble Hoja,6,23,
+TC-007,Doble Hoja 50 m 4 un,Favorita,200,jumbo,https://www.jumbo.cl/papel-hig-favorita-soft-care-50dh-4un-2004277/p,Papel Higienico,Doble Hoja,4,50,
+TC-008,Doble Hoja 50 m 4 un,Favorita,200,santaisabel,https://www.santaisabel.cl/papel-hig-favorita-soft-care-50dh-4un-2004277/p,Papel Higienico,Doble Hoja,4,50,
+TC-009,Doble Hoja 50 mts 12 un,Favorita,600,tottus,https://www.tottus.cl/tottus-cl/articulo/148257118/papel-higienico-12-50-favorita-nag-und/148257119,Papel Higienico,Doble Hoja,12,50,
+TC-010,Doble Hoja 8 x 40 mts,Confort,320,tottus,https://www.tottus.cl/tottus-cl/articulo/119823952/ph-dh-super-40m-x8-confort-und/119823953,Papel Higienico,Doble Hoja,8,40,
+TC-011,Soft Care 4 x 50 mts,Favorita,200,tottus,https://www.tottus.cl/tottus-cl/articulo/138899719/papel-higienico-soft-care-favorita-4-und/138899721,Papel Higienico,Doble Hoja,4,50,
+TC-012,Doble Hoja 50 m 4 un,Confort,200,santaisabel,https://www.santaisabel.cl/papel-higienico-confort-doble-hoja-4-rollos-50-m-c-u/p,Papel Higienico,Doble Hoja,4,50,
+TC-013,Mi Hogar 50 m 4 un,Swan,200,santaisabel,https://www.santaisabel.cl/papel-higienico-mi-hogar-50-m-4-un-1899135/p,Papel Higienico,Doble Hoja,4,50,
+TC-014,Rindemax 50 m 4 un,Scott,200,santaisabel,https://www.santaisabel.cl/papel-higienico-scott-rindemax-50-m-4-un-2044412/p,Papel Higienico,Doble Hoja,4,50,
+TC-015,Doble Hoja Ultra 50 m 4 un,Elite,200,santaisabel,https://www.santaisabel.cl/papel-higienico-elite-doble-hoja-4-rollos-50-m-c-u/p,Papel Higienico,Doble Hoja,4,50,
+TC-016,Doble Hoja Rendiplus 18 m 4 un,Confort,72,santaisabel,https://www.santaisabel.cl/papel-higienico-2037001/p,Papel Higienico,Doble Hoja,4,18,
+TC-017,Sensación 22 m 4 un,Favorita,88,santaisabel,https://www.santaisabel.cl/ph-fav-sensacion-winter-dh-4-uni-22m-c-u-1957550/p,Papel Higienico,Doble Hoja,4,22,
+TC-018,Rindemax Doble Hoja 22 m 4 un,Scott,88,santaisabel,https://www.santaisabel.cl/papel-higienico-rindemax-4-unid-22-m-c-u/p,Papel Higienico,Doble Hoja,4,22,
+TC-019,Ultra Suave Doble Hoja 25 m 4 un,Elite,100,santaisabel,https://www.santaisabel.cl/ph-elite-ulta-dh-4-roll-25-m-1960058/p,Papel Higienico,Doble Hoja,4,25,
+TC-020,Doble Hoja 25 m 6 un,Confort,150,santaisabel,https://www.santaisabel.cl/papel-higienico-dh-6-un-25-m-c-u/p,Papel Higienico,Doble Hoja,6,25,
+TC-021,Doble Hoja 22 m 6 un,Noble,132,santaisabel,https://www.santaisabel.cl/papel-higienico-doble-hoja-22-m-6-un/p,Papel Higienico,Doble Hoja,6,22,
+TC-022,Rendidor 20 m 6 un,Swan,120,santaisabel,https://www.santaisabel.cl/papel-higienico-swan-rendidor-20-mts-6un-2042618/p,Papel Higienico,Doble Hoja,6,20,
+TC-023,Doble Hoja 4 x 50 mts,Elite,200,tottus,https://www.tottus.cl/tottus-cl/articulo/144745465/papel-higienico-elite-50m-x-4/144745466,Papel Higienico,Doble Hoja,4,50,
+TC-024,Protect Care Doble Hoja 8 x 65 mts,Scott,520,tottus,https://www.tottus.cl/tottus-cl/articulo/142842662/papel-higienico-protect-care-dh-65mx8un/142842664,Papel Higienico,Doble Hoja,8,65,
+TC-025,Doble Hoja 4 x 30 mts,Confort,120,tottus,https://www.tottus.cl/tottus-cl/articulo/110610609/papel-hig-dh-4-rolllos-30-mt-confort/110610611,Papel Higienico,Doble Hoja,4,30,
+TC-026,Doble Hoja 4 x 23 mts,Noble,92,tottus,https://www.tottus.cl/tottus-cl/articulo/141162898/papel-higienico-noble-23mx4/141162900,Papel Higienico,Doble Hoja,4,23,
+TC-027,Doble Hoja Rindeplus 4x18 mts,Confort,72,tottus,https://www.tottus.cl/tottus-cl/articulo/144955224/papel-higienico-rindeplus-18x4/144955225,Papel Higienico,Doble Hoja,4,18,
+TC-028,Acolchado Doble Hoja 4x22 mts,Favorita,88,tottus,https://www.tottus.cl/tottus-cl/articulo/115855542/higienico-acolchado-22mt-favorita-4/115855543,Papel Higienico,Doble Hoja,4,22,
+TC-029,Ultra Doble Hoja 4 x 25 mts,Elite,100,tottus,https://www.tottus.cl/tottus-cl/articulo/120528832/ph-ultra-dh-25m-x4-und-elite/120528833,Papel Higienico,Doble Hoja,4,25,
+TC-030,Doble Hoja Soft 4 x 25 mts,Tottus,100,tottus,https://www.tottus.cl/tottus-cl/articulo/112988502/ph-doble-hoja-soft-tottus-4-un-x-25-mt/112988503,Papel Higienico,Doble Hoja,4,25,
+TC-031,Rindemax Doble Hoja 4 x 21 mts,Scott,84,tottus,https://www.tottus.cl/tottus-cl/articulo/110617520/papel-higienico-rindemax-dh-21mx4un/110617521,Papel Higienico,Doble Hoja,4,21,
+TC-032,Doble Hoja 6 x 23 mts,Noble,138,tottus,https://www.tottus.cl/tottus-cl/articulo/124540262/noble-dh-x6-noble-23mt/124540264,Papel Higienico,Doble Hoja,6,23,
+TC-033,Rendiplus Doble Hoja 6 x 20 mts,Confort,120,tottus,https://www.tottus.cl/tottus-cl/articulo/144334960/papel-higienico-confort-20-mts-x6/144334961,Papel Higienico,Doble Hoja,6,20,
+TC-034,Familiar Doble Hoja 22 m 4 un,Lider,88,knasta,https://knasta.cl/detail/lider_supermercado/00780465334184/papel-higienico-familiar-doble-hoja-22-metros-4-un-lider,Papel Higienico,Doble Hoja,4,22,
+TC-035,Doble Hoja 50 m 4 un,Swan,200,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-50-metros-4-un-swan-4851927,Papel Higienico,Doble Hoja,4,50,
+TC-036,Familiar Doble Hoja 22 m 4 un,Lider,88,acuenta,https://www.acuenta.cl/p/papel-higienico-familiar-doble-hoja-22-metros-4-un-lider-4790111,Papel Higienico,Doble Hoja,4,22,
+TC-037,Family Care Doble Hoja 22 m 4 un,Family Care,88,jumbo,https://www.jumbo.cl/papel-higienico-family-care-doble-hoja-22-m-4-un-2017471/p,Papel Higienico,Doble Hoja,4,22,
+TC-038,Rindemax Doble Hoja 22 m 4 un,Scott,88,jumbo,https://www.jumbo.cl/papel-higienico-rindemax-4-unid-22-m-c-u/p,Papel Higienico,Doble Hoja,4,22,
+TC-039,Elite Doble Hoja Ultra 50 m 8 un,Elite,400,jumbo,https://www.jumbo.cl/papel-higienico-elite-doble-hoja-8-unid-50-m-c-u/p,Papel Higienico,Doble Hoja,8,50,
+TC-040,Scott Premium Triple Hoja 19 m 24 un,Scott,456,jumbo,https://www.jumbo.cl/papel-hig-scott-premium-th-19m-24un-1934161/p,Papel Higienico,Triple Hoja,24,19,
+TC-041,Scott Premium Triple Hoja 40 m 8 un,Scott,320,jumbo,https://www.jumbo.cl/papel-higienico-scott-premium-th-4om-8un-2044413/p,Papel Higienico,Triple Hoja,8,40,
+TC-042,Elite Ultra Suave Doble Hoja 50 m 18 un,Elite,900,jumbo,https://www.jumbo.cl/papel-higienico-elite-ultra-doble-hoja-18-rollos-50-m-c-u/p,Papel Higienico,Doble Hoja,18,50,
+TC-043,Confort Rendiplus Doble Hoja 27 m 12 un,Confort,324,jumbo,https://www.jumbo.cl/confort-dh-rendiplus-12-un-1976167/p,Papel Higienico,Doble Hoja,12,27,
+TC-044,Scott Rindemax Doble Hoja 22 m 24 un,Scott,528,jumbo,https://www.jumbo.cl/papel-hig-scott-rindemax-dh-22mt-24un-1884799/p,Papel Higienico,Doble Hoja,24,22,
+TC-045,Favorita Soft Care Doble Hoja 50 m 12 un,Favorita,600,jumbo,https://www.jumbo.cl/paper-higienico-2036587/p,Papel Higienico,Doble Hoja,12,50,
+TC-046,Scott Rindemax Doble Hoja 21.3 m 16 un,Scott,340.8,jumbo,https://www.jumbo.cl/papel-higienico-2030989/p,Papel Higienico,Doble Hoja,16,21.3,
+TC-047,Elite Soft & Strong Triple Hoja 40 m 12 un,Elite,480,jumbo,https://www.jumbo.cl/ph-elite-soft-and-strong-th-40x12-1951027/p,Papel Higienico,Triple Hoja,12,40,
+TC-048,Scott Protect Care Doble Hoja 22 m 16 un,Scott,352,jumbo,https://www.jumbo.cl/papel-hig-scott-protect-car-dh-22mt-16un-1929044/p,Papel Higienico,Doble Hoja,16,22,
+TC-049,Elite Doble Hoja Ultra 50 m 4 un,Elite,200,jumbo,https://www.jumbo.cl/papel-higienico-elite-doble-hoja-4-rollos-50-m-c-u/p,Papel Higienico,Doble Hoja,4,50,
+TC-050,Elite Ultra Doble Hoja 40 m 18 un,Elite,720,jumbo,https://www.jumbo.cl/papel-higienico-ultra-doble-hoja-40-m-18-un-1894042/p,Papel Higienico,Doble Hoja,18,40,
+TC-051,Confort Doble Hoja 25 m 24 un,Confort,600,jumbo,https://www.jumbo.cl/papel-higienico-confort-dh-25mt-24un-1859327/p,Papel Higienico,Doble Hoja,24,25,
+TC-052,Family Care Doble Hoja 22 m 40 un,Family Care,880,jumbo,https://www.jumbo.cl/papel-higienico-f-and-c-dh-22mt-40un-2017470/p,Papel Higienico,Doble Hoja,40,22,
+TC-053,Family Care Doble Hoja 25 m 24 un,Family Care,600,jumbo,https://www.jumbo.cl/papel-higienico-f-and-c-dh-25mt-24un-2022179/p,Papel Higienico,Doble Hoja,24,25,
+TC-054,Elite Soft & Strong Triple Hoja 40 m 4 un,Elite,160,jumbo,https://www.jumbo.cl/ph-elite-soft-and-strong-th-40x4-1951028/p,Papel Higienico,Triple Hoja,4,40,
+TC-055,Family Care Doble Hoja 50 m 18 un,Family Care,900,jumbo,https://www.jumbo.cl/papel-higienico-f-and-c-dh-50mt-18un-2022183/p,Papel Higienico,Doble Hoja,18,50,
+TC-056,Family Care Una Hoja 50 m 8 un,Family Care,400,jumbo,https://www.jumbo.cl/papel-higienico-f-and-c-uh-50mt-8un-2022180/p,Papel Higienico,Hoja Simple,8,50,
+TC-057,Swan Mi Hogar 50 m 4 un,Swan,200,jumbo,https://www.jumbo.cl/papel-higienico-swan-mi-hogar-50mt-4un-1899135/p,Papel Higienico,Doble Hoja,4,50,
+TC-058,Confort Una Hoja 50 m 8 un,Confort,400,jumbo,https://www.jumbo.cl/papel-higienico-confort-una-hoja-8-rollos-50-m-c-u/p,Papel Higienico,Hoja Simple,8,50,
+TC-059,Family Care Triple Hoja 22 m 12 un,Family Care,264,jumbo,https://www.jumbo.cl/papel-higienico-f-and-c-th-22mt-12un-2022184/p,Papel Higienico,Triple Hoja,12,22,
+TC-060,Favorita Soft Care Doble Hoja 38 m 18 un,Favorita,684,jumbo,https://www.jumbo.cl/p-hig-favorita-soft-care-dh-38mt-18un-1936542/p,Papel Higienico,Doble Hoja,18,38,
+TC-061,Confort Súper Doble Hoja 40 m 8 un,Confort,320,jumbo,https://www.jumbo.cl/papel-higienico-doble-hoja-8-un-40-m-c-u/p,Papel Higienico,Doble Hoja,8,40,
+TC-062,Confort Doble Hoja 25 m 8 un,Confort,200,jumbo,https://www.jumbo.cl/papel-higienico-confort-dh-25mt-8un-1859326/p,Papel Higienico,Doble Hoja,8,25,
+TC-063,Confort Rendiplus Doble Hoja 20 m 6 un,Confort,120,jumbo,https://www.jumbo.cl/papel-higienico-2036249/p,Papel Higienico,Doble Hoja,6,20,
+TC-064,Elite Doble Hoja Ultra 25 m 24 un,Elite,600,jumbo,https://www.jumbo.cl/papel-hig-elite-ultra-dh-25mt-24un/p,Papel Higienico,Doble Hoja,24,25,
+TC-065,Favorita Acolchado Doble Hoja 22 m 4 un,Favorita,88,jumbo,https://www.jumbo.cl/papel-higienico-acolchado-doble-hoja-22-m-4-un-1888124/p,Papel Higienico,Doble Hoja,4,22,
+TC-066,Confort Doble Hoja 30 m 4 un,Confort,120,jumbo,https://www.jumbo.cl/papel-higienico-confort-doble-hoja-4-rollos-30-m-c-u/p,Papel Higienico,Doble Hoja,4,30,
+TC-067,Máxima Hoja Simple 120 m 8 un,Máxima,960,jumbo,https://www.jumbo.cl/papel-hig-max-8u-2026222/p,Papel Higienico,Hoja Simple,8,120,
+TC-068,Swan Black 40 m 12 un,Swan,480,jumbo,https://www.jumbo.cl/papel-higienico-2065782/p,Papel Higienico,Doble Hoja,12,40,
+TC-069,Favorita Acolchado 22 m 32 un,Favorita,704,jumbo,https://www.jumbo.cl/papel-higienico-fa-2084864/p,Papel Higienico,Doble Hoja,32,22,
+TC-070,Elite Ultra Suave Doble Hoja 50 m 9 un,Elite,450,jumbo,https://www.jumbo.cl/ph-elite-eco-50mx9-1865644/p,Papel Higienico,Doble Hoja,9,50,
+TC-071,Family Care Doble Hoja 50 m 8 un,Family Care,400,jumbo,https://www.jumbo.cl/papel-higienico-f-and-c-dh-50mt-8un-2022182/p,Papel Higienico,Doble Hoja,8,50,
+TC-072,Family Care Hoja Simple 100 m 8 un,Family Care,800,jumbo,https://www.jumbo.cl/papel-higienico-fc-uh-100-mt-8-un-2017474/p,Papel Higienico,Hoja Simple,8,100,
+TC-073,Family Care Doble Hoja 25 m 12 un,Family Care,300,jumbo,https://www.jumbo.cl/papel-higienico-f-y-c-dh-25mt-12un/p,Papel Higienico,Doble Hoja,12,25,
+TC-074,Nubelin Hoja Simple 120 m 8 un,Nubelin,960,unimarc,https://www.unimarc.cl/product/papel-hig-uh-nubelin-8x120-mt,Papel Higienico,Hoja Simple,8,120,
+TC-075,Confort Rendiplus Doble Hoja 18 m 4 un,Confort,72,unimarc,https://www.unimarc.cl/product/papel-hig-rendiplus-dh-confort-18mtx4,Papel Higienico,Doble Hoja,4,18,
+TC-076,Confort Una Hoja Familiar 120 m 8 un,Confort,960,unimarc,https://www.unimarc.cl/product/ph-familiar-confort-8-x-120-mt,Papel Higienico,Hoja Simple,8,120,
+TC-077,Nubelin Doble Hoja 22 m 40 un,Nubelin,880,unimarc,https://www.unimarc.cl/product/papel-hig-dh-nubelin-22mtx40-i,Papel Higienico,Doble Hoja,40,22,
+TC-078,Nubelin Doble Hoja 24 m 4 un,Nubelin,96,unimarc,https://www.unimarc.cl/product/papel-hig-dh-nubelin-24mtx4,Papel Higienico,Doble Hoja,4,24,
+TC-079,Elite Doble Hoja Ultra Suave 50 m 8 un,Elite,400,unimarc,https://www.unimarc.cl/product/papel-hig-elite-ultra-doble-hoja-8-u-50-m,Papel Higienico,Doble Hoja,8,50,
+TC-080,Favorita Sensación Doble Hoja 22 m 40 un,Favorita,880,unimarc,https://www.unimarc.cl/product/papel-hig-sensacion-dh-favorita-40x22-mt,Papel Higienico,Doble Hoja,40,22,
+TC-081,Confort Rendiplus Doble Hoja 27 m 12 un,Confort,324,unimarc,https://www.unimarc.cl/product/papel-hig-rendiplus-dh-confort-12x27-mt,Papel Higienico,Doble Hoja,12,27,
+TC-082,Confort Doble Hoja 22 m 40 un,Confort,880,unimarc,https://www.unimarc.cl/product/papel-hig-dh-confort-40x22-mt,Papel Higienico,Doble Hoja,40,22,
+TC-083,Confort Doble Hoja 22 m 24 un,Confort,528,unimarc,https://www.unimarc.cl/product/papel-hig-dh-confort-24x22-mt,Papel Higienico,Doble Hoja,24,22,
+TC-084,Elite Doble Hoja Ultra Suave 40 m 18 un,Elite,720,unimarc,https://www.unimarc.cl/product/papel-hig-ultra-dh-elite-40mtx18,Papel Higienico,Doble Hoja,18,40,
+TC-085,Noble Doble Hoja Super Pack 22 m 40 un,Noble,880,unimarc,https://www.unimarc.cl/product/papel-hig-dh-noble-40x22-mt,Papel Higienico,Doble Hoja,40,22,
+TC-086,Nubelin Hoja Simple 100 m 8 un,Nubelin,800,unimarc,https://www.unimarc.cl/product/papel-hig-uh-nubelin-100mtx8,Papel Higienico,Hoja Simple,8,100,
+TC-087,Confort Súper Doble Hoja 40 m 8 un,Confort,320,unimarc,https://www.unimarc.cl/product/papel-hig-super-dh-confort-8x40-mt,Papel Higienico,Doble Hoja,8,40,
+TC-088,Elite Doble Hoja Ultra Suave 50 m 4 un,Elite,200,unimarc,https://www.unimarc.cl/product/ph-ultra-dh-elite-4x50-mt,Papel Higienico,Doble Hoja,4,50,
+TC-089,Nubelin Doble Hoja 50 m 12 un,Nubelin,600,unimarc,https://www.unimarc.cl/product/papel-hig-dh-nubelin-12x50-mt,Papel Higienico,Doble Hoja,12,50,
+TC-090,Favorita Acolchado Doble Hoja 22 m 24 un,Favorita,528,unimarc,https://www.unimarc.cl/product/papel-hig-acolchad-dh-favorita-24x23-5mt,Papel Higienico,Doble Hoja,24,22,
+TC-091,Elite Doble Hoja Ultra Suave 25 m 4 un,Elite,100,unimarc,https://www.unimarc.cl/product/papel-hig-elite-ultra-4x25-mt,Papel Higienico,Doble Hoja,4,25,
+TC-092,Scott Rindemax Doble Hoja 50 m 4 un,Scott,200,unimarc,https://www.unimarc.cl/product/papel-hig-rindemax-dh-scott-50mtx4,Papel Higienico,Doble Hoja,4,50,
+TC-093,Elite Soft & Strong Triple Hoja 40 m 4 un,Elite,160,unimarc,https://www.unimarc.cl/product/papel-hig-soft-strong-th-elite-4x40-mt,Papel Higienico,Triple Hoja,4,40,
+TC-094,Nubelin Doble Hoja 22 m 24 un,Nubelin,528,unimarc,https://www.unimarc.cl/product/papel-hig-dh-nubelin-22mtx24,Papel Higienico,Doble Hoja,24,22,
+TC-095,Elite Soft & Strong Triple Hoja 40 m 12 un,Elite,480,unimarc,https://www.unimarc.cl/product/papel-hig-soft-strong-th-elite-12x40-mt,Papel Higienico,Triple Hoja,12,40,
+TC-096,Noble Doble Hoja 23 m 16 un,Noble,368,unimarc,https://www.unimarc.cl/product/papel-hig-dh-noble-16x23-mt,Papel Higienico,Doble Hoja,16,23,
+TC-097,Merkat Una Hoja 40 m 10 un,Merkat,400,unimarc,https://www.unimarc.cl/product/papel-hig-uh-merkat-40mtx10-2,Papel Higienico,Hoja Simple,10,40,
+TC-098,Favorita Soft Care 50 m 4 un,Favorita,200,unimarc,https://www.unimarc.cl/product/papel-hig-sofcare-favorita-50mtx4,Papel Higienico,Doble Hoja,4,50,
+TC-099,Nubelin Premium Doble Hoja 40 m 18 un,Nubelin,720,unimarc,https://www.unimarc.cl/product/papel-hig-premium-dh-nubelin-40mtx18,Papel Higienico,Doble Hoja,18,40,
+TC-100,Nubelin Doble Hoja 30 m 8 un,Nubelin,240,unimarc,https://www.unimarc.cl/product/papel-hig-dh-nubelin-30mtx8,Papel Higienico,Doble Hoja,8,30,
+TC-101,Confort Doble Hoja 25 m 24 un,Confort,600,tottus,https://www.tottus.cl/tottus-cl/articulo/110611809/ph-doble-hoja-confort-x24-und/110611811,Papel Higienico,Doble Hoja,24,25,
+TC-102,Elite Doble Hoja 50 m 8 un,Elite,400,tottus,https://www.tottus.cl/tottus-cl/articulo/110613449/papel-hig-dh-8-rollos-50-mt-elite/110613450,Papel Higienico,Doble Hoja,8,50,
+TC-103,Confort Una Hoja 100 m 8 un,Confort,800,tottus,https://www.tottus.cl/tottus-cl/articulo/110612103/papel-hig-uh-max-8-rollos-100-mt-confort/110612104,Papel Higienico,Hoja Simple,8,100,
+TC-104,Tottus Doble Hoja Soft 25 m 40 un,Tottus,1000,tottus,https://www.tottus.cl/tottus-cl/articulo/123891417/ph-doble-hoja-25mt-soft-tottus-40-un/123891418,Papel Higienico,Doble Hoja,40,25,
+TC-105,Tottus Doble Hoja Soft 25 m 16 un,Tottus,400,tottus,https://www.tottus.cl/tottus-cl/articulo/112989045/ph-doble-hoja-soft-tottus-16-un-x-25-mt/112989046,Papel Higienico,Doble Hoja,16,25,
+TC-106,Confort Rendiplus Doble Hoja 27 m 18 un,Confort,486,tottus,https://www.tottus.cl/tottus-cl/articulo/124677744/ph-rendiplus-27x18-confort/124677745,Papel Higienico,Doble Hoja,18,27,
+TC-107,Elite Ultra Doble Hoja 40 m 18 un,Elite,720,tottus,https://www.tottus.cl/tottus-cl/articulo/119823966/ph-ultra-dh-40x18-elite-und/119823967,Papel Higienico,Doble Hoja,18,40,
+TC-108,Scott Rindemax Doble Hoja 22 m 16 un,Scott,352,tottus,https://www.tottus.cl/tottus-cl/articulo/142243611/papel-higienico-rindemax-16x22-mts-scott/142243615,Papel Higienico,Doble Hoja,16,22,
+TC-109,Confort Doble Hoja 25 m 8 un,Confort,200,tottus,https://www.tottus.cl/tottus-cl/articulo/110610849/ph-dh-25m-confort-8-und/110610850,Papel Higienico,Doble Hoja,8,25,
+TC-110,Scott Rindemax Doble Hoja 22 m 6 un,Scott,132,tottus,https://www.tottus.cl/tottus-cl/articulo/120286360/papel-hig-scott-rindemax-22-mts-6-un/120286361,Papel Higienico,Doble Hoja,6,22,
+TC-111,Elite Soft & Strong Triple Hoja 40 m 12 un,Elite,480,tottus,https://www.tottus.cl/tottus-cl/articulo/118567768/ph-ph-softstrong-th-40x12-elite-und/118567769,Papel Higienico,Triple Hoja,12,40,
+TC-112,Favorita Acolchado Doble Hoja 25 m 40 un,Favorita,1000,tottus,https://www.tottus.cl/tottus-cl/articulo/125312485/papel-higenico-acolchado-dh-favorita-x40/125312488,Papel Higienico,Doble Hoja,40,25,
+TC-113,Scott Rindemax Doble Hoja 22 m 24 un,Scott,528,tottus,https://www.tottus.cl/tottus-cl/articulo/110616464/papel-hig-scott-rindemax-21-mts-24-un/110616465,Papel Higienico,Doble Hoja,24,22,
+TC-114,Noble Doble Hoja 22 m 40 un,Noble,880,tottus,https://www.tottus.cl/tottus-cl/articulo/120482069/ph-noble-dh-x40-noble-und/120482070,Papel Higienico,Doble Hoja,40,22,
+TC-115,Favorita Sensación Doble Hoja 22 m 4 un,Favorita,88,tottus,https://www.tottus.cl/tottus-cl/articulo/136303351/ph-sensacion-favorita-4-und-x-22-mts/136303352,Papel Higienico,Doble Hoja,4,22,
+TC-116,Swan Premium Doble Hoja 50 m 4 un,Swan,200,tottus,https://www.tottus.cl/tottus-cl/articulo/129395135/papel-higienico-swan-premium-4x50/129395136,Papel Higienico,Doble Hoja,4,50,
+TC-117,Noble Doble Hoja 23 m 16 un,Noble,368,tottus,https://www.tottus.cl/tottus-cl/articulo/112182856/papel-higienico-noble-23-m-x-16-und/112182857,Papel Higienico,Doble Hoja,16,23,
+TC-118,Scott Protect Care Doble Hoja 22 m 16 un,Scott,352,tottus,https://www.tottus.cl/tottus-cl/articulo/115855534/ph-scott-prot-care-22-mts-16-un/115855536,Papel Higienico,Doble Hoja,16,22,
+TC-119,Confort Doble Hoja 22 m 40 un,Confort,880,tottus,https://www.tottus.cl/tottus-cl/articulo/132866018/papel-higienico-confort-22m-x-40un/132866019,Papel Higienico,Doble Hoja,40,22,
+TC-120,Favorita Doble Hoja 22 m 40 un,Favorita,880,tottus,https://www.tottus.cl/tottus-cl/articulo/120217124/papel-higienico-22-m-x-40-und-favorita/120217125,Papel Higienico,Doble Hoja,40,22,
+TC-121,Elite Ultra Suave Doble Hoja 25 m 24 un,Elite,600,tottus,https://www.tottus.cl/tottus-cl/articulo/141162893/papel-higienico-elite-25mx24/141162895,Papel Higienico,Doble Hoja,24,25,
+TC-122,Elite Doble Hoja Ultra Suave 50 m 9 un,Elite,450,tottus,https://www.tottus.cl/tottus-cl/articulo/110611201/ph-doble-hoja-eco-elite-x9-und/110611202,Papel Higienico,Doble Hoja,9,50,
+TC-123,Elite Ultra Doble Hoja 25 m 12 un,Elite,300,tottus,https://www.tottus.cl/tottus-cl/articulo/119824036/ph-ph-elite-ultra-dh-25x12-elite-und/119824037,Papel Higienico,Doble Hoja,12,25,
+TC-124,Favorita Soft Care Aloe Vera Doble Hoja 38 m 18 un,Favorita,684,tottus,https://www.tottus.cl/tottus-cl/articulo/137258487/ph-softcare-aloe-vera-favorita-18-und/137258489,Papel Higienico,Doble Hoja,18,38,
+TC-125,Scott Premium Triple Hoja 40 m 4 un,Scott,160,tottus,https://www.tottus.cl/tottus-cl/articulo/147657868/papel-higie-premium-4x40mts-scott-und/147657869,Papel Higienico,Triple Hoja,4,40,
+TC-126,Favorita Acolchado Doble Hoja 25 m 24 un,Favorita,600,tottus,https://www.tottus.cl/tottus-cl/articulo/110618350/papel-higienico-acolchado-favorita-24/110618352,Papel Higienico,Doble Hoja,24,25,
+TC-127,Scott Premium Triple Hoja 19 m 24 un,Scott,456,tottus,https://www.tottus.cl/tottus-cl/articulo/117696107/ph-scott-premium-19-mts-24-un/117696108,Papel Higienico,Triple Hoja,24,19,
+TC-128,Elite Soft & Strong Triple Hoja 40 m 4 un,Elite,160,tottus,https://www.tottus.cl/tottus-cl/articulo/141162873/papel-higienico-elite-40mx4/141162877,Papel Higienico,Triple Hoja,4,40,
+TC-129,Confort Hoja Simple 50 m 8 un,Confort,400,tottus,https://www.tottus.cl/tottus-cl/articulo/144745503/papel-higienico-confort-50mx8/144745504,Papel Higienico,Hoja Simple,8,50,
+TC-130,Confort Doble Hoja 20 m 4 un,Confort,80,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-20-metros-4-un-confort-901918,Papel Higienico,Doble Hoja,4,20,
+TC-131,Confort Doble Hoja 22 m 40 un,Confort,880,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-22-metros-40-un-confort-1103955,Papel Higienico,Doble Hoja,40,22,
+TC-132,Acuenta Doble Hoja 22 m 40 un,Acuenta,880,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-22-metros-40-un-acuenta-4774403,Papel Higienico,Doble Hoja,40,22,
+TC-133,Noble Doble Hoja 22 m 40 un,Noble,880,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-22-m-40-un-noble-4482278,Papel Higienico,Doble Hoja,40,22,
+TC-134,Confort Max Una Hoja 100 m 8 un,Confort,800,acuenta,https://www.acuenta.cl/p/papel-higienico-max-una-hoja-100-m-8-un-confort-309377,Papel Higienico,Hoja Simple,8,100,
+TC-135,Lider Familiar Doble Hoja 22 m 40 un,Lider,880,acuenta,https://www.acuenta.cl/p/papel-higienico-familiar-doble-hoja-22-m-40-un-lider-1091010,Papel Higienico,Doble Hoja,40,22,
+TC-136,Favorita Sensación Doble Hoja 22 m 40 un,Favorita,880,acuenta,https://www.acuenta.cl/p/papel-higienico-sensacion-doble-hoja-22-m-40-un-favorita-1358801,Papel Higienico,Doble Hoja,40,22,
+TC-137,Confort Doble Hoja 30 m 8 un,Confort,240,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-30-m-8-un-confort-4524518,Papel Higienico,Doble Hoja,8,30,
+TC-138,Confort Rendiplus Doble Hoja 27 m 18 un,Confort,486,acuenta,https://www.acuenta.cl/p/papel-higienico-rendiplus-doble-hoja-27-m-18-un-confort-4528517,Papel Higienico,Doble Hoja,18,27,
+TC-139,Lider Una Hoja 100 m 8 un,Lider,800,acuenta,https://www.acuenta.cl/p/papel-higienico-una-hoja-100-m-8-un-lider-916156,Papel Higienico,Hoja Simple,8,100,
+TC-140,Confort Doble Hoja 50 m 12 un,Confort,600,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-50-mts-cu-paquete-12-un-confort-395004,Papel Higienico,Doble Hoja,12,50,
+TC-141,Confort Doble Hoja 45 m 4 un,Confort,180,acuenta,https://www.acuenta.cl/p/papel-higienico-confort-doble-hoja-45m-x4-4-un-confort-4938078,Papel Higienico,Doble Hoja,4,45,
+TC-142,Noble Doble Hoja 32 m 6 un,Noble,192,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-32-m-6-un-noble-883368,Papel Higienico,Doble Hoja,6,32,
+TC-143,Lider Doble Hoja 50 m 12 un,Lider,600,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-50-m-12-un-lider-1020215,Papel Higienico,Doble Hoja,12,50,
+TC-144,Elite Doble Hoja Ultra 50 m 8 un,Elite,400,acuenta,https://www.acuenta.cl/p/papel-higienico-doble-hoja-ultra-50-mts-8-un-marca-elite-475492,Papel Higienico,Doble Hoja,8,50,
+TC-145,Lider Familiar Doble Hoja 22 m 40 un,Lider,880,knasta,https://knasta.cl/detail/lider_supermercado/00780465334132/papel-higienico-familiar-doble-hoja-22-m-40-un-lider,Papel Higienico,Doble Hoja,40,22,
+TC-146,Elite Doble Hoja 45 m 4 un,Elite,180,knasta,https://knasta.cl/detail/lider_supermercado/00780650050779/papel-higienico-doble-hoja-45-metros-4-un-elite,Papel Higienico,Doble Hoja,4,45,
+TC-147,Confort Rendiplus Doble Hoja 27 m 18 un,Confort,486,knasta,https://knasta.cl/detail/lider_supermercado/00780650050864/papel-higienico-rendiplus-doble-hoja-27-m-18-un-confort,Papel Higienico,Doble Hoja,18,27,
+TC-148,Favorita Doble Hoja 22 m 24 un,Favorita,528,knasta,https://knasta.cl/detail/lider_supermercado/00780654000929/papel-higienico-doble-hoja-22-m-24-un-favorita,Papel Higienico,Doble Hoja,24,22,
+TC-149,Elite Doble Hoja Ultra 40 m 18 un,Elite,720,knasta,https://knasta.cl/detail/lider_supermercado/00780650050997/papel-higienico-doble-hoja-ultra-40-m-18-un-elite,Papel Higienico,Doble Hoja,18,40,
+TC-150,Confort Mega Doble Hoja 50 m 12 un,Confort,600,knasta,https://knasta.cl/detail/lider_supermercado/00780650050723/papel-higienico-mega-doble-hoja-50-m-12-un-confort,Papel Higienico,Doble Hoja,12,50,
+TC-151,Confort Doble Hoja 20 m 4 un,Confort,80,knasta,https://knasta.cl/detail/lider_supermercado/00780650050694/papel-higienico-doble-hoja-20-metros-4-un-confort,Papel Higienico,Doble Hoja,4,20,
+TC-152,Favorita Acolchado Doble Hoja 22 m 40 un,Favorita,880,knasta,https://knasta.cl/detail/lider_supermercado/00780654000975/papel-higienico-acolchado-doble-hoja-22-m-40-un-favorita,Papel Higienico,Doble Hoja,40,22,
+TC-153,Favorita Soft Care Doble Hoja 50 m 12 un,Favorita,600,knasta,https://knasta.cl/detail/lider_supermercado/00780654001010/papel-higienico-soft-care-doble-hoja-50-metros-12-un-favorita,Papel Higienico,Doble Hoja,12,50,
+TC-154,Lider Una Hoja 100 m 8 un,Lider,800,knasta,https://knasta.cl/detail/lider_supermercado/00780650053132/papel-higienico-una-hoja-100-m-8-un-lider,Papel Higienico,Hoja Simple,8,100,
+TC-155,Noble Doble Hoja 32 m 6 un,Noble,192,knasta,https://knasta.cl/detail/lider_supermercado/00780650050878/papel-higienico-doble-hoja-32-m-6-un-noble,Papel Higienico,Doble Hoja,6,32,
+TC-156,Elite Ultra Doble Hoja 50 m 12 un,Elite,600,knasta,https://knasta.cl/detail/lider_supermercado/00780650050984/papel-higienico-ultra-doble-hoja-50-m-12-un-elite,Papel Higienico,Doble Hoja,12,50,
+TC-157,Lider Superior Doble Hoja 50 m 12 un,Lider,600,knasta,https://knasta.cl/detail/lider_supermercado/00780465334114/papel-higienico-superior-doble-hoja-50-m-12-un-lider,Papel Higienico,Doble Hoja,12,50,
+TC-158,Confort Doble Hoja 30 m 8 un,Confort,240,knasta,https://knasta.cl/detail/lider_supermercado/00780650050879/papel-higienico-doble-hoja-30-m-8-un-confort,Papel Higienico,Doble Hoja,8,30,
+TC-159,Scott Rindemax Doble Hoja 50 m 12 un,Scott,600,knasta,https://knasta.cl/detail/lider_supermercado/00775149301137/papel-higienico-rindemax-doble-hoja-50-metros-12-unidades-scott,Papel Higienico,Doble Hoja,12,50,
+TC-160,Lider Doble Hoja 50 m 12 un,Lider,600,knasta,https://knasta.cl/detail/lider_supermercado/00780465334117/papel-higienico-doble-hoja-50-m-12-un-lider,Papel Higienico,Doble Hoja,12,50,
+TC-161,Scott Protect Care Doble Hoja 22 m 16 un,Scott,352,knasta,https://knasta.cl/detail/lider_supermercado/00775149301041/papel-higienico-protect-care-doble-hoja-22-metros-16-un-scott,Papel Higienico,Doble Hoja,16,22,
+TC-162,Elite Soft & Strong Triple Hoja 40 m 12 un,Elite,480,knasta,https://knasta.cl/detail/lider_supermercado/00780650051230/papel-higienico-soft-and-strong-triple-hoja-40-m-12-un-elite,Papel Higienico,Triple Hoja,12,40,
+TC-163,Scott Rindemax Doble Hoja 22 m 16 un,Scott,352,knasta,https://knasta.cl/detail/lider_supermercado/00780960401947/papel-higienico-rindemax-doble-hoja-22-metros-16-un-scott,Papel Higienico,Doble Hoja,16,22,
+TC-164,Favorita Soft Care Doble Hoja 50 m 4 un,Favorita,200,knasta,https://knasta.cl/detail/lider_supermercado/00780654000988/papel-higienico-soft-care-doble-hoja-50-m-4-un-favorita,Papel Higienico,Doble Hoja,4,50,
+TC-165,Elite Ultra Suave Doble Hoja 25 m 12 un,Elite,300,knasta,https://knasta.cl/detail/lider_supermercado/00780650050839/papel-higienico-ultra-suave-doble-hoja-25-m-12-un-elite,Papel Higienico,Doble Hoja,12,25,
+TC-166,Confort Doble Hoja 22 m 4 un,Confort,88,alvi,https://www.alvi.cl/product/papel-higienico-doble-hoja-4-un-de-22-m,Papel Higienico,Doble Hoja,4,22,
+TC-167,Noble Doble Hoja 23 m 4 un,Noble,92,alvi,https://www.alvi.cl/product/ph-doble-hoja-noble-23mx4-mt,Papel Higienico,Doble Hoja,4,23,
+TC-168,Favorita Acolchado Doble Hoja 22 m 4 un,Favorita,88,alvi,https://www.alvi.cl/product/papel-higienico-favorita-acolchado-doble-hoja-4-un-de-22-m,Papel Higienico,Doble Hoja,4,22,
+TC-169,Confort Doble Hoja 22 m 40 un,Confort,880,alvi,https://www.alvi.cl/product/papel-hig-dh-confort-22mtx40,Papel Higienico,Doble Hoja,40,22,
+TC-170,Ovella Doble Hoja 50 m 4 un,Ovella,200,alvi,https://www.alvi.cl/product/papel-hig-dh-ovella-50mtx4-2,Papel Higienico,Doble Hoja,4,50,
+TC-171,Ovella Doble Hoja 22 m 4 un,Ovella,88,alvi,https://www.alvi.cl/product/papel-hig-dh-ovella-22mtx4-2,Papel Higienico,Doble Hoja,4,22,
+TC-172,Scott Rindemax Doble Hoja 22 m 6 un,Scott,132,alvi,https://www.alvi.cl/product/papel-higienico-rindemax-doble-hoja-6-un-de-30-m,Papel Higienico,Doble Hoja,6,22,
+TC-173,Nubelin Premium Doble Hoja 40 m 18 un,Nubelin,720,alvi,https://www.alvi.cl/product/papel-higienico-nubelin-premium-doble-hoja-18-un-de-40-m,Papel Higienico,Doble Hoja,18,40,
+TC-174,Nubelin Doble Hoja 22 m 24 un,Nubelin,528,alvi,https://www.alvi.cl/product/papel-hig-dh-nubelin-22mtx24,Papel Higienico,Doble Hoja,24,22,
+TC-175,Favorita Sensación Doble Hoja 22 m 4 un,Favorita,88,alvi,https://www.alvi.cl/product/papel-hig-sensacion-dh-favorita-4x22mt,Papel Higienico,Doble Hoja,4,22,
+TC-176,Confort Una Hoja Familiar 120 m 8 un,Confort,960,alvi,https://www.alvi.cl/product/papel-hig-familiar-uh-confort-120mtx8-2,Papel Higienico,Hoja Simple,8,120,
+TC-177,Confort Rendiplus Doble Hoja 27 m 12 un,Confort,324,alvi,https://www.alvi.cl/product/papel-hig-rendiplus-dh-confort-27mtx12-2,Papel Higienico,Doble Hoja,12,27,
+TC-178,Confort Doble Hoja 40 m 8 un,Confort,320,alvi,https://www.alvi.cl/product/papel-hig-super-dh-confort-40mtx8,Papel Higienico,Doble Hoja,8,40,
+TC-179,Ovella Doble Hoja 30 m 4 un,Ovella,120,alvi,https://www.alvi.cl/product/papel-hig-dh-ovella-30mtx4-2,Papel Higienico,Doble Hoja,4,30,
+TC-180,Swan Rendidor Doble Hoja 20 m 4 un,Swan,80,alvi,https://www.alvi.cl/product/papel-hig-rendidor-dh-swan-20mtx4-2,Papel Higienico,Doble Hoja,4,20,
+TC-181,Confort Doble Hoja 30 m 4 un,Confort,120,alvi,https://www.alvi.cl/product/papel-higienico-confort-doble-hoja-4-un-30-m,Papel Higienico,Doble Hoja,4,30,
+TC-182,Swan Rendidor Doble Hoja 20 m 6 un,Swan,120,alvi,https://www.alvi.cl/product/papel-hig-rendidor-dh-swan-20mtx6-2,Papel Higienico,Doble Hoja,6,20,
+TC-183,Elite Ultra Doble Hoja 25 m 4 un,Elite,100,alvi,https://www.alvi.cl/product/papel-higienico-ultra-doble-hoja-4-un-de-25-m,Papel Higienico,Doble Hoja,4,25,
+TC-184,Confort Max Una Hoja 100 m 4 un,Confort,400,alvi,https://www.alvi.cl/product/papel-higienico-max-100mt-x-4,Papel Higienico,Hoja Simple,4,100,
+TC-185,Confort Doble Hoja 25 m 24 un,Confort,600,alvi,https://www.alvi.cl/product/papel-higienico-confort-doble-hoja-24-rollos-de-25-m,Papel Higienico,Doble Hoja,24,25,
+TC-186,Elite Ultra Doble Hoja 50 m 4 un,Elite,200,alvi,https://www.alvi.cl/product/papel-higienico-elite-ultra-doble-hoja-4-un-50-m,Papel Higienico,Doble Hoja,4,50,
+TC-187,Confort Una Hoja 50 m 12 un,Confort,600,alvi,https://www.alvi.cl/product/papel-higienico-una-hoja-12-un-de-50-m,Papel Higienico,Hoja Simple,12,50,
+TC-188,Nubelin Doble Hoja 50 m 12 un,Nubelin,600,alvi,https://www.alvi.cl/product/papel-hig-dh-nubelin-12x50-mt,Papel Higienico,Doble Hoja,12,50,
+TC-189,Favorita Sensación Doble Hoja 22 m 6 un,Favorita,132,alvi,https://www.alvi.cl/product/papel-hig-sensacion-dh-favorita-6x22mt,Papel Higienico,Doble Hoja,6,22,
+TC-190,Scott Rindemax Astro Doble Hoja 21 m 4 un,Scott,84,alvi,https://www.alvi.cl/product/papel-higienico-rindemax-4-rollos-de-22-m,Papel Higienico,Doble Hoja,4,21,
+TC-191,Scott Aromas Doble Hoja 22 m 6 un,Scott,132,alvi,https://www.alvi.cl/product/papel-higienico-scott-aromas-6-un-22-m,Papel Higienico,Doble Hoja,6,22,
+TC-192,Elite Ultra Doble Hoja 50 m 8 un,Elite,400,alvi,https://www.alvi.cl/product/papel-higienico-elite-ultra-doble-hoja-8-un-50-m,Papel Higienico,Doble Hoja,8,50,
+TC-193,Nubelin Doble Hoja 24 m 4 un,Nubelin,96,alvi,https://www.alvi.cl/product/papel-hig-dh-nubelin-24mtx4,Papel Higienico,Doble Hoja,4,24,
+TC-194,Noble Doble Hoja 22 m 40 un,Noble,880,alvi,https://www.alvi.cl/product/papel-hig-dh-noble-22mtx40-2,Papel Higienico,Doble Hoja,40,22,
+TC-195,Favorita Sensación Doble Hoja 22 m 40 un,Favorita,880,alvi,https://www.alvi.cl/product/papel-hig-sensacion-dh-favorita-22mtx40-2,Papel Higienico,Doble Hoja,40,22,
+TC-196,Nubelin Doble Hoja 22 m 40 un,Nubelin,880,alvi,https://www.alvi.cl/product/papel-higienico-nubelin-doble-hoja-40-un-de-22-m,Papel Higienico,Doble Hoja,40,22,
+TC-197,Nova Clásica Doble Hoja 12 m 3 un,Nova,36,unimarc,https://www.unimarc.cl/product/toalla-papel-clasica-dh-nova-3x12-mt,Toalla de Papel,Doble Hoja,3,12,
+TC-198,Nubelin Doble Hoja 14 m 2 un,Nubelin,28,unimarc,https://www.unimarc.cl/product/toalla-papel-dh-nubelin-14mtx2,Toalla de Papel,Doble Hoja,2,14,
+TC-199,Nova Ultra Absorb Mega Rollo 26 m 2 un,Nova,52,unimarc,https://www.unimarc.cl/product/toalla-papel-megarollo-ultra-nova-2x26mt,Toalla de Papel,Doble Hoja,2,26,
+TC-200,Abolengo XL 100 m 1 un,Abolengo,100,unimarc,https://www.unimarc.cl/product/toalla-de-papel-abolengo-xl-100-m,Toalla de Papel,Doble Hoja,1,100,
+TC-201,Merkat Gigante Doble Hoja 100 m 1 un,Merkat,100,unimarc,https://www.unimarc.cl/product/toalla-papel-gigante-dh-merkat-100mtx1,Toalla de Papel,Doble Hoja,1,100,
+TC-202,Nova Ultra Gigante Doble Hoja 70 m 1 un,Nova,70,unimarc,https://www.unimarc.cl/product/toalla-papel-ultra-gigante-dh-nova-70-mt,Toalla de Papel,Doble Hoja,1,70,
+TC-203,Nova Doble Hoja Clásica 70 m 1 un,Nova,70,unimarc,https://www.unimarc.cl/product/toalla-papel-clasica-gigante-nova-1x70mt,Toalla de Papel,Doble Hoja,1,70,
+TC-204,Nova Ultra Absorb Mega Rollo 26 m 1 un,Nova,26,unimarc,https://www.unimarc.cl/product/toalla-papel-megarollo-ultra-nova-1x26mt,Toalla de Papel,Doble Hoja,1,26,
+TC-205,Nova Gigante Doble Hoja 100 m 1 un,Nova,100,unimarc,https://www.unimarc.cl/product/toalla-papel-gigante-dh-nova-100-mt,Toalla de Papel,Doble Hoja,1,100,
+TC-206,Nova Clásica Doble Hoja 12 m 12 un,Nova,144,unimarc,https://www.unimarc.cl/product/toalla-papel-clasica-dh-nova-12x12-mt,Toalla de Papel,Doble Hoja,12,12,
+TC-207,Nubelin Doble Hoja 12 m 3 un,Nubelin,36,unimarc,https://www.unimarc.cl/product/toalla-papel-doble-hoja-nubelin-3x12mt,Toalla de Papel,Doble Hoja,3,12,
+TC-208,Nubelin Hoja Simple 150 m 1 un,Nubelin,150,unimarc,https://www.unimarc.cl/product/toalla-papel-hs-nubelin-150mtx1-2,Toalla de Papel,Hoja Simple,1,150,
+TC-209,Favorita Estilo 24 m 2 un,Favorita,48,unimarc,https://www.unimarc.cl/product/toalla-papel-estilo-favorita-24mtx2,Toalla de Papel,Doble Hoja,2,24,
+TC-210,Nova Clásica XL Doble Hoja 40 m 1 un,Nova,40,unimarc,https://www.unimarc.cl/product/toalla-papel-clasica-xl-dh-nova-40mtx1,Toalla de Papel,Doble Hoja,1,40,
+TC-211,Elite Deco Maxi Rollo Triple Hoja 20 m 2 un,Elite,40,unimarc,https://www.unimarc.cl/product/toalla-papel-maxirollo-th-elite-2x20mt,Toalla de Papel,Triple Hoja,2,20,
+TC-212,Nova Evolution Absorb Rollo 14 m 3 un,Nova,42,unimarc,https://www.unimarc.cl/product/toalla-papel-evolution-nova-3x14-mt,Toalla de Papel,Doble Hoja,3,14,
+TC-213,Favorita Hogar Mega Doble Hoja 100 m 1 un,Favorita,100,unimarc,https://www.unimarc.cl/product/toalla-papel-hogar-mega-favorita-100-mt,Toalla de Papel,Doble Hoja,1,100,
+TC-214,Nova Evolution Absorb Mega Rollo 26 m 2 un,Nova,52,unimarc,https://www.unimarc.cl/product/toalla-papel-mr-evolution-nova-2x26-mt,Toalla de Papel,Doble Hoja,2,26,
+TC-215,Abolengo 10 m 3 un,Abolengo,30,unimarc,https://www.unimarc.cl/product/toalla-de-papel-abolengo-3-un-de-10-m,Toalla de Papel,Doble Hoja,3,10,
+TC-216,Nubelin Doble Hoja 26 m 2 un,Nubelin,52,unimarc,https://www.unimarc.cl/product/toalla-papel-dh-nubelin-26mtx2,Toalla de Papel,Doble Hoja,2,26,
+TC-217,Nubelin Doble Hoja 100 m 1 un,Nubelin,100,unimarc,https://www.unimarc.cl/product/toalla-papel-dh-nubelin-100mtx1,Toalla de Papel,Doble Hoja,1,100,
+TC-218,Scott Multiusos 20 m 2 un,Scott,40,unimarc,https://www.unimarc.cl/product/toalla-papel-multiusos-scott-2x20-mt,Toalla de Papel,Doble Hoja,2,20,
+TC-219,Nova Ultra Doble Hoja 26 m 2 un,Nova,52,jumbo,https://www.jumbo.cl/toalla-papel-nova-ultra-dh-26mt-2un-1939056/p,Toalla de Papel,Doble Hoja,2,26,
+TC-220,Nova Evolution Absorb 14 m 3 un,Nova,42,jumbo,https://www.jumbo.cl/toalla-de-papel-nova-evolution-x3-1947750/p,Toalla de Papel,Doble Hoja,3,14,
+TC-221,Elite Deco Maxi Rollo Triple Hoja 20 m 2 un,Elite,40,jumbo,https://www.jumbo.cl/toalla-elite-deco-maxi-rollo-20mt-2un-1895065/p,Toalla de Papel,Triple Hoja,2,20,
+TC-222,Nova Gigante Doble Hoja 100 m 1 un,Nova,100,jumbo,https://www.jumbo.cl/toalla-papel-nova-gigante-dh-100mt-1923549/p,Toalla de Papel,Doble Hoja,1,100,
+TC-223,Home Care Doble Hoja 45 m 1 un,Home Care,45,jumbo,https://www.jumbo.cl/toalla-home-care-doble-hoja-45-metros-2042443/p,Toalla de Papel,Doble Hoja,1,45,
+TC-224,Home Care Doble Hoja 100 m 1 un,Home Care,100,jumbo,https://www.jumbo.cl/toalla-doble-hoja-home-care-100-metros-2042885/p,Toalla de Papel,Doble Hoja,1,100,
+TC-225,Nova Clásica Doble Hoja 12 m 3 un,Nova,36,jumbo,https://www.jumbo.cl/toalla-de-papel-nova-clasica-12-m-3-un-2008455/p,Toalla de Papel,Doble Hoja,3,12,
+TC-226,Nova Clásica Doble Hoja 12 m 12 un,Nova,144,jumbo,https://www.jumbo.cl/toalla-de-papel-nova-clasica-12-m-12-un-2008456/p,Toalla de Papel,Doble Hoja,12,12,
+TC-227,Abolengo XL 100 m 1 un,Abolengo,100,jumbo,https://www.jumbo.cl/toalla-abolengo-xl-100-mt/p,Toalla de Papel,Doble Hoja,1,100,
+TC-228,Máxima Doble Hoja 100 m 1 un,Máxima,100,jumbo,https://www.jumbo.cl/toalla-maxima-doble-hoja-100-metros-2011595/p,Toalla de Papel,Doble Hoja,1,100,
+TC-229,Nova Ultra Gigante Doble Hoja 70 m 1 un,Nova,70,jumbo,https://www.jumbo.cl/toalla-de-papel-nova-ultra-70-m-1970652/p,Toalla de Papel,Doble Hoja,1,70,
+TC-230,Nova Evolution Mega Rollo Doble Hoja 26 m 2 un,Nova,52,jumbo,https://www.jumbo.cl/toalla-de-papel-nova-evolution-mr-x2-1947749/p,Toalla de Papel,Doble Hoja,2,26,
+TC-231,Favorita Estilo 24 m 2 un,Favorita,48,jumbo,https://www.jumbo.cl/toalla-favorita-estilo-24mt-2un-2025110/p,Toalla de Papel,Doble Hoja,2,24,
+TC-232,Nova Clásica Doble Hoja 40 m 1 un,Nova,40,jumbo,https://www.jumbo.cl/toalla-papel-nova-clasica-4omt-1un-2017217/p,Toalla de Papel,Doble Hoja,1,40,
+TC-233,Home Care Doble Hoja 12 m 3 un,Home Care,36,jumbo,https://www.jumbo.cl/toalla-home-care-doble-hoja-3-un-x-12-mt-2042444/p,Toalla de Papel,Doble Hoja,3,12,
+TC-234,Nova Gigante Clásica Doble Hoja 70 m 1 un,Nova,70,jumbo,https://www.jumbo.cl/toalla-papel-nova-gigante-clasica-70mt-2021823/p,Toalla de Papel,Doble Hoja,1,70,
+TC-235,Favorita Hogar Mega Doble Hoja 100 m 1 un,Favorita,100,jumbo,https://www.jumbo.cl/toalla-de-papel-favorita-hogar-mega-1-unid-100-metros/p,Toalla de Papel,Doble Hoja,1,100,
+TC-236,Home Care Doble Hoja 26 m 2 un,Home Care,52,jumbo,https://www.jumbo.cl/toalla-home-care-doble-hoja-2-un-x-26-mt-2042446/p,Toalla de Papel,Doble Hoja,2,26,
+TC-237,Nova Ultra Doble Hoja 14 m 2 un,Nova,28,jumbo,https://www.jumbo.cl/toalla-papel-nova-ultra-14mt-2un-1997285/p,Toalla de Papel,Doble Hoja,2,14,
+TC-238,Favorita Extra Hogar Hoja Simple 60 m 2 un,Favorita,120,jumbo,https://www.jumbo.cl/toalla-favorita-extra-hogar-60m-2un-1884769/p,Toalla de Papel,Hoja Simple,2,60,
+TC-239,Máxima Doble Hoja 10 m 2 un,Máxima,20,jumbo,https://www.jumbo.cl/toalla-max-3x10-2067051/p,Toalla de Papel,Doble Hoja,2,10,
+TC-240,Home Care Doble Hoja 45 m 1 un,Home Care,45,santaisabel,https://www.santaisabel.cl/toalla-home-care-doble-hoja-45-metros-2042443/p,Toalla de Papel,Doble Hoja,1,45,
+TC-241,Abolengo XL Doble Hoja 100 m 1 un,Abolengo,100,santaisabel,https://www.santaisabel.cl/toalla-abolengo-xl-100-mt/p,Toalla de Papel,Doble Hoja,1,100,
+TC-242,Home Care Doble Hoja 12 m 3 un,Home Care,36,santaisabel,https://www.santaisabel.cl/toalla-home-care-doble-hoja-3-un-x-12-mt-2042444/p,Toalla de Papel,Doble Hoja,3,12,
+TC-243,Home Care Doble Hoja 100 m 1 un,Home Care,100,santaisabel,https://www.santaisabel.cl/toalla-doble-hoja-home-care-100-metros-2042885/p,Toalla de Papel,Doble Hoja,1,100,
+TC-244,Nova Clásica Doble Hoja 12 m 3 un,Nova,36,santaisabel,https://www.santaisabel.cl/toalla-de-papel-nova-clasica-12-m-3-un-2008455/p,Toalla de Papel,Doble Hoja,3,12,
+TC-245,Home Care Doble Hoja 26 m 2 un,Home Care,52,santaisabel,https://www.santaisabel.cl/toalla-home-care-doble-hoja-2-un-x-26-mt-2042446/p,Toalla de Papel,Doble Hoja,2,26,
+TC-246,Abolengo Doble Hoja 10 m 3 un,Abolengo,30,santaisabel,https://www.santaisabel.cl/toalla-de-papel-abolengo-3-unid-10-mt-c-u/p,Toalla de Papel,Doble Hoja,3,10,
+TC-247,Nova Ultra Doble Hoja 26 m 2 un,Nova,52,santaisabel,https://www.santaisabel.cl/toalla-papel-nova-ultra-dh-26mt-2un-1939056/p,Toalla de Papel,Doble Hoja,2,26,
+TC-248,Nova Ultra Gigante Doble Hoja 70 m 1 un,Nova,70,santaisabel,https://www.santaisabel.cl/toalla-de-papel-nova-ultra-70-m-1970652/p,Toalla de Papel,Doble Hoja,1,70,
+TC-249,Nova Gigante Doble Hoja 100 m 1 un,Nova,100,santaisabel,https://www.santaisabel.cl/toalla-de-papel-gigante-doble-hoja-100-m-1923549/p,Toalla de Papel,Doble Hoja,1,100,
+TC-250,Nova Gigante Clásica Doble Hoja 70 m 1 un,Nova,70,santaisabel,https://www.santaisabel.cl/toalla-papel-nova-gigante-clasica-70mt-2021823/p,Toalla de Papel,Doble Hoja,1,70,
+TC-251,Elite Deco Maxi Rollo Triple Hoja 20 m 2 un,Elite,40,santaisabel,https://www.santaisabel.cl/toalla-deco-maxi-rollo-20-m-2-un/p,Toalla de Papel,Triple Hoja,2,20,
+TC-252,Nova Ultra Doble Hoja 14 m 2 un,Nova,28,santaisabel,https://www.santaisabel.cl/toalla-papel-nova-ultra-14mt-2un-1997285/p,Toalla de Papel,Doble Hoja,2,14,
+TC-253,Nova Clásica Doble Hoja 12 m 12 un,Nova,144,santaisabel,https://www.santaisabel.cl/toalla-de-papel-nova-clasica-12-m-12-un-2008456/p,Toalla de Papel,Doble Hoja,12,12,
+TC-254,Máxima Doble Hoja 100 m 1 un,Máxima,100,santaisabel,https://www.santaisabel.cl/toalla-maxima-doble-hoja-100-m-2011595/p,Toalla de Papel,Doble Hoja,1,100,
+TC-255,Favorita Estilo 24 m 2 un,Favorita,48,santaisabel,https://www.santaisabel.cl/toalla-favorita-estilo-24mt-2un-2025110/p,Toalla de Papel,Doble Hoja,2,24,
+TC-256,Máxima Doble Hoja 10 m 2 un,Máxima,20,santaisabel,https://www.santaisabel.cl/toalla-max-3x10-2067051/p,Toalla de Papel,Doble Hoja,2,10,
+TC-257,Swan Clásica Doble Hoja 40 m 1 un,Swan,40,santaisabel,https://www.santaisabel.cl/toalla-papel-swan-2072038/p,Toalla de Papel,Doble Hoja,1,40,
+TC-258,Favorita Hogar Mega Doble Hoja 100 m 1 un,Favorita,100,santaisabel,https://www.santaisabel.cl/toalla-de-papel-favorita-hogar-mega-1-unid-100-metros/p,Toalla de Papel,Doble Hoja,1,100,
+TC-259,Scott Multiuso Doble Hoja 19 m 2 un,Scott,38,santaisabel,https://www.santaisabel.cl/toalla-multiuso-2-un-19-m-c-u-1786954/p,Toalla de Papel,Doble Hoja,2,19,
+TC-260,Favorita Extra Hogar Hoja Simple 60 m 2 un,Favorita,120,santaisabel,https://www.santaisabel.cl/toalla-de-papel-extra-hogar-2-un-60-m-1884769/p,Toalla de Papel,Hoja Simple,2,60,
+TC-261,Scott Multiuso 70 m 1 un,Scott,70,santaisabel,https://www.santaisabel.cl/toalla-papel-scott-multiuso-70-m-1-un-2044411/p,Toalla de Papel,Doble Hoja,1,70,
+TC-262,Nova Clásica Mega Gigante Doble Hoja 100 m 1 un,Nova,100,santaisabel,https://www.santaisabel.cl/toalla-papel-2093535/p,Toalla de Papel,Doble Hoja,1,100,
+TC-263,Tottus Doble Hoja 30 m 2 un,Tottus,60,tottus,https://www.tottus.cl/tottus-cl/articulo/116362827/toalla-de-papel-dh-tottus-2-x30-mt/116362828,Toalla de Papel,Doble Hoja,2,30,
+TC-264,Abolengo XL Doble Hoja 100 m 1 un,Abolengo,100,tottus,https://www.tottus.cl/tottus-cl/articulo/117637295/tp-abolengo-xl-abolengo-und/117637296,Toalla de Papel,Doble Hoja,1,100,
+TC-265,Nova Ultra Doble Hoja 70 m 1 un,Nova,70,tottus,https://www.tottus.cl/tottus-cl/articulo/124677756/toalla-papel-utra-70m-nova/124677757,Toalla de Papel,Doble Hoja,1,70,
+TC-266,Tottus Doble Hoja 100 m 1 un,Tottus,100,tottus,https://www.tottus.cl/tottus-cl/articulo/110610716/papel-toalla-dh-100mt-tottus-1-und/110610719,Toalla de Papel,Doble Hoja,1,100,
+TC-267,Nova Ultra Mega Rollo Doble Hoja 26 m 2 un,Nova,52,tottus,https://www.tottus.cl/tottus-cl/articulo/110621018/toalla-de-papel-nova-ultra-mr-x2/110621019,Toalla de Papel,Doble Hoja,2,26,
+TC-268,Swan Clásica Doble Hoja 45 m 1 un,Swan,45,tottus,https://www.tottus.cl/tottus-cl/articulo/129395187/papel-toalla-1x40-clasica-dh-swan/129395188,Toalla de Papel,Doble Hoja,1,45,
+TC-269,Elite Deco Maxi Rollo Triple Hoja 20 m 2 un,Elite,40,tottus,https://www.tottus.cl/tottus-cl/articulo/112693248/toalla-papel-elite-und/112693249,Toalla de Papel,Triple Hoja,2,20,
+TC-270,Abolengo Doble Hoja 10 m 3 un,Abolengo,30,tottus,https://www.tottus.cl/tottus-cl/articulo/117637291/tp-abolengo-10m-x3-abolengo-und/117637292,Toalla de Papel,Doble Hoja,3,10,
+TC-271,Favorita Estilo Doble Hoja 26 m 2 un,Favorita,52,tottus,https://www.tottus.cl/tottus-cl/articulo/119445658/toalla-de-papel-estilo-favorita-2x24-mt/119445659,Toalla de Papel,Doble Hoja,2,26,
+TC-272,Nova Evolution Doble Hoja 26 m 2 un,Nova,52,tottus,https://www.tottus.cl/tottus-cl/articulo/110611699/toalla-de-papel-nova-evolution-26-mt-x2/110611702,Toalla de Papel,Doble Hoja,2,26,
+TC-273,Nova Mega Gigante Doble Hoja 100 m 1 un,Nova,100,tottus,https://www.tottus.cl/tottus-cl/articulo/110613483/toa-papel-gigante-dh-1-rollo-100-mt-nova/110613485,Toalla de Papel,Doble Hoja,1,100,
+TC-274,Favorita Mega Doble Hoja 100 m 1 un,Favorita,100,tottus,https://www.tottus.cl/tottus-cl/articulo/113135171/toalla-de-papel-mega-favorita-100-mt/113135173,Toalla de Papel,Doble Hoja,1,100,
+TC-275,Xplend Doble Hoja 100 m 1 un,Xplend,100,tottus,https://www.tottus.cl/tottus-cl/articulo/151075182/toalla-de-papel-dh-100-m-xplend-1-un/151075183,Toalla de Papel,Doble Hoja,1,100,
+TC-276,Nova Mega Rollo Doble Hoja 26 m 1 un,Nova,26,tottus,https://www.tottus.cl/tottus-cl/articulo/140114054/toalla-de-papel-mega-rollo-nova-26m/140114055,Toalla de Papel,Doble Hoja,1,26,
+TC-277,Nova Clásica Doble Hoja 12 m 3 un,Nova,36,tottus,https://www.tottus.cl/tottus-cl/articulo/136080602/toalla-de-papel-nova-clasica-12m-x3/136080603,Toalla de Papel,Doble Hoja,3,12,
+TC-278,Nova Clásica XL Doble Hoja 40 m 1 un,Nova,40,tottus,https://www.tottus.cl/tottus-cl/articulo/136080689/toalla-de-papel-nova-clasica-40m-x1/136080690,Toalla de Papel,Doble Hoja,1,40,
+TC-279,Nova Clásica Doble Hoja 12 m 12 un,Nova,144,tottus,https://www.tottus.cl/tottus-cl/articulo/136080675/toalla-de-papel-nova-clasica-12m-x12/136080676,Toalla de Papel,Doble Hoja,12,12,
+TC-280,Nova Evolution Doble Hoja 14 m 3 un,Nova,42,tottus,https://www.tottus.cl/tottus-cl/articulo/110613119/toalla-de-papel-nova-evolution-14mt-x3/110613120,Toalla de Papel,Doble Hoja,3,14,
+TC-281,Nova Mega Gigante Clásica Doble Hoja 100 m 1 un,Nova,100,tottus,https://www.tottus.cl/tottus-cl/articulo/155967383/toalla-papel-nova-100-mt/155967384,Toalla de Papel,Doble Hoja,1,100,
+TC-282,Nova Gigante Clásica Doble Hoja 70 m 1 un,Nova,70,tottus,https://www.tottus.cl/tottus-cl/articulo/141162935/toalla-de-papel-clasica-nova-70-mt/141162936,Toalla de Papel,Doble Hoja,1,70,
+TC-283,Nova Ultra Doble Hoja 14 m 2 un,Nova,28,tottus,https://www.tottus.cl/tottus-cl/articulo/132845749/toalla-papel-nova-ultra-14m-x-2un/132845750,Toalla de Papel,Doble Hoja,2,14,
+TC-284,Xplend Doble Hoja 12 m 3 un,Xplend,36,tottus,https://www.tottus.cl/tottus-cl/articulo/151075272/toalla-de-papel-dh-12-m-xplend-3-un/151075273,Toalla de Papel,Doble Hoja,3,12,
+TC-285,Xplend Doble Hoja 26 m 2 un,Xplend,52,tottus,https://www.tottus.cl/tottus-cl/articulo/151075126/toalla-de-papel-dh-26-m-xplend-2-un/151075128,Toalla de Papel,Doble Hoja,2,26,
+TC-286,Nova Ultra Doble Hoja 14 m 2 un,Nova,28,alvi,https://www.alvi.cl/product/toalla-papel-ultra-dh-nova-14mtx2,Toalla de Papel,Doble Hoja,2,14,
+TC-287,Ovella Gigante Hoja Simple 100 m 1 un,Ovella,100,alvi,https://www.alvi.cl/product/toalla-papel-gigante-hs-ovella-100mtx1-2,Toalla de Papel,Hoja Simple,1,100,
+TC-288,Swan Clásica Doble Hoja 40 m 1 un,Swan,40,alvi,https://www.alvi.cl/product/toalla-papel-clasica-dh-swan-40mtx1-2,Toalla de Papel,Doble Hoja,1,40,
+TC-289,Nova Ultra Mega Rollo Doble Hoja 26 m 2 un,Nova,52,alvi,https://www.alvi.cl/product/toalla-papel-megarollo-ultra-nova-2x26mt,Toalla de Papel,Doble Hoja,2,26,
+TC-290,Ovella XL Doble Hoja 80 m 1 un,Ovella,80,alvi,https://www.alvi.cl/product/toalla-papel-xl-dh-ovella-80mtx1-2,Toalla de Papel,Doble Hoja,1,80,
+TC-291,Nova Ultra Mega Rollo Doble Hoja 26 m 1 un,Nova,26,alvi,https://www.alvi.cl/product/toalla-papel-megarollo-ultra-nova-1x26mt,Toalla de Papel,Doble Hoja,1,26,
+TC-292,Swan Ultra Doble Hoja 70 m 1 un,Swan,70,alvi,https://www.alvi.cl/product/toalla-papel-ultra-dh-swan-70mtx1-2,Toalla de Papel,Doble Hoja,1,70,
+TC-293,Elite Maxi Rollo Triple Hoja 20 m 2 un,Elite,40,alvi,https://www.alvi.cl/product/toalla-papel-maxirollo-th-elite-20mtx2,Toalla de Papel,Triple Hoja,2,20,
+TC-294,Nova Ultra Gigante Doble Hoja 70 m 1 un,Nova,70,alvi,https://www.alvi.cl/product/toalla-papel-ultra-gigante-dh-nova-70-mt,Toalla de Papel,Doble Hoja,1,70,
+TC-295,Abolengo XL Doble Hoja 100 m 1 un,Abolengo,100,alvi,https://www.alvi.cl/product/toalla-de-papel-xl,Toalla de Papel,Doble Hoja,1,100,
+TC-296,Nubelin Hoja Simple 150 m 1 un,Nubelin,150,alvi,https://www.alvi.cl/product/toalla-de-papel-nubelin-hoja-simple-1-un-de-150-m,Toalla de Papel,Hoja Simple,1,150,
+TC-297,Favorita Hogar Mega Doble Hoja 100 m 1 un,Favorita,100,alvi,https://www.alvi.cl/product/toalla-de-papel-favorita-hogar-mega-doble-hoja-1-un-de-100-m,Toalla de Papel,Doble Hoja,1,100,
+TC-298,Nubelin Doble Hoja 12 m 3 un,Nubelin,36,alvi,https://www.alvi.cl/product/toalla-papel-doble-hoja-nubelin-3x12mt,Toalla de Papel,Doble Hoja,3,12,
+TC-299,Abolengo Doble Hoja 10 m 3 un,Abolengo,30,alvi,https://www.alvi.cl/product/toalla-de-papel-3-un-de-10-m,Toalla de Papel,Doble Hoja,3,10,
+TC-300,Swan Mi Hogar Clásica Doble Hoja 12 m 3 un,Swan,36,alvi,https://www.alvi.cl/product/toalla-papel-dh-mi-hogar-3x12-mt,Toalla de Papel,Doble Hoja,3,12,
+TC-301,Nubelin Doble Hoja 100 m 1 un,Nubelin,100,alvi,https://www.alvi.cl/product/toalla-de-papel-nubelin-doble-hoja-1-u-de-100-m,Toalla de Papel,Doble Hoja,1,100,
+TC-302,Nubelin Doble Hoja 26 m 2 un,Nubelin,52,alvi,https://www.alvi.cl/product/toalla-papel-dh-nubelin-26mtx2-2,Toalla de Papel,Doble Hoja,2,26,
+TC-303,Nova Clásica Doble Hoja 12 m 3 un,Nova,36,alvi,https://www.alvi.cl/product/toalla-papel-clasica-dh-nova-12mtx3,Toalla de Papel,Doble Hoja,3,12,
+TC-304,Nova Clásica Doble Hoja 12 m 1 un,Nova,12,alvi,https://www.alvi.cl/product/toalla-papel-clasica-dh-nova-1x12-mt,Toalla de Papel,Doble Hoja,1,12,
+TC-305,Merkat Gigante Doble Hoja 100 m 1 un,Merkat,100,alvi,https://www.alvi.cl/product/toalla-papel-gigante-dh-merkat-100mtx1,Toalla de Papel,Doble Hoja,1,100,
+TC-306,Nova Gigante Doble Hoja 100 m 1 un,Nova,100,alvi,https://www.alvi.cl/product/toalla-papel-gigante-dh-nova-1x100-mt,Toalla de Papel,Doble Hoja,1,100,
+TC-307,Scott Multiusos Doble Hoja 20 m 2 un,Scott,40,alvi,https://www.alvi.cl/product/toalla-papel-multiusos-scott-2-un-20-m,Toalla de Papel,Doble Hoja,2,20,
+TC-308,Nova Clásica XL Doble Hoja 40 m 1 un,Nova,40,alvi,https://www.alvi.cl/product/toalla-papel-clasica-xl-dh-nova-40mtx1-2,Toalla de Papel,Doble Hoja,1,40,
+TC-309,Acuenta XL Doble Hoja 100 m 1 un,Acuenta,100,acuenta,https://www.acuenta.cl/p/toalla-de-papel-xl-doble-hoja-100-m-1-un-acuenta-1159106,Toalla de Papel,Doble Hoja,1,100,
+TC-310,Abolengo XL Doble Hoja 100 m 1 un,Abolengo,100,acuenta,https://www.acuenta.cl/p/toalla-de-papel-xl-100-m-1-un-abolengo-853185,Toalla de Papel,Doble Hoja,1,100,
+TC-311,Ovella Doble Hoja 80 m 1 un,Ovella,80,acuenta,https://www.acuenta.cl/p/toalla-de-papel-doble-hoja-80-metros-1-un-ovella-4779121,Toalla de Papel,Doble Hoja,1,80,
+TC-312,Nova Doble Hoja 14 m 2 un,Nova,28,acuenta,https://www.acuenta.cl/p/toalla-de-papel-nova-14m-2-un-nova-891014,Toalla de Papel,Doble Hoja,2,14,
+TC-313,Lider Super Mega Doble Hoja 26 m 2 un,Lider,52,acuenta,https://www.acuenta.cl/p/toalla-de-papel-super-mega-doble-hoja-26-m-2-un-lider-889607,Toalla de Papel,Doble Hoja,2,26,
+TC-314,Abolengo Clásica Doble Hoja 10 m 3 un,Abolengo,30,acuenta,https://www.acuenta.cl/p/toalla-de-papel-clasica-doble-hoja-10-metros-3-un-abolengo-437437,Toalla de Papel,Doble Hoja,3,10,
+TC-315,Acuenta Clásica Doble Hoja 10 m 3 un,Acuenta,30,acuenta,https://www.acuenta.cl/p/toalla-de-papel-doble-hoja-10-m-clasica-bolsa-3-un-acuenta-877805,Toalla de Papel,Doble Hoja,3,10,
+TC-316,Favorita Multiuso Doble Hoja 22 m 2 un,Favorita,44,acuenta,https://www.acuenta.cl/p/toalla-de-papel-multiuso-22-metros-2-un-favorita-4686435,Toalla de Papel,Doble Hoja,2,22,
+TC-317,Nova Gigante Doble Hoja 70 m 1 un,Nova,70,acuenta,https://www.acuenta.cl/p/toalla-de-papel-gigante-doble-hoja-70-m-1-un-nova-4528514,Toalla de Papel,Doble Hoja,1,70,
+TC-318,Lider Tradicional Doble Hoja 12 m 3 un,Lider,36,acuenta,https://www.acuenta.cl/p/toalla-de-papel-tradicional-doble-hoja-12-m-3-un-lider-1142328,Toalla de Papel,Doble Hoja,3,12,
+TC-319,Lider Premium Triple Hoja 20 m 2 un,Lider,40,acuenta,https://www.acuenta.cl/p/toalla-de-papel-premium-triple-hoja-20-metros-2-un-lider-889609,Toalla de Papel,Triple Hoja,2,20,
+TC-320,Nova Ultra Mega Rollo Doble Hoja 26 m 2 un,Nova,52,acuenta,https://www.acuenta.cl/p/toalla-de-papel-ultra-megarollo-doble-hoja-26-m-2-un-nova-309257,Toalla de Papel,Doble Hoja,2,26,
+TC-321,Elite Ultra Absorbente Triple Hoja 20 m 2 un,Elite,40,acuenta,https://www.acuenta.cl/p/toalla-de-papel-ultra-absorbente-triple-hoja-20-m-2-un-elite-309243,Toalla de Papel,Triple Hoja,2,20,
+TC-322,Nova Clásica Gigante XL Doble Hoja 40 m 1 un,Nova,40,acuenta,https://www.acuenta.cl/p/toalla-de-papel-clasica-gigante-xl-doble-hoja-40-metros-1-un-nova-1195911,Toalla de Papel,Doble Hoja,1,40,
+TC-323,Acuenta XL Doble Hoja 70 m 1 un,Acuenta,70,acuenta,https://www.acuenta.cl/p/toalla-de-papel-xl-70-metros-1-un-acuenta-4791741,Toalla de Papel,Doble Hoja,1,70,
+TC-324,Swan Doble Hoja 40 m 1 un,Swan,40,acuenta,https://www.acuenta.cl/p/toalla-de-papel-1-un-swan-4936273,Toalla de Papel,Doble Hoja,1,40,
+TC-325,Abolengo XL Doble Hoja 80 m 1 un,Abolengo,80,acuenta,https://www.acuenta.cl/p/toalla-de-papel-xl-80-m-1-un-abolengo-4937740,Toalla de Papel,Doble Hoja,1,80,
+TC-326,Nova Clásica Mega Gigante Doble Hoja 100 m 1 un,Nova,100,acuenta,https://www.acuenta.cl/p/toalla-de-papel-clasica-mega-gigante-100m-1-un-nova-4938081,Toalla de Papel,Doble Hoja,1,100,
+
+TC-327,Nova Clásica Cocktail 150 un,Nova,,unimarc,https://www.unimarc.cl/product/serv-nova-clasica-cocktail-150-u-22-x-23-cm,Servilletas,Cocktail,,,150
+TC-328,Nubelin Cocktail 300 un,Nubelin,,unimarc,https://www.unimarc.cl/product/servilleta-coctel-nubelin-300-un,Servilletas,Cocktail,,,300
+TC-329,Elite Cocktail 200 un,Elite,,unimarc,https://www.unimarc.cl/product/servilleta-elite-coctel-4-x-50-un,Servilletas,Cocktail,,,200
+TC-330,Elite Mesa 50 un,Elite,,unimarc,https://www.unimarc.cl/product/serv-elite-mesa-blanca-50-u-33-x-33-cm,Servilletas,Mesa,,,50
+TC-331,Abolengo Cocktail Hoja Simple 40 un,Abolengo,,unimarc,https://www.unimarc.cl/product/servilleta-coctel-abolengo-una-hoja-40-un,Servilletas,Cocktail,,,40
+TC-332,Nubelin Cocktail Hoja Simple 150 un,Nubelin,,unimarc,https://www.unimarc.cl/product/servilleta-coctel-hs-nubelin-150-un,Servilletas,Cocktail,,,150
+TC-333,Nubelin Cocktail 200 un,Nubelin,,unimarc,https://www.unimarc.cl/product/servilleta-coctel-nubelin-200-un,Servilletas,Cocktail,,,200
+TC-334,Nova Clásica Mesa 200 un,Nova,,unimarc,https://www.unimarc.cl/product/servilleta-clasica-mesa-nova-200-un,Servilletas,Mesa,,,200
+TC-335,Elite Deco Design Mesa 20 un,Elite,,unimarc,https://www.unimarc.cl/product/servilleta-gold-mesa-design-elite-20-un,Servilletas,Mesa,,,20
+TC-336,Elite Mesa 200 un,Elite,,unimarc,https://www.unimarc.cl/product/servilleta-mesa-elite-200-un,Servilletas,Mesa,,,200
+TC-337,Elite Cocktail 50 un,Elite,,unimarc,https://www.unimarc.cl/product/serv-elite-cocktail-blanca-50-u-24x24cm,Servilletas,Cocktail,,,50
+TC-338,Nova Clásica Cocktail 50 un,Nova,,unimarc,https://www.unimarc.cl/product/servilleta-nova-clasica-coctel-50-un,Servilletas,Cocktail,,,50
+TC-339,Elite Cocktail 400 un,Elite,,unimarc,https://www.unimarc.cl/product/serv-elite-cocktail-blanca-400-u-24x24cm,Servilletas,Cocktail,,,400
+TC-340,Nova Clásica Cocktail 300 un,Nova,,unimarc,https://www.unimarc.cl/product/serv-nova-clasica-cocktail-300-u-22-x-23-cm,Servilletas,Cocktail,,,300
+TC-341,Favorita Estilo Cocktail 200 un,Favorita,,unimarc,https://www.unimarc.cl/product/serv-favorita-acolchada-cocktail-200u-24x24cm,Servilletas,Cocktail,,,200
+TC-342,Favorita Práctica Cocktail 200 un,Favorita,,unimarc,https://www.unimarc.cl/product/servilleta-favorita-practica-200-un,Servilletas,Cocktail,,,200
+TC-343,Nubelin Mesa 200 un,Nubelin,,unimarc,https://www.unimarc.cl/product/servilleta-mesa-nubelin-200-un,Servilletas,Mesa,,,200
+TC-344,Nubelin Cocktail Hoja Simple 50 un,Nubelin,,unimarc,https://www.unimarc.cl/product/servilleta-coctel-blanca-nubelin-50-un,Servilletas,Cocktail,,,50
 
 # Columnas: sku_interno,producto,marca,metros_totales,retailer,url,categoria,
-# subcategoria,rollos,metros_rollo
+# subcategoria,rollos,metros_rollo,unidades
 #
 # categoria/subcategoria deben coincidir EXACTO (mismo texto) con las de
 # ovella.csv para que el dashboard agrupe bien — ej. "Papel Higienico"/
-# "Doble Hoja" o "Toalla de Papel"/"Hoja Simple". El metraje no necesita ser
-# exacto, se agrupa dentro de un rango de +-15% respecto al SKU de Ovella.
+# "Doble Hoja" o "Toalla de Papel"/"Hoja Simple".
 #
-# rollos = cuántos rollos trae el pack; metros_rollo = metros de cada rollo
-# (metros_totales debe ser rollos x metros_rollo). El dashboard los usa para
-# armar el "segmento competitivo" (tipo de hoja + tamaño de pack + metros por
-# rollo) con el que se filtran los competidores directos entre sí.
+# PAPEL HIGIENICO y TOALLA: llenar metros_totales, rollos (cuántos rollos trae
+# el pack) y metros_rollo (metros de cada rollo; metros_totales = rollos x
+# metros_rollo). Se comparan en $/metro. El "segmento competitivo" es
+# subcategoria + tamaño de pack + metros por rollo. El metraje no necesita ser
+# exacto contra Ovella, se agrupa dentro de +-15%.
+#
+# SERVILLETAS: dejar metros_totales/rollos/metros_rollo vacíos y llenar
+# unidades (cantidad de servilletas del pack). subcategoria = "Cocktail" o
+# "Mesa". Se comparan en $/unidad; el segmento es solo el tipo (Cocktail/Mesa).
 
