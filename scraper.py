@@ -30,7 +30,7 @@ OVERRIDES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZ7qyGdu7
 # Pestaña 2 (productos_nuevos): mismas columnas que productos.csv — para sumar un
 # SKU nuevo sin tocar código. Se scrapean como cualquier otro; cada tanto alguien
 # los pasa a productos.csv y limpia la pestaña. Vacío = función desactivada.
-PRODUCTOS_NUEVOS_CSV_URL = ""
+PRODUCTOS_NUEVOS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZ7qyGdu79TJ5CUPN5dfIf4YZDgV9JqDpDdW8dA_jiqCrYDcW3RO_hGqjRp12QnKWKTvlkKvV1nWX/pub?gid=2145311446&single=true&output=csv"
 
 HEADERS_GENERICOS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",

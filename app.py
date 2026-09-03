@@ -80,7 +80,7 @@ PRODUCTOS_NUEVOS_CACHE_PATH = BASE_DIR / "productos_nuevos_cache.csv"
 OVERRIDES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZ7qyGdu79TJ5CUPN5dfIf4YZDgV9JqDpDdW8dA_jiqCrYDcW3RO_hGqjRp12QnKWKTvlkKvV1nWX/pub?gid=0&single=true&output=csv"
 # Pestaña 2 (productos_nuevos): mismas columnas que productos.csv — sumar un SKU
 # nuevo sin tocar código. Vacío = función desactivada.
-PRODUCTOS_NUEVOS_CSV_URL = ""
+PRODUCTOS_NUEVOS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZ7qyGdu79TJ5CUPN5dfIf4YZDgV9JqDpDdW8dA_jiqCrYDcW3RO_hGqjRp12QnKWKTvlkKvV1nWX/pub?gid=2145311446&single=true&output=csv"
 # Link para EDITAR la planilla (barra de direcciones al abrirla, termina en /edit).
 # Si queda vacío, la app no muestra los botones que llevan a ella.
 PLANILLA_EDIT_URL = "https://docs.google.com/spreadsheets/d/1Ka3EM2FEWd3uyfZ3CgzxeJhwQ9adETOvU0cihdPiBRw/edit"
