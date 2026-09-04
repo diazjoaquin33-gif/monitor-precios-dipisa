@@ -1,14 +1,8 @@
 {
-  "fecha": "04/09/2026 16:33 hrs",
+  "fecha": "04/09/2026 17:02 hrs",
   "total_skus": 396,
-  "exitosos": 395,
-  "fallos": [
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-369",
-      "error": "HTTP 403"
-    }
-  ],
+  "exitosos": 396,
+  "fallos": [],
   "overrides_url_aplicados": 0,
   "overrides_url_aviso": null,
   "sku_desde_planilla": 0,
