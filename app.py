@@ -192,6 +192,11 @@ def cargar_datos():
     # "Pendiente" en vez de desaparecer en silencio de la página.
     df = pd.merge(df_csv, df_json, on="sku_interno", how="left")
     df["retailer_nombre"] = df["retailer"].map(lambda r: retailers_cfg.get(r, {}).get("nombre", r))
+    # Retailers pausados (ver retailers.yaml, ej. Knasta bloqueado) siguen
+    # visibles en el dashboard con su último precio conocido, pero no van en
+    # el CSV descargable — no tiene sentido exportar un dato que no se está
+    # actualizando y podría confundir en una planilla.
+    df["retailer_desactivado"] = df["retailer"].map(lambda r: bool(retailers_cfg.get(r, {}).get("deshabilitado")))
 
     df["rollos"] = pd.to_numeric(df.get("rollos"), errors="coerce")
     df["metros_rollo"] = pd.to_numeric(df.get("metros_rollo"), errors="coerce")
@@ -560,7 +565,7 @@ col_descargar.markdown("<div style='margin-top: 28px'></div>", unsafe_allow_html
 # una sola columna al abrirlo.
 col_descargar.download_button(
     "⬇️ Descargar CSV",
-    data=_armar_export(df).to_csv(index=False, sep=";").encode("utf-8-sig"),
+    data=_armar_export(df[~df["retailer_desactivado"]]).to_csv(index=False, sep=";").encode("utf-8-sig"),
     file_name="precios_dipisa.csv",
     mime="text/csv",
     width="stretch",
