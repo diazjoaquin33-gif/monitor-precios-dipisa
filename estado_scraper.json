@@ -1,36 +1,36 @@
 {
-  "fecha": "04/09/2026 00:06 hrs",
+  "fecha": "04/09/2026 07:38 hrs",
   "total_skus": 418,
   "exitosos": 389,
   "fallos": [
     {
       "retailer": "tottus",
-      "sku_interno": "TC-011",
+      "sku_interno": "TC-025",
       "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-023",
+      "sku_interno": "TC-030",
       "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-029",
+      "sku_interno": "TC-106",
       "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-103",
+      "sku_interno": "TC-122",
       "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-275",
+      "sku_interno": "TC-128",
       "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-375",
+      "sku_interno": "TC-267",
       "error": "HTTP 403"
     },
     {
