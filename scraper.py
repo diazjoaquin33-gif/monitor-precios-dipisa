@@ -504,8 +504,20 @@ if __name__ == "__main__":
     if overrides_aviso:
         print(f"⚠️ Overrides: {overrides_aviso}")
 
+    # Retailers marcados "deshabilitado" en retailers.yaml no se intentan
+    # scrapear (ahorra tiempo y ruido cuando el bloqueo es total y no vale la
+    # pena reintentar cada corrida). Sus SKU siguen en productos.csv y en el
+    # dashboard, mostrando el último precio conocido con el aviso de siempre —
+    # el mismo camino que ya existe para un SKU que falla, nada nuevo que romper.
+    retailers_desactivados = {k for k, v in retailers_cfg.items() if v.get("deshabilitado")}
+    if retailers_desactivados:
+        n_desactivados = productos["retailer"].isin(retailers_desactivados).sum()
+        print(f"⏸️ {n_desactivados} SKU(s) saltados, retailer(s) deshabilitado(s): {', '.join(sorted(retailers_desactivados))}")
+
     grupos = {}
     for _, prod in productos.iterrows():
+        if prod["retailer"] in retailers_desactivados:
+            continue
         grupos.setdefault(prod["retailer"], []).append(prod)
 
     resultados_actuales = {}
@@ -565,6 +577,8 @@ if __name__ == "__main__":
             "overrides_url_aviso": overrides_aviso,
             "sku_desde_planilla": meta_config["sku_planilla"],
             "sku_desde_planilla_aviso": meta_config["aviso"],
+            "retailers_desactivados": sorted(retailers_desactivados),
+            "sku_desactivados": int(productos["retailer"].isin(retailers_desactivados).sum()),
         }, f, ensure_ascii=False, indent=2)
 
     print("🏁 Extracción terminada. JSON actualizado.")

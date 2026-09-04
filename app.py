@@ -663,8 +663,16 @@ if estado_scraper:
     fallos = estado_scraper.get("fallos", [])
     total = estado_scraper.get("total_skus", 0)
     exitosos = estado_scraper.get("exitosos", 0)
+    retailers_off = estado_scraper.get("retailers_desactivados") or []
+    sku_off = estado_scraper.get("sku_desactivados", 0)
     icono = "✅" if not fallos else "⚠️"
     with st.expander(f"{icono} Salud del scraper — última corrida: {exitosos}/{total} SKU actualizados ({estado_scraper.get('fecha', '')})"):
+        if retailers_off:
+            st.info(
+                f"⏸️ **{', '.join(retailers_off)}** deshabilitado ({sku_off} SKU) — bloqueo total "
+                "confirmado, no vale la pena reintentar cada corrida. Esos productos muestran su "
+                "último precio conocido. Reactivar en `retailers.yaml` si cambia la situación."
+            )
         if not fallos:
             st.success("Todos los SKU se actualizaron correctamente en la última corrida.")
         else:
