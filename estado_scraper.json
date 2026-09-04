@@ -1,12 +1,12 @@
 {
-  "fecha": "04/09/2026 08:07 hrs",
+  "fecha": "04/09/2026 16:33 hrs",
   "total_skus": 396,
   "exitosos": 395,
   "fallos": [
     {
-      "retailer": "acuenta",
-      "sku_interno": "TC-413",
-      "error": "SKU '4922003' no encontrado en Instaleap"
+      "retailer": "tottus",
+      "sku_interno": "TC-369",
+      "error": "HTTP 403"
     }
   ],
   "overrides_url_aplicados": 0,
