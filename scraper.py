@@ -10,7 +10,6 @@ import concurrent.futures
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 from pathlib import Path
-from urllib.parse import quote
 from curl_cffi import requests as cffi_requests
 
 BASE_DIR = Path(__file__).parent
@@ -345,68 +344,6 @@ def _consultar_alvi(url: str):
     return None, None, None, False, "Falla desconocida"
 
 
-KNASTA_META = r'(?:property|name)="(?:product:price:amount|og:price:amount)"\s+content="([\d.,]+)"'
-
-
-def _consultar_knasta(url: str):
-    """Knasta (comparador de precios) trae el precio en el meta tag
-    product:price:amount del HTML crudo, sin JS. Empezó a devolver 403 a las IPs
-    de datacenter de GitHub Actions — y encima de forma despareja: la corrida
-    manual del workflow a veces cae en una IP todavía no bloqueada y funciona,
-    pero las corridas programadas (a horario "redondo", cuando esas IPs están
-    más quemadas) fallan casi siempre. Por eso: se prueba directo con headers
-    de navegador y, si hay bloqueo, se reintenta a través de un proxy público
-    que hace el request desde su propio servidor (otra IP)."""
-    def _precio(html):
-        m = re.search(KNASTA_META, html or "")
-        if not m:
-            return None
-        val = m.group(1).replace(".", "").replace(",", ".")
-        try:
-            return float(val)
-        except ValueError:
-            return None
-
-    headers = {
-        **HEADERS_GENERICOS,
-        "Accept-Language": "es-CL,es;q=0.9,en;q=0.8",
-        "Referer": "https://knasta.cl/",
-    }
-    hubo_403 = False
-    for intento, perfil in enumerate(("chrome124", "safari15_5", "chrome120")):
-        try:
-            res = cffi_requests.get(url, headers=headers, impersonate=perfil, timeout=12)
-            if res.status_code == 200:
-                p = _precio(res.text)
-                if p:
-                    return p, p, True, None
-                break  # 200 pero sin precio: no lo va a arreglar reintentar
-            if res.status_code == 403:
-                hubo_403 = True
-                time.sleep(2 + intento * 2)  # el 403 suele ser una ventana corta de rate-limit
-                continue
-            break
-        except Exception:
-            time.sleep(1)
-
-    # Último recurso: un proxy público hace el pedido desde su propia IP (mismo
-    # truco que _consultar_lider_api). allorigins es intermitente, así que es
-    # solo un "por si acaso", no algo en lo que confiar.
-    try:
-        res = requests.get(
-            f"https://api.allorigins.win/raw?url={quote(url, safe='')}",
-            headers=HEADERS_GENERICOS, timeout=15,
-        )
-        if res.status_code == 200:
-            p = _precio(res.text)
-            if p:
-                return p, p, True, None
-    except Exception:
-        pass
-
-    return None, None, False, "403 (IP bloqueada)" if hubo_403 else "Knasta sin dato"
-
-
 def procesar_lote(retailer_key, lista_productos, cfg):
     salida = []
     for prod in lista_productos:
@@ -424,8 +361,6 @@ def procesar_lote(retailer_key, lista_productos, cfg):
                 extra = {"precio_socio2": precio_socio2}
         elif metodo == "lider_api":
             p, pn, disp, err = _consultar_lider_api(prod["url"])
-        elif metodo == "knasta":
-            p, pn, disp, err = _consultar_knasta(prod["url"])
         elif metodo == "instaleap":
             p, pn, disp, err = _consultar_instaleap(prod["url"], cfg)
         else:

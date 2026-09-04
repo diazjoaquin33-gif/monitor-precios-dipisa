@@ -126,3 +126,22 @@ Tarda unos minutos y al terminar sube los precios nuevos solo.
 - **Un supermercado entero deja de traer precios:** probablemente cambió su
   sitio o agregó bloqueo anti-bot. Eso sí necesita a alguien que sepa tocar
   `scraper.py` / `retailers.yaml`.
+
+## Historial: Knasta (Líder) — sacado el 04/09/2026
+
+Líder (`super.lider.cl`) tiene protección anti-bot activa (desafío "Robot or
+human?") que nunca se pudo pasar. Como workaround se usó **Knasta**, un
+comparador de precios independiente que mostraba los mismos precios de Líder
+sin ese bloqueo. Knasta funcionó un tiempo y después empezó a devolver `403`
+a **todo** el rango de IP de GitHub Actions (confirmado: es bloqueo por rango
+de IP de datacenter, no por horario). Se probaron headers de navegador,
+reintentos con backoff, un proxy público y mover el horario del cron — nada
+pasó el bloqueo. Se sacaron sus 22 SKU de `productos.csv` y el código
+específico de `scraper.py`/`retailers.yaml`.
+
+**Si en el futuro alguien quiere retomar Líder o Knasta:** la única vía que
+quedaría es un servicio de scraping pago con proxies residenciales
+(ScraperAPI, ZenRows o similar) — con el volumen de este proyecto un tier
+gratis o barato probablemente alcanza. El código viejo (función
+`_consultar_knasta`, GraphQL de Líder) está en el historial de git de este
+repo si sirve de punto de partida.

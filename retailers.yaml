@@ -57,25 +57,3 @@ acuenta:
   client_id: "SUPER_BODEGA"
   store_reference: "580"
 
-knasta:
-  nombre: "Knasta (Líder)"
-  metodo: "knasta"
-  # Comparador de precios independiente, no es el sitio de Líder — su
-  # robots.txt permite explícitamente /detail/... (solo prohíbe /api y
-  # /redirect, que no usamos). Trae el precio en meta tag estándar
-  # product:price:amount, sin protección anti-bot. Verificado 24/08/2026:
-  # no expone precio de lista para el producto principal en la página
-  # de detalle (el "originalPrice" que aparece ahí es de productos
-  # relacionados en el carrusel, no del producto en cuestión) — solo se
-  # trackea el precio actual, sin oferta/lista por ahora.
-  #
-  # DESHABILITADO el 04/09/2026: empezó a devolver 403 a todo el rango de IP
-  # de GitHub Actions. Se probó headers de navegador, reintentos con backoff,
-  # proxy (allorigins) y mover el cron a un minuto menos usado — nada pasó el
-  # bloqueo (confirmado que es a nivel de rango de IP de datacenter, no de
-  # horario). La única vía que quedaría es un servicio de scraping pago con
-  # proxies residenciales (ScraperAPI o similar) — evaluar si el equipo quiere
-  # pagarlo. Mientras tanto sus SKU se saltan en cada corrida y el dashboard
-  # muestra el último precio conocido. Para reactivar: borrar esta línea.
-  deshabilitado: true
-  patron_precio_oferta: '(?:property|name)="product:price:amount"\s+content="([\d.,]+)"'
