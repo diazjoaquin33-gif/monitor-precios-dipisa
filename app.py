@@ -295,6 +295,25 @@ def _sector(rollos, metros_rollo):
     return None
 
 
+# Servilletas: se agrupan solo por tamaño de pack (cantidad de unidades), sin
+# tipo ni hoja. Rangos flexibles, misma idea que los sectores de papel.
+SECTORES_SERVILLETAS = [
+    (0, 25, "20 un"), (26, 90, "50 un"), (91, 190, "150 un"),
+    (191, 235, "200 un"), (236, 350, "300 un"), (351, 99999, "400 un"),
+]
+
+
+def _sector_servilleta(unidades):
+    try:
+        u = float(unidades)
+    except (TypeError, ValueError):
+        return None
+    for mn, mx, lab in SECTORES_SERVILLETAS:
+        if mn <= u <= mx:
+            return lab
+    return None
+
+
 def _parse_rollos_metros(nombre):
     """Saca (rollos, metros_por_rollo) del nombre del producto — mismos patrones
     que se usaron para rellenar productos.csv ("22 m 4 un", "4 un 22 m",
@@ -314,11 +333,11 @@ def _parse_rollos_metros(nombre):
 
 
 def _segmento(row):
-    # Servilletas: se agrupan solo por tipo (Cocktail / Mesa / …), sin pack ni
-    # metros — la comparación es directa en $/unidad dentro del grupo.
+    # Servilletas: se agrupan solo por rango de unidades (el tipo Cocktail/Mesa
+    # queda visible en la columna Formato pero no arma el segmento).
     if row.get("categoria") == "Servilletas":
-        sub = row.get("subcategoria")
-        return f"Servilletas · {sub}" if pd.notna(sub) else None
+        sec = _sector_servilleta(row.get("unidades"))
+        return f"Servilletas · {sec}" if sec else None
     if pd.isna(row.get("rollos")) or pd.isna(row.get("metros_rollo")):
         return None
     sec = _sector(row["rollos"], row["metros_rollo"])
