@@ -257,15 +257,13 @@ def _formatear_clp(valor):
 # rango. Los rangos son flexibles a propósito (no "50 exacto" sino ~44-56) para
 # no dejar afuera formatos vecinos. Agregar/ajustar sectores acá.
 SECTORES = [
-    ({4}, 44, 56, "4 x 50 mt"),      ({8, 9}, 44, 56, "8 x 50 mt"),
-    ({12}, 44, 58, "12 x 50 mt"),    ({16, 17, 18}, 44, 58, "18 x 50 mt"),
-    ({18}, 35, 46, "18 x 40 mt"),    ({8, 9, 10}, 35, 46, "8 x 40 mt"),
-    ({11, 12, 13}, 35, 46, "12 x 40 mt"), ({4}, 35, 46, "4 x 40 mt"),
-    ({24}, 35, 46, "24 x 40 mt"),
-    ({8}, 26, 34, "8 x 30 mt"),      ({4}, 26, 34, "4 x 30 mt"),
+    ({4}, 44, 56, "4 x 50 mt"),      ({8, 9, 10}, 35, 56, "8 x 50 mt"),
+    ({11, 12, 13}, 35, 58, "12 x 50 mt"), ({16, 17, 18}, 35, 58, "18 x 50 mt"),
+    ({4}, 35, 46, "4 x 40 mt"),      ({24}, 35, 46, "24 x 40 mt"),
+    ({8}, 23, 34, "8 x 30 mt"),      ({4}, 26, 34, "4 x 30 mt"),
     ({6}, 28, 34, "6 x 32 mt"),
     ({11, 12}, 24, 30, "12 x 27 mt"), ({18}, 24, 30, "18 x 27 mt"),
-    ({4}, 23, 27, "4 x 25 mt"),      ({8}, 23, 27, "8 x 25 mt"),
+    ({4}, 23, 27, "4 x 25 mt"),
     ({24}, 18, 27, "24 x 22 mt"),    ({16, 17}, 18, 27, "16 x 22 mt"),
     ({32, 40}, 19, 27, "40 x 22 mt"), ({6}, 19, 27, "6 x 22 mt"),
     ({11, 12}, 15, 23, "12 x 22 mt"), ({4}, 18, 23, "4 x 22 mt"),
@@ -340,12 +338,17 @@ def _segmento(row):
         return f"Servilletas · {sec}" if sec else None
     if pd.isna(row.get("rollos")) or pd.isna(row.get("metros_rollo")):
         return None
+    sub = row["subcategoria"]
+    # Triple hoja de ~40 m: son pocos SKU, se juntan todos en un solo segmento
+    # sin importar el tamaño del pack (4, 8 o 12 rollos).
+    if sub == "Triple Hoja" and 34 <= float(row["metros_rollo"]) <= 47:
+        return "Triple Hoja · 40 mt"
     sec = _sector(row["rollos"], row["metros_rollo"])
     if sec is None:
         return None
     # El tipo de hoja va en la etiqueta para no mezclar doble hoja con hoja
     # simple ni triple hoja en un mismo sector.
-    return f"{row['subcategoria']} · {sec}"
+    return f"{sub} · {sec}"
 
 
 def _armar_export(df_export):
