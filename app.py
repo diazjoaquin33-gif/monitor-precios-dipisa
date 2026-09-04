@@ -249,34 +249,49 @@ def _formatear_clp(valor):
 
 
 # --- Segmento competitivo -------------------------------------------------
-# Dos productos compiten de verdad cuando el comprador elige entre ellos en
-# la góndola: mismo tipo de hoja, mismo tamaño de pack (a más rollos, mejor
-# precio por metro — no se cruza un pack de 4 con uno de 40) y metraje por
-# rollo parecido. El segmento junta esos tres ejes. Los cortes de pack son
-# casi exactos abajo (1/2/3/4/6) porque ahí está la pelea real; arriba se
-# agrupan formatos vecinos (16-18, 20-24). Ajustar acá si hace falta.
-def _bucket_pack(rollos):
-    r = int(rollos)
-    if r <= 1: return "1 un"
-    if r <= 3: return f"{r} un"
-    if r == 4: return "4 un"
-    if r in (5, 6): return "6 un"
-    if 7 <= r <= 10: return "8-10 un"
-    if r in (11, 12): return "12 un"
-    if 13 <= r <= 18: return "16-18 un"
-    if 19 <= r <= 30: return "24 un"
-    return "40+ un"
+# Dos productos compiten de verdad cuando el comprador elige entre ellos en la
+# góndola: mismo tipo de hoja y mismo formato de pack (rollos x metros). Esta
+# lista de "sectores" la define el equipo comercial. Cada entrada es
+# (rollos_aceptados, metros_min, metros_max, etiqueta); un producto entra al
+# primer sector cuyo nº de rollos coincida y cuyos metros/rollo caigan en el
+# rango. Los rangos son flexibles a propósito (no "50 exacto" sino ~44-56) para
+# no dejar afuera formatos vecinos. Agregar/ajustar sectores acá.
+SECTORES = [
+    ({4}, 44, 56, "4 x 50 mt"),      ({8, 9}, 44, 56, "8 x 50 mt"),
+    ({12}, 44, 58, "12 x 50 mt"),    ({16, 17, 18}, 44, 58, "18 x 50 mt"),
+    ({18}, 35, 46, "18 x 40 mt"),    ({8, 9, 10}, 35, 46, "8 x 40 mt"),
+    ({11, 12, 13}, 35, 46, "12 x 40 mt"), ({4}, 35, 46, "4 x 40 mt"),
+    ({24}, 35, 46, "24 x 40 mt"),
+    ({8}, 26, 34, "8 x 30 mt"),      ({4}, 26, 34, "4 x 30 mt"),
+    ({6}, 28, 34, "6 x 32 mt"),
+    ({11, 12}, 24, 30, "12 x 27 mt"), ({18}, 24, 30, "18 x 27 mt"),
+    ({4}, 23, 27, "4 x 25 mt"),      ({8}, 23, 27, "8 x 25 mt"),
+    ({24}, 18, 27, "24 x 22 mt"),    ({16, 17}, 18, 27, "16 x 22 mt"),
+    ({32, 40}, 19, 27, "40 x 22 mt"), ({6}, 19, 27, "6 x 22 mt"),
+    ({11, 12}, 15, 23, "12 x 22 mt"), ({4}, 18, 23, "4 x 22 mt"),
+    ({6}, 17, 19, "6 x 18 mt"),      ({4}, 17, 19, "4 x 18 mt"),
+    ({6}, 14, 16, "6 x 16 mt"),
+    ({12}, 10, 15, "12 x 12 mt"),    ({3}, 10, 15, "3 x 12 mt"),
+    ({2}, 10, 16, "2 x 14 mt"),      ({2}, 17, 23, "2 x 20 mt"),
+    ({2}, 24, 38, "2 x 26 mt"),      ({1}, 20, 38, "1 x 26 mt"),
+    ({1}, 40, 52, "1 x 45 mt"),      ({1}, 60, 75, "1 x 70 mt"),
+    ({1}, 76, 95, "1 x 80 mt"),      ({1}, 96, 130, "1 x 100 mt"),
+    ({1}, 131, 170, "1 x 150 mt"),
+    ({8, 10}, 90, 130, "8 x 110 mt"), ({4}, 90, 130, "4 x 100 mt"),
+    ({2}, 50, 70, "2 x 60 mt"),
+]
 
 
-def _bucket_metros(metros_rollo):
-    m = float(metros_rollo)
-    if m <= 17: return "~15 m/rollo"
-    if m <= 25: return "~20 m/rollo"
-    if m <= 35: return "~30 m/rollo"
-    if m <= 48: return "~40 m/rollo"
-    if m <= 60: return "~50 m/rollo"
-    if m <= 90: return "~70 m/rollo"
-    return "100+ m/rollo"
+def _sector(rollos, metros_rollo):
+    try:
+        r = int(rollos)
+        m = float(metros_rollo)
+    except (TypeError, ValueError):
+        return None
+    for rols, mn, mx, lab in SECTORES:
+        if r in rols and mn <= m <= mx:
+            return lab
+    return None
 
 
 def _parse_rollos_metros(nombre):
@@ -305,7 +320,12 @@ def _segmento(row):
         return f"Servilletas · {sub}" if pd.notna(sub) else None
     if pd.isna(row.get("rollos")) or pd.isna(row.get("metros_rollo")):
         return None
-    return f"{row['subcategoria']} · {_bucket_pack(row['rollos'])} · {_bucket_metros(row['metros_rollo'])}"
+    sec = _sector(row["rollos"], row["metros_rollo"])
+    if sec is None:
+        return None
+    # El tipo de hoja va en la etiqueta para no mezclar doble hoja con hoja
+    # simple ni triple hoja en un mismo sector.
+    return f"{row['subcategoria']} · {sec}"
 
 
 def _armar_export(df_export):
