@@ -397,6 +397,26 @@ TC-417,Lider Mesa 200 un,Lider,,acuenta,https://www.acuenta.cl/p/servilletas-mes
 TC-418,Nova Clásica Mesa 200 un,Nova,,acuenta,https://www.acuenta.cl/p/servilletas-mesa-33x33-cm-200-un-nova-1146124,Servilletas,Mesa,,,200
 TC-419,Lider Cocktail 50 un,Lider,,acuenta,https://www.acuenta.cl/p/servilletas-coctel-23x24-cm-50-un-lider-9555,Servilletas,Cocktail,,,50
 
+TC-420,PAPEL HIGIENICO 22MT 4UN CONFORT MANGAx12,Confort,88,centralmayorista,https://www.centralmayorista.cl/p/papel-higienico-22mt-4un-confort-mangax12-637453,Papel Higienico,Doble Hoja,4,22,12
+TC-421,PAPEL HIGIENICO 30MT 4UN CONFORT MANGAx12,Confort,120,centralmayorista,https://www.centralmayorista.cl/p/papel-higienico-30mt-4un-confort-mangax12-546190,Papel Higienico,Doble Hoja,4,30,12
+TC-422,PAPEL HIGIENICO 22MT 6UN NOBLE MANGAx10,Noble,132,centralmayorista,https://www.centralmayorista.cl/p/papel-higienico-22mt-6un-noble-mangax10-753133,Papel Higienico,Doble Hoja,6,22,10
+TC-423,PAPEL HIGIENICO 4UN 50MT ELITE MANGAx8,Elite,200,centralmayorista,https://www.centralmayorista.cl/p/papel-higienico-4un-50mt-elite-mangax8-614264,Papel Higienico,Doble Hoja,4,50,8
+TC-424,PAPEL HIGIENIC DOBLE HOJA 21MT 4UN SCOTT MANGAx12,Scott,84,centralmayorista,https://www.centralmayorista.cl/p/papel-higienic-doble-hoja-21mt-4un-scott-mangax12-5046068,Papel Higienico,Doble Hoja,4,21,12
+TC-425,PAPEL HIGIENICO 23MT 4UN NOBLE MANGAx10,Noble,92,centralmayorista,https://www.centralmayorista.cl/p/papel-higienico-23mt-4un-noble-mangax10-760732,Papel Higienico,Doble Hoja,4,23,10
+TC-426,Papel Higienico 50mt 12un Confort Manga x4,Confort,600,centralmayorista,https://www.centralmayorista.cl/p/papel-higienico-50mt-12un-confort-mangax4-442649,Papel Higienico,Doble Hoja,12,50,4
+TC-427,Papel Higienico 4un 25mt Elite Manga x12,Elite,100,centralmayorista,https://www.centralmayorista.cl/p/papel-higienico-4un-25mt-elite-mangax12-5094560,Papel Higienico,Doble Hoja,4,25,12
+TC-428,Papel Higienico DH 4un 18mt Florax Manga x12,Florax,72,centralmayorista,https://www.centralmayorista.cl/p/papel-higienico-doble-hoja-4un-18mt-mangax12-625279,Papel Higienico,Doble Hoja,4,18,12
+TC-429,Papel Higienico DH 22mt 4un Ovella Manga x12,Ovella,88,centralmayorista,https://www.centralmayorista.cl/p/papel-higienico-dh-22mt-4un-ovella-mangax12-5120868,Papel Higienico,Doble Hoja,4,22,12
+TC-430,Papel Higienico DH 50mt 4un Ovella Manga x8,Ovella,200,centralmayorista,https://www.centralmayorista.cl/p/papel-higienico-dh-50mt-4un-ovella-mangax8-5120987,Papel Higienico,Doble Hoja,4,50,8
+TC-431,Papel Higienico 50mt 4un Noble Manga x8,Noble,200,centralmayorista,https://www.centralmayorista.cl/p/papel-higienico-50mt-4un-noble-mangax8-5139294,Papel Higienico,Doble Hoja,4,50,8
+TC-432,Papel Higienico Ultra 2H 50mt 8un Elite Manga x4,Elite,400,centralmayorista,https://www.centralmayorista.cl/p/papel-higenico-ultra-2h-50mt-8un-elite-mangax4-5139423,Papel Higienico,Doble Hoja,8,50,4
+TC-433,Papel Higienico Acolchado 22mt 9un Favorita Manga x4,Favorita,198,centralmayorista,https://www.centralmayorista.cl/p/papel-higenico-acolcha-22mt-9un-favorita-mangax4-5140188,Papel Higienico,Doble Hoja,9,22,4
+TC-434,Papel Higienico Florax 50mt DH Manga x8,Florax,200,centralmayorista,https://www.centralmayorista.cl/p/ph-florax-50mt-dh-mangax8-5082957,Papel Higienico,Doble Hoja,4,50,8
+TC-435,Papel Higienico DH 21mt 6un Scott Manga x8,Scott,126,centralmayorista,https://www.centralmayorista.cl/p/papel-higienic-doble-hoja-21mt-6un-scott-mangax8-5046069,Papel Higienico,Doble Hoja,6,21,8
+TC-436,Papel Higienico 2H 20mt 16un Elite Pro,Elite,320,centralmayorista,https://www.centralmayorista.cl/p/papel-higienico-2h-20mt-16un-elite-pro-5148588,Papel Higienico,Doble Hoja,16,20,
+TC-437,Papel Higienico 300m 6un Rendipel Pro,Rendipel,1800,centralmayorista,https://www.centralmayorista.cl/p/papel-higienico-300m-6un-rendipel-pro-117130,Papel Higienico,Hoja Simple,6,300,
+TC-438,Papel Higienico 500mt 4un Elite Professional,Elite,2000,centralmayorista,https://www.centralmayorista.cl/p/papel-higienico-500mt-4un-elite-professi-5046070,Papel Higienico,Hoja Simple,4,500,
+
 # Columnas: sku_interno,producto,marca,metros_totales,retailer,url,categoria,
 # subcategoria,rollos,metros_rollo,unidades
 #
@@ -413,4 +433,10 @@ TC-419,Lider Cocktail 50 un,Lider,,acuenta,https://www.acuenta.cl/p/servilletas-
 # SERVILLETAS: dejar metros_totales/rollos/metros_rollo vacíos y llenar
 # unidades (cantidad de servilletas del pack). subcategoria = "Cocktail" o
 # "Mesa". Se comparan en $/unidad; el segmento es solo el tipo (Cocktail/Mesa).
+#
+# FORMATO MAYORISTA POR MANGA/CAJA (ej. Central Mayorista publica el precio de
+# 12 packs juntos): llenar rollos/metros_rollo/metros_totales con los datos de
+# UN pack suelto y poner en 'unidades' cuántos packs trae la manga (ej. 12 para
+# "MANGAx12"). La app calcula Precio pack = precio / 12 y con eso el $/metro,
+# así compite parejo contra un pack suelto de otro súper.
 
