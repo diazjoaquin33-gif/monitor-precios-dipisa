@@ -175,6 +175,27 @@ def _consultar_instaleap(url: str, cfg: dict):
         return None, None, False, f"Error Instaleap: {str(e)[:80]}"
 
 
+def _consultar_liquimax(url: str):
+    """liquimax.cl corre sobre la plataforma Bolder, que expone la ficha como
+    JSON limpio agregando '.json' a la URL del producto (sin protección
+    anti-bot). Trae price / regular_price / sale_price y 'available'."""
+    api = url.split("?")[0].rstrip("/") + ".json"
+    try:
+        res = requests.get(api, headers=HEADERS_GENERICOS, timeout=12)
+        if res.status_code != 200:
+            return None, None, False, f"HTTP {res.status_code}"
+        d = res.json()
+        p = d.get("product", d)
+        precio = p.get("sale_price") or p.get("price")
+        if not precio:
+            return None, None, False, "Sin precio en la respuesta"
+        precio_normal = p.get("regular_price") or precio
+        disponible = bool(p.get("available")) and not p.get("blocked")
+        return float(precio), float(precio_normal), disponible, None
+    except Exception as e:
+        return None, None, False, f"Error Liquimax: {str(e)[:80]}"
+
+
 def _consultar_lider_api(url: str):
     m_id = re.search(r'/(\d{8,16})(?:\?|$)', url)
     if not m_id: m_id = re.search(r'(\d+)', url.rstrip("/").split("/")[-1])
@@ -363,6 +384,8 @@ def procesar_lote(retailer_key, lista_productos, cfg):
             p, pn, disp, err = _consultar_lider_api(prod["url"])
         elif metodo == "instaleap":
             p, pn, disp, err = _consultar_instaleap(prod["url"], cfg)
+        elif metodo == "liquimax":
+            p, pn, disp, err = _consultar_liquimax(prod["url"])
         else:
             p, pn, disp, err = _consultar_curl_cffi(prod["url"], cfg)
 

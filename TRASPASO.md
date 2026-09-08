@@ -93,7 +93,7 @@ Columnas de una fila de producto: `sku_interno,producto,marca,metros_totales,ret
 
 - `sku_interno`: código libre que no se repita (seguir la serie `TC-###`).
 - `retailer`: la **clave exacta** en minúscula — `jumbo`, `santaisabel`, `tottus`,
-  `unimarc`, `alvi`, `acuenta`, `centralmayorista` (no el nombre "bonito").
+  `unimarc`, `alvi`, `acuenta`, `centralmayorista`, `liquimax` (no el nombre "bonito").
 - `categoria` y `subcategoria`: igual que en `ovella.csv` (o los valores ya usados)
   para que el dashboard agrupe bien.
 - **Papel higiénico / toalla:** `metros_totales`, `rollos` (cuántos rollos trae el

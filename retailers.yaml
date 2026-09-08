@@ -44,6 +44,14 @@ unimarc:
   patron_precio_oferta: '"price":\{"price":"\$([\d.,]+)"'
   patron_precio_normal: '"price":\{"price":"\$[\d.,]+","listPrice":"\$([\d.,]+)"'
 
+liquimax:
+  nombre: "Liquimax"
+  metodo: "liquimax"
+  # Verificado 08/09/2026: liquimax.cl corre sobre la plataforma Bolder. La
+  # ficha se obtiene como JSON agregando ".json" a la URL del producto
+  # (.../products/{slug}.json) — sin anti-bot, trae price/regular_price/
+  # sale_price/available. Ver _consultar_liquimax en scraper.py.
+
 centralmayorista:
   nombre: "Central Mayorista"
   metodo: "instaleap"
