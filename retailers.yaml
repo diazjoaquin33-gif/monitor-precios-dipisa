@@ -21,6 +21,7 @@ jumbo:
 
 alvi:
   nombre: "Alvi"
+  canal: "mayorista"
   # Método especial (ver _consultar_alvi en scraper.py): Alvi es mayorista y
   # muestra 3 precios (lista, socio 1 unidad, socio 2+ unidades) que se leen
   # directo del JSON de hidratación de la página, no de un patrón de texto.
@@ -46,6 +47,7 @@ unimarc:
 
 dimak:
   nombre: "Dimak"
+  canal: "mayorista"
   metodo: "dimak"
   # Verificado 08/09/2026: dimakonline.cl (distribuidor mayorista) es tienda
   # VTEX estándar. Precio vía API pública de catálogo por 'linkText'. Es
@@ -54,6 +56,7 @@ dimak:
 
 imanweb:
   nombre: "Imanweb"
+  canal: "mayorista"
   metodo: "imanweb"
   # Verificado 08/09/2026: imanweb.cl (distribuidor mayorista, RM) es
   # WooCommerce con la Store API abierta. Precio de la ficha vía
@@ -63,6 +66,7 @@ imanweb:
 
 liquimax:
   nombre: "Liquimax"
+  canal: "mayorista"
   metodo: "liquimax"
   # Verificado 08/09/2026: liquimax.cl corre sobre la plataforma Bolder. La
   # ficha se obtiene como JSON agregando ".json" a la URL del producto
@@ -71,6 +75,7 @@ liquimax:
 
 centralmayorista:
   nombre: "Central Mayorista"
+  canal: "mayorista"
   metodo: "instaleap"
   # Verificado 08/09/2026: centralmayorista.cl es Next.js SPA con el mismo
   # backend Instaleap que aCuenta (y su dominio principal tiene la cadena SSL
