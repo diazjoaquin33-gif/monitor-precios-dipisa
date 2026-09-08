@@ -44,6 +44,15 @@ unimarc:
   patron_precio_oferta: '"price":\{"price":"\$([\d.,]+)"'
   patron_precio_normal: '"price":\{"price":"\$[\d.,]+","listPrice":"\$([\d.,]+)"'
 
+imanweb:
+  nombre: "Imanweb"
+  metodo: "imanweb"
+  # Verificado 08/09/2026: imanweb.cl (distribuidor mayorista, RM) es
+  # WooCommerce con la Store API abierta. Precio de la ficha vía
+  # /wp-json/wc/store/v1/products?slug={slug}; el par lista/oferta sale de
+  # 'price_html'. Es mayorista por manga — el nº de paquetes va en 'unidades'
+  # en productos.csv. Ver _consultar_imanweb en scraper.py.
+
 liquimax:
   nombre: "Liquimax"
   metodo: "liquimax"

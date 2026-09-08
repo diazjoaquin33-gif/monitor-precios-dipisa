@@ -203,6 +203,45 @@ def _consultar_liquimax(url: str):
         return None, None, False, f"Error Liquimax: {str(e)[:80]}", None
 
 
+def _consultar_imanweb(url: str):
+    """imanweb.cl es WooCommerce con la Store API abierta
+    (/wp-json/wc/store/v1/products?slug=...). El precio de lista/oferta a veces
+    lo pone un plugin de descuento que la Store API no refleja en 'prices'
+    (queda todo igual y on_sale=False), pero sí aparece en 'price_html' como
+    <del>lista</del> <ins>oferta</ins> — de ahí se saca el par. Es mayorista:
+    el precio es el de la 'manga' (varios paquetes); el nº de paquetes se
+    carga en la columna 'unidades' de productos.csv."""
+    slug = url.split("?")[0].rstrip("/").split("/")[-1]
+    try:
+        res = requests.get(
+            "https://www.imanweb.cl/wp-json/wc/store/v1/products",
+            params={"slug": slug}, headers=HEADERS_GENERICOS, timeout=12,
+        )
+        if res.status_code != 200:
+            return None, None, False, f"HTTP {res.status_code}"
+        data = res.json()
+        if not data:
+            return None, None, False, f"slug '{slug}' no encontrado"
+        p = data[0]
+        pr = p.get("prices") or {}
+        minor = int(pr.get("currency_minor_unit") or 0)
+        div = 10 ** minor
+        precio = float(pr.get("price")) / div if pr.get("price") else None
+        if not precio:
+            return None, None, False, "Sin precio en la respuesta"
+        precio_normal = precio
+        m = re.search(r"<del[^>]*>.*?([\d.]+)</span>", p.get("price_html") or "", re.S)
+        if m:
+            try:
+                precio_normal = float(m.group(1).replace(".", ""))
+            except ValueError:
+                pass
+        disponible = bool(p.get("is_in_stock")) and bool(p.get("is_purchasable"))
+        return precio, max(precio_normal, precio), disponible, None
+    except Exception as e:
+        return None, None, False, f"Error imanweb: {str(e)[:80]}"
+
+
 def _consultar_lider_api(url: str):
     m_id = re.search(r'/(\d{8,16})(?:\?|$)', url)
     if not m_id: m_id = re.search(r'(\d+)', url.rstrip("/").split("/")[-1])
@@ -395,6 +434,8 @@ def procesar_lote(retailer_key, lista_productos, cfg):
             p, pn, disp, err, p2 = _consultar_liquimax(prod["url"])
             if p and p2:
                 extra = {"precio_socio2": p2}
+        elif metodo == "imanweb":
+            p, pn, disp, err = _consultar_imanweb(prod["url"])
         else:
             p, pn, disp, err = _consultar_curl_cffi(prod["url"], cfg)
 

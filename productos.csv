@@ -475,6 +475,8 @@ TC-492,Elite Cocktail 200 un,Elite,,liquimax,https://www.liquimax.cl/products/se
 TC-493,Nova Clasica Cocktail 300 un,Nova,,liquimax,https://www.liquimax.cl/products/servilletas-nova-clasica-cocktail-300-un,Servilletas,Cocktail,,,300
 TC-494,Nova Clasica Cocktail 50 un,Nova,,liquimax,https://www.liquimax.cl/products/servilletas-nova-clasica-cocktail-50-un,Servilletas,Cocktail,,,50
 
+TC-495,HIGIENICO NOBLE DH 50MTS X4 X8,Noble,200,imanweb,https://www.imanweb.cl/producto/higienico-noble-dh-50mts-x4-x8/,Papel Higienico,Doble Hoja,4,50,8
+
 # Columnas: sku_interno,producto,marca,metros_totales,retailer,url,categoria,
 # subcategoria,rollos,metros_rollo,unidades
 #
