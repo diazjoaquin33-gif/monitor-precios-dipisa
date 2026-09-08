@@ -245,6 +245,11 @@ def cargar_datos():
 
     df["precio_metro"] = (df["precio_pack"] / df["metros_totales"]).round(1)
     df.loc[es_serv, "precio_metro"] = pd.NA
+    # $/metro con el precio mayorista "desde 2 unidades" (ej. Liquimax) — se
+    # muestra al lado del $/metro de lista para comparar los dos escenarios.
+    _p2 = pd.to_numeric(df["precio_socio2"], errors="coerce")
+    df["precio_metro_2un"] = (_p2 / df["metros_totales"]).round(1)
+    df.loc[es_serv, "precio_metro_2un"] = pd.NA
     df["precio_unidad"] = (df["precio"] / df["unidades"]).round(1)
     df.loc[~es_serv, "precio_unidad"] = pd.NA
     df["precio_ref"] = df["precio_metro"]
@@ -407,6 +412,7 @@ def _armar_export(df_export):
             "Precio Oferta": _formatear_clp(r["precio"]) if pd.notna(r["descuento_pct"]) else "",
             "Descuento %": f"{int(r['descuento_pct'])}%" if pd.notna(r["descuento_pct"]) else "",
             "Precio 2+ un (mayorista)": _formatear_clp(r.get("precio_socio2")) if pd.notna(r.get("precio_socio2")) else "",
+            "$/Metro 2+ un": f"${r['precio_metro_2un']}/m" if pd.notna(r.get("precio_metro_2un")) else "",
             "$/Metro o $/unidad": f"${r['precio_ref']}/{r.get('ref_unidad', 'm')}" if pd.notna(r.get("precio_ref")) else "N/D",
             "Estado": r["estado"],
             "Última actualización": r.get("fecha_act") or "",
@@ -507,6 +513,9 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
             fila["Precio manga"] = _formatear_clp(r.get("precio_manga")) if es_bulto else "—"
             fila["Precio pack"] = _formatear_clp(r.get("precio_pack")) if es_bulto else "—"
         fila[col_ref] = f"${precio_metro}/{unidad_ref}" if precio_metro is not None else "N/D"
+        if hay_precio2:
+            v2 = r.get("precio_metro_2un")
+            fila[f"{col_ref} (2+un)"] = f"${v2}/{unidad_ref}" if pd.notna(v2) else "—"
         fila["Estado"] = r["estado"]
         fila["Ver"] = r.get("url")
         filas.append(fila)
