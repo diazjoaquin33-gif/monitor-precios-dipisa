@@ -612,7 +612,7 @@ with st.sidebar:
     )
     vista = st.radio(
         "Vista",
-        ["🏪 Por retailer", "🥊 Por segmento competitivo"],
+        ["🏪 Por retailer", "🥊 Por segmento competitivo", "🎯 Posición de Ovella"],
     )
     st.markdown("---")
     canal_sel = st.radio(
@@ -629,6 +629,10 @@ with st.sidebar:
         "Buscar", placeholder="Ej. Elite, Confort, doble hoja...",
     )
     st.markdown("---")
+
+# El CSV descargable SIEMPRE es la base completa (todos los canales, sin
+# búsqueda) — se arma antes de aplicar cualquier filtro de pantalla.
+df_completo = df.copy()
 
 # Filtro de canal — se aplica a todo (métricas incluidas) para que los
 # números de arriba cuadren con lo que se ve en la tabla.
@@ -694,11 +698,12 @@ st.divider()
 # y por lo tanto ";" entre columnas — con "," todo el CSV aparece amontonado en
 # una sola columna al abrirlo.
 st.sidebar.download_button(
-    "⬇️ Descargar CSV (lo filtrado)",
-    data=_armar_export(df[~df["retailer_desactivado"]]).to_csv(index=False, sep=";").encode("utf-8-sig"),
+    "⬇️ Descargar CSV (todo)",
+    data=_armar_export(df_completo[~df_completo["retailer_desactivado"]]).to_csv(index=False, sep=";").encode("utf-8-sig"),
     file_name="precios_dipisa.csv",
     mime="text/csv",
     width="stretch",
+    help="Exporta el monitor completo (todos los retailers y categorías), sin importar el filtro de pantalla.",
 )
 
 with st.sidebar.expander("🔗 ¿Un link de producto está roto o cambió?"):
@@ -893,7 +898,78 @@ def _mostrar_marcas(df_sub):
         _mostrar_tabla(grupo_marca, ocultar_columnas=["Retailer", "Marca"], mostrar_formato=True)
 
 
-if vista == "🏪 Por retailer":
+def _posicion_ovella(dfx, etiqueta):
+    """Resumen ejecutivo: en cada segmento donde Ovella tiene un producto,
+    dónde queda su precio de referencia frente al más barato de la competencia.
+    Responde de un vistazo la pregunta del monitor: ¿estamos caros o baratos?"""
+    st.caption(
+        f"Posición del precio de Ovella en cada segmento donde compite — **{etiqueta}**. "
+        "Se compara el $/metro (papel) o $/unidad (servilletas) más bajo de Ovella "
+        "contra el más bajo de la competencia en ese mismo segmento."
+    )
+    base = dfx[dfx["segmento"].notna() & dfx["precio_ref"].notna()].copy()
+    base["_marca"] = base["marca"].str.strip().str.lower()
+    segs = sorted(base.loc[base["_marca"] == "ovella", "segmento"].unique())
+    if not segs:
+        st.info("No hay segmentos con un producto Ovella con precio en el filtro actual. Probá otro Canal en la barra lateral.")
+        return
+
+    filas = []
+    for seg in segs:
+        g = base[base["segmento"] == seg]
+        ov = g[g["_marca"] == "ovella"]
+        comp = g[g["_marca"] != "ovella"]
+        ov_precio = float(ov["precio_ref"].min())
+        unidad = ov["ref_unidad"].iloc[0]
+        min_marca = g.groupby(g["marca"].str.strip())["precio_ref"].min().sort_values()
+        marcas_ord = [m.lower() for m in min_marca.index]
+        pos = marcas_ord.index("ovella") + 1
+        comp_min = float(comp["precio_ref"].min()) if not comp.empty else None
+        dif = ((ov_precio - comp_min) / comp_min * 100) if comp_min else None
+        filas.append({
+            "Categoría": g["categoria"].iloc[0],
+            "Segmento": seg.split("·", 1)[-1].strip() if "·" in seg else seg,
+            f"Ovella": f"${ov_precio:g}/{unidad}",
+            "Competidor + barato": f"${comp_min:g}/{unidad}" if comp_min else "—",
+            "Dif.": f"{dif:+.0f}%" if dif is not None else "—",
+            "Posición": f"{pos}° de {len(min_marca)}",
+            "_dif": dif if dif is not None else 0,
+            "_pos": pos,
+        })
+    tabla = pd.DataFrame(filas)
+    baratos = int((tabla["_pos"] == 1).sum())
+    caros = int((tabla["_dif"] > 10).sum())
+    m1, m2, m3 = st.columns(3)
+    m1.metric("Segmentos donde Ovella compite", len(tabla))
+    m2.metric("Ovella es el más barato", f"{baratos} / {len(tabla)}")
+    m3.metric("Ovella +10% sobre el más barato", caros)
+
+    tabla = tabla.sort_values("_dif", ascending=False).drop(columns=["_dif", "_pos"])
+
+    def _color(fila):
+        pos = fila["Posición"]
+        dif_txt = fila["Dif."]
+        dif = float(dif_txt.rstrip("%")) if dif_txt not in ("—",) else 0
+        if pos.startswith("1°"):
+            return [f"background-color: {COLOR_BUENO}22"] * len(fila)
+        if dif > 10:
+            return [f"background-color: {COLOR_CRITICO}1f"] * len(fila)
+        return [""] * len(fila)
+
+    try:
+        st.dataframe(tabla.style.apply(_color, axis=1), hide_index=True, width="stretch")
+    except TypeError:
+        st.dataframe(tabla.style.apply(_color, axis=1), hide_index=True, use_container_width=True)
+    st.caption(
+        "🟢 Ovella es el más barato del segmento · 🔴 Ovella está más de 10% sobre el más barato "
+        "(oportunidad de revisar precio). Ordenado de mayor a menor diferencia."
+    )
+
+
+if vista == "🎯 Posición de Ovella":
+    _posicion_ovella(df, etiqueta_canal)
+
+elif vista == "🏪 Por retailer":
     # Un tab por supermercado, y dentro de cada uno las filas agrupadas por marca.
     retailers_activos = sorted(df["retailer_nombre"].dropna().unique())
     tabs_retailer = st.tabs(retailers_activos)
