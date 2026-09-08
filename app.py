@@ -225,6 +225,12 @@ def cargar_datos():
     packs_col = pd.to_numeric(df["unidades"], errors="coerce").where(~es_serv)
     packs_nom = pd.to_numeric(df["producto"].map(_packs_por_bulto), errors="coerce").where(~es_serv)
     df["packs_por_bulto"] = packs_col.fillna(packs_nom)
+    # Servilletas: 'unidades' es el conteo real del pack, así que el
+    # multiplicador de caja (N paquetes por caja mayorista) se carga en la
+    # columna 'metros_totales' — que en servilletas no se usa para nada más.
+    packs_serv = pd.to_numeric(df["metros_totales"], errors="coerce").where(es_serv)
+    df.loc[es_serv, "packs_por_bulto"] = packs_serv
+    df.loc[es_serv, "metros_totales"] = pd.NA
     hay_bulto = df["packs_por_bulto"].fillna(1) > 1
 
     df["precio"] = pd.to_numeric(df["precio"], errors="coerce")
@@ -250,7 +256,9 @@ def cargar_datos():
     _p2 = pd.to_numeric(df["precio_socio2"], errors="coerce")
     df["precio_metro_2un"] = (_p2 / df["metros_totales"]).round(1)
     df.loc[es_serv, "precio_metro_2un"] = pd.NA
-    df["precio_unidad"] = (df["precio"] / df["unidades"]).round(1)
+    # $/unidad de servilletas: sobre el precio de un pack suelto (si venía en
+    # caja mayorista, precio_pack ya lo dividió por los N paquetes).
+    df["precio_unidad"] = (df["precio_pack"] / df["unidades"]).round(1)
     df.loc[~es_serv, "precio_unidad"] = pd.NA
     df["precio_ref"] = df["precio_metro"]
     df.loc[es_serv, "precio_ref"] = df.loc[es_serv, "precio_unidad"]
@@ -409,10 +417,10 @@ def _armar_export(df_export):
             "Producto estándar": _producto_estandar(r),
             "Marca": r["marca"],
             "Producto": r["producto"],
-            "Metros totales": r["metros_totales"],
+            "Metros totales": "" if pd.isna(r.get("metros_totales")) else r["metros_totales"],
             "Unidades": int(r["unidades"]) if r["categoria"] == "Servilletas" and pd.notna(r.get("unidades")) else "",
-            "Packs por manga": int(r["packs_por_bulto"]) if pd.notna(r.get("packs_por_bulto")) and r["packs_por_bulto"] > 1 else "",
-            "Precio manga": _formatear_clp(r.get("precio_manga")) if pd.notna(r.get("precio_manga")) else "",
+            "Packs por manga/caja": int(r["packs_por_bulto"]) if pd.notna(r.get("packs_por_bulto")) and r["packs_por_bulto"] > 1 else "",
+            "Precio manga/caja": _formatear_clp(r.get("precio_manga")) if pd.notna(r.get("precio_manga")) else "",
             "Precio pack": _formatear_clp(r.get("precio_pack")) if pd.notna(r.get("precio_pack")) else "",
             "Precio Lista": _formatear_clp(r["precio_normal"]),
             "Precio Oferta": _formatear_clp(r["precio"]) if pd.notna(r["descuento_pct"]) else "",
@@ -429,7 +437,11 @@ def _armar_export(df_export):
 
 def _fmt_formato(r):
     if r.get("categoria") == "Servilletas" and pd.notna(r.get("unidades")):
-        return f"{int(r['unidades'])} un · {r['subcategoria']}"
+        base = f"{int(r['unidades'])} un · {r['subcategoria']}"
+        n = r.get("packs_por_bulto")
+        if pd.notna(n) and n and n > 1:
+            base += f" · caja x{int(n)}"
+        return base
     if pd.notna(r.get("rollos")) and pd.notna(r.get("metros_rollo")):
         base = f"{int(r['rollos'])}x{r['metros_rollo']:g}m · {r['subcategoria']}"
         n = r.get("packs_por_bulto")
@@ -514,9 +526,10 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
             if hay_precio2:
                 fila["Desde 2 un"] = _formatear_clp(r.get("precio_socio2")) if pd.notna(r.get("precio_socio2")) else "—"
         if hay_bulto_grupo:
+            lbl_bulto = "Precio caja" if unidad_ref == "u" else "Precio manga"
             n = pd.to_numeric(r.get("packs_por_bulto"), errors="coerce")
             es_bulto = pd.notna(n) and n > 1
-            fila["Precio manga"] = _formatear_clp(r.get("precio_manga")) if es_bulto else "—"
+            fila[lbl_bulto] = _formatear_clp(r.get("precio_manga")) if es_bulto else "—"
             fila["Precio pack"] = _formatear_clp(r.get("precio_pack")) if es_bulto else "—"
         fila[col_ref] = f"${precio_metro}/{unidad_ref}" if precio_metro is not None else "N/D"
         if hay_precio2:

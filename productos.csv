@@ -495,15 +495,15 @@ TC-509,HIG. ELITE INDUST CLASIC 500MT X4,Elite,2000,imanweb,https://www.imanweb.
 TC-510,P. TOALLA RENDIPEL MAX HS 250MT X2,Rendipel,500,imanweb,https://www.imanweb.cl/producto/p-toalla-rendipel-max-hs-250mt-x2/,Toalla de Papel,Hoja Simple,2,250,
 TC-511,P. TOALLA ELITE DECO MAXI ROLLO 20MT X2,Elite,40,imanweb,https://www.imanweb.cl/producto/p-toalla-elite-deco-maxi-rollo-x20/,Toalla de Papel,Doble Hoja,2,20,10
 TC-512,P. TOALLA SWAN DH 12MT X3,Swan,36,imanweb,https://www.imanweb.cl/producto/p-toalla-swan-dh-12mt-x3/,Toalla de Papel,Doble Hoja,3,12,8
-TC-513,SERV. GIULIETTA ROJA Cocktail 3600 un (12x300),Giulietta,,imanweb,https://www.imanweb.cl/producto/serv-giulietta-roja-300-x12/,Servilletas,Cocktail,,,3600
+TC-513,SERV. GIULIETTA ROJA COCKTAIL 300 un (caja x12),Giulietta,12,imanweb,https://www.imanweb.cl/producto/serv-giulietta-roja-300-x12/,Servilletas,Cocktail,,,300
 TC-514,HIG. PILUCHO HOJA SIMPLE 50MT X48 ROLLOS,Pilucho,50,imanweb,https://www.imanweb.cl/producto/hig-pilucho-h-simple-50mt-x48/,Papel Higienico,Hoja Simple,1,50,48
 TC-515,P.HIG OVELLA DH 22MTS X4 (Manga 12),Ovella,88,imanweb,https://www.imanweb.cl/producto/p-hig-ovella-dh-22mtsx4/,Papel Higienico,Doble Hoja,4,22,12
 TC-516,PH SWAN RENDIDOR DH 50M X4 (Manga 8),Swan,200,imanweb,https://www.imanweb.cl/producto/ph-swan-rendidor-dh-50m-x48/,Papel Higienico,Doble Hoja,4,50,8
 TC-517,HIG. CONFORT PANAL DH 30MT X4 (48 ROLLOS),Confort,120,imanweb,https://www.imanweb.cl/producto/hig-confort-panal-dh-30mt-x4/,Papel Higienico,Doble Hoja,4,30,12
 TC-518,HIG. RENDIPEL PRO 300MT X6,Rendipel,1800,imanweb,https://www.imanweb.cl/producto/hig-rendipel-pro-300mt-x6/,Papel Higienico,Hoja Simple,6,300,
-TC-519,SERV. SWAN Cocktail 3600 un (12x300),Swan,,imanweb,https://www.imanweb.cl/producto/serv-swan-300-x12/,Servilletas,Cocktail,,,3600
+TC-519,SERV. SWAN COCKTAIL 300 un (caja x12),Swan,12,imanweb,https://www.imanweb.cl/producto/serv-swan-300-x12/,Servilletas,Cocktail,,,300
 TC-520,HIG. RENDIPEL MAX HS 500MT X4,Rendipel,2000,imanweb,https://www.imanweb.cl/producto/hig-rendipel-max-hs-500mt-x4/,Papel Higienico,Hoja Simple,4,500,
-TC-521,SERV. OVELLA COCTEL 3600 un (12x300),Ovella,,imanweb,https://www.imanweb.cl/producto/serv-ovella-coctel-300unx12/,Servilletas,Cocktail,,,3600
+TC-521,SERV. OVELLA COCTEL 300 un (caja x12),Ovella,12,imanweb,https://www.imanweb.cl/producto/serv-ovella-coctel-300unx12/,Servilletas,Cocktail,,,300
 TC-522,P. TOALLA TORK JUMBO HS 250MT X2,Tork,500,imanweb,https://www.imanweb.cl/producto/p-toalla-tork-jumbo-hs-250mt-x2/,Toalla de Papel,Hoja Simple,2,250,
 TC-523,HIG. INDUSTRIAL 300MT X6,Generico,1800,imanweb,https://www.imanweb.cl/producto/hig-industrial-300mt-x6/,Papel Higienico,Hoja Simple,6,300,
 TC-524,P. TOALLA ELITE EXCELLENCE DH 24MT X2,Elite,48,imanweb,https://www.imanweb.cl/producto/p-toalla-elite-excellence-dh-24mt-x2/,Toalla de Papel,Doble Hoja,2,24,8
@@ -516,6 +516,40 @@ TC-530,TOALLA 190 MTS X2 TODAY,Today,380,imanweb,https://www.imanweb.cl/producto
 TC-531,PT SWAN CLASICA DH 40 MTS X12,Swan,40,imanweb,https://www.imanweb.cl/producto/pt-swan-clasica-dh-40-mts-x12/,Toalla de Papel,Doble Hoja,1,40,12
 TC-532,TOALLA OVELLA DH 11MTS X3 (Manga 8),Ovella,33,imanweb,https://www.imanweb.cl/producto/toalla-ovella-dh-11mtsx3/,Toalla de Papel,Doble Hoja,3,11,8
 TC-533,PT SWAN PROFESIONAL SMART DH 24M X2 (Manga 8),Swan,48,imanweb,https://www.imanweb.cl/producto/pt-swan-profesional-smart-dh-24m-x2-8/,Papel Higienico,Doble Hoja,2,24,8
+
+TC-534,P. TOALLA GIULIETTA HS 90MT X6,Giulietta,90,imanweb,https://www.imanweb.cl/producto/p-toalla-giulietta-90mt-x6/,Toalla de Papel,Hoja Simple,1,90,6
+TC-535,TORK TOALLA COCINA DH 50MT X2 X6,Tork,100,imanweb,https://www.imanweb.cl/producto/tork-toalla-cocina-50mt-x2-x6-dh/,Toalla de Papel,Doble Hoja,2,50,6
+TC-536,P. TOALLA GIULIETTA DH 76 MTS X6,Giulietta,76,imanweb,https://www.imanweb.cl/producto/p-toalla-giulietta-dh-76-mts-x6/,Toalla de Papel,Doble Hoja,1,76,6
+TC-537,TOALLA OVELLA DH 100 MTS X6,Ovella,100,imanweb,https://www.imanweb.cl/producto/toalla-ovella-dh-100mtsx6/,Toalla de Papel,Doble Hoja,1,100,6
+TC-538,TOALLA OVELLA DH 70 MTS X8,Ovella,70,imanweb,https://www.imanweb.cl/producto/toalla-ovella-dh-70mtsx8/,Toalla de Papel,Doble Hoja,1,70,8
+TC-539,P. TOALLA 135 MT X2 UH,Generico,270,imanweb,https://www.imanweb.cl/producto/p-toalla-135mt-x2-uh/,Toalla de Papel,Hoja Simple,2,135,
+TC-540,P. TOALLA NOVA CLASICA X3 (8 PQT),Nova,36,imanweb,https://www.imanweb.cl/producto/p-toalla-nova-clasica-x3/,Toalla de Papel,Hoja Simple,3,12,8
+TC-541,P. TOALLA TORK COCINA DH 24MT X2 (8 PAQ),Tork,48,imanweb,https://www.imanweb.cl/producto/p-toalla-tork-24mt-x2-rollos-8-paq/,Toalla de Papel,Doble Hoja,2,24,8
+TC-542,TOALLA OVELLA HOJA SIMPLE 100 MTS X6,Ovella,100,imanweb,https://www.imanweb.cl/producto/toalla-ovella-hoja-simple-100mtsx6/,Toalla de Papel,Hoja Simple,1,100,6
+TC-543,P. TOALLA MINI ABOLENGO X3 (8 PQT),Abolengo,37.5,imanweb,https://www.imanweb.cl/producto/p-toalla-mini-abolengo-x-3/,Toalla de Papel,Hoja Simple,3,12.5,8
+TC-544,P. TOALLA NOVA ULTRA GIGANTE DH 70MT X8,Nova,70,imanweb,https://www.imanweb.cl/producto/p-toalla-nova-ultra-gigante-70mt8/,Toalla de Papel,Doble Hoja,1,70,8
+TC-545,P. TOALLA RENDIPEL PRO HS 190 MT X2,Rendipel,380,imanweb,https://www.imanweb.cl/producto/p-toalla-rendipel-pro-190-mt-x2/,Toalla de Papel,Hoja Simple,2,190,
+TC-546,P. TOALLA SWAN DH 70 MTS X8,Swan,70,imanweb,https://www.imanweb.cl/producto/p-toalla-swan-dh-70-mts-x8/,Toalla de Papel,Doble Hoja,1,70,8
+TC-547,P. TOALLA NOVA EXTRA DISENO DH X3 (8 PQT),Nova,36,imanweb,https://www.imanweb.cl/producto/p-toalla-nova-extra-diseno-x3/,Toalla de Papel,Doble Hoja,3,12,8
+TC-548,P. TOALLA SWAN BLANCA DH 45MT X12,Swan,45,imanweb,https://www.imanweb.cl/producto/p-toalla-swan-blanca-absorb-dh-45mt-x1/,Toalla de Papel,Doble Hoja,1,45,12
+TC-549,TOALLA AFFECTO HS 50MT X4,Affecto,200,imanweb,https://www.imanweb.cl/producto/toalla-affecto-x4-unid/,Toalla de Papel,Hoja Simple,4,50,
+TC-550,P. TOALLA SWAN ULTRA DH 100MT X6,Swan,100,imanweb,https://www.imanweb.cl/producto/p-toalla-swan-ultra-dh-100mt-x6-azul/,Toalla de Papel,Doble Hoja,1,100,6
+TC-551,TOALLA AFFECTO HS 250 MT X2,Affecto,500,imanweb,https://www.imanweb.cl/producto/toalla-affecto-250x2/,Toalla de Papel,Hoja Simple,2,250,
+TC-552,P. TOALLA SWAN HOJA SIMPLE 100 MTS X6,Swan,100,imanweb,https://www.imanweb.cl/producto/p-toalla-swan-1-hoja-100mtsx6/,Toalla de Papel,Hoja Simple,1,100,6
+TC-553,TOALLA AFFECTO CLASICA HS 190 MT X2,Affecto,380,imanweb,https://www.imanweb.cl/producto/toalla-affecto-190x2/,Toalla de Papel,Hoja Simple,2,190,
+TC-554,TOALLA AFFECTO HS 190 MT X2,Affecto,380,imanweb,https://www.imanweb.cl/producto/toalla-affecto-hs-190mt-x2/,Toalla de Papel,Hoja Simple,2,190,
+TC-555,TO. ELITE P CLASSIC UH 250 MT X2,Elite,500,imanweb,https://www.imanweb.cl/producto/to-elite-p-classic-uh-250mtx2/,Toalla de Papel,Hoja Simple,2,250,
+TC-556,P. TOALLA GIULIETTA EXPRESS HS 60 MT X6,Giulietta,60,imanweb,https://www.imanweb.cl/producto/p-toalla-giulietta-express-60-mt-x6/,Toalla de Papel,Hoja Simple,1,60,6
+TC-557,SERV. ABOLENGO COCTEL 40 un (caja x80),Abolengo,80,imanweb,https://www.imanweb.cl/producto/serv-abolengo-coctel-40und-x80/,Servilletas,Cocktail,,,40
+TC-558,SERV. TODAY COCKTAIL 300 un (caja x10),Today,10,imanweb,https://www.imanweb.cl/producto/serv-today-300-x10/,Servilletas,Cocktail,,,300
+TC-559,SERV. DON AURELIO COCKTAIL 300 un (caja x10),Don Aurelio,10,imanweb,https://www.imanweb.cl/producto/servilleta-don-aurelio-300hjsx10/,Servilletas,Cocktail,,,300
+TC-560,SERV. GIULIETTA COCTEL 40 un (caja x60),Giulietta,60,imanweb,https://www.imanweb.cl/producto/serv-giulietta-coctel-40-und-x60/,Servilletas,Cocktail,,,40
+TC-561,SERV. TORK MESA 200 un (caja x12),Tork,12,imanweb,https://www.imanweb.cl/producto/serv-tork-mesa-200-x12/,Servilletas,Mesa,,,200
+TC-562,SERV. TORK COCTEL 200 un (caja x24),Tork,24,imanweb,https://www.imanweb.cl/producto/serv-tork-coctel-200-und-x24/,Servilletas,Cocktail,,,200
+TC-563,SERV. GIULIETTA MESA 240 un (caja x10),Giulietta,10,imanweb,https://www.imanweb.cl/producto/serv-giulietta-mesa-240-und-x10/,Servilletas,Mesa,,,240
+TC-564,SERV. LOW COCKTAIL 270 un (caja x10),Low,10,imanweb,https://www.imanweb.cl/producto/serv-low-270un-23x22cm-x10un/,Servilletas,Cocktail,,,270
+TC-565,SERV. ECORIN COCKTAIL 300 un (caja x6),Ecorin,6,imanweb,https://www.imanweb.cl/producto/serv-ecorin-300-und-x6/,Servilletas,Cocktail,,,300
+TC-566,SERV. TORK XPRESSNAP FIT 240 un (caja x18),Tork,18,imanweb,https://www.imanweb.cl/producto/serv-tork-xpressnap-fit-240-und-x18/,Servilletas,Dispensador,,,240
 
 # Columnas: sku_interno,producto,marca,metros_totales,retailer,url,categoria,
 # subcategoria,rollos,metros_rollo,unidades
@@ -535,6 +569,10 @@ TC-533,PT SWAN PROFESIONAL SMART DH 24M X2 (Manga 8),Swan,48,imanweb,https://www
 # "Mesa" o "Dispensador" (institucional, interfoliada — arma su propio
 # segmento aparte). Se comparan en $/unidad; el segmento es el rango de
 # unidades (Cocktail y Mesa se mezclan; Dispensador va separado).
+# Si es una CAJA mayorista (ej. "300 un x12"): unidades = las del pack (300)
+# y metros_totales = cuántos packs trae la caja (12). La app calcula el
+# $/unidad sobre el precio de un pack (precio_caja / 12 / 300) y segmenta por
+# el conteo del pack, no por el de la caja.
 #
 # FORMATO MAYORISTA POR MANGA/CAJA (ej. Central Mayorista publica el precio de
 # 12 packs juntos): llenar rollos/metros_rollo/metros_totales con los datos de
