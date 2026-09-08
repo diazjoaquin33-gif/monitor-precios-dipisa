@@ -44,6 +44,18 @@ unimarc:
   patron_precio_oferta: '"price":\{"price":"\$([\d.,]+)"'
   patron_precio_normal: '"price":\{"price":"\$[\d.,]+","listPrice":"\$([\d.,]+)"'
 
+centralmayorista:
+  nombre: "Central Mayorista"
+  metodo: "instaleap"
+  # Verificado 08/09/2026: centralmayorista.cl es Next.js SPA con el mismo
+  # backend Instaleap que aCuenta (y su dominio principal tiene la cadena SSL
+  # incompleta, igual que aCuenta). El SKU sale del último tramo de la URL
+  # (.../p/...-{sku}). OJO: es mayorista y varios formatos se venden por caja
+  # ("MANGAx12", "PACKx6"), el precio es de la caja entera — al cargar el SKU
+  # hay que ajustar metros/unidades o el $/metro queda inflado.
+  client_id: "CENTRAL_MAYORISTA"
+  store_reference: "159"
+
 acuenta:
   nombre: "aCuenta"
   metodo: "instaleap"
