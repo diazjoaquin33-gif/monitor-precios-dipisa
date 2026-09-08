@@ -533,9 +533,7 @@ TC-546,P. TOALLA SWAN DH 70 MTS X8,Swan,70,imanweb,https://www.imanweb.cl/produc
 TC-547,P. TOALLA NOVA EXTRA DISENO DH X3 (8 PQT),Nova,36,imanweb,https://www.imanweb.cl/producto/p-toalla-nova-extra-diseno-x3/,Toalla de Papel,Doble Hoja,3,12,8
 TC-548,P. TOALLA SWAN BLANCA DH 45MT X12,Swan,45,imanweb,https://www.imanweb.cl/producto/p-toalla-swan-blanca-absorb-dh-45mt-x1/,Toalla de Papel,Doble Hoja,1,45,12
 TC-549,TOALLA AFFECTO HS 50MT X4,Affecto,200,imanweb,https://www.imanweb.cl/producto/toalla-affecto-x4-unid/,Toalla de Papel,Hoja Simple,4,50,
-TC-550,P. TOALLA SWAN ULTRA DH 100MT X6,Swan,100,imanweb,https://www.imanweb.cl/producto/p-toalla-swan-ultra-dh-100mt-x6-azul/,Toalla de Papel,Doble Hoja,1,100,6
 TC-551,TOALLA AFFECTO HS 250 MT X2,Affecto,500,imanweb,https://www.imanweb.cl/producto/toalla-affecto-250x2/,Toalla de Papel,Hoja Simple,2,250,
-TC-552,P. TOALLA SWAN HOJA SIMPLE 100 MTS X6,Swan,100,imanweb,https://www.imanweb.cl/producto/p-toalla-swan-1-hoja-100mtsx6/,Toalla de Papel,Hoja Simple,1,100,6
 TC-553,TOALLA AFFECTO CLASICA HS 190 MT X2,Affecto,380,imanweb,https://www.imanweb.cl/producto/toalla-affecto-190x2/,Toalla de Papel,Hoja Simple,2,190,
 TC-554,TOALLA AFFECTO HS 190 MT X2,Affecto,380,imanweb,https://www.imanweb.cl/producto/toalla-affecto-hs-190mt-x2/,Toalla de Papel,Hoja Simple,2,190,
 TC-555,TO. ELITE P CLASSIC UH 250 MT X2,Elite,500,imanweb,https://www.imanweb.cl/producto/to-elite-p-classic-uh-250mtx2/,Toalla de Papel,Hoja Simple,2,250,
@@ -548,8 +546,9 @@ TC-561,SERV. TORK MESA 200 un (caja x12),Tork,12,imanweb,https://www.imanweb.cl/
 TC-562,SERV. TORK COCTEL 200 un (caja x24),Tork,24,imanweb,https://www.imanweb.cl/producto/serv-tork-coctel-200-und-x24/,Servilletas,Cocktail,,,200
 TC-563,SERV. GIULIETTA MESA 240 un (caja x10),Giulietta,10,imanweb,https://www.imanweb.cl/producto/serv-giulietta-mesa-240-und-x10/,Servilletas,Mesa,,,240
 TC-564,SERV. LOW COCKTAIL 270 un (caja x10),Low,10,imanweb,https://www.imanweb.cl/producto/serv-low-270un-23x22cm-x10un/,Servilletas,Cocktail,,,270
-TC-565,SERV. ECORIN COCKTAIL 300 un (caja x6),Ecorin,6,imanweb,https://www.imanweb.cl/producto/serv-ecorin-300-und-x6/,Servilletas,Cocktail,,,300
 TC-566,SERV. TORK XPRESSNAP FIT 240 un (caja x18),Tork,18,imanweb,https://www.imanweb.cl/producto/serv-tork-xpressnap-fit-240-und-x18/,Servilletas,Dispensador,,,240
+
+TC-567,P. TOALLA INTERFOLIADA ELITE 200 hjs (caja x18),Elite,18,imanweb,https://www.imanweb.cl/producto/toalla-interf-elite-200hjsx18/,Servilletas,Dispensador,,,200
 
 # Columnas: sku_interno,producto,marca,metros_totales,retailer,url,categoria,
 # subcategoria,rollos,metros_rollo,unidades
