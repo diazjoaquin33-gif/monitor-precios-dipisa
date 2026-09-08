@@ -12,7 +12,7 @@ st.set_page_config(
     page_title="Monitor de Precios | Dipisa",
     page_icon="🧻",
     layout="wide",
-    initial_sidebar_state="collapsed",
+    initial_sidebar_state="expanded",
 )
 
 BASE_DIR = Path(__file__).parent
@@ -37,7 +37,18 @@ st.markdown(f"""
 <style>
 #MainMenu {{visibility: hidden;}}
 footer {{visibility: hidden;}}
-header {{visibility: hidden;}}
+/* La barra superior se deja visible: contiene la flecha para plegar/desplegar
+   la barra lateral de navegación. Solo se le baja el fondo para que no tape. */
+header[data-testid="stHeader"] {{ background: transparent; }}
+
+/* Barra lateral con tinte de marca */
+section[data-testid="stSidebar"] {{
+    background-color: #FBFAFE;
+    border-right: 1px solid {COLOR_MORADO}1f;
+}}
+section[data-testid="stSidebar"] h1,
+section[data-testid="stSidebar"] h2,
+section[data-testid="stSidebar"] h3 {{ color: {COLOR_MORADO}; }}
 
 /* Fondo entretenido: manchas suaves de los dos colores de marca en las
    esquinas, bien translúcidas para no restarle lectura a las tablas. */
@@ -192,6 +203,10 @@ def cargar_datos():
     # "Pendiente" en vez de desaparecer en silencio de la página.
     df = pd.merge(df_csv, df_json, on="sku_interno", how="left")
     df["retailer_nombre"] = df["retailer"].map(lambda r: retailers_cfg.get(r, {}).get("nombre", r))
+    # canal = "retail" (supermercados) o "mayorista" (distribuidores que venden
+    # por manga/caja). Se define en retailers.yaml; sin la clave se asume retail.
+    # Sirve para no mezclar los dos mundos en la comparación por segmento.
+    df["canal"] = df["retailer"].map(lambda r: retailers_cfg.get(r, {}).get("canal", "retail"))
     # Retailers pausados (ver retailers.yaml, ej. Knasta bloqueado) siguen
     # visibles en el dashboard con su último precio conocido, pero no van en
     # el CSV descargable — no tiene sentido exportar un dato que no se está
@@ -589,6 +604,46 @@ if "fecha_act" in df.columns and df["fecha_act"].notna().any():
     if fechas.notna().any():
         ultima_fecha = fechas.max().strftime("%d/%m/%Y %H:%M hrs")
 
+# --- Barra lateral: navegación + filtros + mantenimiento ------------------
+with st.sidebar:
+    st.markdown(
+        f'<img src="data:image/png;base64,{_logo_base64()}" style="height: 30px; margin-bottom: 12px;">',
+        unsafe_allow_html=True,
+    )
+    vista = st.radio(
+        "Vista",
+        ["🏪 Por retailer", "🥊 Por segmento competitivo"],
+    )
+    st.markdown("---")
+    canal_sel = st.radio(
+        "Canal",
+        ["Retail", "Mayorista", "Todos"],
+        help=(
+            "Retail = supermercados (Jumbo, Santa Isabel, Tottus, Unimarc, aCuenta). "
+            "Mayorista = distribuidores que venden por manga/caja (Central Mayorista, "
+            "Imanweb, Dimak, Alvi, Liquimax). Se separan porque su $/metro no es "
+            "comparable de igual a igual con el del retail."
+        ),
+    )
+    busqueda = st.text_input(
+        "Buscar", placeholder="Ej. Elite, Confort, doble hoja...",
+    )
+    st.markdown("---")
+
+# Filtro de canal — se aplica a todo (métricas incluidas) para que los
+# números de arriba cuadren con lo que se ve en la tabla.
+if canal_sel == "Retail":
+    df = df[df["canal"] == "retail"]
+elif canal_sel == "Mayorista":
+    df = df[df["canal"] == "mayorista"]
+
+if busqueda:
+    coincide = (
+        df["marca"].str.contains(busqueda, case=False, na=False)
+        | df["producto"].str.contains(busqueda, case=False, na=False)
+    )
+    df = df[coincide]
+
 chip_fecha = f"""
 <div style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.35);
             border-radius: 999px; padding: 8px 18px; color: #FFFFFF; font-size: 0.9rem;
@@ -619,41 +674,34 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
+if df.empty:
+    st.warning("No hay productos que coincidan con el filtro actual (canal / búsqueda).")
+    st.stop()
+
 con_descuento = df[df["descuento_pct"].notna()]
 ofertas_agresivas = df[df["descuento_pct"] >= 20]
 pendientes = df[df["estado"] != "Disponible"]
 
+etiqueta_canal = {"Retail": "supermercados", "Mayorista": "mayoristas", "Todos": "retail + mayoristas"}[canal_sel]
 c1, c2, c3 = st.columns(3)
-c1.metric("SKU monitoreados", len(df))
+c1.metric("SKU monitoreados", len(df), etiqueta_canal, delta_color="off")
 c2.metric("En oferta", len(con_descuento), f"{len(ofertas_agresivas)} con descuento ≥20%", delta_color="off")
 c3.metric("Sin dato reciente", len(pendientes))
 
 st.divider()
 
-col_buscar, col_descargar = st.columns([3, 1])
-busqueda = col_buscar.text_input(
-    "Buscar por marca o producto", placeholder="Ej. Elite, Confort, doble hoja...",
-)
-if busqueda:
-    coincide = (
-        df["marca"].str.contains(busqueda, case=False, na=False)
-        | df["producto"].str.contains(busqueda, case=False, na=False)
-    )
-    df = df[coincide]
-
-col_descargar.markdown("<div style='margin-top: 28px'></div>", unsafe_allow_html=True)
 # separador ";" porque el Excel en español/Chile usa "," como separador decimal
 # y por lo tanto ";" entre columnas — con "," todo el CSV aparece amontonado en
 # una sola columna al abrirlo.
-col_descargar.download_button(
-    "⬇️ Descargar CSV",
+st.sidebar.download_button(
+    "⬇️ Descargar CSV (lo filtrado)",
     data=_armar_export(df[~df["retailer_desactivado"]]).to_csv(index=False, sep=";").encode("utf-8-sig"),
     file_name="precios_dipisa.csv",
     mime="text/csv",
     width="stretch",
 )
 
-with st.expander("🔗 ¿Un link de producto está roto o cambió?"):
+with st.sidebar.expander("🔗 ¿Un link de producto está roto o cambió?"):
     st.markdown(
         "Cuando un supermercado cambia la dirección de un producto, su precio "
         "deja de actualizarse (aparece como *“⚠️ Últ. precio”*). Para arreglarlo "
@@ -672,7 +720,7 @@ with st.expander("🔗 ¿Un link de producto está roto o cambió?"):
             "(`PLANILLA_EDIT_URL`) — ver `TRASPASO.md`."
         )
 
-with st.expander("➕ Agregar un producto nuevo para monitorear"):
+with st.sidebar.expander("➕ Agregar un producto nuevo para monitorear"):
     if not PRODUCTOS_NUEVOS_CSV_URL:
         st.info(
             "Función en preparación: falta publicar la pestaña **productos_nuevos** "
@@ -845,14 +893,7 @@ def _mostrar_marcas(df_sub):
         _mostrar_tabla(grupo_marca, ocultar_columnas=["Retailer", "Marca"], mostrar_formato=True)
 
 
-vista = st.radio(
-    "Ver por",
-    ["🏪 Retailer", "🥊 Segmento competitivo"],
-    horizontal=True,
-    label_visibility="collapsed",
-)
-
-if vista == "🏪 Retailer":
+if vista == "🏪 Por retailer":
     # Un tab por supermercado, y dentro de cada uno las filas agrupadas por marca.
     retailers_activos = sorted(df["retailer_nombre"].dropna().unique())
     tabs_retailer = st.tabs(retailers_activos)
@@ -880,7 +921,8 @@ else:
     # filas de Ovella van resaltadas en morado.
     st.caption(
         "Cada segmento junta productos que compiten de verdad: mismo tipo de hoja, "
-        "pack parecido (a más rollos, mejor $/metro) y metraje por rollo similar."
+        "pack parecido (a más rollos, mejor $/metro) y metraje por rollo similar. "
+        f"Mostrando **{etiqueta_canal}** (cambiar en la barra lateral › Canal)."
     )
     df_seg = df[df["segmento"].notna()]
     cats = sorted(df_seg["categoria"].dropna().unique())
@@ -900,12 +942,12 @@ else:
     )
 
     df_match = df_seg[df_seg["segmento"] == seg_sel].sort_values(
-        "precio_metro", na_position="last"
+        "precio_ref", na_position="last"
     )
     n_marcas = df_match["marca"].nunique()
     n_retailers = df_match["retailer_nombre"].nunique()
     st.markdown(
-        f"**{len(df_match)} productos** · {n_marcas} marcas · {n_retailers} supermercados"
+        f"**{len(df_match)} productos** · {n_marcas} marcas · {n_retailers} retailers"
         + ("  ·  ⭐ Ovella compite en este segmento" if seg_sel in segs_ovella else "")
     )
     _mostrar_tabla(df_match, mostrar_formato=True, resaltar_ovella=True)
