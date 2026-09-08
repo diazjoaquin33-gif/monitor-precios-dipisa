@@ -216,6 +216,17 @@ def cargar_datos():
     df.loc[sin_mt, "metros_totales"] = df.loc[sin_mt, "rollos"] * df.loc[sin_mt, "metros_rollo"]
     df["segmento"] = df.apply(_segmento, axis=1)
 
+    # Formato mayorista: algunos retailers (Central Mayorista, a veces Alvi)
+    # venden el pack de góndola dentro de una "manga"/"caja" de N packs y
+    # publican el precio de esa manga. Para comparar contra un pack suelto hay
+    # que bajar todo a $/pack. N sale de la columna 'unidades' (si la cargaron
+    # a mano en un PH/toalla) o se lee del nombre ("MANGAx12"). Las servilletas
+    # usan 'unidades' para otra cosa (el conteo real del pack) y quedan afuera.
+    packs = df["unidades"].where(~es_serv)
+    packs = packs.fillna(df["producto"].map(_packs_por_bulto).where(~es_serv))
+    df["packs_por_bulto"] = pd.to_numeric(packs, errors="coerce")
+    hay_bulto = df["packs_por_bulto"].fillna(1) > 1
+
     df["precio"] = pd.to_numeric(df["precio"], errors="coerce")
     df["precio_normal"] = pd.to_numeric(df["precio_normal"], errors="coerce")
     # Solo Alvi trae este campo (precio socio comprando 2+ unidades) — no
@@ -225,7 +236,14 @@ def cargar_datos():
     # $/metro para papel higiénico y toalla, $/unidad para servilletas. La
     # categoría manda: un valor cargado en la columna "equivocada" (ej.
     # 'unidades' en un papel higiénico) no cambia la métrica, se ignora.
-    df["precio_metro"] = (df["precio"] / df["metros_totales"]).round(1)
+    # precio_manga = lo que se scrapea cuando es un envase colectivo (NA si no).
+    # precio_pack = precio de un pack suelto: si es manga, se divide por N.
+    df["precio_manga"] = df["precio"].where(hay_bulto)
+    _div = df["packs_por_bulto"].where(hay_bulto, 1)
+    df["precio_pack"] = (df["precio"] / _div).round(0)
+    df["precio_pack_normal"] = (df["precio_normal"] / _div).round(0)
+
+    df["precio_metro"] = (df["precio_pack"] / df["metros_totales"]).round(1)
     df.loc[es_serv, "precio_metro"] = pd.NA
     df["precio_unidad"] = (df["precio"] / df["unidades"]).round(1)
     df.loc[~es_serv, "precio_unidad"] = pd.NA
@@ -335,6 +353,15 @@ def _parse_rollos_metros(nombre):
     return None, None
 
 
+def _packs_por_bulto(nombre):
+    """Cuántos packs de góndola trae una 'manga'/'caja'/'bulto' cuando un
+    mayorista publica el precio del envase colectivo (ej. Central Mayorista
+    "... CONFORT MANGAx12"). Devuelve None si es un pack suelto. Es solo una
+    red: el valor firme se carga en la columna 'unidades' de productos.csv."""
+    m = re.search(r"(?:manga|caja|bulto|display)\s*x?\s*(\d+)\b", str(nombre), re.I)
+    return int(m.group(1)) if m else None
+
+
 def _segmento(row):
     # Servilletas: se agrupan solo por rango de unidades (el tipo Cocktail/Mesa
     # queda visible en la columna Formato pero no arma el segmento).
@@ -373,6 +400,9 @@ def _armar_export(df_export):
             "Producto": r["producto"],
             "Metros totales": r["metros_totales"],
             "Unidades": int(r["unidades"]) if r["categoria"] == "Servilletas" and pd.notna(r.get("unidades")) else "",
+            "Packs por manga": int(r["packs_por_bulto"]) if pd.notna(r.get("packs_por_bulto")) and r["packs_por_bulto"] > 1 else "",
+            "Precio manga": _formatear_clp(r.get("precio_manga")) if pd.notna(r.get("precio_manga")) else "",
+            "Precio pack": _formatear_clp(r.get("precio_pack")) if pd.notna(r.get("precio_pack")) else "",
             "Precio Lista": _formatear_clp(r["precio_normal"]),
             "Precio Oferta": _formatear_clp(r["precio"]) if pd.notna(r["descuento_pct"]) else "",
             "Descuento %": f"{int(r['descuento_pct'])}%" if pd.notna(r["descuento_pct"]) else "",
@@ -389,7 +419,11 @@ def _fmt_formato(r):
     if r.get("categoria") == "Servilletas" and pd.notna(r.get("unidades")):
         return f"{int(r['unidades'])} un · {r['subcategoria']}"
     if pd.notna(r.get("rollos")) and pd.notna(r.get("metros_rollo")):
-        return f"{int(r['rollos'])}x{r['metros_rollo']:g}m · {r['subcategoria']}"
+        base = f"{int(r['rollos'])}x{r['metros_rollo']:g}m · {r['subcategoria']}"
+        n = r.get("packs_por_bulto")
+        if pd.notna(n) and n and n > 1:
+            base += f" · manga x{int(n)}"
+        return base
     return f"{r['categoria']} · {r['subcategoria']}"
 
 
@@ -429,6 +463,13 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
     # mezcla (no debería, las vistas son por categoría) gana $/metro.
     unidad_ref = "u" if (not df_grupo.empty and (df_grupo["categoria"] == "Servilletas").all()) else "m"
     col_ref = f"$/{unidad_ref}"
+    # ¿Hay algún formato mayorista (manga/caja) en este grupo? Si sí, se agregan
+    # las columnas "Precio manga" y "Precio pack" para no confundir el precio
+    # del envase colectivo con el del pack suelto.
+    hay_bulto_grupo = (
+        "packs_por_bulto" in df_grupo.columns
+        and pd.to_numeric(df_grupo["packs_por_bulto"], errors="coerce").fillna(1).gt(1).any()
+    )
     filas = []
     precios_metro = []
     for _, r in df_grupo.iterrows():
@@ -452,6 +493,11 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
             fila["Precio Lista"] = _formatear_clp(r["precio_normal"])
             fila["Precio Oferta"] = _formatear_clp(r["precio"]) if pd.notna(r["descuento_pct"]) else "—"
             fila["Desc."] = f"-{int(r['descuento_pct'])}%" if pd.notna(r["descuento_pct"]) else "—"
+        if hay_bulto_grupo:
+            n = pd.to_numeric(r.get("packs_por_bulto"), errors="coerce")
+            es_bulto = pd.notna(n) and n > 1
+            fila["Precio manga"] = _formatear_clp(r.get("precio_manga")) if es_bulto else "—"
+            fila["Precio pack"] = _formatear_clp(r.get("precio_pack")) if es_bulto else "—"
         fila[col_ref] = f"${precio_metro}/{unidad_ref}" if precio_metro is not None else "N/D"
         fila["Estado"] = r["estado"]
         fila["Ver"] = r.get("url")
@@ -606,6 +652,10 @@ with st.expander("➕ Agregar un producto nuevo para monitorear"):
             "`alvi`, `acuenta`, `centralmayorista`) · `url` · `categoria` · `subcategoria`\n\n"
             "Para papel higiénico y toalla: `rollos`, `metros_rollo` y `metros_totales`. "
             "Para servilletas: `unidades` (y `subcategoria` = `Cocktail` o `Mesa`).\n\n"
+            "Si es un formato mayorista que se vende por **manga/caja** (ej. Central "
+            "Mayorista, precio de 12 packs juntos): cargá en `unidades` cuántos packs "
+            "trae la manga. La app muestra *Precio manga*, *Precio pack* y el $/metro "
+            "ya bajado a un pack suelto para que compare parejo.\n\n"
             "En la próxima corrida (máx. ~8 h) aparece en el dashboard marcado "
             "con 🆕 (provisorio). Cada tanto alguien pasa esas filas a "
             "`productos.csv` y limpia la pestaña."

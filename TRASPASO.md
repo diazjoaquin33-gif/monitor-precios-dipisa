@@ -103,6 +103,11 @@ Columnas de una fila de producto: `sku_interno,producto,marca,metros_totales,ret
 - **Servilletas:** dejar `metros_totales`/`rollos`/`metros_rollo` vacíos y llenar
   `unidades` (cantidad del pack). `subcategoria` = `Cocktail` / `Mesa`. Se
   comparan en $/unidad.
+- **Formato mayorista por manga/caja** (ej. Central Mayorista publica el precio
+  de 12 packs juntos): llenar `rollos`/`metros_rollo`/`metros_totales` con los
+  datos de **un pack suelto** y poner en `unidades` cuántos packs trae la manga
+  (ej. `12` para "MANGAx12"). La app calcula *Precio pack* = precio ÷ 12 y con
+  eso el $/metro, así compite parejo contra un pack suelto de otro súper.
 
 **Opción A — desde la planilla (sin programar):** en la pestaña `productos_nuevos`
 agregá una fila con esas columnas. En la próxima corrida (~8 h) aparece en el
