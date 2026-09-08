@@ -1,7 +1,7 @@
 {
-  "fecha": "08/09/2026 12:15 hrs",
-  "total_skus": 440,
-  "exitosos": 438,
+  "fecha": "08/09/2026 15:07 hrs",
+  "total_skus": 541,
+  "exitosos": 538,
   "fallos": [
     {
       "retailer": "santaisabel",
@@ -9,15 +9,20 @@
       "error": "Sin stock"
     },
     {
-      "retailer": "tottus",
-      "sku_interno": "TC-105",
-      "error": "HTTP 403"
+      "retailer": "santaisabel",
+      "sku_interno": "TC-381",
+      "error": "No se encontró el precio en el HTML"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-494",
+      "error": "HTTP 404"
     }
   ],
   "overrides_url_aplicados": 0,
   "overrides_url_aviso": null,
   "sku_desde_planilla": 0,
-  "sku_desde_planilla_aviso": "planilla no disponible (HTTPSConnectionPool(host='docs.google.com', port=443): Read ); usando copia local",
+  "sku_desde_planilla_aviso": null,
   "retailers_desactivados": [],
   "sku_desactivados": 0
 }
