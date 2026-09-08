@@ -222,9 +222,9 @@ def cargar_datos():
     # que bajar todo a $/pack. N sale de la columna 'unidades' (si la cargaron
     # a mano en un PH/toalla) o se lee del nombre ("MANGAx12"). Las servilletas
     # usan 'unidades' para otra cosa (el conteo real del pack) y quedan afuera.
-    packs = df["unidades"].where(~es_serv)
-    packs = packs.fillna(df["producto"].map(_packs_por_bulto).where(~es_serv))
-    df["packs_por_bulto"] = pd.to_numeric(packs, errors="coerce")
+    packs_col = pd.to_numeric(df["unidades"], errors="coerce").where(~es_serv)
+    packs_nom = pd.to_numeric(df["producto"].map(_packs_por_bulto), errors="coerce").where(~es_serv)
+    df["packs_por_bulto"] = packs_col.fillna(packs_nom)
     hay_bulto = df["packs_por_bulto"].fillna(1) > 1
 
     df["precio"] = pd.to_numeric(df["precio"], errors="coerce")
@@ -406,7 +406,7 @@ def _armar_export(df_export):
             "Precio Lista": _formatear_clp(r["precio_normal"]),
             "Precio Oferta": _formatear_clp(r["precio"]) if pd.notna(r["descuento_pct"]) else "",
             "Descuento %": f"{int(r['descuento_pct'])}%" if pd.notna(r["descuento_pct"]) else "",
-            "Precio Socio 2 un (solo Alvi)": _formatear_clp(r.get("precio_socio2")) if r["retailer"] == "alvi" and pd.notna(r.get("precio_socio2")) else "",
+            "Precio 2+ un (mayorista)": _formatear_clp(r.get("precio_socio2")) if pd.notna(r.get("precio_socio2")) else "",
             "$/Metro o $/unidad": f"${r['precio_ref']}/{r.get('ref_unidad', 'm')}" if pd.notna(r.get("precio_ref")) else "N/D",
             "Estado": r["estado"],
             "Última actualización": r.get("fecha_act") or "",
@@ -459,6 +459,12 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
     # valor numérico crudo se guarda aparte (misma posición que las filas)
     # para el resaltado de "más barato", que sí necesita comparar números.
     es_alvi = not df_grupo.empty and (df_grupo["retailer"] == "alvi").all()
+    # Otros mayoristas (ej. Liquimax) traen un precio "desde 2 unidades" sin
+    # las 3 columnas de Alvi — se muestra como una columna extra al lado.
+    hay_precio2 = (
+        not es_alvi and "precio_socio2" in df_grupo.columns
+        and df_grupo["precio_socio2"].notna().any()
+    )
     # Servilletas se comparan en $/unidad; el resto en $/metro. Si la tabla
     # mezcla (no debería, las vistas son por categoría) gana $/metro.
     unidad_ref = "u" if (not df_grupo.empty and (df_grupo["categoria"] == "Servilletas").all()) else "m"
@@ -493,6 +499,8 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
             fila["Precio Lista"] = _formatear_clp(r["precio_normal"])
             fila["Precio Oferta"] = _formatear_clp(r["precio"]) if pd.notna(r["descuento_pct"]) else "—"
             fila["Desc."] = f"-{int(r['descuento_pct'])}%" if pd.notna(r["descuento_pct"]) else "—"
+            if hay_precio2:
+                fila["Desde 2 un"] = _formatear_clp(r.get("precio_socio2")) if pd.notna(r.get("precio_socio2")) else "—"
         if hay_bulto_grupo:
             n = pd.to_numeric(r.get("packs_por_bulto"), errors="coerce")
             es_bulto = pd.notna(n) and n > 1

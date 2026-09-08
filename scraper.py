@@ -178,22 +178,29 @@ def _consultar_instaleap(url: str, cfg: dict):
 def _consultar_liquimax(url: str):
     """liquimax.cl corre sobre la plataforma Bolder, que expone la ficha como
     JSON limpio agregando '.json' a la URL del producto (sin protección
-    anti-bot). Trae price / regular_price / sale_price y 'available'."""
+    anti-bot). Trae price / regular_price / sale_price y 'available'. Además
+    es mayorista: 'volume_discount.tiers' trae el precio rebajado comprando
+    2+ unidades (5º valor devuelto, análogo al precio socio-2-un de Alvi)."""
     api = url.split("?")[0].rstrip("/") + ".json"
     try:
         res = requests.get(api, headers=HEADERS_GENERICOS, timeout=12)
         if res.status_code != 200:
-            return None, None, False, f"HTTP {res.status_code}"
+            return None, None, False, f"HTTP {res.status_code}", None
         d = res.json()
         p = d.get("product", d)
         precio = p.get("sale_price") or p.get("price")
         if not precio:
-            return None, None, False, "Sin precio en la respuesta"
+            return None, None, False, "Sin precio en la respuesta", None
         precio_normal = p.get("regular_price") or precio
         disponible = bool(p.get("available")) and not p.get("blocked")
-        return float(precio), float(precio_normal), disponible, None
+        precio_2un = None
+        vd = p.get("volume_discount") or {}
+        tiers = [t for t in vd.get("tiers", []) if t.get("result")]
+        if tiers:
+            precio_2un = float(min(t["result"] for t in tiers))
+        return float(precio), float(precio_normal), disponible, None, precio_2un
     except Exception as e:
-        return None, None, False, f"Error Liquimax: {str(e)[:80]}"
+        return None, None, False, f"Error Liquimax: {str(e)[:80]}", None
 
 
 def _consultar_lider_api(url: str):
@@ -385,7 +392,9 @@ def procesar_lote(retailer_key, lista_productos, cfg):
         elif metodo == "instaleap":
             p, pn, disp, err = _consultar_instaleap(prod["url"], cfg)
         elif metodo == "liquimax":
-            p, pn, disp, err = _consultar_liquimax(prod["url"])
+            p, pn, disp, err, p2 = _consultar_liquimax(prod["url"])
+            if p and p2:
+                extra = {"precio_socio2": p2}
         else:
             p, pn, disp, err = _consultar_curl_cffi(prod["url"], cfg)
 
