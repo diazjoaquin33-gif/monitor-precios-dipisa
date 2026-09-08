@@ -150,3 +150,16 @@ quedaría es un servicio de scraping pago con proxies residenciales
 gratis o barato probablemente alcanza. El código viejo (función
 `_consultar_knasta`, GraphQL de Líder) está en el historial de git de este
 repo si sirve de punto de partida.
+
+## Historial: La Oferta (laoferta.cl) — no incorporado 09/2026
+
+`laoferta.cl` (mayorista, precio por lote) tiene el mismo tipo de bloqueo
+que Líder: challenge de Cloudflare en todo el sitio. Se probó `curl_cffi`,
+`cloudscraper`, la API de WooCommerce, lectores proxy y Playwright headless —
+nada pasa. **Sí** se logró pasar con un Chrome real automatizado con
+anti-detección (`patchright`) pero **solo con ventana visible** (headed), lo
+que en GitHub Actions obliga a correr Chrome bajo un display virtual (Xvfb).
+Se decidió no implementarlo por ahora: es frágil (Cloudflare puede endurecer
+el challenge para las IP de datacenter de Actions, igual que con Knasta) y
+nadie sin conocimientos técnicos podría mantenerlo. Queda pendiente para
+evaluar junto con Líder si algún día se paga un servicio de scraping.
