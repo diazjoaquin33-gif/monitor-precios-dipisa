@@ -437,7 +437,7 @@ TC-455,Smart Price Cocktail 40 un,Smart Price,,centralmayorista,https://www.cent
 TC-456,Elite Cocktail 50 un,Elite,,centralmayorista,https://www.centralmayorista.cl/p/servilleta-coctel-50un-elite-503599,Servilletas,Cocktail,,,50
 TC-457,Nova Cocktail 300 un (2),Nova,,centralmayorista,https://www.centralmayorista.cl/p/servilleta-cocktail-300un-nova-5139034,Servilletas,Cocktail,,,300
 TC-458,Elite Professional Mesa 500 un,Elite,,centralmayorista,https://www.centralmayorista.cl/p/servill-mesa-una-hoja-500un-elite-prof-148735,Servilletas,Mesa,,,500
-TC-459,Elite Professional Express Dispensador 250 un,Elite,,centralmayorista,https://www.centralmayorista.cl/p/servilleta-express-250un-elite-pro-5046072,Servilletas,Mesa,,,250
+TC-459,Elite Professional Express Dispensador 250 un,Elite,,centralmayorista,https://www.centralmayorista.cl/p/servilleta-express-250un-elite-pro-5046072,Servilletas,Dispensador,,,250
 TC-460,Abolengo Cocktail 40 un,Abolengo,,centralmayorista,https://www.centralmayorista.cl/p/servilleta-cocktail-40un-abolengo-674995,Servilletas,Cocktail,,,40
 TC-461,Nova Cocktail 50 un,Nova,,centralmayorista,https://www.centralmayorista.cl/p/servilleta-cocktail-50un-nova-5046073,Servilletas,Cocktail,,,50
 TC-462,Smart Price Cocktail 300 un,Smart Price,,centralmayorista,https://www.centralmayorista.cl/p/servilleta-cocktail-300un-smart-price-5142206,Servilletas,Cocktail,,,300
@@ -457,8 +457,10 @@ TC-463,Elite Professional Cocktail 160 un,Elite,,centralmayorista,https://www.ce
 # exacto contra Ovella, se agrupa dentro de +-15%.
 #
 # SERVILLETAS: dejar metros_totales/rollos/metros_rollo vacíos y llenar
-# unidades (cantidad de servilletas del pack). subcategoria = "Cocktail" o
-# "Mesa". Se comparan en $/unidad; el segmento es solo el tipo (Cocktail/Mesa).
+# unidades (cantidad de servilletas del pack). subcategoria = "Cocktail",
+# "Mesa" o "Dispensador" (institucional, interfoliada — arma su propio
+# segmento aparte). Se comparan en $/unidad; el segmento es el rango de
+# unidades (Cocktail y Mesa se mezclan; Dispensador va separado).
 #
 # FORMATO MAYORISTA POR MANGA/CAJA (ej. Central Mayorista publica el precio de
 # 12 packs juntos): llenar rollos/metros_rollo/metros_totales con los datos de

@@ -369,8 +369,14 @@ def _packs_por_bulto(nombre):
 
 def _segmento(row):
     # Servilletas: se agrupan solo por rango de unidades (el tipo Cocktail/Mesa
-    # queda visible en la columna Formato pero no arma el segmento).
+    # queda visible en la columna Formato pero no arma el segmento). Excepción:
+    # las de dispensador son de uso institucional (papel más delgado, formato
+    # interfoliado) y no compiten con las de mesa/cóctel — van a su propio
+    # segmento.
     if row.get("categoria") == "Servilletas":
+        if row.get("subcategoria") == "Dispensador":
+            sec = _sector_servilleta(row.get("unidades"))
+            return f"Servilletas Dispensador · {sec}" if sec else "Servilletas Dispensador"
         sec = _sector_servilleta(row.get("unidades"))
         return f"Servilletas · {sec}" if sec else None
     if pd.isna(row.get("rollos")) or pd.isna(row.get("metros_rollo")):
@@ -668,7 +674,8 @@ with st.expander("➕ Agregar un producto nuevo para monitorear"):
             "`retailer` (clave exacta: `jumbo`, `santaisabel`, `tottus`, `unimarc`, "
             "`alvi`, `acuenta`, `centralmayorista`, `liquimax`) · `url` · `categoria` · `subcategoria`\n\n"
             "Para papel higiénico y toalla: `rollos`, `metros_rollo` y `metros_totales`. "
-            "Para servilletas: `unidades` (y `subcategoria` = `Cocktail` o `Mesa`).\n\n"
+            "Para servilletas: `unidades` (y `subcategoria` = `Cocktail`, `Mesa` "
+            "o `Dispensador`).\n\n"
             "Si es un formato mayorista que se vende por **manga/caja** (ej. Central "
             "Mayorista, precio de 12 packs juntos): cargá en `unidades` cuántos packs "
             "trae la manga. La app muestra *Precio manga*, *Precio pack* y el $/metro "
