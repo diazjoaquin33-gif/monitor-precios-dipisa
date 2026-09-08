@@ -672,7 +672,7 @@ with st.expander("➕ Agregar un producto nuevo para monitorear"):
             "**productos_nuevos** de la planilla, una fila con estas columnas:\n\n"
             "`sku_interno` (código libre, ej. `TC-500`) · `producto` · `marca` · "
             "`retailer` (clave exacta: `jumbo`, `santaisabel`, `tottus`, `unimarc`, "
-            "`alvi`, `acuenta`, `centralmayorista`, `liquimax`, `imanweb`) · `url` · `categoria` · `subcategoria`\n\n"
+            "`alvi`, `acuenta`, `centralmayorista`, `liquimax`, `imanweb`, `dimak`) · `url` · `categoria` · `subcategoria`\n\n"
             "Para papel higiénico y toalla: `rollos`, `metros_rollo` y `metros_totales`. "
             "Para servilletas: `unidades` (y `subcategoria` = `Cocktail`, `Mesa` "
             "o `Dispensador`).\n\n"

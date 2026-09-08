@@ -44,6 +44,14 @@ unimarc:
   patron_precio_oferta: '"price":\{"price":"\$([\d.,]+)"'
   patron_precio_normal: '"price":\{"price":"\$[\d.,]+","listPrice":"\$([\d.,]+)"'
 
+dimak:
+  nombre: "Dimak"
+  metodo: "dimak"
+  # Verificado 08/09/2026: dimakonline.cl (distribuidor mayorista) es tienda
+  # VTEX estándar. Precio vía API pública de catálogo por 'linkText'. Es
+  # mayorista por manga/display — el nº de paquetes va en 'unidades' en
+  # productos.csv (spec 'detalleProductos' de la ficha). Ver _consultar_dimak.
+
 imanweb:
   nombre: "Imanweb"
   metodo: "imanweb"

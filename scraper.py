@@ -242,6 +242,34 @@ def _consultar_imanweb(url: str):
         return None, None, False, f"Error imanweb: {str(e)[:80]}"
 
 
+def _consultar_dimak(url: str):
+    """dimakonline.cl es una tienda VTEX estándar — la API pública de catálogo
+    devuelve el precio sin ninguna protección. Se busca por el 'linkText'
+    (el tramo de la URL antes de '/p'). Es mayorista: el precio es el de la
+    'manga'/display; los paquetes por manga van en 'unidades' en
+    productos.csv (el dato está en la spec 'detalleProductos' de la ficha)."""
+    link_text = url.split("?")[0].rstrip("/").split("/")[-2] if url.rstrip("/").endswith("/p") else url.rstrip("/").split("/")[-1]
+    try:
+        res = requests.get(
+            f"https://www.dimakonline.cl/api/catalog_system/pub/products/search/{link_text}/p",
+            headers=HEADERS_GENERICOS, timeout=12,
+        )
+        if res.status_code not in (200, 206):
+            return None, None, False, f"HTTP {res.status_code}"
+        data = res.json()
+        if not data:
+            return None, None, False, f"linkText '{link_text}' no encontrado"
+        oferta = data[0]["items"][0]["sellers"][0]["commertialOffer"]
+        precio = oferta.get("Price")
+        if not precio:
+            return None, None, False, "Sin precio en la respuesta"
+        precio_normal = oferta.get("ListPrice") or oferta.get("PriceWithoutDiscount") or precio
+        disponible = bool(oferta.get("IsAvailable")) and (oferta.get("AvailableQuantity") or 0) > 0
+        return float(precio), float(precio_normal), disponible, None
+    except Exception as e:
+        return None, None, False, f"Error dimak: {str(e)[:80]}"
+
+
 def _consultar_lider_api(url: str):
     m_id = re.search(r'/(\d{8,16})(?:\?|$)', url)
     if not m_id: m_id = re.search(r'(\d+)', url.rstrip("/").split("/")[-1])
@@ -436,6 +464,8 @@ def procesar_lote(retailer_key, lista_productos, cfg):
                 extra = {"precio_socio2": p2}
         elif metodo == "imanweb":
             p, pn, disp, err = _consultar_imanweb(prod["url"])
+        elif metodo == "dimak":
+            p, pn, disp, err = _consultar_dimak(prod["url"])
         else:
             p, pn, disp, err = _consultar_curl_cffi(prod["url"], cfg)
 
