@@ -905,97 +905,126 @@ def _mostrar_marcas(df_sub):
         _mostrar_tabla(grupo_marca, ocultar_columnas=["Retailer", "Marca"], mostrar_formato=True)
 
 
-def _para_vender(dfx, etiqueta):
+def _detalle_pack(r):
+    """'pack 4×22 m · $3.190' — el envase de góndola con su precio, para que
+    el vendedor sepa exactamente qué producto es el que se está comparando."""
+    p_pack = r.get("precio_pack")
+    if pd.isna(p_pack):
+        p_pack = r.get("precio")
+    if pd.notna(r.get("rollos")) and pd.notna(r.get("metros_rollo")):
+        base = f"pack {int(r['rollos'])}×{r['metros_rollo']:g} m"
+    elif pd.notna(r.get("unidades")):
+        base = f"pack {int(r['unidades'])} un"
+    else:
+        base = "pack"
+    return f"{base} · {_formatear_clp(p_pack)}" if pd.notna(p_pack) else base
+
+
+def _para_vender(dfx, canal_sel):
     """Vista para vendedores: elige un formato y muestra el precio de Ovella
     contra los competidores de ese mismo formato, con un veredicto en lenguaje
-    simple y el rango del mercado. Pensada para leerse rápido, en el celular,
-    durante una reunión con el cliente."""
+    simple y el rango del mercado. Cada precio muestra de qué SKU y retailer
+    sale — no son promedios, es el SKU más barato de cada marca en ese
+    formato y canal."""
+    st.markdown("### 💼 Comparador para vender")
+    if canal_sel == "Todos":
+        st.warning(
+            "Estás viendo **retail + mayorista juntos**. El $/metro de un mayorista "
+            "(precio de manga bajado a pack) no compite de igual a igual con el de "
+            "un supermercado. Para vender, elegí **Retail** o **Mayorista** en la "
+            "barra lateral."
+        )
+    else:
+        st.info(f"Canal: **{'🏪 Retail (supermercados)' if canal_sel == 'Retail' else '🏭 Mayorista (distribuidores)'}** — cambialo en la barra lateral.")
+
     base = dfx[dfx["segmento"].notna() & dfx["precio_ref"].notna()].copy()
     base["_marca"] = base["marca"].str.strip()
     base["_es_ov"] = base["_marca"].str.lower() == "ovella"
     segs = sorted(base.loc[base["_es_ov"], "segmento"].unique())
     if not segs:
         st.info(
-            f"En el canal **{etiqueta}** todavía no hay ningún producto Ovella con "
-            "precio para comparar. Cambiá el Canal en la barra lateral (Ovella hoy "
-            "tiene más precios cargados en el canal mayorista)."
+            "En este canal todavía no hay ningún producto **Ovella** con precio "
+            "para comparar. Ovella hoy tiene más precios cargados en el canal "
+            "**mayorista** (Alvi, Central Mayorista, Imanweb)."
         )
         return
 
-    st.markdown("### 💼 Comparador para vender")
     def _fmt_seg(s):
         return s.replace("·", "—")
     seg = st.selectbox("Elegí el formato", segs, format_func=_fmt_seg)
 
     g = base[base["segmento"] == seg].copy()
     unidad = g["ref_unidad"].iloc[0]
-    nombre_unidad = "metro" if unidad == "m" else "unidad"
-    por_marca = g.groupby("_marca").agg(
-        precio=("precio_ref", "min"), es_ov=("_es_ov", "any"),
-    ).reset_index().sort_values("precio")
+    nu = "metro" if unidad == "m" else "unidad"
 
-    ov_row = por_marca[por_marca["es_ov"]].iloc[0]
-    ov_precio = float(ov_row["precio"])
-    ov_sku = g[g["_es_ov"]].sort_values("precio_ref").iloc[0]
+    ov = g[g["_es_ov"]].sort_values("precio_ref")
+    ov_precio = float(ov["precio_ref"].min())
 
-    # Tarjeta Ovella
-    detalle = ""
-    if pd.notna(ov_sku.get("precio_pack")) and pd.notna(ov_sku.get("rollos")):
-        detalle = f"pack {int(ov_sku['rollos'])}×{ov_sku['metros_rollo']:g} m · {_formatear_clp(ov_sku['precio_pack'])}/pack"
-    elif pd.notna(ov_sku.get("unidades")):
-        detalle = f"pack {int(ov_sku['unidades'])} un · {_formatear_clp(ov_sku.get('precio_pack') or ov_sku['precio'])}/pack"
-    st.markdown(
-        f"<div style='background:{COLOR_MORADO}0D;border:1px solid {COLOR_MORADO}33;"
-        f"border-radius:12px;padding:16px 20px;margin:6px 0 14px;'>"
-        f"<div style='color:{COLOR_MORADO};font-weight:700;font-size:0.9rem;'>OVELLA</div>"
-        f"<div style='font-size:2rem;font-weight:800;color:{COLOR_TEXTO};'>${ov_precio:g}<span style='font-size:1rem;font-weight:500;'> /{nombre_unidad}</span></div>"
-        f"<div style='color:#666;font-size:0.85rem;'>{detalle}</div></div>",
-        unsafe_allow_html=True,
+    # --- Ovella: todos sus SKU en este formato -------------------------------
+    st.markdown(f"**Ovella en {_fmt_seg(seg)}** ($/{nu}):")
+    st.dataframe(
+        pd.DataFrame([{
+            "Producto": r["producto"],
+            "Retailer": r["retailer_nombre"],
+            "Pack": _detalle_pack(r),
+            f"$/{nu}": f"${r['precio_ref']:g}",
+        } for _, r in ov.iterrows()]),
+        hide_index=True, width="stretch",
     )
+    if len(ov) > 1:
+        st.caption(f"Para el veredicto se usa el más barato: **${ov_precio:g}/{nu}**.")
 
-    # Competidores
-    comp = por_marca[~por_marca["es_ov"]]
-    if comp.empty:
+    # --- Competencia: SKU más barato de cada marca -------------------------
+    comp_raw = g[~g["_es_ov"]]
+    if comp_raw.empty:
         st.info("No hay competidores con precio en este formato todavía.")
+        comp = pd.DataFrame(columns=["_marca", "precio_ref"])
     else:
-        st.caption(f"Competencia en {_fmt_seg(seg)} — $/{nombre_unidad}:")
-        filas = []
-        for _, r in comp.iterrows():
-            d = (r["precio"] - ov_precio) / ov_precio * 100
-            filas.append({
+        idx = comp_raw.groupby("_marca")["precio_ref"].idxmin()
+        comp = comp_raw.loc[idx].sort_values("precio_ref")
+        st.markdown(f"**Competencia** — el SKU más barato de cada marca ($/{nu}):")
+        st.dataframe(
+            pd.DataFrame([{
                 "Marca": r["_marca"],
-                f"$/{nombre_unidad}": f"${r['precio']:g}",
-                "vs Ovella": f"{d:+.0f}%",
-            })
-        st.dataframe(pd.DataFrame(filas), hide_index=True, width="stretch")
+                "Producto": r["producto"],
+                "Retailer": r["retailer_nombre"],
+                "Pack": _detalle_pack(r),
+                f"$/{nu}": f"${r['precio_ref']:g}",
+                "vs Ovella": f"{(r['precio_ref'] - ov_precio) / ov_precio * 100:+.0f}%",
+            } for _, r in comp.iterrows()]),
+            hide_index=True, width="stretch",
+        )
 
-        mas_barato = comp.iloc[0]
-        if ov_precio <= mas_barato["precio"]:
-            seg_marca = comp.iloc[0]["_marca"]
-            seg_dif = (comp.iloc[0]["precio"] - ov_precio) / ov_precio * 100
+    # --- Veredicto --------------------------------------------------------
+    if not comp.empty:
+        mb = comp.iloc[0]
+        if ov_precio <= mb["precio_ref"]:
+            d = (mb["precio_ref"] - ov_precio) / ov_precio * 100
             st.success(
                 f"✅ **Ovella es la más barata de este formato.** "
-                f"La más cercana es {seg_marca}, {seg_dif:+.0f}% sobre Ovella."
+                f"La más cercana es {mb['_marca']} a ${mb['precio_ref']:g}/{nu} (+{d:.0f}%)."
             )
         else:
-            dif = (ov_precio - mas_barato["precio"]) / mas_barato["precio"] * 100
-            debajo = comp[comp["precio"] > ov_precio]["_marca"].tolist()
+            d = (ov_precio - mb["precio_ref"]) / mb["precio_ref"] * 100
+            debajo = comp[comp["precio_ref"] > ov_precio]["_marca"].tolist()
             extra = f" Igual le gana a {', '.join(debajo)}." if debajo else ""
             st.warning(
-                f"⚠️ **Ovella está {dif:+.0f}% sobre {mas_barato['_marca']}** "
-                f"(${mas_barato['precio']:g} vs ${ov_precio:g}/{nombre_unidad}).{extra}"
+                f"⚠️ **Ovella está +{d:.0f}% sobre {mb['_marca']}** "
+                f"(${ov_precio:g} vs ${mb['precio_ref']:g}/{nu}).{extra}"
             )
 
     lo, hi = g["precio_ref"].min(), g["precio_ref"].max()
     med = g["precio_ref"].median()
     st.caption(
-        f"📊 Mercado de este formato: **${lo:g} – ${hi:g}/{nombre_unidad}** (mediana ${med:g}). "
-        f"{g['_marca'].nunique()} marcas · {g['retailer_nombre'].nunique()} retailers · canal {etiqueta}."
+        f"📊 Mercado de este formato: **${lo:g} – ${hi:g}/{nu}** (mediana ${med:g}). "
+        f"{g['_marca'].nunique()} marcas · {g['retailer_nombre'].nunique()} retailers.  \n"
+        f"ℹ️ Cada precio es el **SKU más barato** de esa marca en este formato y canal "
+        f"(no es un promedio). El formato lo define el pack: {_fmt_seg(seg)}."
     )
 
 
 if vista == "💼 Para vender":
-    _para_vender(df, etiqueta_canal)
+    _para_vender(df, canal_sel)
 
 elif vista == "🏪 Por retailer":
     # Un tab por supermercado, y dentro de cada uno las filas agrupadas por marca.
