@@ -1,8 +1,18 @@
 {
-  "fecha": "09/09/2026 12:15 hrs",
+  "fecha": "09/09/2026 19:42 hrs",
   "total_skus": 541,
-  "exitosos": 540,
+  "exitosos": 538,
   "fallos": [
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-254",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-386",
+      "error": "Sin stock"
+    },
     {
       "retailer": "liquimax",
       "sku_interno": "TC-494",
