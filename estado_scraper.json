@@ -1,38 +1,8 @@
 {
-  "fecha": "09/09/2026 05:16 hrs",
+  "fecha": "09/09/2026 12:15 hrs",
   "total_skus": 541,
-  "exitosos": 534,
+  "exitosos": 540,
   "fallos": [
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-029",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-111",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-121",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-277",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-278",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-281",
-      "error": "HTTP 403"
-    },
     {
       "retailer": "liquimax",
       "sku_interno": "TC-494",
