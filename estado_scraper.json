@@ -1,12 +1,37 @@
 {
-  "fecha": "08/09/2026 19:49 hrs",
+  "fecha": "09/09/2026 05:16 hrs",
   "total_skus": 541,
-  "exitosos": 539,
+  "exitosos": 534,
   "fallos": [
     {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-259",
-      "error": "Sin stock"
+      "retailer": "tottus",
+      "sku_interno": "TC-029",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-111",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-121",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-277",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-278",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-281",
+      "error": "HTTP 403"
     },
     {
       "retailer": "liquimax",
