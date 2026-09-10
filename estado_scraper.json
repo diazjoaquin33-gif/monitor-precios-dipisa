@@ -1,16 +1,11 @@
 {
-  "fecha": "10/09/2026 12:08 hrs",
+  "fecha": "10/09/2026 19:46 hrs",
   "total_skus": 541,
-  "exitosos": 536,
+  "exitosos": 533,
   "fallos": [
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-246",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-247",
       "error": "Sin stock"
     },
     {
@@ -27,6 +22,26 @@
       "retailer": "liquimax",
       "sku_interno": "TC-494",
       "error": "HTTP 404"
+    },
+    {
+      "retailer": "unimarc",
+      "sku_interno": "TC-086",
+      "error": "Error CFFI: Failed to perform, curl: (28) Operation "
+    },
+    {
+      "retailer": "unimarc",
+      "sku_interno": "TC-089",
+      "error": "Error CFFI: Failed to perform, curl: (28) Operation "
+    },
+    {
+      "retailer": "unimarc",
+      "sku_interno": "TC-095",
+      "error": "Error CFFI: Failed to perform, curl: (28) Operation "
+    },
+    {
+      "retailer": "unimarc",
+      "sku_interno": "TC-096",
+      "error": "Error CFFI: Failed to perform, curl: (28) Operation "
     }
   ],
   "overrides_url_aplicados": 0,
