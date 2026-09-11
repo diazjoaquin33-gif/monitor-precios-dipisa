@@ -1,11 +1,16 @@
 {
-  "fecha": "10/09/2026 19:46 hrs",
+  "fecha": "11/09/2026 05:10 hrs",
   "total_skus": 541,
-  "exitosos": 533,
+  "exitosos": 531,
   "fallos": [
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-246",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-247",
       "error": "Sin stock"
     },
     {
@@ -19,29 +24,34 @@
       "error": "Sin stock"
     },
     {
+      "retailer": "tottus",
+      "sku_interno": "TC-120",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-128",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-278",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-282",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-376",
+      "error": "HTTP 403"
+    },
+    {
       "retailer": "liquimax",
       "sku_interno": "TC-494",
       "error": "HTTP 404"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-086",
-      "error": "Error CFFI: Failed to perform, curl: (28) Operation "
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-089",
-      "error": "Error CFFI: Failed to perform, curl: (28) Operation "
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-095",
-      "error": "Error CFFI: Failed to perform, curl: (28) Operation "
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-096",
-      "error": "Error CFFI: Failed to perform, curl: (28) Operation "
     }
   ],
   "overrides_url_aplicados": 0,
