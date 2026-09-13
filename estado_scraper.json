@@ -1,7 +1,7 @@
 {
-  "fecha": "13/09/2026 05:26 hrs",
+  "fecha": "13/09/2026 12:04 hrs",
   "total_skus": 541,
-  "exitosos": 538,
+  "exitosos": 537,
   "fallos": [
     {
       "retailer": "santaisabel",
@@ -12,6 +12,11 @@
       "retailer": "santaisabel",
       "sku_interno": "TC-386",
       "error": "Sin stock"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-274",
+      "error": "HTTP 403"
     },
     {
       "retailer": "liquimax",
