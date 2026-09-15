@@ -1,16 +1,11 @@
 {
-  "fecha": "14/09/2026 20:17 hrs",
+  "fecha": "15/09/2026 05:48 hrs",
   "total_skus": 541,
-  "exitosos": 531,
+  "exitosos": 511,
   "fallos": [
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-016",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-022",
       "error": "Sin stock"
     },
     {
@@ -29,9 +24,14 @@
       "error": "Sin stock"
     },
     {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-394",
-      "error": "Sin stock"
+      "retailer": "tottus",
+      "sku_interno": "TC-009",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-011",
+      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -40,12 +40,112 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-030",
+      "sku_interno": "TC-033",
       "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-112",
+      "sku_interno": "TC-103",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-108",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-111",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-118",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-126",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-128",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-265",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-267",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-268",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-272",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-274",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-275",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-277",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-280",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-281",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-282",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-283",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-367",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-371",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-372",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-379",
       "error": "HTTP 403"
     },
     {
