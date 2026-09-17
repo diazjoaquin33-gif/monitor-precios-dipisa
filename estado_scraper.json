@@ -1,12 +1,22 @@
 {
-  "fecha": "16/09/2026 20:06 hrs",
+  "fecha": "17/09/2026 05:47 hrs",
   "total_skus": 541,
-  "exitosos": 530,
+  "exitosos": 526,
   "fallos": [
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-022",
       "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-245",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-250",
+      "error": "HTTP 404"
     },
     {
       "retailer": "santaisabel",
@@ -24,39 +34,49 @@
       "error": "HTTP 404"
     },
     {
-      "retailer": "tottus",
-      "sku_interno": "TC-011",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-024",
-      "error": "HTTP 403"
-    },
-    {
       "retailer": "jumbo",
       "sku_interno": "TC-347",
       "error": "HTTP 404"
     },
     {
+      "retailer": "tottus",
+      "sku_interno": "TC-033",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-101",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-107",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-112",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-120",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-126",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-375",
+      "error": "HTTP 403"
+    },
+    {
       "retailer": "liquimax",
       "sku_interno": "TC-494",
       "error": "HTTP 404"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-085",
-      "error": "Error CFFI: Failed to perform, curl: (28) Operation "
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-086",
-      "error": "Error CFFI: Failed to perform, curl: (28) Operation "
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-087",
-      "error": "Error CFFI: Failed to perform, curl: (28) Operation "
     }
   ],
   "overrides_url_aplicados": 0,
