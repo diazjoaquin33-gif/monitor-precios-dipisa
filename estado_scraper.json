@@ -1,7 +1,7 @@
 {
-  "fecha": "17/09/2026 20:00 hrs",
+  "fecha": "18/09/2026 05:23 hrs",
   "total_skus": 541,
-  "exitosos": 531,
+  "exitosos": 529,
   "fallos": [
     {
       "retailer": "santaisabel",
@@ -20,16 +20,6 @@
     },
     {
       "retailer": "santaisabel",
-      "sku_interno": "TC-246",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-254",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "santaisabel",
       "sku_interno": "TC-386",
       "error": "Sin stock"
     },
@@ -42,6 +32,26 @@
       "retailer": "alvi",
       "sku_interno": "TC-307",
       "error": "HTTP 404"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-108",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-110",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-276",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-378",
+      "error": "HTTP 403"
     },
     {
       "retailer": "jumbo",
