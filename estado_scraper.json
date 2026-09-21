@@ -1,11 +1,16 @@
 {
-  "fecha": "21/09/2026 14:12 hrs",
+  "fecha": "21/09/2026 20:26 hrs",
   "total_skus": 541,
-  "exitosos": 530,
+  "exitosos": 528,
   "fallos": [
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-016",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-019",
       "error": "Sin stock"
     },
     {
@@ -16,6 +21,11 @@
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-245",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-248",
       "error": "Sin stock"
     },
     {
@@ -45,8 +55,8 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-118",
-      "error": "No se encontró el precio en el HTML"
+      "sku_interno": "TC-263",
+      "error": "HTTP 403"
     },
     {
       "retailer": "jumbo",
