@@ -569,4 +569,12 @@ TC-567,P. TOALLA INTERFOLIADA ELITE 200 hjs (caja x18),Elite,18,imanweb,https://
 # UN pack suelto y poner en 'unidades' cuántos packs trae la manga (ej. 12 para
 # "MANGAx12"). La app calcula Precio pack = precio / 12 y con eso el $/metro,
 # así compite parejo contra un pack suelto de otro súper.
+#
+# grupo_id / nombre_estandar (opcionales): identifican el MISMO producto
+# entre retailers para comparar precio en Excel (columna "Producto estándar"
+# del CSV descargable). Se cargaron una vez cruzando este archivo contra
+# SKU_Retailers_Cruzados_final.xlsx (cruce manual por URL). Para un SKU
+# nuevo: dejarlos vacíos (cae al nombre genérico marca+formato) o, si sabés
+# que es el mismo producto que otro SKU ya cruzado, copiarle su grupo_id y
+# nombre_estandar tal cual.
 
