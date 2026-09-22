@@ -430,6 +430,7 @@ def _armar_export(df_export):
             "Categoría": r["categoria"],
             "Subcategoría": r["subcategoria"],
             "Segmento": r.get("segmento") or "",
+            "Grupo": _fmt_grupo(r),
             "Producto estándar": _producto_estandar(r),
             "Marca": r["marca"],
             "Producto": r["producto"],
@@ -465,6 +466,19 @@ def _fmt_formato(r):
             base += f" · manga x{int(n)}"
         return base
     return f"{r['categoria']} · {r['subcategoria']}"
+
+
+def _fmt_grupo(r):
+    """Nº de grupo del cruce manual (ver grupo_id en productos.csv) — permite
+    ubicar 'todos los del grupo 9' entre retailers. '—' si el SKU todavía no
+    fue cruzado."""
+    g = r.get("grupo_id")
+    if pd.isna(g):
+        return "—"
+    try:
+        return str(int(float(g)))
+    except (TypeError, ValueError):
+        return str(g)
 
 
 def _producto_estandar(r):
@@ -535,6 +549,7 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
         if r.get("origen_planilla"):
             nombre += " 🆕"
         fila["Producto"] = nombre
+        fila["Grupo"] = _fmt_grupo(r)
         if es_alvi:
             fila["Precio Lista"] = _formatear_clp(r["precio_normal"])
             fila["Socio 1 un"] = _formatear_clp(r["precio"])
@@ -631,7 +646,8 @@ with st.sidebar:
         ),
     )
     busqueda = st.text_input(
-        "Buscar", placeholder="Ej. Elite, Confort, doble hoja...",
+        "Buscar", placeholder="Ej. Elite, Confort, grupo 9...",
+        help="Además de marca/producto, aceptá 'grupo 9' o simplemente '9' para ver todo el grupo de cruce Nº 9.",
     )
     st.markdown("---")
 
@@ -647,10 +663,16 @@ elif canal_sel == "Mayorista":
     df = df[df["canal"] == "mayorista"]
 
 if busqueda:
-    coincide = (
-        df["marca"].str.contains(busqueda, case=False, na=False)
-        | df["producto"].str.contains(busqueda, case=False, na=False)
-    )
+    # "grupo 9" o "9" a secas -> filtra por grupo_id exacto (el cruce manual
+    # entre retailers); cualquier otra cosa busca texto en marca/producto.
+    m_grupo = re.fullmatch(r"\s*(?:grupo\s*)?(\d+)\s*", busqueda, re.I)
+    if m_grupo:
+        coincide = df["grupo_id"].astype(str).str.strip() == m_grupo.group(1)
+    else:
+        coincide = (
+            df["marca"].str.contains(busqueda, case=False, na=False)
+            | df["producto"].str.contains(busqueda, case=False, na=False)
+        )
     df = df[coincide]
 
 chip_fecha = f"""
