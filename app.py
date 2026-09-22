@@ -468,12 +468,16 @@ def _fmt_formato(r):
 
 
 def _producto_estandar(r):
-    """Nombre idéntico para el mismo producto en cualquier retailer: marca +
-    tipo de hoja + formato. Sirve como campo de fila en una tabla dinámica de
-    Excel (filtrás por este nombre y ves el precio en cada supermercado).
-    Ojo: agrupa por marca+formato, así que sub-líneas de una misma marca con
-    igual formato (ej. "Elite Ultra" y "Elite Soft & Strong" 4x40) caen bajo
-    el mismo nombre — si eso pasa se nota como dos precios muy distintos."""
+    """Nombre idéntico para el mismo producto en cualquier retailer, para
+    comparar precio entre retailers (ej. en una tabla dinámica de Excel).
+    Prioridad: la columna 'nombre_estandar' de productos.csv, cargada a mano
+    (cruce de fichas reales, confirma qué es el mismo producto — ver
+    'grupo_id'). Si el SKU no fue cruzado todavía, cae al genérico
+    marca + tipo de hoja + formato, que puede juntar sub-líneas distintas de
+    una misma marca con igual formato (ej. "Elite Ultra" y "Elite Classic"
+    4x40) bajo el mismo nombre."""
+    if pd.notna(r.get("nombre_estandar")):
+        return r["nombre_estandar"]
     if r.get("categoria") == "Servilletas" and pd.notna(r.get("unidades")):
         return f"{r['marca']} Servilletas {r['subcategoria']} {int(r['unidades'])}un"
     if pd.notna(r.get("rollos")) and pd.notna(r.get("metros_rollo")):
