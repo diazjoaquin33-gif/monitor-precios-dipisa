@@ -9,7 +9,7 @@ TC-008,Doble Hoja 50 m 4 un,Favorita,200,santaisabel,https://www.santaisabel.cl/
 TC-009,Doble Hoja 50 mts 12 un,Favorita,600,tottus,https://www.tottus.cl/tottus-cl/articulo/148257118/papel-higienico-12-50-favorita-nag-und/148257119,Papel Higienico,Doble Hoja,12,50,,13,"Favorita — Doble Hoja, 12 un, 50 m"
 TC-010,Doble Hoja 8 x 40 mts,Confort,320,tottus,https://www.tottus.cl/tottus-cl/articulo/119823952/ph-dh-super-40m-x8-confort-und/119823953,Papel Higienico,Doble Hoja,8,40,,10,"Confort — Doble Hoja, 8 un, 40 m"
 TC-011,Soft Care 4 x 50 mts,Favorita,200,tottus,https://www.tottus.cl/tottus-cl/articulo/138899719/papel-higienico-soft-care-favorita-4-und/138899721,Papel Higienico,Doble Hoja,4,50,,4,"Favorita — Doble Hoja, 4 un, 50 m"
-TC-012,Doble Hoja 50 m 4 un,Confort,200,santaisabel,https://www.santaisabel.cl/papel-higienico-confort-doble-hoja-4-rollos-50-m-c-u/p,Papel Higienico,Doble Hoja,4,50,,,
+TC-012,Doble Hoja 50 m 4 un,Confort,200,santaisabel,https://www.santaisabel.cl/papel-higienico-confort-doble-hoja-4-rollos-50-m-c-u/p,Papel Higienico,Doble Hoja,4,50,,201,"Confort — Doble Hoja, 4 un, 50 m"
 TC-013,Mi Hogar 50 m 4 un,Swan,200,santaisabel,https://www.santaisabel.cl/papel-higienico-mi-hogar-50-m-4-un-1899135/p,Papel Higienico,Doble Hoja,4,50,,15,"Swan — Doble Hoja, 4 un, 50 m"
 TC-014,Rindemax 50 m 4 un,Scott,200,santaisabel,https://www.santaisabel.cl/papel-higienico-scott-rindemax-50-m-4-un-2044412/p,Papel Higienico,Doble Hoja,4,50,,Rindemax 50x4,"Scott — Doble Hoja, 4 un, 50 m"
 TC-015,Doble Hoja Ultra 50 m 4 un,Elite,200,santaisabel,https://www.santaisabel.cl/papel-higienico-elite-doble-hoja-4-rollos-50-m-c-u/p,Papel Higienico,Doble Hoja,4,50,,1,"Elite — Doble Hoja, 4/32 un, 50 m"
@@ -481,7 +481,7 @@ TC-502,TOALLA OVELLA DH 24MTS (8 PQT DE 2),Ovella,48,imanweb,https://www.imanweb
 TC-503,P.HIG OVELLA DH 22MTS X6 (48 ROLLOS),Ovella,132,imanweb,https://www.imanweb.cl/producto/p-hig-ovella-dh-22mtsx6/,Papel Higienico,Doble Hoja,6,22,8,,
 TC-504,P.HIG OVELLA DH 50MTS X4 (32 ROLLOS),Ovella,200,imanweb,https://www.imanweb.cl/producto/p-hig-ovella-dh-50mtsx4/,Papel Higienico,Doble Hoja,4,50,8,49,"Ovella — Doble Hoja, 4/32 un, 50 m"
 TC-505,HIG. CONFORT PANAL DH 40MT X8 (32 ROLLOS),Confort,320,imanweb,https://www.imanweb.cl/producto/hig-confort-panal-dh-40mt-x8/,Papel Higienico,Doble Hoja,8,40,4,,
-TC-506,PANAL CONFORT 50 MTS X4 (32 ROLLOS),Confort,200,imanweb,https://www.imanweb.cl/producto/panal-confort-50-mts-x4-32-rollos/,Papel Higienico,Doble Hoja,4,50,8,,
+TC-506,PANAL CONFORT 50 MTS X4 (32 ROLLOS),Confort,200,imanweb,https://www.imanweb.cl/producto/panal-confort-50-mts-x4-32-rollos/,Papel Higienico,Doble Hoja,4,50,8,201,"Confort — Doble Hoja, 4 un, 50 m"
 TC-507,HIGIENICO SWAN PREMIUM DH 50MT X4 (32 ROLLOS),Swan,200,imanweb,https://www.imanweb.cl/producto/hig-swan-dh-50mt-x4/,Papel Higienico,Doble Hoja,4,50,8,Swan 4x50 premium,"Swan — Doble Hoja, 4/32 un, 50 m"
 TC-508,HIG. TORK DH 50MT X4,Tork,200,imanweb,https://www.imanweb.cl/producto/hig-tork-dh-50mt-x4/,Papel Higienico,Doble Hoja,4,50,8,,
 TC-509,HIG. ELITE INDUST CLASIC 500MT X4,Elite,2000,imanweb,https://www.imanweb.cl/producto/hig-elite-indust-clasic-500mt-x4/,Papel Higienico,Hoja Simple,4,500,,40,"Elite — Doble Hoja, 4 un, 50/500 m"
@@ -526,8 +526,8 @@ TC-547,P. TOALLA NOVA EXTRA DISENO DH X3 (8 PQT),Nova,36,imanweb,https://www.ima
 TC-548,P. TOALLA SWAN BLANCA DH 45MT X12,Swan,45,imanweb,https://www.imanweb.cl/producto/p-toalla-swan-blanca-absorb-dh-45mt-x1/,Toalla de Papel,Doble Hoja,1,45,12,111,"Swan — Doble Hoja, 1 un, 45 m"
 TC-549,TOALLA AFFECTO HS 50MT X4,Affecto,200,imanweb,https://www.imanweb.cl/producto/toalla-affecto-x4-unid/,Toalla de Papel,Hoja Simple,4,50,,,
 TC-551,TOALLA AFFECTO HS 250 MT X2,Affecto,500,imanweb,https://www.imanweb.cl/producto/toalla-affecto-250x2/,Toalla de Papel,Hoja Simple,2,250,,,
-TC-553,TOALLA AFFECTO CLASICA HS 190 MT X2,Affecto,380,imanweb,https://www.imanweb.cl/producto/toalla-affecto-190x2/,Toalla de Papel,Hoja Simple,2,190,,,
-TC-554,TOALLA AFFECTO HS 190 MT X2,Affecto,380,imanweb,https://www.imanweb.cl/producto/toalla-affecto-hs-190mt-x2/,Toalla de Papel,Hoja Simple,2,190,,,
+TC-553,TOALLA AFFECTO CLASICA HS 190 MT X2,Affecto,380,imanweb,https://www.imanweb.cl/producto/toalla-affecto-190x2/,Toalla de Papel,Hoja Simple,2,190,,200,"Affecto — Hoja Simple, 2 un, 190 m"
+TC-554,TOALLA AFFECTO HS 190 MT X2,Affecto,380,imanweb,https://www.imanweb.cl/producto/toalla-affecto-hs-190mt-x2/,Toalla de Papel,Hoja Simple,2,190,,200,"Affecto — Hoja Simple, 2 un, 190 m"
 TC-555,TO. ELITE P CLASSIC UH 250 MT X2,Elite,500,imanweb,https://www.imanweb.cl/producto/to-elite-p-classic-uh-250mtx2/,Toalla de Papel,Hoja Simple,2,250,,Elite 250x2,"Elite — Una Hoja, 1/2 un, 250 m"
 TC-556,P. TOALLA GIULIETTA EXPRESS HS 60 MT X6,Giulietta,60,imanweb,https://www.imanweb.cl/producto/p-toalla-giulietta-express-60-mt-x6/,Toalla de Papel,Hoja Simple,1,60,6,,
 TC-557,SERV. ABOLENGO COCTEL 40 un (caja x80),Abolengo,80,imanweb,https://www.imanweb.cl/producto/serv-abolengo-coctel-40und-x80/,Servilletas,Cocktail,,,40,59,"Abolengo — 40 un, coctel"
