@@ -426,11 +426,11 @@ def _armar_export(df_export):
     filas = []
     for _, r in df_export.iterrows():
         filas.append({
+            "Grupo": _fmt_grupo(r),
             "Retailer": r["retailer_nombre"],
             "Categoría": r["categoria"],
             "Subcategoría": r["subcategoria"],
             "Segmento": r.get("segmento") or "",
-            "Grupo": _fmt_grupo(r),
             "Producto estándar": _producto_estandar(r),
             "Marca": r["marca"],
             "Producto": r["producto"],
@@ -537,7 +537,7 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
     filas = []
     precios_metro = []
     for _, r in df_grupo.iterrows():
-        fila = {"Retailer": r["retailer_nombre"], "Marca": r["marca"]}
+        fila = {"Grupo": _fmt_grupo(r), "Retailer": r["retailer_nombre"], "Marca": r["marca"]}
         if mostrar_formato:
             fila["Formato"] = _fmt_formato(r)
         precio_metro = r["precio_ref"] if pd.notna(r.get("precio_ref")) else None
@@ -549,7 +549,6 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
         if r.get("origen_planilla"):
             nombre += " 🆕"
         fila["Producto"] = nombre
-        fila["Grupo"] = _fmt_grupo(r)
         if es_alvi:
             fila["Precio Lista"] = _formatear_clp(r["precio_normal"])
             fila["Socio 1 un"] = _formatear_clp(r["precio"])
@@ -646,14 +645,27 @@ with st.sidebar:
         ),
     )
     busqueda = st.text_input(
-        "Buscar", placeholder="Ej. Elite, Confort, grupo 9...",
-        help="Además de marca/producto, aceptá 'grupo 9' o simplemente '9' para ver todo el grupo de cruce Nº 9.",
+        "Buscar", placeholder="Ej. Elite, Confort, doble hoja...",
     )
+
+    # Grupo = el cruce manual "mismo producto entre retailers" (ver grupo_id /
+    # nombre_estandar en productos.csv). El selector deja "ver el grupo 9" sin
+    # tener que acordarse el número: elegís de la lista y salta a una sola
+    # tabla con todos los retailers de ese grupo, precio incluido.
+    _grupos_df = df[df["grupo_id"].notna()][["grupo_id", "nombre_estandar"]].drop_duplicates()
+    _grupos_df["_num"] = pd.to_numeric(_grupos_df["grupo_id"], errors="coerce")
+    _grupos_df = _grupos_df.sort_values(["_num", "grupo_id"])
+    opciones_grupo = ["— Todos —"] + [
+        f"{r.grupo_id} — {r.nombre_estandar}" for r in _grupos_df.itertuples()
+    ]
+    grupo_sel = st.selectbox("🔢 Ver un grupo (cruce entre retailers)", opciones_grupo)
     st.markdown("---")
 
 # El CSV descargable SIEMPRE es la base completa (todos los canales, sin
 # búsqueda) — se arma antes de aplicar cualquier filtro de pantalla.
 df_completo = df.copy()
+
+grupo_id_sel = grupo_sel.split(" — ", 1)[0] if grupo_sel != "— Todos —" else None
 
 # Filtro de canal — se aplica a todo (métricas incluidas) para que los
 # números de arriba cuadren con lo que se ve en la tabla.
@@ -663,13 +675,7 @@ elif canal_sel == "Mayorista":
     df = df[df["canal"] == "mayorista"]
 
 if busqueda:
-    # "grupo 9" o "9" a secas -> filtra por grupo_id exacto (el cruce manual
-    # entre retailers); cualquier otra cosa busca texto en marca/producto.
-    m_grupo = re.fullmatch(r"\s*(?:grupo\s*)?(\d+)\s*", busqueda, re.I)
-    if m_grupo:
-        coincide = df["grupo_id"].astype(str).str.strip() == m_grupo.group(1)
-    else:
-        coincide = (
+    coincide = (
             df["marca"].str.contains(busqueda, case=False, na=False)
             | df["producto"].str.contains(busqueda, case=False, na=False)
         )
@@ -1049,7 +1055,19 @@ def _para_vender(dfx, canal_sel):
     )
 
 
-if vista == "💼 Para vender":
+if grupo_id_sel:
+    # Un grupo elegido en la barra lateral manda por sobre la Vista: una sola
+    # tabla con todos los retailers de ese grupo, precio incluido.
+    g_nombre = grupo_sel.split(" — ", 1)[1] if " — " in grupo_sel else ""
+    df_g = df[df["grupo_id"].astype(str) == str(grupo_id_sel)].sort_values("precio_ref", na_position="last")
+    st.markdown(f"### 🔢 Grupo {grupo_id_sel} — {g_nombre}")
+    if df_g.empty:
+        st.info("Este grupo no tiene productos en el canal/búsqueda actual. Probá cambiar el Canal en la barra lateral.")
+    else:
+        st.caption(f"{len(df_g)} productos · {df_g['retailer_nombre'].nunique()} retailers · canal {etiqueta_canal}.")
+        _mostrar_tabla(df_g, mostrar_formato=True, resaltar_ovella=True)
+
+elif vista == "💼 Para vender":
     _para_vender(df, canal_sel)
 
 elif vista == "🏪 Por retailer":
