@@ -1,13 +1,8 @@
 {
-  "fecha": "23/09/2026 12:36 hrs",
+  "fecha": "23/09/2026 20:06 hrs",
   "total_skus": 541,
-  "exitosos": 522,
+  "exitosos": 523,
   "fallos": [
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-008",
-      "error": "Sin stock"
-    },
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-016",
@@ -60,11 +55,6 @@
     },
     {
       "retailer": "acuenta",
-      "sku_interno": "TC-136",
-      "error": "SKU '1358801' no encontrado en Instaleap"
-    },
-    {
-      "retailer": "acuenta",
       "sku_interno": "TC-138",
       "error": "SKU '4528517' no encontrado en Instaleap"
     },
@@ -91,6 +81,11 @@
     {
       "retailer": "unimarc",
       "sku_interno": "TC-074",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "unimarc",
+      "sku_interno": "TC-091",
       "error": "HTTP 404"
     },
     {
