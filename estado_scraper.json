@@ -1,21 +1,16 @@
 {
-  "fecha": "23/09/2026 05:42 hrs",
+  "fecha": "23/09/2026 12:36 hrs",
   "total_skus": 541,
-  "exitosos": 518,
+  "exitosos": 522,
   "fallos": [
     {
       "retailer": "santaisabel",
+      "sku_interno": "TC-008",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
       "sku_interno": "TC-016",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-022",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-243",
       "error": "Sin stock"
     },
     {
@@ -55,53 +50,38 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-026",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-105",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-115",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-117",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-120",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-124",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-368",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-376",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-377",
-      "error": "HTTP 403"
+      "sku_interno": "TC-104",
+      "error": "No se encontró el precio en el HTML"
     },
     {
       "retailer": "jumbo",
       "sku_interno": "TC-347",
       "error": "HTTP 404"
+    },
+    {
+      "retailer": "acuenta",
+      "sku_interno": "TC-136",
+      "error": "SKU '1358801' no encontrado en Instaleap"
+    },
+    {
+      "retailer": "acuenta",
+      "sku_interno": "TC-138",
+      "error": "SKU '4528517' no encontrado en Instaleap"
+    },
+    {
+      "retailer": "acuenta",
+      "sku_interno": "TC-140",
+      "error": "SKU '395004' no encontrado en Instaleap"
+    },
+    {
+      "retailer": "acuenta",
+      "sku_interno": "TC-144",
+      "error": "SKU '475492' no encontrado en Instaleap"
+    },
+    {
+      "retailer": "acuenta",
+      "sku_interno": "TC-320",
+      "error": "SKU '309257' no encontrado en Instaleap"
     },
     {
       "retailer": "liquimax",
