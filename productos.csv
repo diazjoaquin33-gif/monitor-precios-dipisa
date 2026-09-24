@@ -545,21 +545,21 @@ TC-567,P. TOALLA INTERFOLIADA ELITE 200 hjs (caja x18),Elite,18,imanweb,https://
 # subcategoria,rollos,metros_rollo,unidades
 #
 # categoria/subcategoria deben coincidir EXACTO (mismo texto) con las de
-"# ovella.csv para que el dashboard agrupe bien — ej. ""Papel Higienico""/"
-"# ""Doble Hoja"" o ""Toalla de Papel""/""Hoja Simple""."
+# ovella.csv para que el dashboard agrupe bien — ej. "Papel Higienico"/
+# "Doble Hoja" o "Toalla de Papel"/"Hoja Simple".
 #
 # PAPEL HIGIENICO y TOALLA: llenar metros_totales, rollos (cuántos rollos trae
 # el pack) y metros_rollo (metros de cada rollo; metros_totales = rollos x
-"# metros_rollo). Se comparan en $/metro. El ""segmento competitivo"" es"
+# metros_rollo). Se comparan en $/metro. El "segmento competitivo" es
 # subcategoria + tamaño de pack + metros por rollo. El metraje no necesita ser
 # exacto contra Ovella, se agrupa dentro de +-15%.
 #
 # SERVILLETAS: dejar metros_totales/rollos/metros_rollo vacíos y llenar
-"# unidades (cantidad de servilletas del pack). subcategoria = ""Cocktail""",
-"# ""Mesa"" o ""Dispensador"" (institucional", interfoliada — arma su propio
+# unidades (cantidad de servilletas del pack). subcategoria = "Cocktail",
+# "Mesa" o "Dispensador" (institucional, interfoliada — arma su propio
 # segmento aparte). Se comparan en $/unidad; el segmento es el rango de
 # unidades (Cocktail y Mesa se mezclan; Dispensador va separado).
-"# Si es una CAJA mayorista (ej. ""300 un x12""): unidades = las del pack (300)"
+# Si es una CAJA mayorista (ej. "300 un x12"): unidades = las del pack (300)
 # y metros_totales = cuántos packs trae la caja (12). La app calcula el
 # $/unidad sobre el precio de un pack (precio_caja / 12 / 300) y segmenta por
 # el conteo del pack, no por el de la caja.
@@ -567,11 +567,11 @@ TC-567,P. TOALLA INTERFOLIADA ELITE 200 hjs (caja x18),Elite,18,imanweb,https://
 # FORMATO MAYORISTA POR MANGA/CAJA (ej. Central Mayorista publica el precio de
 # 12 packs juntos): llenar rollos/metros_rollo/metros_totales con los datos de
 # UN pack suelto y poner en 'unidades' cuántos packs trae la manga (ej. 12 para
-"# ""MANGAx12""). La app calcula Precio pack = precio / 12 y con eso el $/metro",
+# "MANGAx12"). La app calcula Precio pack = precio / 12 y con eso el $/metro
 # así compite parejo contra un pack suelto de otro súper.
 #
 # grupo_id / nombre_estandar (opcionales): identifican el MISMO producto
-"# entre retailers para comparar precio en Excel (columna ""Producto estándar"""
+# entre retailers para comparar precio en Excel (columna "Producto estándar"
 # del CSV descargable). Se cargaron una vez cruzando este archivo contra
 # SKU_Retailers_Cruzados_final.xlsx (cruce manual por URL). Para un SKU
 # nuevo: dejarlos vacíos (cae al nombre genérico marca+formato) o, si sabés
