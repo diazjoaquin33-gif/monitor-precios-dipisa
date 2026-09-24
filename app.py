@@ -85,6 +85,7 @@ h2, h3 {{ color: {COLOR_MORADO}; }}
 
 HISTORIAL_PATH = BASE_DIR / "historial_precios.csv"
 ESTADO_SCRAPER_PATH = BASE_DIR / "estado_scraper.json"
+HISTORIAL_CATALOGO_PATH = BASE_DIR / "historial_catalogo.json"
 OVERRIDES_CACHE_PATH = BASE_DIR / "url_overrides_cache.json"
 CATALOGO_CACHE_PATH = BASE_DIR / "catalogo_cache.csv"
 
@@ -237,6 +238,18 @@ def cargar_estado_scraper():
         return None
     with open(ESTADO_SCRAPER_PATH, "r", encoding="utf-8") as f:
         return json.load(f)
+
+
+def cargar_historial_catalogo():
+    """Altas/bajas/ediciones de catálogo detectadas en cada corrida (ver
+    _registrar_cambios_catalogo en scraper.py), más recientes primero. El
+    propio scraper ya poda las de más de 30 días, así que acá no hace falta
+    filtrar de nuevo."""
+    if not HISTORIAL_CATALOGO_PATH.exists():
+        return []
+    with open(HISTORIAL_CATALOGO_PATH, "r", encoding="utf-8") as f:
+        historial = json.load(f)
+    return list(reversed(historial))
 
 
 @st.cache_data(ttl=600)
@@ -1162,6 +1175,13 @@ if estado_scraper:
         if catalogo_sync.get("problemas"):
             with st.popover("Ver filas de la planilla ignoradas en la última corrida"):
                 st.markdown("- " + "\n- ".join(catalogo_sync["problemas"]))
+
+historial_catalogo = cargar_historial_catalogo() if not _ES_VENTA else []
+if historial_catalogo:
+    ICONO_CAMBIO = {"alta": "🟢 Alta", "baja": "🔴 Baja", "edicion": "✏️ Edición"}
+    with st.sidebar.expander(f"🕓 Cambios de catálogo (últimos 30 días, {len(historial_catalogo)})"):
+        for c in historial_catalogo:
+            st.caption(f"{c['fecha']} · {ICONO_CAMBIO.get(c['tipo'], c['tipo'])} · **{c['sku']}** · {c['detalle']}")
         if estado_scraper.get("catalogo_planilla_aviso"):
             st.caption(f"⚠️ {estado_scraper['catalogo_planilla_aviso']}")
         if retailers_off:

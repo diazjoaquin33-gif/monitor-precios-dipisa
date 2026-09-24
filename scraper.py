@@ -21,6 +21,8 @@ HISTORIAL_PATH = BASE_DIR / "historial_precios.csv"
 ESTADO_SCRAPER_PATH = BASE_DIR / "estado_scraper.json"
 OVERRIDES_CACHE_PATH = BASE_DIR / "url_overrides_cache.json"
 CATALOGO_CACHE_PATH = BASE_DIR / "catalogo_cache.csv"
+HISTORIAL_CATALOGO_PATH = BASE_DIR / "historial_catalogo.json"
+RETENCION_HISTORIAL_CATALOGO_DIAS = 30
 RESPALDOS_DIR = BASE_DIR / "respaldos"
 RESPALDOS_A_CONSERVAR = 52  # ~1 año de respaldos semanales, para no hacer crecer el repo sin límite
 
@@ -204,6 +206,85 @@ def _normalizar_grupo_id(val):
         return texto
 
 
+_LABEL_POR_COLUMNA = {v: k for k, v in ENCABEZADOS_PRODUCTOS.items()}
+
+
+def _valor_comparable(val):
+    """Normaliza una celda de productos.csv/planilla para comparar 'cambió o
+    no' sin falsos positivos: NaN y '' cuentan como lo mismo, y un float como
+    21.0 se compara igual que el '21' que alguien tipeó en la planilla."""
+    if pd.isna(val):
+        return ""
+    if isinstance(val, float) and val == int(val):
+        return str(int(val))
+    return str(val).strip()
+
+
+def _detectar_cambios_catalogo(productos_actuales, df_valido):
+    """Compara el catálogo antes y después del sync y arma la lista de
+    altas/bajas/ediciones para el historial que ve el equipo en la app (ver
+    _registrar_cambios_catalogo). Solo compara columnas presentes en ambos
+    lados; una edición se reporta con el detalle de qué campo cambió."""
+    cambios = []
+    if productos_actuales.empty:
+        actuales = productos_actuales.reindex(columns=["sku_interno"]).set_index("sku_interno")
+    else:
+        actuales = productos_actuales.set_index("sku_interno")
+    nuevos = df_valido.set_index("sku_interno", drop=False)
+
+    for sku in nuevos.index:
+        if sku not in actuales.index:
+            fila = nuevos.loc[sku]
+            cambios.append({"tipo": "alta", "sku": sku, "detalle": f"{fila.get('producto', '')} ({fila.get('marca', '')})"})
+    for sku in actuales.index:
+        if sku not in nuevos.index:
+            fila = actuales.loc[sku]
+            cambios.append({"tipo": "baja", "sku": sku, "detalle": f"{fila.get('producto', '')} ({fila.get('marca', '')})"})
+
+    columnas_comparables = [c for c in nuevos.columns if c != "sku_interno" and c in actuales.columns]
+    for sku in nuevos.index:
+        if sku not in actuales.index:
+            continue
+        fila_nueva, fila_actual = nuevos.loc[sku], actuales.loc[sku]
+        cambios_campo = []
+        for col in columnas_comparables:
+            antes, despues = _valor_comparable(fila_actual.get(col)), _valor_comparable(fila_nueva.get(col))
+            if antes != despues:
+                etiqueta = _LABEL_POR_COLUMNA.get(col, col)
+                cambios_campo.append(f"{etiqueta}: '{antes}' → '{despues}'")
+        if cambios_campo:
+            cambios.append({"tipo": "edicion", "sku": sku, "detalle": "; ".join(cambios_campo)})
+    return cambios
+
+
+def _parsear_fecha_historial(fecha_str):
+    try:
+        return datetime.strptime(fecha_str, "%d/%m/%Y %H:%M hrs").replace(tzinfo=ZoneInfo("America/Santiago"))
+    except (TypeError, ValueError):
+        return datetime.min.replace(tzinfo=ZoneInfo("America/Santiago"))
+
+
+def _registrar_cambios_catalogo(cambios):
+    """Suma los cambios de esta corrida a historial_catalogo.json (que lee la
+    app para mostrar altas/bajas/ediciones al equipo) y poda las entradas de
+    más de RETENCION_HISTORIAL_CATALOGO_DIAS para que no crezca sin límite ni
+    el aviso se llene de ruido viejo."""
+    if not cambios:
+        return
+    historial = []
+    if HISTORIAL_CATALOGO_PATH.exists():
+        try:
+            historial = json.loads(HISTORIAL_CATALOGO_PATH.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            historial = []
+    ahora = datetime.now(ZoneInfo("America/Santiago"))
+    fecha = ahora.strftime("%d/%m/%Y %H:%M hrs")
+    historial.extend({"fecha": fecha, **c} for c in cambios)
+    limite = ahora - timedelta(days=RETENCION_HISTORIAL_CATALOGO_DIAS)
+    historial = [h for h in historial if _parsear_fecha_historial(h.get("fecha")) >= limite]
+    HISTORIAL_CATALOGO_PATH.write_text(json.dumps(historial, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
 def sincronizar_desde_catalogo(df_nuevo, retailers_cfg):
     """Reemplaza productos.csv por el catálogo validado de la planilla,
     preservando el bloque de comentarios final. Es "todo o nada" a nivel
@@ -214,7 +295,7 @@ def sincronizar_desde_catalogo(df_nuevo, retailers_cfg):
     fuerte. Los problemas puntuales de fila (ver validar_catalogo) sí se
     reportan pero no frenan al resto. Devuelve un resumen para el panel de
     salud del dashboard."""
-    resumen = {"aplicado": False, "filas_aplicadas": 0, "problemas": [], "motivo_rechazo": None}
+    resumen = {"aplicado": False, "filas_aplicadas": 0, "problemas": [], "motivo_rechazo": None, "cambios": []}
     if df_nuevo is None or df_nuevo.empty:
         return resumen
 
@@ -243,6 +324,10 @@ def sincronizar_desde_catalogo(df_nuevo, retailers_cfg):
 
     columnas_csv = list(productos_actuales.columns) if not productos_actuales.empty else COLUMNAS_PRODUCTOS + COLUMNAS_GRUPO
     df_valido = df_valido.reindex(columns=columnas_csv)
+
+    cambios = _detectar_cambios_catalogo(productos_actuales, df_valido)
+    _registrar_cambios_catalogo(cambios)
+    resumen["cambios"] = cambios
 
     buf = io.StringIO()
     df_valido.to_csv(buf, index=False)
