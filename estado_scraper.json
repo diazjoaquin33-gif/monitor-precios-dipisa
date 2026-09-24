@@ -1,7 +1,7 @@
 {
-  "fecha": "24/09/2026 15:25 hrs",
+  "fecha": "24/09/2026 16:16 hrs",
   "total_skus": 541,
-  "exitosos": 526,
+  "exitosos": 528,
   "fallos": [
     {
       "retailer": "santaisabel",
@@ -40,18 +40,8 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-033",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
       "sku_interno": "TC-104",
       "error": "No se encontró el precio en el HTML"
-    },
-    {
-      "retailer": "jumbo",
-      "sku_interno": "TC-230",
-      "error": "HTTP 404"
     },
     {
       "retailer": "jumbo",
@@ -84,10 +74,25 @@
   "catalogo_planilla": {
     "aplicado": true,
     "filas_aplicadas": 541,
-    "problemas": [
-      "(fila sin Código): se ignoró, falta el Código"
-    ],
-    "motivo_rechazo": null
+    "problemas": [],
+    "motivo_rechazo": null,
+    "cambios": [
+      {
+        "tipo": "alta",
+        "sku": "TC-001",
+        "detalle": "Doble Hoja 23m 4 un (Noble)"
+      },
+      {
+        "tipo": "baja",
+        "sku": "TC-568",
+        "detalle": "Prueba agregar (Elite)"
+      },
+      {
+        "tipo": "edicion",
+        "sku": "TC-345",
+        "detalle": "Link: 'https://www.jumbo.cl/pan-ciabatta-rustico-jumbo-granel/p' → 'https://www.jumbo.cl/servilleta-elite-mesa-200-un-1885823/p'"
+      }
+    ]
   },
   "catalogo_planilla_aviso": null,
   "retailers_desactivados": [],
