@@ -27,9 +27,11 @@ PRODUCTOS_NUEVOS_CACHE_PATH = BASE_DIR / "productos_nuevos_cache.csv"
 # Pestaña 1 (url_fixes): columnas sku_interno,url_nuevo,nota — para reemplazar un
 # URL que murió sin tocar código.
 OVERRIDES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZ7qyGdu79TJ5CUPN5dfIf4YZDgV9JqDpDdW8dA_jiqCrYDcW3RO_hGqjRp12QnKWKTvlkKvV1nWX/pub?gid=0&single=true&output=csv"
-# Pestaña 2 (productos_nuevos): mismas columnas que productos.csv — para sumar un
-# SKU nuevo sin tocar código. Se scrapean como cualquier otro; cada tanto alguien
-# los pasa a productos.csv y limpia la pestaña. Vacío = función desactivada.
+# Pestaña 2 (productos_nuevos): mismas columnas que productos.csv más una columna
+# 'accion' (nuevo/editar/borrar) — para agregar, actualizar o sacar un producto sin
+# tocar código ni GitHub. Cada corrida aplica los cambios directo sobre
+# productos.csv y el propio workflow lo commitea (ver sincronizar_productos_csv).
+# Vacío = función desactivada.
 PRODUCTOS_NUEVOS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZ7qyGdu79TJ5CUPN5dfIf4YZDgV9JqDpDdW8dA_jiqCrYDcW3RO_hGqjRp12QnKWKTvlkKvV1nWX/pub?gid=2145311446&single=true&output=csv"
 
 HEADERS_GENERICOS = {
@@ -44,23 +46,28 @@ COLUMNAS_PRODUCTOS = [
 
 
 def cargar_productos_nuevos():
-    """Devuelve (DataFrame_o_None, aviso_o_None) con los SKU que el equipo cargó
-    en la pestaña 'productos_nuevos' de la planilla. Si la planilla no responde,
-    cae a la copia local (productos_nuevos_cache.csv). Solo se exigen
-    sku_interno + retailer + url; el resto lo completa quien luego los pase a
-    productos.csv."""
+    """Devuelve (DataFrame_o_None, aviso_o_None) con las filas que el equipo cargó
+    en la pestaña 'productos_nuevos' de la planilla, cada una con su columna
+    'accion' (nuevo/editar/borrar; vacío = nuevo). Si la planilla no responde,
+    cae a la copia local (productos_nuevos_cache.csv). Solo se exige
+    sku_interno — 'nuevo' además necesita retailer + url para poder scrapearse,
+    pero eso se valida más adelante en sincronizar_productos_csv/cargar_config."""
     if not PRODUCTOS_NUEVOS_CSV_URL:
         return None, None
     try:
         res = requests.get(PRODUCTOS_NUEVOS_CSV_URL, headers=HEADERS_GENERICOS, timeout=15)
         res.raise_for_status()
         df = pd.read_csv(io.StringIO(res.text))
-        df = df.dropna(subset=["sku_interno", "retailer", "url"])
-        df = df[df["url"].astype(str).str.startswith("http")]
+        df["sku_interno"] = df.get("sku_interno", pd.Series(dtype=object)).astype(str).str.strip()
+        df = df[(df["sku_interno"] != "") & (df["sku_interno"].str.lower() != "nan")]
+        if "accion" not in df.columns:
+            df["accion"] = "nuevo"
+        df["accion"] = df["accion"].fillna("nuevo").astype(str).str.strip().str.lower()
+        df.loc[~df["accion"].isin(["nuevo", "editar", "borrar"]), "accion"] = "nuevo"
         for col in COLUMNAS_PRODUCTOS:
             if col not in df.columns:
                 df[col] = pd.NA
-        df = df[COLUMNAS_PRODUCTOS]
+        df = df[COLUMNAS_PRODUCTOS + ["accion"]]
         df.to_csv(PRODUCTOS_NUEVOS_CACHE_PATH, index=False)
         return df, None
     except Exception as e:
@@ -72,23 +79,83 @@ def cargar_productos_nuevos():
         return None, f"planilla de productos nuevos no disponible ({str(e)[:60]})"
 
 
-def cargar_config():
-    """Devuelve (productos_df, retailers_cfg, meta). meta trae cuántos SKU se
-    sumaron desde la planilla y cualquier aviso, para el panel de salud."""
+def sincronizar_productos_csv(cambios):
+    """Aplica sobre productos.csv (en disco) las filas de accion 'nuevo'/'editar'/
+    'borrar' de la planilla, preservando el bloque de comentarios al final del
+    archivo. Es idempotente: correrlo de nuevo con la misma planilla no duplica
+    ni revierte nada, así que no hace falta que alguien limpie la pestaña ni
+    toque GitHub a mano — el commit automático del workflow sube el resultado.
+    Devuelve {"agregados": N, "editados": N, "borrados": N}."""
+    resumen = {"agregados": 0, "editados": 0, "borrados": 0}
+    if cambios is None or cambios.empty:
+        return resumen
+
+    texto = PRODUCTOS_PATH.read_text(encoding="utf-8")
+    lineas = texto.splitlines()
+    ultimo_dato = max(i for i, l in enumerate(lineas) if l.strip() and not l.lstrip().startswith("#"))
+    pie = lineas[ultimo_dato + 1:]  # línea en blanco + comentarios finales, se preservan tal cual
+
     productos = pd.read_csv(PRODUCTOS_PATH, comment="#", skip_blank_lines=True).dropna(subset=["sku_interno"])
+    productos["sku_interno"] = productos["sku_interno"].astype(str).str.strip()
+
+    borrar_skus = set(cambios.loc[cambios["accion"] == "borrar", "sku_interno"])
+    if borrar_skus:
+        antes = len(productos)
+        productos = productos[~productos["sku_interno"].isin(borrar_skus)]
+        resumen["borrados"] = antes - len(productos)
+
+    for _, fila in cambios[cambios["accion"] == "editar"].iterrows():
+        sku = fila["sku_interno"]
+        idx = productos.index[productos["sku_interno"] == sku]
+        if len(idx) == 0:
+            continue
+        tuvo_cambio = False
+        for col in COLUMNAS_PRODUCTOS:
+            if col == "sku_interno":
+                continue
+            val = fila.get(col)
+            if pd.notna(val) and str(val).strip() != "" and col in productos.columns:
+                productos.loc[idx, col] = val
+                tuvo_cambio = True
+        if tuvo_cambio:
+            resumen["editados"] += 1
+
+    nuevos = cambios[
+        (cambios["accion"] == "nuevo")
+        & (~cambios["sku_interno"].isin(productos["sku_interno"]))
+        & cambios["retailer"].notna() & cambios["url"].astype(str).str.startswith("http")
+    ]
+    if not nuevos.empty:
+        nuevos = nuevos[COLUMNAS_PRODUCTOS].reindex(columns=productos.columns)
+        productos = pd.concat([productos, nuevos], ignore_index=True)
+        resumen["agregados"] = len(nuevos)
+
+    if sum(resumen.values()) == 0:
+        return resumen
+
+    buf = io.StringIO()
+    productos.to_csv(buf, index=False)
+    nuevo_texto = buf.getvalue().rstrip("\n") + "\n" + ("\n".join(pie) + "\n" if pie else "")
+    PRODUCTOS_PATH.write_text(nuevo_texto, encoding="utf-8")
+    return resumen
+
+
+def cargar_config():
+    """Devuelve (productos_df, retailers_cfg, meta). meta trae el resumen de
+    cambios aplicados desde la planilla (agregados/editados/borrados) y
+    cualquier aviso, para el panel de salud."""
     nuevos, aviso_nuevos = cargar_productos_nuevos()
-    sumados = 0
+    resumen = {"agregados": 0, "editados": 0, "borrados": 0}
     if nuevos is not None and not nuevos.empty:
-        nuevos = nuevos[~nuevos["sku_interno"].isin(productos["sku_interno"])]
-        if not nuevos.empty:
-            productos = pd.concat([productos, nuevos], ignore_index=True)
-            sumados = len(nuevos)
-            print(f"➕ {sumados} SKU nuevo(s) sumado(s) desde la planilla")
+        resumen = sincronizar_productos_csv(nuevos)
+        if sum(resumen.values()):
+            print(f"📋 Planilla aplicada a productos.csv: {resumen}")
     if aviso_nuevos:
         print(f"⚠️ Productos nuevos: {aviso_nuevos}")
+    productos = pd.read_csv(PRODUCTOS_PATH, comment="#", skip_blank_lines=True).dropna(subset=["sku_interno"])
     with open(RETAILERS_PATH, "r", encoding="utf-8") as f:
         retailers = yaml.safe_load(f)
-    return productos, retailers, {"sku_planilla": sumados, "aviso": aviso_nuevos}
+    return productos, retailers, {"sku_planilla": resumen, "aviso": aviso_nuevos}
 
 
 def cargar_overrides_url():

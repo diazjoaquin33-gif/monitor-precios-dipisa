@@ -17,7 +17,7 @@ Piezas:
 | `app.py` | **Streamlit Community Cloud** | Muestra el dashboard |
 | `productos.csv` | Repo de GitHub | Lista de productos de la competencia a monitorear |
 | `ovella.csv` | Repo de GitHub | Productos de Ovella (referencia de cada comparación) |
-| Planilla del equipo | **Google Sheets** (cuenta `monitor.de.precios1@gmail.com`) | Pestaña `url_fixes`: reemplazar un link roto. Pestaña `productos_nuevos`: sumar un SKU. Todo sin tocar código. |
+| Planilla del equipo | **Google Sheets** (cuenta `monitor.de.precios1@gmail.com`) | Pestaña `url_fixes`: reemplazar un link roto. Pestaña `productos_nuevos`: agregar, editar o sacar un producto (columna `accion`). Todo sin tocar código ni GitHub. |
 
 ## Cuentas y accesos
 
@@ -70,7 +70,7 @@ Una Google Sheet en la cuenta `monitor.de.precios1@gmail.com` con **dos pestaña
 - `url_fixes` — columnas exactas: `sku_interno`, `url_nuevo`, `nota`.
 - `productos_nuevos` — columnas exactas: `sku_interno`, `producto`, `marca`,
   `metros_totales`, `retailer`, `url`, `categoria`, `subcategoria`, `rollos`,
-  `metros_rollo`, `unidades`.
+  `metros_rollo`, `unidades`, `accion`.
 
 Para cada pestaña: *Archivo → Compartir → Publicar en la Web*, elegir **esa hoja**
 (no "todo el documento") y formato **CSV** → Publicar. Cada una da un link propio
@@ -87,36 +87,47 @@ Y en `app.py`: `PLANILLA_EDIT_URL` = el link normal de edición (termina en `/ed
 Compartir la planilla (botón *Compartir*) con quien la va a mantener, como
 **Editor**. No usar "cualquiera con el enlace puede editar".
 
-## Tarea de rutina #2 — Agregar un producto nuevo a monitorear
+## Tarea de rutina #2 — Agregar, editar o sacar un producto
 
-Columnas de una fila de producto: `sku_interno,producto,marca,metros_totales,retailer,url,categoria,subcategoria,rollos,metros_rollo,unidades`.
+Todo se hace en la pestaña `productos_nuevos` de la planilla, **sin programar y
+sin entrar a GitHub**. Cada fila lleva una columna `accion`:
 
-- `sku_interno`: código libre que no se repita (seguir la serie `TC-###`).
-- `retailer`: la **clave exacta** en minúscula — `jumbo`, `santaisabel`, `tottus`,
-  `unimarc`, `alvi`, `acuenta`, `centralmayorista`, `liquimax`, `imanweb`, `dimak` (no el nombre "bonito").
-- `categoria` y `subcategoria`: igual que en `ovella.csv` (o los valores ya usados)
-  para que el dashboard agrupe bien.
-- **Papel higiénico / toalla:** `metros_totales`, `rollos` (cuántos rollos trae el
-  pack) y `metros_rollo` (metros de cada rollo; `metros_totales` = `rollos` ×
-  `metros_rollo`). `subcategoria` = `Doble Hoja` / `Hoja Simple` / `Triple Hoja`.
-  Se comparan en $/metro.
-- **Servilletas:** dejar `metros_totales`/`rollos`/`metros_rollo` vacíos y llenar
-  `unidades` (cantidad del pack). `subcategoria` = `Cocktail` / `Mesa`. Se
-  comparan en $/unidad.
-- **Formato mayorista por manga/caja** (ej. Central Mayorista publica el precio
-  de 12 packs juntos): llenar `rollos`/`metros_rollo`/`metros_totales` con los
-  datos de **un pack suelto** y poner en `unidades` cuántos packs trae la manga
-  (ej. `12` para "MANGAx12"). La app calcula *Precio pack* = precio ÷ 12 y con
-  eso el $/metro, así compite parejo contra un pack suelto de otro súper.
+- **`nuevo`** (o `accion` vacío) — sumar un producto. Columnas:
+  `sku_interno,producto,marca,metros_totales,retailer,url,categoria,subcategoria,rollos,metros_rollo,unidades`.
+  - `sku_interno`: código libre que no se repita (seguir la serie `TC-###`).
+  - `retailer`: la **clave exacta** en minúscula — `jumbo`, `santaisabel`, `tottus`,
+    `unimarc`, `alvi`, `acuenta`, `centralmayorista`, `liquimax`, `imanweb`, `dimak` (no el nombre "bonito").
+  - `categoria` y `subcategoria`: igual que en `ovella.csv` (o los valores ya usados)
+    para que el dashboard agrupe bien.
+  - **Papel higiénico / toalla:** `metros_totales`, `rollos` (cuántos rollos trae el
+    pack) y `metros_rollo` (metros de cada rollo; `metros_totales` = `rollos` ×
+    `metros_rollo`). `subcategoria` = `Doble Hoja` / `Hoja Simple` / `Triple Hoja`.
+    Se comparan en $/metro.
+  - **Servilletas:** dejar `metros_totales`/`rollos`/`metros_rollo` vacíos y llenar
+    `unidades` (cantidad del pack). `subcategoria` = `Cocktail` / `Mesa`. Se
+    comparan en $/unidad.
+  - **Formato mayorista por manga/caja** (ej. Central Mayorista publica el precio
+    de 12 packs juntos): llenar `rollos`/`metros_rollo`/`metros_totales` con los
+    datos de **un pack suelto** y poner en `unidades` cuántos packs trae la manga
+    (ej. `12` para "MANGAx12"). La app calcula *Precio pack* = precio ÷ 12 y con
+    eso el $/metro, así compite parejo contra un pack suelto de otro súper.
+- **`editar`** — cambiar datos de un producto que ya existe. Poné el `sku_interno`
+  y solo las columnas que cambian (ej. `marca` o `url`); dejá el resto vacío, esas
+  columnas no se tocan.
+- **`borrar`** — sacar un producto del monitoreo. Poné el `sku_interno`, el resto vacío.
 
-**Opción A — desde la planilla (sin programar):** en la pestaña `productos_nuevos`
-agregá una fila con esas columnas. En la próxima corrida (~8 h) aparece en el
-dashboard marcado con 🆕 (provisorio). **Cada tanto** (tarea de ~5 min) alguien
-con acceso a GitHub pasa esas filas a `productos.csv` y las borra de la pestaña,
-para que la lista maestra quede completa.
+En la próxima corrida automática (máx. ~8 h) el scraper aplica el cambio directo
+sobre `productos.csv` y lo sube solo con el mismo commit que sube los precios (usa
+el token automático de GitHub Actions, no una cuenta ni contraseña de nadie, así
+que no hay nada que se pueda vencer). Las altas aparecen mientras tanto en el
+dashboard marcadas con 🆕 (provisorio). **La fila puede quedar en la planilla
+después de aplicada** — no hace falta borrarla ni pedirle a nadie con acceso a
+GitHub que la pase a mano; volver a correr el scraper con la misma fila no
+duplica ni deshace nada.
 
-**Opción B — directo en GitHub:** editar `productos.csv` (ícono de lápiz en la
-página del archivo) y agregar la fila ahí.
+Si en algún momento hace falta, también se puede editar `productos.csv`
+directo en GitHub (ícono de lápiz en la página del archivo), pero ya no es
+necesario para el uso normal.
 
 ## Correr el scraper a mano
 

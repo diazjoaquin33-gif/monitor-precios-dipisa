@@ -65,8 +65,10 @@ jobs:
           git pull --rebase --autostash origin main
           # -- ignore-errors: productos_nuevos_cache.csv no existe hasta que se
           # active esa función, y "git add" de un archivo inexistente aborta.
+          # productos.csv se incluye porque el scraper lo reescribe solo cuando
+          # la planilla trae altas/bajas/ediciones (sincronizar_productos_csv).
           git add --ignore-errors \
             datos_procesados.json historial_precios.csv estado_scraper.json \
-            url_overrides_cache.json productos_nuevos_cache.csv || true
+            url_overrides_cache.json productos_nuevos_cache.csv productos.csv || true
           # Si hay cambios en los precios, los sube a GitHub automáticamente
           git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Actualización automática de precios" && git push)

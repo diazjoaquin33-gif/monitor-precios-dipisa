@@ -130,10 +130,14 @@ COLUMNAS_PRODUCTOS = [
 
 @st.cache_data(ttl=600)
 def cargar_productos_nuevos():
-    """SKU que el equipo cargó en la pestaña 'productos_nuevos' de la planilla.
-    Si la planilla no responde, cae a la copia local. Nunca rompe la app."""
+    """Filas que el equipo cargó en la pestaña 'productos_nuevos' de la planilla,
+    cada una con su columna 'accion' (nuevo/editar/borrar; vacío = nuevo). Si la
+    planilla no responde, cae a la copia local. Nunca rompe la app. El scraper
+    (scraper.py, cada corrida) es quien aplica estos cambios de verdad sobre
+    productos.csv; acá solo se usan para mostrar el estado "provisorio" y
+    validar la planilla antes de que eso pase."""
     if not PRODUCTOS_NUEVOS_CSV_URL:
-        return pd.DataFrame(columns=COLUMNAS_PRODUCTOS)
+        return pd.DataFrame(columns=COLUMNAS_PRODUCTOS + ["accion"])
     try:
         res = requests.get(PRODUCTOS_NUEVOS_CSV_URL, timeout=15)
         res.raise_for_status()
@@ -143,14 +147,19 @@ def cargar_productos_nuevos():
             try:
                 df = pd.read_csv(PRODUCTOS_NUEVOS_CACHE_PATH)
             except Exception:
-                return pd.DataFrame(columns=COLUMNAS_PRODUCTOS)
+                return pd.DataFrame(columns=COLUMNAS_PRODUCTOS + ["accion"])
         else:
-            return pd.DataFrame(columns=COLUMNAS_PRODUCTOS)
-    df = df.dropna(subset=["sku_interno", "retailer", "url"])
+            return pd.DataFrame(columns=COLUMNAS_PRODUCTOS + ["accion"])
+    df["sku_interno"] = df.get("sku_interno", pd.Series(dtype=object)).astype(str).str.strip()
+    df = df[(df["sku_interno"] != "") & (df["sku_interno"].str.lower() != "nan")]
+    if "accion" not in df.columns:
+        df["accion"] = "nuevo"
+    df["accion"] = df["accion"].fillna("nuevo").astype(str).str.strip().str.lower()
+    df.loc[~df["accion"].isin(["nuevo", "editar", "borrar"]), "accion"] = "nuevo"
     for col in COLUMNAS_PRODUCTOS:
         if col not in df.columns:
             df[col] = pd.NA
-    return df[COLUMNAS_PRODUCTOS]
+    return df[COLUMNAS_PRODUCTOS + ["accion"]]
 
 
 @st.cache_data(ttl=600)
@@ -178,13 +187,16 @@ def cargar_datos():
     df_csv = df_csv.dropna(subset=["sku_interno"])
     df_csv["origen_planilla"] = False
 
-    # SKU nuevos cargados por el equipo en la planilla (pestaña productos_nuevos):
-    # se muestran como cualquier otro pero marcados "provisorio" hasta que alguien
-    # los pase a productos.csv formalmente.
+    # SKU nuevos cargados por el equipo en la planilla (pestaña productos_nuevos,
+    # accion='nuevo'): se muestran como cualquier otro pero marcados "provisorio"
+    # hasta que el scraper los pase a productos.csv en su próxima corrida
+    # (sincronizar_productos_csv en scraper.py). Ediciones y bajas ya se aplican
+    # directo sobre productos.csv, así que acá no hay nada más que mostrar para
+    # esas dos: este overlay es solo para altas todavía no sincronizadas.
     nuevos = cargar_productos_nuevos()
-    nuevos = nuevos[~nuevos["sku_interno"].isin(df_csv["sku_interno"])]
+    nuevos = nuevos[(nuevos["accion"] == "nuevo") & (~nuevos["sku_interno"].isin(df_csv["sku_interno"]))]
     if not nuevos.empty:
-        nuevos = nuevos.copy()
+        nuevos = nuevos[COLUMNAS_PRODUCTOS].copy()
         nuevos["origen_planilla"] = True
         df_csv = pd.concat([df_csv, nuevos], ignore_index=True)
 
@@ -1009,7 +1021,7 @@ with st.sidebar.expander("🔗 ¿Un link de producto está roto o cambió?"):
             "(`PLANILLA_EDIT_URL`) — ver `TRASPASO.md`."
         )
 
-with st.sidebar.expander("➕ Agregar un producto nuevo para monitorear"):
+with st.sidebar.expander("➕ Agregar, editar o sacar un producto"):
     if not PRODUCTOS_NUEVOS_CSV_URL:
         st.info(
             "Función en preparación: falta publicar la pestaña **productos_nuevos** "
@@ -1018,21 +1030,23 @@ with st.sidebar.expander("➕ Agregar un producto nuevo para monitorear"):
         )
     else:
         st.markdown(
-            "Para sumar un producto **sin tocar código**, cargalo en la pestaña "
-            "**productos_nuevos** de la planilla, una fila con estas columnas:\n\n"
+            "Todo se hace **sin tocar código**, en la pestaña **productos_nuevos** "
+            "de la planilla, con una columna extra `accion`:\n\n"
+            "- **`nuevo`** (o dejar `accion` vacío): agregar un producto. Completá "
             "`sku_interno` (código libre, ej. `TC-500`) · `producto` · `marca` · "
             "`retailer` (clave exacta: `jumbo`, `santaisabel`, `tottus`, `unimarc`, "
-            "`alvi`, `acuenta`, `centralmayorista`, `liquimax`, `imanweb`, `dimak`) · `url` · `categoria` · `subcategoria`\n\n"
-            "Para papel higiénico y toalla: `rollos`, `metros_rollo` y `metros_totales`. "
-            "Para servilletas: `unidades` (y `subcategoria` = `Cocktail`, `Mesa` "
-            "o `Dispensador`).\n\n"
-            "Si es un formato mayorista que se vende por **manga/caja** (ej. Central "
-            "Mayorista, precio de 12 packs juntos): cargá en `unidades` cuántos packs "
-            "trae la manga. La app muestra *Precio manga*, *Precio pack* y el $/metro "
-            "ya bajado a un pack suelto para que compare parejo.\n\n"
-            "En la próxima corrida (máx. ~8 h) aparece en el dashboard marcado "
-            "con 🆕 (provisorio). Cada tanto alguien pasa esas filas a "
-            "`productos.csv` y limpia la pestaña."
+            "`alvi`, `acuenta`, `centralmayorista`, `liquimax`, `imanweb`, `dimak`) · "
+            "`url` · `categoria` · `subcategoria`, y para papel higiénico/toalla "
+            "`rollos`, `metros_rollo`, `metros_totales` (para servilletas, "
+            "`unidades` y `subcategoria` = `Cocktail`/`Mesa`/`Dispensador`). "
+            "Formato mayorista por manga/caja: `unidades` = cuántos packs trae la manga.\n\n"
+            "- **`editar`**: poné el `sku_interno` que ya existe y solo las columnas "
+            "que querés cambiar (ej. `marca` nueva); el resto dejalo vacío, no se toca.\n\n"
+            "- **`borrar`**: poné el `sku_interno` a sacar, el resto vacío.\n\n"
+            "En la próxima corrida automática (máx. ~8 h) el cambio queda aplicado "
+            "solo en `productos.csv` — nadie necesita entrar a GitHub. Las altas "
+            "aparecen mientras tanto marcadas con 🆕 (provisorio). La fila puede "
+            "quedar en la planilla después de aplicada, no hace falta borrarla."
         )
     if PLANILLA_EDIT_URL:
         st.link_button("📋 Abrir la planilla", PLANILLA_EDIT_URL)
@@ -1048,38 +1062,44 @@ with st.sidebar.expander("➕ Agregar un producto nuevo para monitorear"):
             problemas = []
             for _, r in nuevos_raw.iterrows():
                 sku = str(r["sku_interno"]).strip()
+                accion = r["accion"]
                 errs = []
-                if sku in skus_ok:
-                    errs.append("el código ya existe en productos.csv")
-                if str(r["retailer"]).strip() not in retailers_ok:
-                    errs.append(f"retailer '{r['retailer']}' no es una clave válida")
-                if pd.notna(r["categoria"]) and str(r["categoria"]).strip() not in cats_ok:
-                    errs.append(f"categoría '{r['categoria']}' no coincide con las existentes")
-                if pd.notna(r["subcategoria"]) and str(r["subcategoria"]).strip() not in subcats_ok:
-                    errs.append(f"subcategoría '{r['subcategoria']}' no coincide")
-                nom = str(r["producto"]).lower()
-                cat = str(r["categoria"]).strip().lower()
-                un, rr, mr, mt = pd.to_numeric(pd.Series([r["unidades"], r["rollos"], r["metros_rollo"], r["metros_totales"]]), errors="coerce")
-                if cat == "servilletas":
-                    if pd.isna(un):
-                        errs.append("servilletas: falta 'unidades'")
-                    if pd.notna(rr) or pd.notna(mr) or pd.notna(mt):
-                        errs.append("servilletas: sobran rollos/metros_rollo/metros_totales (van vacíos)")
-                else:
-                    if pd.notna(un):
-                        errs.append("tiene 'unidades' cargado pero no es servilleta (se ignora)")
-                    if pd.isna(rr) or pd.isna(mr):
-                        p_rr, _ = _parse_rollos_metros(r["producto"])
-                        if p_rr is None:
-                            errs.append("falta rollos y/o metros_rollo (y no se pueden sacar del nombre)")
-                    if pd.isna(mt) and (pd.isna(rr) or pd.isna(mr)):
-                        errs.append("falta metros_totales")
-                    elif pd.notna(rr) and pd.notna(mr) and pd.notna(mt) and abs(rr * mr - mt) > max(2, mt * 0.05):
-                        errs.append(f"rollos×metros_rollo ({rr:g}×{mr:g}) no da metros_totales ({mt:g})")
-                if "toall" in nom and "toalla" not in cat:
-                    errs.append(f"el nombre dice 'toalla' pero la categoría es '{r['categoria']}'")
-                if ("higien" in nom or "papel hig" in nom) and "higien" not in cat:
-                    errs.append(f"el nombre parece papel higiénico pero la categoría es '{r['categoria']}'")
+                if accion in ("editar", "borrar") and sku not in skus_ok:
+                    errs.append(f"accion '{accion}' pero el código no existe en productos.csv")
+                    problemas.append(f"**{sku or '(sin código)'}**: " + "; ".join(errs))
+                    continue
+                if accion == "nuevo":
+                    if sku in skus_ok:
+                        errs.append("el código ya existe en productos.csv")
+                    if str(r["retailer"]).strip() not in retailers_ok:
+                        errs.append(f"retailer '{r['retailer']}' no es una clave válida")
+                    if pd.notna(r["categoria"]) and str(r["categoria"]).strip() not in cats_ok:
+                        errs.append(f"categoría '{r['categoria']}' no coincide con las existentes")
+                    if pd.notna(r["subcategoria"]) and str(r["subcategoria"]).strip() not in subcats_ok:
+                        errs.append(f"subcategoría '{r['subcategoria']}' no coincide")
+                    nom = str(r["producto"]).lower()
+                    cat = str(r["categoria"]).strip().lower()
+                    un, rr, mr, mt = pd.to_numeric(pd.Series([r["unidades"], r["rollos"], r["metros_rollo"], r["metros_totales"]]), errors="coerce")
+                    if cat == "servilletas":
+                        if pd.isna(un):
+                            errs.append("servilletas: falta 'unidades'")
+                        if pd.notna(rr) or pd.notna(mr) or pd.notna(mt):
+                            errs.append("servilletas: sobran rollos/metros_rollo/metros_totales (van vacíos)")
+                    else:
+                        if pd.notna(un):
+                            errs.append("tiene 'unidades' cargado pero no es servilleta (se ignora)")
+                        if pd.isna(rr) or pd.isna(mr):
+                            p_rr, _ = _parse_rollos_metros(r["producto"])
+                            if p_rr is None:
+                                errs.append("falta rollos y/o metros_rollo (y no se pueden sacar del nombre)")
+                        if pd.isna(mt) and (pd.isna(rr) or pd.isna(mr)):
+                            errs.append("falta metros_totales")
+                        elif pd.notna(rr) and pd.notna(mr) and pd.notna(mt) and abs(rr * mr - mt) > max(2, mt * 0.05):
+                            errs.append(f"rollos×metros_rollo ({rr:g}×{mr:g}) no da metros_totales ({mt:g})")
+                    if "toall" in nom and "toalla" not in cat:
+                        errs.append(f"el nombre dice 'toalla' pero la categoría es '{r['categoria']}'")
+                    if ("higien" in nom or "papel hig" in nom) and "higien" not in cat:
+                        errs.append(f"el nombre parece papel higiénico pero la categoría es '{r['categoria']}'")
                 if errs:
                     problemas.append(f"**{sku or '(sin código)'}**: " + "; ".join(errs))
             if problemas:
