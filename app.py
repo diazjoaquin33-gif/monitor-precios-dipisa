@@ -852,7 +852,7 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
     filas = []
     precios_metro = []
     for _, r in df_grupo.iterrows():
-        fila = {"Grupo": _fmt_grupo(r), "Retailer": r["retailer_nombre"], "Marca": r["marca"]}
+        fila = {"Código": r["sku_interno"], "Grupo": _fmt_grupo(r), "Retailer": r["retailer_nombre"], "Marca": r["marca"]}
         if mostrar_formato:
             fila["Formato"] = _fmt_formato(r)
         precio_metro = r["precio_ref"] if pd.notna(r.get("precio_ref")) else None
