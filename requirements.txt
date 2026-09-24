@@ -1,5 +1,5 @@
 streamlit
-pandas
+pandas<3
 pyyaml
 requests
 playwright

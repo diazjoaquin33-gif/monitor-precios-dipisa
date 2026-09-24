@@ -132,6 +132,12 @@ def validar_catalogo(df, retailers_validos):
     problemas = []
     df = df.copy()
     df["sku_interno"] = df["sku_interno"].astype(str).str.strip()
+    # object, no el dtype numérico/"str" estricto que a veces infiere pandas:
+    # estas columnas reciben más abajo un número normalizado por celda
+    # (_parsear_numero), y un dtype estricto no deja mezclar eso con vacíos.
+    for col in COLUMNAS_NUMERICAS:
+        if col in df.columns:
+            df[col] = df[col].astype(object)
     vistos = set()
     filas_ok = []
     for idx, fila in df.iterrows():

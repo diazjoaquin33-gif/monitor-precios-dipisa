@@ -47,7 +47,13 @@ jobs:
 
       - name: Instalar dependencias
         run: |
-          pip install pandas pyyaml requests curl_cffi
+          # pandas<3: la serie 3.x cambió el dtype por defecto de las columnas
+          # de texto (a un dtype 'str' estricto que no acepta asignar un
+          # número dentro de una celda), y eso rompió sincronizar_desde_catalogo
+          # en producción el 24/09/2026 apenas GitHub Actions instaló la 3.x
+          # sin que nadie tocara nada acá. Fijar la versión evita que una
+          # actualización silenciosa de una librería vuelva a tumbar el scraper.
+          pip install "pandas<3" pyyaml requests curl_cffi
 
       - name: Ejecutar Extractor de Precios
         env:
