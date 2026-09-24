@@ -426,9 +426,9 @@ CAT_ABREVIADA = {"Papel Higienico": "Hig", "Toalla de Papel": "Toa", "Servilleta
 def _sector_plano(segmento):
     """De 'Doble Hoja · 4 x 50 mt' saca solo '4 x 50 mt' — el formato de pack
     sin el tipo de hoja, que es la columna "Sector" de la planilla del jefe."""
-    if not segmento:
+    if not segmento or pd.isna(segmento):
         return ""
-    return segmento.split("·", 1)[-1].strip()
+    return str(segmento).split("·", 1)[-1].strip()
 
 
 def _armar_export_formato_jefe(df_export):
