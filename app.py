@@ -869,9 +869,12 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
         if mostrar_formato:
             fila["Formato"] = _fmt_formato(r)
         precio_metro = r["precio_ref"] if pd.notna(r.get("precio_ref")) else None
+        # Nombre estándar (mismo nombre para el mismo producto sin importar el
+        # retailer, ver _producto_estandar) en vez del nombre crudo de cada
+        # ficha, que varía de un retailer a otro para el mismo producto.
         # ✏️ = URL reemplazado desde la planilla · 🆕 = SKU nuevo cargado en la
         # planilla, todavía no pasado a productos.csv (provisorio)
-        nombre = str(r["producto"])
+        nombre = str(_producto_estandar(r))
         if r.get("url_corregido"):
             nombre += " ✏️"
         if r.get("origen_planilla"):
