@@ -462,6 +462,70 @@ FABRICANTE_POR_MARCA = {
 def _fabricante(marca):
     return FABRICANTE_POR_MARCA.get(str(marca).strip(), "No identificado")
 
+HOJA_ABREVIADA = {"Doble Hoja": "DH", "Hoja Simple": "HS", "Triple Hoja": "TH"}
+
+# Frases de packaging/categoría a limpiar del texto crudo 'producto' para
+# quedarse solo con la "línea"/apellido del producto (ej. "Rendiplus",
+# "Ultra Suave", "Soft Care") — el jefe siempre nombra sus productos con
+# marca + línea (ver planilla de referencia: "un Elite 4x50 Soft Care" no es
+# lo mismo que "un Elite 4x50 Ultra Suave"), así que la Descripción del
+# Excel no puede quedarse solo con la marca.
+_HOJA_FRASES = [
+    r"doble\s+hoja", r"2\s*hojas?", r"\b2h\b",
+    r"hoja\s+simple", r"una\s+hoja", r"simple\s+hoja", r"\bhs\b", r"\buh\b", r"\b1h\b",
+    r"triple\s+hoja", r"3\s*hojas?", r"\b3h\b",
+    r"cocktail", r"coctel", r"\bmesa\b", r"dispensador", r"interfold",
+]
+_CATEGORIA_FRASES = [
+    r"papel\s+higi[eé]nic\w*", r"toalla\s+de\s+papel", r"toalla\s+papel", r"\btoalla\b",
+    r"higi[eé]nic\w*", r"\bpapel\b", r"\bph\b", r"\bpt\b", r"\bdh\b", r"\bhig\b",
+    r"servilletas?", r"\bserv\.?\b",
+]
+_PACK_FRASES = [
+    r"\bmanga\s*x?\d*\b", r"\bcaja\s*x?\d*\b", r"\bpqt\.?\s*(de\s*)?\d*\b", r"\bpaquete\s*\d*\b",
+    r"\bpack\s*x?\d*\b", r"\bpanal\b", r"\bfajilla\b", r"\brollos?\b", r"\bunidades?\b", r"\bhjs?\b",
+    r"\d+[.,]?\d*\s*(mts|mt|m|metros)\b", r"\d+[.,]?\d*\s*un\b", r"\bun\b",
+    r"\bx\s*\d+", r"\d+\s*x\b",
+    r"\(\s*\d+\s*rollos?\s*\)", r"\(.*?\)",
+]
+
+
+def _linea_producto(marca, producto):
+    """Saca la 'línea'/apellido del producto (ej. 'Rendiplus', 'Ultra Suave',
+    'Soft Care') a partir del texto crudo scrapeado, restándole la marca y
+    todo lo que sea packaging/formato/categoría. Heurístico: puede fallar en
+    casos raros de redacción, pero es lo que permite distinguir variantes de
+    una misma marca y formato en la Descripción del Excel."""
+    texto = str(producto)
+    texto = re.sub(re.escape(str(marca)), " ", texto, flags=re.IGNORECASE)
+    for patron in _HOJA_FRASES + _CATEGORIA_FRASES + _PACK_FRASES:
+        texto = re.sub(patron, " ", texto, flags=re.IGNORECASE)
+    texto = re.sub(r"\d+", " ", texto)
+    texto = re.sub(r"[^\w\sÀ-ÿ&]", " ", texto)
+    palabras = [w for w in texto.split() if len(w) > 1]
+    return " ".join(palabras)
+
+
+def _descripcion_jefe(r):
+    """Descripción por fila al estilo de la planilla del jefe: 'Marca Línea
+    DH Xmts.xN' (ej. 'Swan Rendidor DH 20 mts.x4', 'Scott Rindemax DH
+    21 mts.x4'). A diferencia de 'Producto estándar' (que sí necesita ser
+    idéntico entre retailers para poder comparar precio del mismo producto),
+    esta columna es por fila/retailer, igual que en la planilla original
+    donde cada competidor tiene su propia descripción con su propia línea."""
+    marca = str(r["marca"]).strip()
+    linea = _linea_producto(marca, r["producto"])
+    partes_marca = f"{marca} {linea}".strip()
+    if r.get("categoria") == "Servilletas" and pd.notna(r.get("unidades")):
+        sub = r.get("subcategoria") or ""
+        return f"{partes_marca} {sub} x{int(r['unidades'])}".strip()
+    if pd.notna(r.get("rollos")) and pd.notna(r.get("metros_rollo")):
+        abrev = HOJA_ABREVIADA.get(r.get("subcategoria"), r.get("subcategoria") or "")
+        metros = r["metros_rollo"]
+        metros_txt = f"{metros:g}"
+        return f"{partes_marca} {abrev} {metros_txt} mts.x{int(r['rollos'])}".strip()
+    return partes_marca
+
 
 def _sector_plano(segmento):
     """De 'Doble Hoja · 4 x 50 mt' saca solo '4 x 50 mt' — el formato de pack
@@ -479,6 +543,10 @@ def _armar_export_formato_jefe(df_export):
     usar como reemplazo directo de la toma de precios manual. La diferencia:
     en la planilla del jefe las columnas de precio vienen vacías (se llenan a
     mano); acá ya vienen con el precio scrapeado.
+
+    "Fabrica" es el fabricante real (FABRICANTE_POR_MARCA, ej. Softys detrás
+    de Confort/Elite/Noble), no la marca — la marca comercial va en la
+    columna "Marca", agregada aparte.
 
     Mapeo de columnas de pack a nuestro modelo de datos (confirmado contra
     filas reales de la planilla del jefe, incluida una de servilletas):
@@ -535,11 +603,11 @@ def _armar_export_formato_jefe(df_export):
             "Local": local,
             "Orden": _fmt_grupo(r),
             "Cat.": cat,
-            "Fabrica": r["marca"],
-            "Fabricante": _fabricante(r["marca"]),
+            "Fabrica": _fabricante(r["marca"]),
+            "Marca": r["marca"],
             "Sector": sector,
             "Cod": f"{cat} {sector}".strip() if sector else "",
-            "Descripción": _producto_estandar(r),
+            "Descripción": _descripcion_jefe(r),
             "Un x Bulto": int(bulto[i]) if bulto[i] > 1 else "",
             "Un x Pqte.": "" if pd.isna(un_x_pqte[i]) else int(un_x_pqte[i]),
             "Rollos bulto": "" if pd.isna(rollos_bulto[i]) else int(rollos_bulto[i]),
@@ -560,7 +628,7 @@ def _armar_export_formato_jefe(df_export):
     # grupo, Ovella primero y después la competencia — así el Excel queda
     # listo para el resaltado por grupo que se aplica al exportar.
     grupo_orden = df_out.groupby("Sector", sort=False).ngroup()
-    es_competencia = df_out["Fabrica"].astype(str).str.strip().str.lower() != "ovella"
+    es_competencia = df_out["Marca"].astype(str).str.strip().str.lower() != "ovella"
     orden = pd.DataFrame({"_g": grupo_orden, "_c": es_competencia}).assign(_i=range(len(df_out)))
     idx = orden.sort_values(["_g", "_c", "_i"], kind="stable").index
     return df_out.loc[idx].reset_index(drop=True)
@@ -635,8 +703,7 @@ def _armar_export(df_export):
             "Categoría": r["categoria"],
             "Cat": cat,
             "Subcategoría": r["subcategoria"],
-            "Fabrica": r["marca"],
-            "Fabricante": _fabricante(r["marca"]),
+            "Fabrica": _fabricante(r["marca"]),
             "Sector": sector,
             "Cod": f"{cat} {sector}".strip() if sector else "",
             "Segmento": r.get("segmento") or "",
