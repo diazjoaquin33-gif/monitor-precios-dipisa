@@ -135,7 +135,12 @@ def validar_catalogo(df, retailers_validos):
     vistos = set()
     filas_ok = []
     for idx, fila in df.iterrows():
-        sku = fila["sku_interno"]
+        # str(...) explícito acá (no alcanza con el .astype(str) de arriba):
+        # iterrows() arma cada fila mezclando los tipos de TODAS sus columnas,
+        # y una fila casi vacía (código en blanco al final de la planilla,
+        # con el resto de las columnas numéricas también vacías) puede volver
+        # a convertir el texto 'nan' en un float NaN real para esa fila puntual.
+        sku = str(fila["sku_interno"]).strip()
         if not sku or sku.lower() == "nan":
             problemas.append("(fila sin Código): se ignoró, falta el Código")
             continue
