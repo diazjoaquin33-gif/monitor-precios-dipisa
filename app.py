@@ -454,9 +454,17 @@ def _armar_export_formato_jefe(df_export):
                         bulto en Servilletas)
     - "PVP Bulto"    = precio de la manga/caja completa (vacío si es pack
                         suelto, igual que en la planilla del jefe)
-    - "PVP Pqte"     = precio del pack suelto
+    - "PVP Pqte"     = precio del pack suelto (ya es el precio vigente/más
+                        bajo: 'precio' trae la oferta cuando existe)
+    - "Precio Lista" = precio_pack_normal (precio de lista del pack, antes
+                        de descuento; vacío si el retailer no informa lista)
+    - "Precio Oferta"= igual a "PVP Pqte" pero solo cuando hay descuento
+                        vigente (vacío si no hay oferta, para que se note)
+    - "Descuento %"  = descuento_pct
     - "$ x Mt"        = precio_ref ($/metro en PH y Toalla, $/unidad en
-                        Servilletas — el jefe reusa la misma columna)
+                        Servilletas), calculado siempre sobre el precio
+                        vigente/más bajo (PVP Pqte), nunca sobre el de lista
+                        — el jefe reusa la misma columna)
     "Tipo" sale del canal (retailers.yaml): 'May' si es mayorista, 'Ret' si
     es retail — el único valor que trae la planilla de ejemplo es 'May'
     (aCuenta), así que 'Ret' es una extensión razonable, a confirmar con el
@@ -498,6 +506,9 @@ def _armar_export_formato_jefe(df_export):
             "Mt x Bulto": "" if pd.isna(mt_x_bulto[i]) else mt_x_bulto[i],
             "PVP Bulto": int(r["precio_manga"]) if pd.notna(r.get("precio_manga")) else "",
             "PVP Pqte": int(r["precio_pack"]) if pd.notna(r.get("precio_pack")) else "",
+            "Precio Lista": int(r["precio_pack_normal"]) if pd.notna(r.get("precio_pack_normal")) else "",
+            "Precio Oferta": int(r["precio_pack"]) if pd.notna(r.get("descuento_pct")) else "",
+            "Descuento %": f"{int(r['descuento_pct'])}%" if pd.notna(r.get("descuento_pct")) else "",
             "$ x Mt": r["precio_ref"] if pd.notna(r.get("precio_ref")) else "",
         })
     df_out = pd.DataFrame(filas)
