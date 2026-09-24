@@ -1,21 +1,11 @@
 {
-  "fecha": "24/09/2026 12:58 hrs",
+  "fecha": "24/09/2026 15:25 hrs",
   "total_skus": 541,
-  "exitosos": 525,
+  "exitosos": 526,
   "fallos": [
     {
       "retailer": "santaisabel",
-      "sku_interno": "TC-008",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "santaisabel",
       "sku_interno": "TC-016",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-258",
       "error": "Sin stock"
     },
     {
@@ -50,17 +40,22 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-104",
+      "sku_interno": "TC-033",
       "error": "HTTP 403"
     },
     {
+      "retailer": "tottus",
+      "sku_interno": "TC-104",
+      "error": "No se encontró el precio en el HTML"
+    },
+    {
       "retailer": "jumbo",
-      "sku_interno": "TC-347",
+      "sku_interno": "TC-230",
       "error": "HTTP 404"
     },
     {
       "retailer": "jumbo",
-      "sku_interno": "TC-350",
+      "sku_interno": "TC-347",
       "error": "HTTP 404"
     },
     {
@@ -86,12 +81,15 @@
   ],
   "overrides_url_aplicados": 0,
   "overrides_url_aviso": null,
-  "sku_desde_planilla": {
-    "agregados": 0,
-    "editados": 0,
-    "borrados": 0
+  "catalogo_planilla": {
+    "aplicado": true,
+    "filas_aplicadas": 541,
+    "problemas": [
+      "(fila sin Código): se ignoró, falta el Código"
+    ],
+    "motivo_rechazo": null
   },
-  "sku_desde_planilla_aviso": null,
+  "catalogo_planilla_aviso": null,
   "retailers_desactivados": [],
   "sku_desactivados": 0
 }
