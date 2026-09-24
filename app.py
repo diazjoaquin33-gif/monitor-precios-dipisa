@@ -422,6 +422,46 @@ def _segmento(row):
 # del jefe (columna "Cat."): Hig / Toa / Ser.
 CAT_ABREVIADA = {"Papel Higienico": "Hig", "Toalla de Papel": "Toa", "Servilletas": "Ser"}
 
+# Fabricante real detrás de cada marca (clasificación del jefe, no del scraper
+# — varias marcas "propias" de un retailer o de un fabricante chico comparten
+# dueño real, ej. Softys fabrica Confort/Elite/Noble/Nova/Abolengo/Rendipel).
+# Marca sin entrada acá -> "No identificado", no se inventa un fabricante.
+FABRICANTE_POR_MARCA = {
+    "Abolengo": "Softys",
+    "Acuenta": "MP",
+    "Affecto": "No identificado",
+    "Bless": "No identificado",
+    "Confort": "Softys",
+    "Don Aurelio": "No identificado",
+    "Elite": "Softys",
+    "Family Care": "MP",
+    "Favorita": "Essity",
+    "Florax": "No identificado",
+    "Generico": "No identificado",
+    "Giulietta": "No identificado",
+    "Home Care": "MP",
+    "Lider": "MP",
+    "Máxima": "FPC",
+    "Merkat": "MP",
+    "Noble": "Softys",
+    "Nova": "Softys",
+    "Nubelin": "MP",
+    "Ovella": "Dipisa",
+    "Pilucho": "No identificado",
+    "Rendipel": "Softys",
+    "Scott": "Kimberly-Clark",
+    "Smart Price": "MP",
+    "Swan": "FPC",
+    "Today": "No identificado",
+    "Tork": "Essity",
+    "Tottus": "MP",
+    "Xplend": "MP",
+}
+
+
+def _fabricante(marca):
+    return FABRICANTE_POR_MARCA.get(str(marca).strip(), "No identificado")
+
 
 def _sector_plano(segmento):
     """De 'Doble Hoja · 4 x 50 mt' saca solo '4 x 50 mt' — el formato de pack
@@ -496,6 +536,7 @@ def _armar_export_formato_jefe(df_export):
             "Orden": _fmt_grupo(r),
             "Cat.": cat,
             "Fabrica": r["marca"],
+            "Fabricante": _fabricante(r["marca"]),
             "Sector": sector,
             "Cod": f"{cat} {sector}".strip() if sector else "",
             "Descripción": _producto_estandar(r),
@@ -595,6 +636,7 @@ def _armar_export(df_export):
             "Cat": cat,
             "Subcategoría": r["subcategoria"],
             "Fabrica": r["marca"],
+            "Fabricante": _fabricante(r["marca"]),
             "Sector": sector,
             "Cod": f"{cat} {sector}".strip() if sector else "",
             "Segmento": r.get("segmento") or "",
