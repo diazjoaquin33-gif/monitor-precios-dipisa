@@ -987,12 +987,13 @@ with st.sidebar:
     # Grupo = el cruce manual "mismo producto entre retailers" (ver grupo_id /
     # nombre_estandar en productos.csv). El selector deja "ver el grupo 9" sin
     # tener que acordarse el número: elegís de la lista y salta a una sola
-    # tabla con todos los retailers de ese grupo, precio incluido.
+    # tabla con todos los retailers de ese grupo, precio incluido. El nombre
+    # estándar va primero en la etiqueta (y la lista se ordena por él) para
+    # poder buscar tipeando el producto en vez de tener que saber su número.
     _grupos_df = df[df["grupo_id"].notna()][["grupo_id", "nombre_estandar"]].drop_duplicates()
-    _grupos_df["_num"] = pd.to_numeric(_grupos_df["grupo_id"], errors="coerce")
-    _grupos_df = _grupos_df.sort_values(["_num", "grupo_id"])
+    _grupos_df = _grupos_df.sort_values("nombre_estandar")
     opciones_grupo = ["— Todos —"] + [
-        f"{r.grupo_id} — {r.nombre_estandar}" for r in _grupos_df.itertuples()
+        f"{r.nombre_estandar} — Grupo {r.grupo_id}" for r in _grupos_df.itertuples()
     ]
     grupo_sel = st.selectbox("🔢 Ver un grupo (cruce entre retailers)", opciones_grupo)
     st.markdown("---")
@@ -1001,7 +1002,7 @@ with st.sidebar:
 # búsqueda) — se arma antes de aplicar cualquier filtro de pantalla.
 df_completo = df.copy()
 
-grupo_id_sel = grupo_sel.split(" — ", 1)[0] if grupo_sel != "— Todos —" else None
+grupo_id_sel = grupo_sel.rsplit(" — Grupo ", 1)[1] if grupo_sel != "— Todos —" else None
 
 # Filtro de canal — se aplica a todo (métricas incluidas) para que los
 # números de arriba cuadren con lo que se ve en la tabla.
@@ -1083,13 +1084,13 @@ st.sidebar.download_button(
 _buf_jefe = io.BytesIO()
 _df_jefe = _armar_export_formato_jefe(df_completo[~df_completo["retailer_desactivado"]])
 with pd.ExcelWriter(_buf_jefe, engine="openpyxl") as _xw:
-    _df_jefe.to_excel(_xw, index=False, sheet_name="Formato V3.0")
+    _df_jefe.to_excel(_xw, index=False, sheet_name="Toma de Precios Tissue")
     if not _df_jefe.empty:
-        _aplicar_formato_jefe(_xw.sheets["Formato V3.0"], _df_jefe)
+        _aplicar_formato_jefe(_xw.sheets["Toma de Precios Tissue"], _df_jefe)
 st.sidebar.download_button(
-    "⬇️ Descargar Excel (formato jefe)",
+    "⬇️ Descargar Toma de Precios Tissue",
     data=_buf_jefe.getvalue(),
-    file_name="precios_dipisa_formato_jefe.xlsx",
+    file_name="toma_de_precios_tissue.xlsx",
     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     width="stretch",
     help="Mismas columnas que la planilla 'Formato Toma Precios' del jefe (Codigo/Fecha/Local/Cat./Fabrica/Sector/Cod/PVP/etc.), pero ya con los precios scrapeados.",
@@ -1400,7 +1401,7 @@ def _para_vender(dfx, canal_sel):
 if grupo_id_sel:
     # Un grupo elegido en la barra lateral manda por sobre la Vista: una sola
     # tabla con todos los retailers de ese grupo, precio incluido.
-    g_nombre = grupo_sel.split(" — ", 1)[1] if " — " in grupo_sel else ""
+    g_nombre = grupo_sel.rsplit(" — Grupo ", 1)[0] if " — Grupo " in grupo_sel else ""
     df_g = df[df["grupo_id"].astype(str) == str(grupo_id_sel)].sort_values("precio_ref", na_position="last")
     st.markdown(f"### 🔢 Grupo {grupo_id_sel} — {g_nombre}")
     if df_g.empty:
