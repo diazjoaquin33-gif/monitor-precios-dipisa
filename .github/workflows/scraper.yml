@@ -74,9 +74,13 @@ jobs:
           # productos.csv se incluye porque el scraper lo reescribe solo cuando
           # la planilla de Catálogo trae cambios válidos (sincronizar_desde_catalogo).
           # respaldos/ son copias fechadas de productos.csv, una por semana
-          # (guardar_respaldo_semanal en scraper.py).
+          # (guardar_respaldo_semanal en scraper.py). historial_catalogo.json
+          # son las altas/bajas/ediciones de catálogo que muestra la app
+          # (_registrar_cambios_catalogo en scraper.py) — no existe hasta la
+          # primera corrida que detecte un cambio, de ahí --ignore-errors.
           git add --ignore-errors \
             datos_procesados.json historial_precios.csv estado_scraper.json \
-            url_overrides_cache.json catalogo_cache.csv productos.csv respaldos/ || true
+            url_overrides_cache.json catalogo_cache.csv productos.csv respaldos/ \
+            historial_catalogo.json || true
           # Si hay cambios en los precios, los sube a GitHub automáticamente
           git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Actualización automática de precios" && git push)
