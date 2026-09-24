@@ -537,7 +537,7 @@ def _armar_export_formato_jefe(df_export):
             "A": fecha.year if pd.notna(fecha) else "",
             "Tipo": "May" if r.get("canal") == "mayorista" else "Ret",
             "Local": local,
-            "Orden": _fmt_grupo(r),
+            "Orden": _num_grupo(r),
             "Cat.": cat,
             "Fabrica": _fabricante(r["marca"]),
             "Marca": r["marca"],
@@ -634,7 +634,7 @@ def _armar_export(df_export):
         cat = CAT_ABREVIADA.get(r["categoria"], "")
         sector = _sector_plano(r.get("segmento"))
         filas.append({
-            "Grupo": _fmt_grupo(r),
+            "Grupo": _num_grupo(r),
             "Retailer": r["retailer_nombre"],
             "Categoría": r["categoria"],
             "Cat": cat,
@@ -683,7 +683,8 @@ def _fmt_formato(r):
 def _fmt_grupo(r):
     """Nº de grupo del cruce manual (ver grupo_id en productos.csv) — permite
     ubicar 'todos los del grupo 9' entre retailers. '—' si el SKU todavía no
-    fue cruzado."""
+    fue cruzado. Para tablas en pantalla (texto); en los Excel exportados se
+    usa _num_grupo para que la columna quede numérica y se pueda ordenar."""
     g = r.get("grupo_id")
     if pd.isna(g):
         return "—"
@@ -691,6 +692,24 @@ def _fmt_grupo(r):
         return str(int(float(g)))
     except (TypeError, ValueError):
         return str(g)
+
+
+def _num_grupo(r):
+    """Igual que _fmt_grupo pero devuelve un número (celda vacía "" si no
+    tiene grupo) en vez de texto con '—', para que "Orden"/"Grupo" salgan
+    como celdas numéricas de verdad en los Excel/CSV exportados y se puedan
+    ordenar ascendente/descendente (mismo criterio que el resto de columnas
+    numéricas de esta exportación, ej. "PVP Pqte"). Todos los grupo_id de
+    productos.csv son numéricos (se renumeraron los que eran texto); si en
+    el futuro se carga uno nuevo con texto, cae a "" en vez de romper la
+    exportación."""
+    g = r.get("grupo_id")
+    if pd.isna(g):
+        return ""
+    try:
+        return int(float(g))
+    except (TypeError, ValueError):
+        return ""
 
 
 def _producto_estandar(r):
