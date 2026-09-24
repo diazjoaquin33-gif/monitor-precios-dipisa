@@ -328,6 +328,10 @@ def cargar_datos():
     sin_mt = df["metros_totales"].isna() & df["rollos"].notna() & df["metros_rollo"].notna()
     df.loc[sin_mt, "metros_totales"] = df.loc[sin_mt, "rollos"] * df.loc[sin_mt, "metros_rollo"]
     df["segmento"] = df.apply(_segmento, axis=1)
+    # Sector = mismo dato que la columna "Sector" del Excel "Toma de Precios
+    # Tissue" (formato de pack, sin el tipo de hoja) — se usa para agrupar en
+    # "Por segmento competitivo" (ver más abajo).
+    df["sector"] = df["segmento"].map(_sector_plano)
 
     # Formato mayorista: algunos retailers (Central Mayorista, a veces Alvi)
     # venden el pack de góndola dentro de una "manga"/"caja" de N packs y
@@ -387,6 +391,7 @@ def cargar_datos():
     ovella_df = pd.read_csv(BASE_DIR / "ovella.csv", comment="#", skip_blank_lines=True)
     ovella_df = ovella_df.dropna(subset=["sku_ovella"])
     ovella_df["segmento"] = ovella_df.apply(_segmento, axis=1)
+    ovella_df["sector"] = ovella_df["segmento"].map(_sector_plano)
 
     return df, ovella_df
 
@@ -1383,40 +1388,41 @@ elif vista == "🏪 Por retailer":
                         _mostrar_marcas(df_retailer[df_retailer["categoria"] == categoria])
 
 else:
-    # Un segmento = tipo de hoja + tamaño de pack + metros por rollo. Filtrar
-    # por uno muestra todos los competidores directos de ese formato, de todos
-    # los supermercados, ordenados del $/metro más barato al más caro. Las
-    # filas de Ovella van resaltadas en morado.
+    # Sector = tamaño de pack + metros por rollo (columna "Sector" del Excel
+    # "Toma de Precios Tissue"), sin distinguir tipo de hoja. Filtrar por uno
+    # muestra todos los competidores de ese formato, de todos los
+    # supermercados, ordenados del $/metro más barato al más caro. Las filas
+    # de Ovella van resaltadas en morado.
     st.caption(
-        "Cada segmento junta productos que compiten de verdad: mismo tipo de hoja, "
-        "pack parecido (a más rollos, mejor $/metro) y metraje por rollo similar. "
+        "Cada sector junta productos con pack parecido (a más rollos, mejor $/metro) "
+        "y metraje por rollo similar, sin distinguir tipo de hoja. "
         f"Mostrando **{etiqueta_canal}** (cambiar en la barra lateral › Canal)."
     )
-    df_seg = df[df["segmento"].notna()]
+    df_seg = df[df["sector"].notna() & (df["sector"] != "")]
     cats = sorted(df_seg["categoria"].dropna().unique())
     cat_sel = st.radio("Categoría", cats, horizontal=True, key="seg_cat")
     df_seg = df_seg[df_seg["categoria"] == cat_sel]
 
-    conteo = df_seg.groupby("segmento").size()
-    segs_ovella = set(ovella_df.loc[ovella_df["categoria"] == cat_sel, "segmento"].dropna())
-    # Los segmentos donde Ovella tiene un producto van primero y marcados.
+    conteo = df_seg.groupby("sector").size()
+    segs_ovella = set(ovella_df.loc[ovella_df["categoria"] == cat_sel, "sector"].dropna())
+    # Los sectores donde Ovella tiene un producto van primero y marcados.
     opciones = sorted(conteo.index, key=lambda s: (s not in segs_ovella, s))
     etiqueta = {
         s: f"{'⭐ ' if s in segs_ovella else ''}{s}  ({conteo[s]} SKU)"
         for s in opciones
     }
     seg_sel = st.selectbox(
-        "Segmento", opciones, format_func=lambda s: etiqueta[s], key="seg_sel"
+        "Sector", opciones, format_func=lambda s: etiqueta[s], key="seg_sel"
     )
 
-    df_match = df_seg[df_seg["segmento"] == seg_sel].sort_values(
+    df_match = df_seg[df_seg["sector"] == seg_sel].sort_values(
         "precio_ref", na_position="last"
     )
     n_marcas = df_match["marca"].nunique()
     n_retailers = df_match["retailer_nombre"].nunique()
     st.markdown(
         f"**{len(df_match)} productos** · {n_marcas} marcas · {n_retailers} retailers"
-        + ("  ·  ⭐ Ovella compite en este segmento" if seg_sel in segs_ovella else "")
+        + ("  ·  ⭐ Ovella compite en este sector" if seg_sel in segs_ovella else "")
     )
     _mostrar_tabla(df_match, mostrar_formato=True, resaltar_ovella=True)
 
