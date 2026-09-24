@@ -418,6 +418,156 @@ def _segmento(row):
     return f"{sub} · {sec}"
 
 
+# Abreviación de categoría al estilo de la planilla "Formato Toma Precios"
+# del jefe (columna "Cat."): Hig / Toa / Ser.
+CAT_ABREVIADA = {"Papel Higienico": "Hig", "Toalla de Papel": "Toa", "Servilletas": "Ser"}
+
+
+def _sector_plano(segmento):
+    """De 'Doble Hoja · 4 x 50 mt' saca solo '4 x 50 mt' — el formato de pack
+    sin el tipo de hoja, que es la columna "Sector" de la planilla del jefe."""
+    if not segmento:
+        return ""
+    return segmento.split("·", 1)[-1].strip()
+
+
+def _armar_export_formato_jefe(df_export):
+    """Reproduce exactamente la estructura de columnas de la planilla
+    "Formato Toma Precios" que pasó el jefe (Codigo/Fecha/D/M/A/Tipo/Local/
+    Orden/Cat./Fabrica/Sector/Cod/Descripción/Un x Bulto/Un x Pqte./Rollos
+    bulto/Mt x Rollo/Mt x Bulto/PVP Bulto/PVP Pqte/$ x Mt), para que se pueda
+    usar como reemplazo directo de la toma de precios manual. La diferencia:
+    en la planilla del jefe las columnas de precio vienen vacías (se llenan a
+    mano); acá ya vienen con el precio scrapeado.
+
+    Mapeo de columnas de pack a nuestro modelo de datos (confirmado contra
+    filas reales de la planilla del jefe, incluida una de servilletas):
+    - "Un x Bulto"   = packs por manga/caja (packs_por_bulto, 1 si es suelto)
+    - "Un x Pqte."   = rollos por pack (o 'unidades' del pack en Servilletas)
+    - "Rollos bulto" = rollos totales en el bulto (Un x Bulto × Un x Pqte);
+                        en Servilletas el jefe repite ahí el mismo valor de
+                        "Un x Bulto" en vez de multiplicar, así que se replica
+                        igual para que la estructura calce.
+    - "Mt x Rollo"   = metros por rollo (o el conteo de unidades del pack en
+                        Servilletas, mismo dato que "Un x Pqte.")
+    - "Mt x Bulto"   = metros totales del bulto (o unidades totales del
+                        bulto en Servilletas)
+    - "PVP Bulto"    = precio de la manga/caja completa (vacío si es pack
+                        suelto, igual que en la planilla del jefe)
+    - "PVP Pqte"     = precio del pack suelto
+    - "$ x Mt"        = precio_ref ($/metro en PH y Toalla, $/unidad en
+                        Servilletas — el jefe reusa la misma columna)
+    "Tipo" sale del canal (retailers.yaml): 'May' si es mayorista, 'Ret' si
+    es retail — el único valor que trae la planilla de ejemplo es 'May'
+    (aCuenta), así que 'Ret' es una extensión razonable, a confirmar con el
+    jefe. "Orden" es el correlativo dentro de cada Local, en el mismo orden
+    en que ya vienen las filas."""
+    es_serv = df_export["categoria"] == "Servilletas"
+    bulto = pd.to_numeric(df_export.get("packs_por_bulto"), errors="coerce").fillna(1)
+
+    un_x_pqte = df_export["rollos"].where(~es_serv, df_export["unidades"])
+    rollos_bulto = (bulto * df_export["rollos"]).where(~es_serv, bulto)
+    mt_x_rollo = df_export["metros_rollo"].where(~es_serv, df_export["unidades"])
+    mt_x_bulto = (bulto * df_export["metros_totales"]).where(~es_serv, bulto * df_export["unidades"])
+
+    filas = []
+    for _, r in df_export.iterrows():
+        local = r["retailer_nombre"]
+        cat = CAT_ABREVIADA.get(r["categoria"], "")
+        sector = _sector_plano(r.get("segmento"))
+        fecha = pd.to_datetime(r.get("fecha_act"), format="%d/%m/%Y %H:%M hrs", errors="coerce")
+        i = r.name
+        filas.append({
+            "Codigo": r["sku_interno"],
+            "Fecha": fecha.date() if pd.notna(fecha) else "",
+            "D": fecha.day if pd.notna(fecha) else "",
+            "M": fecha.month if pd.notna(fecha) else "",
+            "A": fecha.year if pd.notna(fecha) else "",
+            "Tipo": "May" if r.get("canal") == "mayorista" else "Ret",
+            "Local": local,
+            "Orden": _fmt_grupo(r),
+            "Cat.": cat,
+            "Fabrica": r["marca"],
+            "Sector": sector,
+            "Cod": f"{cat} {sector}".strip() if sector else "",
+            "Descripción": _producto_estandar(r),
+            "Un x Bulto": int(bulto[i]) if bulto[i] > 1 else "",
+            "Un x Pqte.": "" if pd.isna(un_x_pqte[i]) else int(un_x_pqte[i]),
+            "Rollos bulto": "" if pd.isna(rollos_bulto[i]) else int(rollos_bulto[i]),
+            "Mt x Rollo": "" if pd.isna(mt_x_rollo[i]) else mt_x_rollo[i],
+            "Mt x Bulto": "" if pd.isna(mt_x_bulto[i]) else mt_x_bulto[i],
+            "PVP Bulto": int(r["precio_manga"]) if pd.notna(r.get("precio_manga")) else "",
+            "PVP Pqte": int(r["precio_pack"]) if pd.notna(r.get("precio_pack")) else "",
+            "$ x Mt": r["precio_ref"] if pd.notna(r.get("precio_ref")) else "",
+        })
+    df_out = pd.DataFrame(filas)
+    if df_out.empty:
+        return df_out
+    # Reordena como en la planilla del jefe: filas agrupadas por Sector (en el
+    # orden en que aparecen, sin resortear alfabéticamente) y, dentro de cada
+    # grupo, Ovella primero y después la competencia — así el Excel queda
+    # listo para el resaltado por grupo que se aplica al exportar.
+    grupo_orden = df_out.groupby("Sector", sort=False).ngroup()
+    es_competencia = df_out["Fabrica"].astype(str).str.strip().str.lower() != "ovella"
+    orden = pd.DataFrame({"_g": grupo_orden, "_c": es_competencia}).assign(_i=range(len(df_out)))
+    idx = orden.sort_values(["_g", "_c", "_i"], kind="stable").index
+    return df_out.loc[idx].reset_index(drop=True)
+
+
+def _aplicar_formato_jefe(ws, df_out):
+    """Aplica al sheet el estilo visual de la planilla "Formato Toma Precios"
+    del jefe: encabezado amarillo en negrita, franjas celestes alternadas por
+    grupo de Sector (para separar visualmente cada formato de pack) y la fila
+    más barata de cada grupo resaltada en verde — mismo criterio de "más
+    barato" que ya se usa en las tablas de pantalla (COLOR_BUENO)."""
+    from openpyxl.styles import Font, PatternFill, Border, Side, Alignment
+
+    AMARILLO = PatternFill("solid", fgColor="FFFF00")
+    CELESTE = PatternFill("solid", fgColor="DCE6F1")
+    VERDE = PatternFill("solid", fgColor="C6EFCE")
+    borde_fino = Side(style="thin", color="BFBFBF")
+    BORDE = Border(left=borde_fino, right=borde_fino, top=borde_fino, bottom=borde_fino)
+
+    n_cols = len(df_out.columns)
+    for col in range(1, n_cols + 1):
+        c = ws.cell(row=1, column=col)
+        c.fill = AMARILLO
+        c.font = Font(bold=True)
+        c.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
+        c.border = BORDE
+    ws.freeze_panes = "A2"
+    ws.auto_filter.ref = ws.dimensions
+
+    # Grupos de Sector consecutivos (ya vienen agrupados por _armar_export_formato_jefe).
+    grupo_actual = None
+    grupo_num = -1
+    celeste_on = False
+    inicio_grupo = 2
+    for fila_i, valor_sector in enumerate(df_out["Sector"], start=2):
+        if valor_sector != grupo_actual:
+            grupo_actual = valor_sector
+            grupo_num += 1
+            celeste_on = grupo_num % 2 == 1
+            inicio_grupo = fila_i
+        if celeste_on:
+            for col in range(1, n_cols + 1):
+                ws.cell(row=fila_i, column=col).fill = CELESTE
+        for col in range(1, n_cols + 1):
+            ws.cell(row=fila_i, column=col).border = BORDE
+
+    # Fila más barata ($ x Mt mínimo, ignorando vacíos) dentro de cada grupo.
+    for _, idx in df_out.groupby((df_out["Sector"] != df_out["Sector"].shift()).cumsum()).groups.items():
+        precios = pd.to_numeric(df_out.loc[idx, "$ x Mt"], errors="coerce")
+        if precios.notna().any():
+            fila_min = precios.idxmin() + 2  # +2: header + índice base 0 -> fila Excel
+            for col in range(1, n_cols + 1):
+                ws.cell(row=fila_min, column=col).fill = VERDE
+
+    for col_i, nombre in enumerate(df_out.columns, start=1):
+        ancho = max(len(str(nombre)), df_out[nombre].astype(str).str.len().max() if len(df_out) else 0)
+        ws.column_dimensions[ws.cell(row=1, column=col_i).column_letter].width = min(max(ancho + 2, 8), 40)
+
+
 def _armar_export(df_export):
     """Versión "para humanos" del dataframe interno, pensada para abrirse en
     Excel: nombres de columna en español, precios ya formateados en CLP en
@@ -425,11 +575,17 @@ def _armar_export(df_export):
     merge, etc.) que no significan nada fuera de la app."""
     filas = []
     for _, r in df_export.iterrows():
+        cat = CAT_ABREVIADA.get(r["categoria"], "")
+        sector = _sector_plano(r.get("segmento"))
         filas.append({
             "Grupo": _fmt_grupo(r),
             "Retailer": r["retailer_nombre"],
             "Categoría": r["categoria"],
+            "Cat": cat,
             "Subcategoría": r["subcategoria"],
+            "Fabrica": r["marca"],
+            "Sector": sector,
+            "Cod": f"{cat} {sector}".strip() if sector else "",
             "Segmento": r.get("segmento") or "",
             "Producto estándar": _producto_estandar(r),
             "Marca": r["marca"],
@@ -742,6 +898,21 @@ st.sidebar.download_button(
     mime="text/csv",
     width="stretch",
     help="Exporta el monitor completo (todos los retailers y categorías), sin importar el filtro de pantalla.",
+)
+
+_buf_jefe = io.BytesIO()
+_df_jefe = _armar_export_formato_jefe(df_completo[~df_completo["retailer_desactivado"]])
+with pd.ExcelWriter(_buf_jefe, engine="openpyxl") as _xw:
+    _df_jefe.to_excel(_xw, index=False, sheet_name="Formato V3.0")
+    if not _df_jefe.empty:
+        _aplicar_formato_jefe(_xw.sheets["Formato V3.0"], _df_jefe)
+st.sidebar.download_button(
+    "⬇️ Descargar Excel (formato jefe)",
+    data=_buf_jefe.getvalue(),
+    file_name="precios_dipisa_formato_jefe.xlsx",
+    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    width="stretch",
+    help="Mismas columnas que la planilla 'Formato Toma Precios' del jefe (Codigo/Fecha/Local/Cat./Fabrica/Sector/Cod/PVP/etc.), pero ya con los precios scrapeados.",
 )
 
 with st.sidebar.expander("🔗 ¿Un link de producto está roto o cambió?"):
