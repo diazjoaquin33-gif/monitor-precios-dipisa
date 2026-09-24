@@ -892,8 +892,13 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
                 fila["Desde 2 un"] = _formatear_clp(r.get("precio_socio2")) if pd.notna(r.get("precio_socio2")) else "—"
         if hay_bulto_grupo:
             lbl_bulto = "Precio caja" if unidad_ref == "u" else "Precio manga"
+            lbl_unidades = "Pqtes x Caja" if unidad_ref == "u" else "Pqtes x Manga"
             n = pd.to_numeric(r.get("packs_por_bulto"), errors="coerce")
             es_bulto = pd.notna(n) and n > 1
+            # Deja explícito cuántos paquetes sueltos trae la manga/caja (no
+            # todo el mundo sabe que el precio de la manga es por varios
+            # paquetes juntos, no por uno solo).
+            fila[lbl_unidades] = f"x{int(n)}" if es_bulto else "1"
             fila[lbl_bulto] = _formatear_clp(r.get("precio_manga")) if es_bulto else "—"
             fila["Precio pack"] = _formatear_clp(r.get("precio_pack")) if es_bulto else "—"
         fila[col_ref] = f"${precio_metro}/{unidad_ref}" if precio_metro is not None else "N/D"
