@@ -17,7 +17,7 @@ Piezas:
 | `app.py` | **Streamlit Community Cloud** | Muestra el dashboard |
 | `productos.csv` | Repo de GitHub | Lista de productos de la competencia a monitorear |
 | `ovella.csv` | Repo de GitHub | Productos de Ovella (referencia de cada comparación) |
-| Planilla del equipo | **Google Sheets** (cuenta `monitor.de.precios1@gmail.com`) | Pestaña `url_fixes`: reemplazar un link roto. Pestaña `productos_nuevos`: agregar, editar o sacar un producto (columna `accion`). Todo sin tocar código ni GitHub. |
+| Planilla del equipo | **Google Sheets** (cuenta `monitor.de.precios1@gmail.com`) | Pestaña **Arreglar Link**: reemplazar un link roto. Pestaña **Catálogo**: el catálogo COMPLETO, una fila por producto — agregar una fila es un alta, borrarla es una baja, cambiar un valor es una edición. Todo sin tocar código ni GitHub. |
 
 ## Cuentas y accesos
 
@@ -46,9 +46,9 @@ cambió la dirección (URL) de ese producto en su sitio.
    sale en el panel "Salud del scraper").
 3. Buscá el producto en el sitio del supermercado y copiá la URL nueva de la
    barra de direcciones.
-4. En la planilla, agregá una fila:
+4. En la pestaña **Arreglar Link** de la planilla, agregá una fila:
 
-   | sku_interno | url_nuevo | nota |
+   | Código | Link nuevo | Nota |
    |---|---|---|
    | `TC-034` | `https://www.sitio.cl/producto-nuevo` | Cambió el link 09/2026 |
 
@@ -57,8 +57,8 @@ cambió la dirección (URL) de ese producto en su sitio.
 
 **Reglas de la planilla:**
 
-- No cambiar los títulos de las columnas ni el orden (`sku_interno`, `url_nuevo`, `nota`).
-- Un `sku_interno` que no exista en `productos.csv` simplemente se ignora, no rompe nada.
+- No cambiar los títulos de las columnas (**Código**, **Link nuevo**, **Nota**); el orden sí puede cambiar.
+- Un **Código** que no exista en el catálogo simplemente se ignora, no rompe nada.
 - Para deshacer una corrección, borrá la fila.
 - Si la planilla se cae o se despublica, el scraper sigue funcionando con la
   última copia buena (`url_overrides_cache.json` en el repo).
@@ -67,10 +67,16 @@ cambió la dirección (URL) de ese producto en su sitio.
 
 Una Google Sheet en la cuenta `monitor.de.precios1@gmail.com` con **dos pestañas**:
 
-- `url_fixes` — columnas exactas: `sku_interno`, `url_nuevo`, `nota`.
-- `productos_nuevos` — columnas exactas: `sku_interno`, `producto`, `marca`,
-  `metros_totales`, `retailer`, `url`, `categoria`, `subcategoria`, `rollos`,
-  `metros_rollo`, `unidades`, `accion`.
+- **Arreglar Link** — columnas exactas (en este texto): `Código`, `Link nuevo`, `Nota`.
+- **Catálogo** — el catálogo COMPLETO, una fila por producto, columnas exactas:
+  `Código`, `Producto`, `Marca`, `Retailer`, `Link`, `Categoría`, `Subcategoría`,
+  `Rollos`, `Metros por rollo`, `Metros totales`, `Unidades`, `Grupo`,
+  `Nombre estándar` (estas dos últimas opcionales). El orden de las columnas no
+  importa (el código las busca por nombre), pero los nombres tienen que ser
+  exactos: si se cambia alguno hay que actualizar el diccionario
+  `ENCABEZADOS_PRODUCTOS` / `ENCABEZADOS_URL_FIXES` en `scraper.py` y `app.py`
+  para que coincida. Para arrancarla, exportar `productos.csv` como CSV y
+  pegarlo tal cual en esta pestaña (con los encabezados en español de arriba).
 
 Para cada pestaña: *Archivo → Compartir → Publicar en la Web*, elegir **esa hoja**
 (no "todo el documento") y formato **CSV** → Publicar. Cada una da un link propio
@@ -79,8 +85,8 @@ que termina en `output=csv`. Pegarlos en las constantes de `scraper.py` **y**
 
 | Constante | De qué pestaña |
 |---|---|
-| `OVERRIDES_CSV_URL` | `url_fixes` |
-| `PRODUCTOS_NUEVOS_CSV_URL` | `productos_nuevos` (vacío = función apagada) |
+| `OVERRIDES_CSV_URL` | Arreglar Link |
+| `CATALOGO_CSV_URL` | Catálogo (vacío = función apagada) |
 
 Y en `app.py`: `PLANILLA_EDIT_URL` = el link normal de edición (termina en `/edit`).
 
@@ -89,45 +95,90 @@ Compartir la planilla (botón *Compartir*) con quien la va a mantener, como
 
 ## Tarea de rutina #2 — Agregar, editar o sacar un producto
 
-Todo se hace en la pestaña `productos_nuevos` de la planilla, **sin programar y
-sin entrar a GitHub**. Cada fila lleva una columna `accion`:
+Todo se hace en la pestaña **Catálogo** de la planilla, **sin programar y sin
+entrar a GitHub**. Esa pestaña ES el catálogo completo — no hay columna
+Acción, cada fila es directamente un producto:
 
-- **`nuevo`** (o `accion` vacío) — sumar un producto. Columnas:
-  `sku_interno,producto,marca,metros_totales,retailer,url,categoria,subcategoria,rollos,metros_rollo,unidades`.
-  - `sku_interno`: código libre que no se repita (seguir la serie `TC-###`).
-  - `retailer`: la **clave exacta** en minúscula — `jumbo`, `santaisabel`, `tottus`,
-    `unimarc`, `alvi`, `acuenta`, `centralmayorista`, `liquimax`, `imanweb`, `dimak` (no el nombre "bonito").
-  - `categoria` y `subcategoria`: igual que en `ovella.csv` (o los valores ya usados)
-    para que el dashboard agrupe bien.
-  - **Papel higiénico / toalla:** `metros_totales`, `rollos` (cuántos rollos trae el
-    pack) y `metros_rollo` (metros de cada rollo; `metros_totales` = `rollos` ×
-    `metros_rollo`). `subcategoria` = `Doble Hoja` / `Hoja Simple` / `Triple Hoja`.
-    Se comparan en $/metro.
-  - **Servilletas:** dejar `metros_totales`/`rollos`/`metros_rollo` vacíos y llenar
-    `unidades` (cantidad del pack). `subcategoria` = `Cocktail` / `Mesa`. Se
-    comparan en $/unidad.
-  - **Formato mayorista por manga/caja** (ej. Central Mayorista publica el precio
-    de 12 packs juntos): llenar `rollos`/`metros_rollo`/`metros_totales` con los
-    datos de **un pack suelto** y poner en `unidades` cuántos packs trae la manga
-    (ej. `12` para "MANGAx12"). La app calcula *Precio pack* = precio ÷ 12 y con
-    eso el $/metro, así compite parejo contra un pack suelto de otro súper.
-- **`editar`** — cambiar datos de un producto que ya existe. Poné el `sku_interno`
-  y solo las columnas que cambian (ej. `marca` o `url`); dejá el resto vacío, esas
-  columnas no se tocan.
-- **`borrar`** — sacar un producto del monitoreo. Poné el `sku_interno`, el resto vacío.
+- **Agregar** un producto: sumá una fila nueva abajo de todo.
+- **Editar** un producto: cambiá el valor que haga falta en su fila (ej. Marca
+  o Link).
+- **Sacar** un producto: borrá su fila entera.
 
-En la próxima corrida automática (máx. ~8 h) el scraper aplica el cambio directo
-sobre `productos.csv` y lo sube solo con el mismo commit que sube los precios (usa
-el token automático de GitHub Actions, no una cuenta ni contraseña de nadie, así
-que no hay nada que se pueda vencer). Las altas aparecen mientras tanto en el
-dashboard marcadas con 🆕 (provisorio). **La fila puede quedar en la planilla
-después de aplicada** — no hace falta borrarla ni pedirle a nadie con acceso a
-GitHub que la pase a mano; volver a correr el scraper con la misma fila no
-duplica ni deshace nada.
+Columnas: `Código, Producto, Marca, Retailer, Link, Categoría, Subcategoría,
+Rollos, Metros por rollo, Metros totales, Unidades` (más `Grupo` / `Nombre
+estándar`, opcionales, para cruzar el mismo producto entre retailers).
+
+- **Código**: libre, que no se repita (seguir la serie `TC-###`).
+- **Retailer**: la **clave exacta** en minúscula — `jumbo`, `santaisabel`, `tottus`,
+  `unimarc`, `alvi`, `acuenta`, `centralmayorista`, `liquimax`, `imanweb`, `dimak` (no el nombre "bonito").
+- **Categoría** y **Subcategoría**: igual que en `ovella.csv` (o los valores ya usados)
+  para que el dashboard agrupe bien.
+- **Papel higiénico / toalla:** **Metros totales**, **Rollos** (cuántos rollos trae el
+  pack) y **Metros por rollo** (metros de cada rollo; Metros totales = Rollos ×
+  Metros por rollo). **Subcategoría** = `Doble Hoja` / `Hoja Simple` / `Triple Hoja`.
+  Se comparan en $/metro.
+- **Servilletas:** dejar **Metros totales**/**Rollos**/**Metros por rollo** vacíos y llenar
+  **Unidades** (cantidad del pack). **Subcategoría** = `Cocktail` / `Mesa`. Se
+  comparan en $/unidad.
+- **Formato mayorista por manga/caja** (ej. Central Mayorista publica el precio
+  de 12 packs juntos): llenar **Rollos**/**Metros por rollo**/**Metros totales** con los
+  datos de **un pack suelto** y poner en **Unidades** cuántos packs trae la manga
+  (ej. `12` para "MANGAx12"). La app calcula *Precio pack* = precio ÷ 12 y con
+  eso el $/metro, así compite parejo contra un pack suelto de otro súper.
+
+En la próxima corrida automática (máx. ~8 h) el scraper reemplaza el catálogo
+(`productos.csv`) por lo que haya en la planilla y lo sube solo con el mismo
+commit que sube los precios (usa el token automático de GitHub Actions, no una
+cuenta ni contraseña de nadie, así que no hay nada que se pueda vencer). Las
+altas aparecen mientras tanto en el dashboard marcadas con 🆕 (provisorio);
+ediciones y bajas se ven recién cuando corre el scraper.
+
+**Qué pasa si alguien se equivoca en la planilla** (esto es lo que evita que
+un error tumbe la app):
+
+- **Error puntual en una fila** (falta el Link, el Retailer está mal
+  escrito, un campo numérico tiene letras, falta Producto/Marca/Categoría/
+  Subcategoría, un Código repetido): esa fila sola se ignora — no se aplica —
+  y aparece avisada en el panel **➕ Agregar, editar o sacar un producto** del
+  dashboard (se puede revisar sin esperar la corrida) y también en **Salud
+  del scraper** después de que corra. El resto del catálogo se actualiza
+  normal.
+- **Error grave** (se borró sin querer un montón de filas de golpe, se movieron
+  las columnas, se pegó la planilla a medias, quedó vacía): si el catálogo
+  resultante tiene **más de 30% menos productos** que el actual, el scraper
+  **no aplica nada** — sigue con el último catálogo bueno — y lo avisa fuerte
+  en el dashboard (panel lateral y "Salud del scraper"). Para corregirlo,
+  basta con arreglar la planilla; no hace falta avisarle a nadie con acceso a
+  GitHub.
+- Si la planilla se cae o se despublica, el scraper sigue con la última copia
+  buena guardada en el repo (`catalogo_cache.csv`).
 
 Si en algún momento hace falta, también se puede editar `productos.csv`
 directo en GitHub (ícono de lápiz en la página del archivo), pero ya no es
 necesario para el uso normal.
+
+## Respaldos — cómo volver atrás si algo se rompió
+
+Hay dos respaldos independientes, uno para la planilla y otro para el catálogo
+ya aplicado:
+
+- **La planilla de Google** tiene su propio historial de versiones, automático
+  y gratis, sin que nadie tenga que configurar nada: *Archivo → Ver historial
+  de versiones* (o *Ver historial de versiones → Ver historial de versiones*
+  según el menú). Ahí se puede ver quién cambió qué y cuándo, y **restaurar la
+  planilla completa a un momento anterior** con un clic. Si alguien borra la
+  planilla entera por error, Drive la guarda en la Papelera 30 días.
+- **El catálogo ya aplicado** (`productos.csv`) se respalda solo de dos formas:
+  - Cada corrida del scraper guarda una copia fechada en la carpeta
+    `respaldos/` del repo (`respaldos/productos_2026-S39.csv`, una por semana
+    calendario, se puede abrir y descargar directo desde GitHub sin saber
+    programar). Se conserva como máximo 1 año de copias.
+  - Además, **todo el historial completo queda en git** — cada commit del bot
+    (`🤖 Actualización automática de precios`) es un punto de restauración.
+    Para volver a una versión puntual hace falta alguien con acceso a GitHub
+    (pestaña **History** del archivo `productos.csv` en GitHub → elegir una
+    versión vieja → "..." → "View file" → copiar y pegar su contenido sobre
+    `productos.csv` actual, commitear).
 
 ## Correr el scraper a mano
 

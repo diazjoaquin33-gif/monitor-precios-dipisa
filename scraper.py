@@ -6,6 +6,7 @@ import io
 import re
 import time
 import random
+import shutil
 import concurrent.futures
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
@@ -19,20 +20,24 @@ DATOS_PATH = BASE_DIR / "datos_procesados.json"
 HISTORIAL_PATH = BASE_DIR / "historial_precios.csv"
 ESTADO_SCRAPER_PATH = BASE_DIR / "estado_scraper.json"
 OVERRIDES_CACHE_PATH = BASE_DIR / "url_overrides_cache.json"
-PRODUCTOS_NUEVOS_CACHE_PATH = BASE_DIR / "productos_nuevos_cache.csv"
+CATALOGO_CACHE_PATH = BASE_DIR / "catalogo_cache.csv"
+RESPALDOS_DIR = BASE_DIR / "respaldos"
+RESPALDOS_A_CONSERVAR = 52  # ~1 año de respaldos semanales, para no hacer crecer el repo sin límite
 
 # Planilla de Google publicada (Archivo → Compartir → Publicar en la Web → CSV),
 # cuenta monitor.de.precios1@gmail.com (ver TRASPASO.md), no una cuenta personal.
 #
-# Pestaña 1 (url_fixes): columnas sku_interno,url_nuevo,nota — para reemplazar un
-# URL que murió sin tocar código.
-OVERRIDES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZ7qyGdu79TJ5CUPN5dfIf4YZDgV9JqDpDdW8dA_jiqCrYDcW3RO_hGqjRp12QnKWKTvlkKvV1nWX/pub?gid=0&single=true&output=csv"
-# Pestaña 2 (productos_nuevos): mismas columnas que productos.csv más una columna
-# 'accion' (nuevo/editar/borrar) — para agregar, actualizar o sacar un producto sin
-# tocar código ni GitHub. Cada corrida aplica los cambios directo sobre
-# productos.csv y el propio workflow lo commitea (ver sincronizar_productos_csv).
-# Vacío = función desactivada.
-PRODUCTOS_NUEVOS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZ7qyGdu79TJ5CUPN5dfIf4YZDgV9JqDpDdW8dA_jiqCrYDcW3RO_hGqjRp12QnKWKTvlkKvV1nWX/pub?gid=2145311446&single=true&output=csv"
+# Pestaña "Arreglar Link" (columnas sku_interno,url_nuevo,nota, para reemplazar
+# un URL que murió sin tocar código): todavía no existe en la planilla actual,
+# función desactivada hasta que se cree esa pestaña y se publique (ver
+# TRASPASO.md). El resto sigue funcionando igual sin ella.
+OVERRIDES_CSV_URL = ""
+# Pestaña "Catálogo" (única pestaña de la planilla hoy): el catálogo COMPLETO,
+# mismas columnas que productos.csv — cada fila es un producto. No hay columna
+# 'Acción': agregar una fila = alta, borrar una fila = baja, cambiar un valor =
+# edición. Cada corrida reemplaza productos.csv por el contenido validado de
+# esta pestaña y el propio workflow lo commitea (ver sincronizar_desde_catalogo).
+CATALOGO_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZ7qyGdu79TJ5CUPN5dfIf4YZDgV9JqDpDdW8dA_jiqCrYDcW3RO_hGqjRp12QnKWKTvlkKvV1nWX/pub?gid=0&single=true&output=csv"
 
 HEADERS_GENERICOS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
@@ -44,50 +49,162 @@ COLUMNAS_PRODUCTOS = [
     "categoria", "subcategoria", "rollos", "metros_rollo", "unidades",
 ]
 
+# Encabezados en español que ve el equipo en la planilla de Google -> nombre
+# interno que usa el código. Permite que la planilla sea legible sin tocar el
+# resto del programa; una columna que llegue con el nombre interno (viejo)
+# también funciona, .rename() solo toca las que coinciden con este mapa.
+ENCABEZADOS_PRODUCTOS = {
+    "Código": "sku_interno", "Producto": "producto",
+    "Marca": "marca", "Retailer": "retailer", "Link": "url",
+    "Categoría": "categoria", "Subcategoría": "subcategoria",
+    "Rollos": "rollos", "Metros por rollo": "metros_rollo",
+    "Metros totales": "metros_totales", "Unidades": "unidades",
+    "Grupo": "grupo_id", "Nombre estándar": "nombre_estandar",
+}
+ENCABEZADOS_URL_FIXES = {"Código": "sku_interno", "Link nuevo": "url_nuevo", "Nota": "nota"}
 
-def cargar_productos_nuevos():
-    """Devuelve (DataFrame_o_None, aviso_o_None) con las filas que el equipo cargó
-    en la pestaña 'productos_nuevos' de la planilla, cada una con su columna
-    'accion' (nuevo/editar/borrar; vacío = nuevo). Si la planilla no responde,
-    cae a la copia local (productos_nuevos_cache.csv). Solo se exige
-    sku_interno — 'nuevo' además necesita retailer + url para poder scrapearse,
-    pero eso se valida más adelante en sincronizar_productos_csv/cargar_config."""
-    if not PRODUCTOS_NUEVOS_CSV_URL:
+# grupo_id/nombre_estandar son opcionales (no todo producto está cruzado con
+# otro retailer).
+COLUMNAS_GRUPO = ["grupo_id", "nombre_estandar"]
+COLUMNAS_NUMERICAS = ["metros_totales", "rollos", "metros_rollo", "unidades"]
+COLUMNAS_TEXTO_OBLIGATORIAS = ["producto", "marca", "categoria", "subcategoria"]
+
+# Bajo qué proporción del catálogo actual se considera que la planilla vino
+# "rota" (borrado masivo por error, columnas movidas, pegado a medias, etc.)
+# y se rechaza el cambio COMPLETO en vez de aplicarlo a medias — ver
+# sincronizar_desde_catalogo.
+UMBRAL_RECHAZO_CATALOGO = 0.7
+
+
+def cargar_catalogo_planilla():
+    """Devuelve (DataFrame_o_None, aviso_o_None) con el catálogo COMPLETO que el
+    equipo mantiene en la pestaña 'Catálogo' de la planilla de Google: cada fila
+    es un producto, con las mismas columnas que productos.csv. No hay columna
+    'Acción' — agregar una fila es un alta, borrarla es una baja, cambiar un
+    valor es una edición. Si la planilla no responde, cae a la última copia
+    buena (catalogo_cache.csv) para no frenar la corrida ni perder el catálogo."""
+    if not CATALOGO_CSV_URL:
         return None, None
     try:
-        res = requests.get(PRODUCTOS_NUEVOS_CSV_URL, headers=HEADERS_GENERICOS, timeout=15)
+        res = requests.get(CATALOGO_CSV_URL, headers=HEADERS_GENERICOS, timeout=15)
         res.raise_for_status()
-        df = pd.read_csv(io.StringIO(res.text))
-        df["sku_interno"] = df.get("sku_interno", pd.Series(dtype=object)).astype(str).str.strip()
-        df = df[(df["sku_interno"] != "") & (df["sku_interno"].str.lower() != "nan")]
-        if "accion" not in df.columns:
-            df["accion"] = "nuevo"
-        df["accion"] = df["accion"].fillna("nuevo").astype(str).str.strip().str.lower()
-        df.loc[~df["accion"].isin(["nuevo", "editar", "borrar"]), "accion"] = "nuevo"
-        for col in COLUMNAS_PRODUCTOS:
+        df = pd.read_csv(io.StringIO(res.text)).rename(columns=ENCABEZADOS_PRODUCTOS)
+        if "sku_interno" not in df.columns:
+            return None, "la planilla no tiene columna 'Código'; se ignoró el cambio"
+        for col in COLUMNAS_PRODUCTOS + COLUMNAS_GRUPO:
             if col not in df.columns:
                 df[col] = pd.NA
-        df = df[COLUMNAS_PRODUCTOS + ["accion"]]
-        df.to_csv(PRODUCTOS_NUEVOS_CACHE_PATH, index=False)
+        df = df[COLUMNAS_PRODUCTOS + COLUMNAS_GRUPO]
+        df.to_csv(CATALOGO_CACHE_PATH, index=False)
         return df, None
     except Exception as e:
-        if PRODUCTOS_NUEVOS_CACHE_PATH.exists():
+        if CATALOGO_CACHE_PATH.exists():
             try:
-                return pd.read_csv(PRODUCTOS_NUEVOS_CACHE_PATH), f"planilla no disponible ({str(e)[:60]}); usando copia local"
+                return pd.read_csv(CATALOGO_CACHE_PATH), f"planilla no disponible ({str(e)[:60]}); usando copia local"
             except Exception:
                 pass
-        return None, f"planilla de productos nuevos no disponible ({str(e)[:60]})"
+        return None, f"planilla de catálogo no disponible ({str(e)[:60]})"
 
 
-def sincronizar_productos_csv(cambios):
-    """Aplica sobre productos.csv (en disco) las filas de accion 'nuevo'/'editar'/
-    'borrar' de la planilla, preservando el bloque de comentarios al final del
-    archivo. Es idempotente: correrlo de nuevo con la misma planilla no duplica
-    ni revierte nada, así que no hace falta que alguien limpie la pestaña ni
-    toque GitHub a mano — el commit automático del workflow sube el resultado.
-    Devuelve {"agregados": N, "editados": N, "borrados": N}."""
-    resumen = {"agregados": 0, "editados": 0, "borrados": 0}
-    if cambios is None or cambios.empty:
+def _parsear_numero(val):
+    """Convierte un valor de una columna numérica de la planilla a número.
+    Google Sheets, con configuración regional en español, publica el CSV con
+    coma como separador decimal (ej. '21,3' en vez de '21.3') aunque el valor
+    se haya tipeado con punto — sin este fallback, cualquier medida con
+    decimales (21.3 m, 37.5 m, etc.) se rechazaría como 'no numérica' siendo
+    perfectamente válida. Devuelve (es_válido, valor_normalizado)."""
+    if pd.isna(val) or str(val).strip() == "":
+        return True, val
+    texto = str(val).strip()
+    numero = pd.to_numeric(pd.Series([texto]), errors="coerce").iloc[0]
+    if pd.isna(numero) and "," in texto and "." not in texto:
+        numero = pd.to_numeric(pd.Series([texto.replace(",", ".")]), errors="coerce").iloc[0]
+    return pd.notna(numero), numero
+
+
+def validar_catalogo(df, retailers_validos):
+    """Revisa fila por fila el catálogo bajado de la planilla. Una fila con un
+    problema (código repetido o vacío, retailer que no existe, link sin http,
+    falta texto obligatorio, un campo numérico con letras) queda AFUERA del
+    catálogo que se va a aplicar y se reporta en 'problemas' — así una fila mal
+    cargada no frena a las demás, pero tampoco se aplica a medias en silencio.
+    Devuelve (df_valido, problemas: list[str])."""
+    problemas = []
+    df = df.copy()
+    df["sku_interno"] = df["sku_interno"].astype(str).str.strip()
+    vistos = set()
+    filas_ok = []
+    for idx, fila in df.iterrows():
+        sku = fila["sku_interno"]
+        if not sku or sku.lower() == "nan":
+            problemas.append("(fila sin Código): se ignoró, falta el Código")
+            continue
+        if sku in vistos:
+            problemas.append(f"{sku}: Código repetido en la planilla, se usó la primera fila y se ignoraron las siguientes")
+            continue
+        errs = []
+        if str(fila.get("retailer", "")).strip() not in retailers_validos:
+            errs.append(f"Retailer '{fila.get('retailer')}' no es una clave válida")
+        if not str(fila.get("url", "")).strip().startswith("http"):
+            errs.append("falta el Link o no empieza con http")
+        for col, nombre in [("producto", "Producto"), ("marca", "Marca"), ("categoria", "Categoría"), ("subcategoria", "Subcategoría")]:
+            val = fila.get(col)
+            if pd.isna(val) or not str(val).strip():
+                errs.append(f"falta {nombre}")
+        numeros_normalizados = {}
+        for col in COLUMNAS_NUMERICAS:
+            val = fila.get(col)
+            ok, numero = _parsear_numero(val)
+            if not ok:
+                errs.append(f"'{col}' = '{val}' no es un número válido")
+            else:
+                numeros_normalizados[col] = numero
+        if errs:
+            problemas.append(f"{sku}: " + "; ".join(errs))
+            continue
+        for col, numero in numeros_normalizados.items():
+            df.loc[idx, col] = numero
+        vistos.add(sku)
+        filas_ok.append(idx)
+
+    df_valido = df.loc[filas_ok].reset_index(drop=True)
+
+    # Aviso informativo (no excluye filas): un mismo grupo_id con nombre_estandar
+    # distinto entre sus filas normalmente es un error de tipeo en una de ellas.
+    if "grupo_id" in df_valido.columns and "nombre_estandar" in df_valido.columns:
+        con_grupo = df_valido.dropna(subset=["grupo_id"])
+        for gid, sub in con_grupo.groupby(con_grupo["grupo_id"].map(_normalizar_grupo_id)):
+            nombres = set(sub["nombre_estandar"].dropna().astype(str).str.strip()) - {""}
+            if len(nombres) > 1:
+                problemas.append(f"⚠️ Grupo {gid}: nombre estándar distinto entre sus filas ({', '.join(sorted(nombres))}), revisar cuál es el correcto")
+
+    return df_valido, problemas
+
+
+def _normalizar_grupo_id(val):
+    """'9', 9, 9.0 tienen que compararse como el mismo grupo — pandas guarda
+    grupo_id como float (9.0) al leer el CSV, pero alguien tipeando en la
+    planilla escribe '9'. Sin esto, comparar como texto crudo los trata como
+    grupos distintos y el cruce entre retailers queda roto en silencio."""
+    texto = str(val).strip()
+    try:
+        return str(int(float(texto)))
+    except ValueError:
+        return texto
+
+
+def sincronizar_desde_catalogo(df_nuevo, retailers_cfg):
+    """Reemplaza productos.csv por el catálogo validado de la planilla,
+    preservando el bloque de comentarios final. Es "todo o nada" a nivel
+    catálogo: si no queda ninguna fila válida, o si el catálogo válido tiene
+    más de un 30% menos de productos que el actual (señal de un borrado
+    masivo por error, columnas movidas, o la planilla vacía/rota), NO se
+    aplica ningún cambio y sigue la última copia buena — eso sí se avisa
+    fuerte. Los problemas puntuales de fila (ver validar_catalogo) sí se
+    reportan pero no frenan al resto. Devuelve un resumen para el panel de
+    salud del dashboard."""
+    resumen = {"aplicado": False, "filas_aplicadas": 0, "problemas": [], "motivo_rechazo": None}
+    if df_nuevo is None or df_nuevo.empty:
         return resumen
 
     texto = PRODUCTOS_PATH.read_text(encoding="utf-8")
@@ -95,67 +212,74 @@ def sincronizar_productos_csv(cambios):
     ultimo_dato = max(i for i, l in enumerate(lineas) if l.strip() and not l.lstrip().startswith("#"))
     pie = lineas[ultimo_dato + 1:]  # línea en blanco + comentarios finales, se preservan tal cual
 
-    productos = pd.read_csv(PRODUCTOS_PATH, comment="#", skip_blank_lines=True).dropna(subset=["sku_interno"])
-    productos["sku_interno"] = productos["sku_interno"].astype(str).str.strip()
+    productos_actuales = pd.read_csv(PRODUCTOS_PATH, comment="#", skip_blank_lines=True).dropna(subset=["sku_interno"])
 
-    borrar_skus = set(cambios.loc[cambios["accion"] == "borrar", "sku_interno"])
-    if borrar_skus:
-        antes = len(productos)
-        productos = productos[~productos["sku_interno"].isin(borrar_skus)]
-        resumen["borrados"] = antes - len(productos)
+    df_valido, problemas = validar_catalogo(df_nuevo, set(retailers_cfg.keys()))
+    resumen["problemas"] = problemas
 
-    for _, fila in cambios[cambios["accion"] == "editar"].iterrows():
-        sku = fila["sku_interno"]
-        idx = productos.index[productos["sku_interno"] == sku]
-        if len(idx) == 0:
-            continue
-        tuvo_cambio = False
-        for col in COLUMNAS_PRODUCTOS:
-            if col == "sku_interno":
-                continue
-            val = fila.get(col)
-            if pd.notna(val) and str(val).strip() != "" and col in productos.columns:
-                productos.loc[idx, col] = val
-                tuvo_cambio = True
-        if tuvo_cambio:
-            resumen["editados"] += 1
-
-    nuevos = cambios[
-        (cambios["accion"] == "nuevo")
-        & (~cambios["sku_interno"].isin(productos["sku_interno"]))
-        & cambios["retailer"].notna() & cambios["url"].astype(str).str.startswith("http")
-    ]
-    if not nuevos.empty:
-        nuevos = nuevos[COLUMNAS_PRODUCTOS].reindex(columns=productos.columns)
-        productos = pd.concat([productos, nuevos], ignore_index=True)
-        resumen["agregados"] = len(nuevos)
-
-    if sum(resumen.values()) == 0:
+    if df_valido.empty:
+        resumen["motivo_rechazo"] = "la planilla no tiene ninguna fila válida; se ignoró todo el cambio y sigue el catálogo anterior"
         return resumen
 
+    minimo_esperado = len(productos_actuales) * UMBRAL_RECHAZO_CATALOGO
+    if len(productos_actuales) > 0 and len(df_valido) < minimo_esperado:
+        resumen["motivo_rechazo"] = (
+            f"la planilla trae {len(df_valido)} producto(s) válido(s) contra {len(productos_actuales)} "
+            "que hay ahora (más de 30% menos) — parece un error grave (borrado masivo, columnas movidas, "
+            "planilla pegada a medias), se ignoró todo el cambio para no perder el catálogo"
+        )
+        return resumen
+
+    columnas_csv = list(productos_actuales.columns) if not productos_actuales.empty else COLUMNAS_PRODUCTOS + COLUMNAS_GRUPO
+    df_valido = df_valido.reindex(columns=columnas_csv)
+
     buf = io.StringIO()
-    productos.to_csv(buf, index=False)
+    df_valido.to_csv(buf, index=False)
     nuevo_texto = buf.getvalue().rstrip("\n") + "\n" + ("\n".join(pie) + "\n" if pie else "")
     PRODUCTOS_PATH.write_text(nuevo_texto, encoding="utf-8")
+    resumen["aplicado"] = True
+    resumen["filas_aplicadas"] = len(df_valido)
     return resumen
 
 
 def cargar_config():
-    """Devuelve (productos_df, retailers_cfg, meta). meta trae el resumen de
-    cambios aplicados desde la planilla (agregados/editados/borrados) y
-    cualquier aviso, para el panel de salud."""
-    nuevos, aviso_nuevos = cargar_productos_nuevos()
-    resumen = {"agregados": 0, "editados": 0, "borrados": 0}
-    if nuevos is not None and not nuevos.empty:
-        resumen = sincronizar_productos_csv(nuevos)
-        if sum(resumen.values()):
-            print(f"📋 Planilla aplicada a productos.csv: {resumen}")
-    if aviso_nuevos:
-        print(f"⚠️ Productos nuevos: {aviso_nuevos}")
-    productos = pd.read_csv(PRODUCTOS_PATH, comment="#", skip_blank_lines=True).dropna(subset=["sku_interno"])
+    """Devuelve (productos_df, retailers_cfg, meta). meta trae el resultado de
+    sincronizar el catálogo desde la planilla (aplicado, filas, problemas de
+    fila, motivo de rechazo si lo hubo) y cualquier aviso, para el panel de
+    salud."""
     with open(RETAILERS_PATH, "r", encoding="utf-8") as f:
         retailers = yaml.safe_load(f)
-    return productos, retailers, {"sku_planilla": resumen, "aviso": aviso_nuevos}
+    catalogo, aviso_catalogo = cargar_catalogo_planilla()
+    resumen = {"aplicado": False, "filas_aplicadas": 0, "problemas": [], "motivo_rechazo": None}
+    if catalogo is not None and not catalogo.empty:
+        resumen = sincronizar_desde_catalogo(catalogo, retailers)
+        if resumen["aplicado"]:
+            print(f"📋 Catálogo aplicado desde la planilla: {resumen['filas_aplicadas']} producto(s)")
+        if resumen["motivo_rechazo"]:
+            print(f"🚫 Catálogo de la planilla RECHAZADO: {resumen['motivo_rechazo']}")
+        if resumen["problemas"]:
+            print(f"⚠️ Filas del catálogo con problemas (ignoradas o solo avisadas): {resumen['problemas']}")
+    if aviso_catalogo:
+        print(f"⚠️ Catálogo: {aviso_catalogo}")
+    productos = pd.read_csv(PRODUCTOS_PATH, comment="#", skip_blank_lines=True).dropna(subset=["sku_interno"])
+    return productos, retailers, {"sku_planilla": resumen, "aviso": aviso_catalogo}
+
+
+def guardar_respaldo_semanal():
+    """Guarda una copia fechada de productos.csv en respaldos/ (a lo sumo una
+    por semana calendario) para poder volver a un estado de hace varias
+    semanas sin necesitar git ni GitHub — con abrir la carpeta 'respaldos' en
+    GitHub alcanza. Es un respaldo del catálogo en sí; el respaldo de la
+    planilla de Google (por si alguien se equivoca ahí) es el historial de
+    versiones propio de Sheets, ver TRASPASO.md. Borra los respaldos más
+    viejos que RESPALDOS_A_CONSERVAR para no hacer crecer el repo sin límite."""
+    RESPALDOS_DIR.mkdir(exist_ok=True)
+    ahora = datetime.now(ZoneInfo("America/Santiago")).isocalendar()
+    destino = RESPALDOS_DIR / f"productos_{ahora.year}-S{ahora.week:02d}.csv"
+    if not destino.exists():
+        shutil.copy(PRODUCTOS_PATH, destino)
+    for viejo in sorted(RESPALDOS_DIR.glob("productos_*.csv"))[:-RESPALDOS_A_CONSERVAR]:
+        viejo.unlink()
 
 
 def cargar_overrides_url():
@@ -164,10 +288,12 @@ def cargar_overrides_url():
     (sin internet, la despublicaron), cae a la última copia buena guardada en el
     repo (url_overrides_cache.json) para no perder correcciones ya hechas ni
     voltear la corrida. Cada lectura exitosa refresca esa copia."""
+    if not OVERRIDES_CSV_URL:
+        return {}, None
     try:
         res = requests.get(OVERRIDES_CSV_URL, headers=HEADERS_GENERICOS, timeout=15)
         res.raise_for_status()
-        df = pd.read_csv(io.StringIO(res.text))
+        df = pd.read_csv(io.StringIO(res.text)).rename(columns=ENCABEZADOS_URL_FIXES)
         df = df.dropna(subset=["sku_interno", "url_nuevo"])
         overrides = {}
         for _, r in df.iterrows():
@@ -596,6 +722,7 @@ if __name__ == "__main__":
     print("🤖 Iniciando motor de extracción de precios (Modo Autónomo)...")
     
     productos, retailers_cfg, meta_config = cargar_config()
+    guardar_respaldo_semanal()
 
     overrides_url, overrides_aviso = cargar_overrides_url()
     if overrides_url:
@@ -680,8 +807,8 @@ if __name__ == "__main__":
             "fallos": fallos_ultima_corrida,
             "overrides_url_aplicados": int(aplicados),
             "overrides_url_aviso": overrides_aviso,
-            "sku_desde_planilla": meta_config["sku_planilla"],
-            "sku_desde_planilla_aviso": meta_config["aviso"],
+            "catalogo_planilla": meta_config["sku_planilla"],
+            "catalogo_planilla_aviso": meta_config["aviso"],
             "retailers_desactivados": sorted(retailers_desactivados),
             "sku_desactivados": int(productos["retailer"].isin(retailers_desactivados).sum()),
         }, f, ensure_ascii=False, indent=2)

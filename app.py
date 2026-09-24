@@ -86,14 +86,17 @@ h2, h3 {{ color: {COLOR_MORADO}; }}
 HISTORIAL_PATH = BASE_DIR / "historial_precios.csv"
 ESTADO_SCRAPER_PATH = BASE_DIR / "estado_scraper.json"
 OVERRIDES_CACHE_PATH = BASE_DIR / "url_overrides_cache.json"
-PRODUCTOS_NUEVOS_CACHE_PATH = BASE_DIR / "productos_nuevos_cache.csv"
+CATALOGO_CACHE_PATH = BASE_DIR / "catalogo_cache.csv"
 
 # Planilla de Google publicada (cuenta monitor.de.precios1@gmail.com).
-# Pestaña 1 (url_fixes): sku_interno,url_nuevo,nota — reemplazar un URL muerto.
-OVERRIDES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZ7qyGdu79TJ5CUPN5dfIf4YZDgV9JqDpDdW8dA_jiqCrYDcW3RO_hGqjRp12QnKWKTvlkKvV1nWX/pub?gid=0&single=true&output=csv"
-# Pestaña 2 (productos_nuevos): mismas columnas que productos.csv — sumar un SKU
-# nuevo sin tocar código. Vacío = función desactivada.
-PRODUCTOS_NUEVOS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZ7qyGdu79TJ5CUPN5dfIf4YZDgV9JqDpDdW8dA_jiqCrYDcW3RO_hGqjRp12QnKWKTvlkKvV1nWX/pub?gid=2145311446&single=true&output=csv"
+# Pestaña "Arreglar Link" (sku_interno,url_nuevo,nota — reemplazar un URL
+# muerto): todavía no existe en la planilla actual, función desactivada hasta
+# que se cree esa pestaña y se publique (ver TRASPASO.md).
+OVERRIDES_CSV_URL = ""
+# Pestaña "Catálogo" (única pestaña de la planilla hoy): el catálogo COMPLETO,
+# mismas columnas que productos.csv, una fila por producto (sin columna
+# 'Acción': agregar/borrar/editar una fila es directamente eso).
+CATALOGO_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTMZ7qyGdu79TJ5CUPN5dfIf4YZDgV9JqDpDdW8dA_jiqCrYDcW3RO_hGqjRp12QnKWKTvlkKvV1nWX/pub?gid=0&single=true&output=csv"
 # Link para EDITAR la planilla (barra de direcciones al abrirla, termina en /edit).
 # Si queda vacío, la app no muestra los botones que llevan a ella.
 PLANILLA_EDIT_URL = "https://docs.google.com/spreadsheets/d/1Ka3EM2FEWd3uyfZ3CgzxeJhwQ9adETOvU0cihdPiBRw/edit"
@@ -103,10 +106,12 @@ PLANILLA_EDIT_URL = "https://docs.google.com/spreadsheets/d/1Ka3EM2FEWd3uyfZ3Cgz
 def cargar_overrides_url():
     """Correcciones de URL cargadas por el equipo en la planilla de Google. Si la
     planilla no responde, cae a la copia local del repo. Nunca rompe la app."""
+    if not OVERRIDES_CSV_URL:
+        return {}
     try:
         res = requests.get(OVERRIDES_CSV_URL, timeout=15)
         res.raise_for_status()
-        df = pd.read_csv(io.StringIO(res.text)).dropna(subset=["sku_interno", "url_nuevo"])
+        df = pd.read_csv(io.StringIO(res.text)).rename(columns=ENCABEZADOS_URL_FIXES).dropna(subset=["sku_interno", "url_nuevo"])
         return {
             str(r["sku_interno"]).strip(): str(r["url_nuevo"]).strip()
             for _, r in df.iterrows()
@@ -127,39 +132,96 @@ COLUMNAS_PRODUCTOS = [
     "categoria", "subcategoria", "rollos", "metros_rollo", "unidades",
 ]
 
+# Encabezados en español que ve el equipo en la planilla de Google -> nombre
+# interno que usa el código (debe ser igual al mismo mapa en scraper.py).
+ENCABEZADOS_PRODUCTOS = {
+    "Código": "sku_interno", "Producto": "producto",
+    "Marca": "marca", "Retailer": "retailer", "Link": "url",
+    "Categoría": "categoria", "Subcategoría": "subcategoria",
+    "Rollos": "rollos", "Metros por rollo": "metros_rollo",
+    "Metros totales": "metros_totales", "Unidades": "unidades",
+    "Grupo": "grupo_id", "Nombre estándar": "nombre_estandar",
+}
+ENCABEZADOS_URL_FIXES = {"Código": "sku_interno", "Link nuevo": "url_nuevo", "Nota": "nota"}
+COLUMNAS_NUMERICAS_PRODUCTO = ["metros_totales", "rollos", "metros_rollo", "unidades"]
+COLUMNAS_TEXTO_OBLIGATORIAS = ["producto", "marca", "categoria", "subcategoria"]
+
 
 @st.cache_data(ttl=600)
-def cargar_productos_nuevos():
-    """Filas que el equipo cargó en la pestaña 'productos_nuevos' de la planilla,
-    cada una con su columna 'accion' (nuevo/editar/borrar; vacío = nuevo). Si la
-    planilla no responde, cae a la copia local. Nunca rompe la app. El scraper
-    (scraper.py, cada corrida) es quien aplica estos cambios de verdad sobre
-    productos.csv; acá solo se usan para mostrar el estado "provisorio" y
-    validar la planilla antes de que eso pase."""
-    if not PRODUCTOS_NUEVOS_CSV_URL:
-        return pd.DataFrame(columns=COLUMNAS_PRODUCTOS + ["accion"])
+def cargar_catalogo_planilla():
+    """Catálogo COMPLETO que el equipo mantiene en la pestaña 'Catálogo' de la
+    planilla de Google: cada fila es un producto, sin columna 'Acción' — agregar
+    una fila es un alta, borrarla es una baja, cambiar un valor es una edición.
+    Si la planilla no responde, cae a la copia local. Nunca rompe la app. El
+    scraper (scraper.py, cada corrida) es quien aplica estos cambios de verdad
+    sobre productos.csv; acá solo se usan para el panel de validación y para
+    mostrar un alta todavía no sincronizada como "🆕 provisorio"."""
+    if not CATALOGO_CSV_URL:
+        return pd.DataFrame(columns=COLUMNAS_PRODUCTOS)
     try:
-        res = requests.get(PRODUCTOS_NUEVOS_CSV_URL, timeout=15)
+        res = requests.get(CATALOGO_CSV_URL, timeout=15)
         res.raise_for_status()
-        df = pd.read_csv(io.StringIO(res.text))
+        df = pd.read_csv(io.StringIO(res.text)).rename(columns=ENCABEZADOS_PRODUCTOS)
     except Exception:
-        if PRODUCTOS_NUEVOS_CACHE_PATH.exists():
+        if CATALOGO_CACHE_PATH.exists():
             try:
-                df = pd.read_csv(PRODUCTOS_NUEVOS_CACHE_PATH)
+                df = pd.read_csv(CATALOGO_CACHE_PATH).rename(columns=ENCABEZADOS_PRODUCTOS)
             except Exception:
-                return pd.DataFrame(columns=COLUMNAS_PRODUCTOS + ["accion"])
+                return pd.DataFrame(columns=COLUMNAS_PRODUCTOS)
         else:
-            return pd.DataFrame(columns=COLUMNAS_PRODUCTOS + ["accion"])
+            return pd.DataFrame(columns=COLUMNAS_PRODUCTOS)
     df["sku_interno"] = df.get("sku_interno", pd.Series(dtype=object)).astype(str).str.strip()
     df = df[(df["sku_interno"] != "") & (df["sku_interno"].str.lower() != "nan")]
-    if "accion" not in df.columns:
-        df["accion"] = "nuevo"
-    df["accion"] = df["accion"].fillna("nuevo").astype(str).str.strip().str.lower()
-    df.loc[~df["accion"].isin(["nuevo", "editar", "borrar"]), "accion"] = "nuevo"
     for col in COLUMNAS_PRODUCTOS:
         if col not in df.columns:
             df[col] = pd.NA
-    return df[COLUMNAS_PRODUCTOS + ["accion"]]
+    return df[COLUMNAS_PRODUCTOS]
+
+
+def _numero_valido(val):
+    """Igual que _parsear_numero en scraper.py: Google Sheets con configuración
+    regional en español publica el CSV con coma decimal ('21,3'), así que hay
+    que tolerar eso antes de reportar un valor numérico como inválido."""
+    if pd.isna(val) or str(val).strip() == "":
+        return True
+    texto = str(val).strip()
+    if pd.notna(pd.to_numeric(pd.Series([texto]), errors="coerce")).all():
+        return True
+    if "," in texto and "." not in texto:
+        return pd.notna(pd.to_numeric(pd.Series([texto.replace(",", ".")]), errors="coerce")).all()
+    return False
+
+
+def _validar_catalogo_planilla(df, retailers_ok):
+    """Misma validación fila por fila que hace el scraper (validar_catalogo en
+    scraper.py) antes de aplicar la planilla — reimplementada acá para poder
+    avisar en el dashboard SIN esperar a la próxima corrida automática (hasta
+    ~8 h). Devuelve la lista de problemas encontrados, uno por fila con algo
+    para revisar."""
+    problemas = []
+    vistos = set()
+    for _, fila in df.iterrows():
+        sku = str(fila["sku_interno"]).strip()
+        if sku in vistos:
+            problemas.append(f"**{sku}**: código repetido en la planilla, solo se usa la primera fila")
+            continue
+        vistos.add(sku)
+        errs = []
+        if str(fila.get("retailer", "")).strip() not in retailers_ok:
+            errs.append(f"retailer '{fila.get('retailer')}' no es una clave válida")
+        if not str(fila.get("url", "")).strip().startswith("http"):
+            errs.append("falta el Link o no empieza con http")
+        for col, nombre in zip(COLUMNAS_TEXTO_OBLIGATORIAS, ["Producto", "Marca", "Categoría", "Subcategoría"]):
+            val = fila.get(col)
+            if pd.isna(val) or not str(val).strip():
+                errs.append(f"falta {nombre}")
+        for col in COLUMNAS_NUMERICAS_PRODUCTO:
+            val = fila.get(col)
+            if not _numero_valido(val):
+                errs.append(f"'{col}' = '{val}' no es un número válido")
+        if errs:
+            problemas.append(f"**{sku or '(sin código)'}**: " + "; ".join(errs))
+    return problemas
 
 
 @st.cache_data(ttl=600)
@@ -187,16 +249,29 @@ def cargar_datos():
     df_csv = df_csv.dropna(subset=["sku_interno"])
     df_csv["origen_planilla"] = False
 
-    # SKU nuevos cargados por el equipo en la planilla (pestaña productos_nuevos,
-    # accion='nuevo'): se muestran como cualquier otro pero marcados "provisorio"
-    # hasta que el scraper los pase a productos.csv en su próxima corrida
-    # (sincronizar_productos_csv en scraper.py). Ediciones y bajas ya se aplican
-    # directo sobre productos.csv, así que acá no hay nada más que mostrar para
-    # esas dos: este overlay es solo para altas todavía no sincronizadas.
-    nuevos = cargar_productos_nuevos()
-    nuevos = nuevos[(nuevos["accion"] == "nuevo") & (~nuevos["sku_interno"].isin(df_csv["sku_interno"]))]
+    with open(BASE_DIR / "retailers.yaml", "r", encoding="utf-8") as f:
+        retailers_cfg = yaml.safe_load(f)
+
+    # Altas cargadas por el equipo en la pestaña 'Catálogo' de la planilla que
+    # todavía no llegaron a productos.csv: se muestran como cualquier otro
+    # producto pero marcadas "🆕 provisorio" hasta que el scraper las aplique en
+    # su próxima corrida (sincronizar_desde_catalogo en scraper.py). Ediciones y
+    # bajas hechas en la planilla solo se ven reflejadas recién ahí también, no
+    # acá — evita mostrar en vivo un cambio que el scraper todavía podría
+    # rechazar (ver validar_catalogo). Solo se muestran altas que ya pasan la
+    # validación básica, para no ensuciar el dashboard con una fila rota.
+    catalogo_planilla = cargar_catalogo_planilla()
+    nuevos = catalogo_planilla[~catalogo_planilla["sku_interno"].isin(df_csv["sku_interno"])]
     if not nuevos.empty:
-        nuevos = nuevos[COLUMNAS_PRODUCTOS].copy()
+        retailers_ok = set(retailers_cfg.keys())
+        valido = (
+            nuevos["retailer"].astype(str).str.strip().isin(retailers_ok)
+            & nuevos["url"].astype(str).str.strip().str.startswith("http")
+            & nuevos["producto"].notna() & nuevos["marca"].notna()
+            & nuevos["categoria"].notna() & nuevos["subcategoria"].notna()
+        )
+        nuevos = nuevos[valido].drop_duplicates("sku_interno").copy()
+    if not nuevos.empty:
         nuevos["origen_planilla"] = True
         df_csv = pd.concat([df_csv, nuevos], ignore_index=True)
 
@@ -207,9 +282,6 @@ def cargar_datos():
     df_csv["url"] = df_csv.apply(
         lambda r: overrides.get(r["sku_interno"], r["url"]), axis=1
     )
-
-    with open(BASE_DIR / "retailers.yaml", "r", encoding="utf-8") as f:
-        retailers_cfg = yaml.safe_load(f)
 
     # LEFT join (no inner): un producto sin precio todavía (recién agregado,
     # o que lleva varias corridas fallando) sigue apareciendo como
@@ -1003,16 +1075,26 @@ st.sidebar.download_button(
 )
 
 with st.sidebar.expander("🔗 ¿Un link de producto está roto o cambió?"):
-    st.markdown(
-        "Cuando un supermercado cambia la dirección de un producto, su precio "
-        "deja de actualizarse (aparece como *“⚠️ Últ. precio”*). Para arreglarlo "
-        "**no hace falta tocar código**: se corrige en una planilla de Google.\n\n"
-        "1. Abrí la planilla de correcciones.\n"
-        "2. Agregá una fila con el **código del producto** (ej. `TC-034`), el "
-        "**URL nuevo** y una nota opcional.\n"
-        "3. En la próxima actualización automática (máx. ~8 h) el precio vuelve solo.\n\n"
-        "Los productos con URL ya corregido se muestran con un ✏️ al lado del nombre."
-    )
+    if not OVERRIDES_CSV_URL:
+        st.info(
+            "Función en preparación: falta crear la pestaña **Arreglar Link** "
+            "en la planilla y pegar su link publicado en `app.py` / `scraper.py` "
+            "(`OVERRIDES_CSV_URL`). Mientras tanto, el link de un producto se "
+            "puede corregir editando su fila en la pestaña **Catálogo**. "
+            "Ver `TRASPASO.md`."
+        )
+    else:
+        st.markdown(
+            "Cuando un supermercado cambia la dirección de un producto, su precio "
+            "deja de actualizarse (aparece como *“⚠️ Últ. precio”*). Para arreglarlo "
+            "**no hace falta tocar código**: se corrige en la pestaña **Arreglar Link** "
+            "de la planilla de Google.\n\n"
+            "1. Abrí la planilla.\n"
+            "2. Agregá una fila con **Código** (el código del producto, ej. `TC-034`), "
+            "**Link nuevo** y una **Nota** opcional.\n"
+            "3. En la próxima actualización automática (máx. ~8 h) el precio vuelve solo.\n\n"
+            "Los productos con link ya corregido se muestran con un ✏️ al lado del nombre."
+        )
     if PLANILLA_EDIT_URL:
         st.link_button("✏️ Abrir la planilla de correcciones", PLANILLA_EDIT_URL)
     else:
@@ -1022,90 +1104,46 @@ with st.sidebar.expander("🔗 ¿Un link de producto está roto o cambió?"):
         )
 
 with st.sidebar.expander("➕ Agregar, editar o sacar un producto"):
-    if not PRODUCTOS_NUEVOS_CSV_URL:
+    if not CATALOGO_CSV_URL:
         st.info(
-            "Función en preparación: falta publicar la pestaña **productos_nuevos** "
+            "Función en preparación: falta publicar la pestaña **Catálogo** "
             "de la planilla y pegar su link en `app.py` / `scraper.py` "
-            "(`PRODUCTOS_NUEVOS_CSV_URL`). Ver `TRASPASO.md`."
+            "(`CATALOGO_CSV_URL`). Ver `TRASPASO.md`."
         )
     else:
         st.markdown(
-            "Todo se hace **sin tocar código**, en la pestaña **productos_nuevos** "
-            "de la planilla, con una columna extra `accion`:\n\n"
-            "- **`nuevo`** (o dejar `accion` vacío): agregar un producto. Completá "
-            "`sku_interno` (código libre, ej. `TC-500`) · `producto` · `marca` · "
-            "`retailer` (clave exacta: `jumbo`, `santaisabel`, `tottus`, `unimarc`, "
-            "`alvi`, `acuenta`, `centralmayorista`, `liquimax`, `imanweb`, `dimak`) · "
-            "`url` · `categoria` · `subcategoria`, y para papel higiénico/toalla "
-            "`rollos`, `metros_rollo`, `metros_totales` (para servilletas, "
-            "`unidades` y `subcategoria` = `Cocktail`/`Mesa`/`Dispensador`). "
-            "Formato mayorista por manga/caja: `unidades` = cuántos packs trae la manga.\n\n"
-            "- **`editar`**: poné el `sku_interno` que ya existe y solo las columnas "
-            "que querés cambiar (ej. `marca` nueva); el resto dejalo vacío, no se toca.\n\n"
-            "- **`borrar`**: poné el `sku_interno` a sacar, el resto vacío.\n\n"
-            "En la próxima corrida automática (máx. ~8 h) el cambio queda aplicado "
-            "solo en `productos.csv` — nadie necesita entrar a GitHub. Las altas "
-            "aparecen mientras tanto marcadas con 🆕 (provisorio). La fila puede "
-            "quedar en la planilla después de aplicada, no hace falta borrarla."
+            "Todo se hace **sin tocar código**, en la pestaña **Catálogo** de la "
+            "planilla: ahí está el catálogo completo, una fila por producto, "
+            "**sin** columna Acción.\n\n"
+            "- **Agregar** un producto: sumá una fila abajo de todo.\n"
+            "- **Editar** un producto: cambiá el valor que haga falta en su fila.\n"
+            "- **Sacar** un producto: borrá su fila entera.\n\n"
+            "En la próxima corrida automática (máx. ~8 h) lo que quede en la "
+            "planilla reemplaza el catálogo del monitor — nadie necesita entrar "
+            "a GitHub. Las altas aparecen mientras tanto marcadas con 🆕 "
+            "(provisorio); ediciones y bajas se ven recién cuando corre el scraper."
         )
     if PLANILLA_EDIT_URL:
         st.link_button("📋 Abrir la planilla", PLANILLA_EDIT_URL)
 
-    if PRODUCTOS_NUEVOS_CSV_URL:
-        nuevos_raw = cargar_productos_nuevos()
-        if not nuevos_raw.empty:
-            base = df[~df["origen_planilla"].fillna(False)]
-            retailers_ok = set(base["retailer"].dropna().unique())
-            cats_ok = set(base["categoria"].dropna().unique())
-            subcats_ok = set(base["subcategoria"].dropna().unique())
-            skus_ok = set(base["sku_interno"])
-            problemas = []
-            for _, r in nuevos_raw.iterrows():
-                sku = str(r["sku_interno"]).strip()
-                accion = r["accion"]
-                errs = []
-                if accion in ("editar", "borrar") and sku not in skus_ok:
-                    errs.append(f"accion '{accion}' pero el código no existe en productos.csv")
-                    problemas.append(f"**{sku or '(sin código)'}**: " + "; ".join(errs))
-                    continue
-                if accion == "nuevo":
-                    if sku in skus_ok:
-                        errs.append("el código ya existe en productos.csv")
-                    if str(r["retailer"]).strip() not in retailers_ok:
-                        errs.append(f"retailer '{r['retailer']}' no es una clave válida")
-                    if pd.notna(r["categoria"]) and str(r["categoria"]).strip() not in cats_ok:
-                        errs.append(f"categoría '{r['categoria']}' no coincide con las existentes")
-                    if pd.notna(r["subcategoria"]) and str(r["subcategoria"]).strip() not in subcats_ok:
-                        errs.append(f"subcategoría '{r['subcategoria']}' no coincide")
-                    nom = str(r["producto"]).lower()
-                    cat = str(r["categoria"]).strip().lower()
-                    un, rr, mr, mt = pd.to_numeric(pd.Series([r["unidades"], r["rollos"], r["metros_rollo"], r["metros_totales"]]), errors="coerce")
-                    if cat == "servilletas":
-                        if pd.isna(un):
-                            errs.append("servilletas: falta 'unidades'")
-                        if pd.notna(rr) or pd.notna(mr) or pd.notna(mt):
-                            errs.append("servilletas: sobran rollos/metros_rollo/metros_totales (van vacíos)")
-                    else:
-                        if pd.notna(un):
-                            errs.append("tiene 'unidades' cargado pero no es servilleta (se ignora)")
-                        if pd.isna(rr) or pd.isna(mr):
-                            p_rr, _ = _parse_rollos_metros(r["producto"])
-                            if p_rr is None:
-                                errs.append("falta rollos y/o metros_rollo (y no se pueden sacar del nombre)")
-                        if pd.isna(mt) and (pd.isna(rr) or pd.isna(mr)):
-                            errs.append("falta metros_totales")
-                        elif pd.notna(rr) and pd.notna(mr) and pd.notna(mt) and abs(rr * mr - mt) > max(2, mt * 0.05):
-                            errs.append(f"rollos×metros_rollo ({rr:g}×{mr:g}) no da metros_totales ({mt:g})")
-                    if "toall" in nom and "toalla" not in cat:
-                        errs.append(f"el nombre dice 'toalla' pero la categoría es '{r['categoria']}'")
-                    if ("higien" in nom or "papel hig" in nom) and "higien" not in cat:
-                        errs.append(f"el nombre parece papel higiénico pero la categoría es '{r['categoria']}'")
-                if errs:
-                    problemas.append(f"**{sku or '(sin código)'}**: " + "; ".join(errs))
+    if CATALOGO_CSV_URL:
+        catalogo_raw = cargar_catalogo_planilla()
+        if not catalogo_raw.empty:
+            retailers_ok = set(yaml.safe_load(open(BASE_DIR / "retailers.yaml", encoding="utf-8")).keys())
+            problemas = _validar_catalogo_planilla(catalogo_raw, retailers_ok)
+            base_actual = set(pd.read_csv(BASE_DIR / "productos.csv", comment="#", skip_blank_lines=True).dropna(subset=["sku_interno"])["sku_interno"])
+            caida = len(base_actual) - catalogo_raw["sku_interno"].nunique()
+            if base_actual and caida > len(base_actual) * 0.3:
+                st.error(
+                    f"🚫 La planilla tiene muchos menos productos que el catálogo actual "
+                    f"({catalogo_raw['sku_interno'].nunique()} vs {len(base_actual)} — más de 30% menos). "
+                    "Si esto no fue intencional, revisen la planilla: el scraper va a "
+                    "**ignorar todo el cambio** y seguir con el catálogo actual hasta que se corrija."
+                )
             if problemas:
-                st.warning("Filas de la planilla con algo para revisar:\n\n- " + "\n- ".join(problemas))
-            else:
-                st.caption(f"✅ {len(nuevos_raw)} fila(s) en la planilla, todas válidas.")
+                st.warning("Filas de la planilla con algo para revisar (se ignoran, no frenan al resto):\n\n- " + "\n- ".join(problemas))
+            elif not (base_actual and caida > len(base_actual) * 0.3):
+                st.caption(f"✅ {catalogo_raw['sku_interno'].nunique()} producto(s) en la planilla, todos válidos.")
 
 estado_scraper = cargar_estado_scraper() if not _ES_VENTA else None
 if estado_scraper:
@@ -1116,6 +1154,16 @@ if estado_scraper:
     sku_off = estado_scraper.get("sku_desactivados", 0)
     icono = "✅" if not fallos else "⚠️"
     with st.expander(f"{icono} Salud del scraper — última corrida: {exitosos}/{total} SKU actualizados ({estado_scraper.get('fecha', '')})"):
+        catalogo_sync = estado_scraper.get("catalogo_planilla") or {}
+        if catalogo_sync.get("motivo_rechazo"):
+            st.error(f"🚫 La planilla de Catálogo se ignoró en la última corrida: {catalogo_sync['motivo_rechazo']}")
+        elif catalogo_sync.get("aplicado"):
+            st.success(f"📋 Catálogo sincronizado desde la planilla en la última corrida: {catalogo_sync.get('filas_aplicadas', 0)} producto(s).")
+        if catalogo_sync.get("problemas"):
+            with st.popover("Ver filas de la planilla ignoradas en la última corrida"):
+                st.markdown("- " + "\n- ".join(catalogo_sync["problemas"]))
+        if estado_scraper.get("catalogo_planilla_aviso"):
+            st.caption(f"⚠️ {estado_scraper['catalogo_planilla_aviso']}")
         if retailers_off:
             st.info(
                 f"⏸️ **{', '.join(retailers_off)}** deshabilitado ({sku_off} SKU) — bloqueo total "
