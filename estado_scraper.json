@@ -1,7 +1,7 @@
 {
-  "fecha": "24/09/2026 05:35 hrs",
+  "fecha": "24/09/2026 12:58 hrs",
   "total_skus": 541,
-  "exitosos": 520,
+  "exitosos": 525,
   "fallos": [
     {
       "retailer": "santaisabel",
@@ -11,16 +11,6 @@
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-016",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-245",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-254",
       "error": "Sin stock"
     },
     {
@@ -45,8 +35,23 @@
     },
     {
       "retailer": "alvi",
+      "sku_interno": "TC-302",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-305",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
       "sku_interno": "TC-307",
       "error": "HTTP 404"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-104",
+      "error": "HTTP 403"
     },
     {
       "retailer": "jumbo",
@@ -54,39 +59,9 @@
       "error": "HTTP 404"
     },
     {
-      "retailer": "tottus",
-      "sku_interno": "TC-031",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-104",
-      "error": "No se encontró el precio en el HTML"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-285",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "acuenta",
-      "sku_interno": "TC-138",
-      "error": "SKU '4528517' no encontrado en Instaleap"
-    },
-    {
-      "retailer": "acuenta",
-      "sku_interno": "TC-140",
-      "error": "SKU '395004' no encontrado en Instaleap"
-    },
-    {
-      "retailer": "acuenta",
-      "sku_interno": "TC-144",
-      "error": "SKU '475492' no encontrado en Instaleap"
-    },
-    {
-      "retailer": "acuenta",
-      "sku_interno": "TC-320",
-      "error": "SKU '309257' no encontrado en Instaleap"
+      "retailer": "jumbo",
+      "sku_interno": "TC-350",
+      "error": "HTTP 404"
     },
     {
       "retailer": "liquimax",
@@ -111,7 +86,11 @@
   ],
   "overrides_url_aplicados": 0,
   "overrides_url_aviso": null,
-  "sku_desde_planilla": 0,
+  "sku_desde_planilla": {
+    "agregados": 0,
+    "editados": 0,
+    "borrados": 0
+  },
   "sku_desde_planilla_aviso": null,
   "retailers_desactivados": [],
   "sku_desactivados": 0
