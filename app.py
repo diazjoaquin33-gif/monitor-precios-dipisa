@@ -721,46 +721,6 @@ def _aplicar_formato_jefe(ws, df_out):
         ws.column_dimensions[ws.cell(row=1, column=col_i).column_letter].width = min(max(ancho + 2, 8), 40)
 
 
-def _armar_export(df_export):
-    """Versión "para humanos" del dataframe interno, pensada para abrirse en
-    Excel: nombres de columna en español, precios ya formateados en CLP en
-    vez de floats crudos, y sin las columnas internas (sku_interno, index de
-    merge, etc.) que no significan nada fuera de la app."""
-    filas = []
-    for _, r in df_export.iterrows():
-        cat = CAT_ABREVIADA.get(r["categoria"], "")
-        sector = _sector_plano(r.get("segmento"))
-        filas.append({
-            "Grupo": _num_grupo(r),
-            "Retailer": r["retailer_nombre"],
-            "Categoría": r["categoria"],
-            "Cat": cat,
-            "Subcategoría": r["subcategoria"],
-            "Fabrica": _fabricante(r["marca"]),
-            "Sector": sector,
-            "Cod": f"{cat} {sector}".strip() if sector else "",
-            "Segmento": r.get("segmento") or "",
-            "Producto estándar": _producto_estandar(r),
-            "Marca": r["marca"],
-            "Producto": r["producto"],
-            "Metros totales": "" if pd.isna(r.get("metros_totales")) else r["metros_totales"],
-            "Unidades": int(r["unidades"]) if r["categoria"] == "Servilletas" and pd.notna(r.get("unidades")) else "",
-            "Packs por manga/caja": int(r["packs_por_bulto"]) if pd.notna(r.get("packs_por_bulto")) and r["packs_por_bulto"] > 1 else "",
-            "Precio manga/caja": _formatear_clp(r.get("precio_manga")) if pd.notna(r.get("precio_manga")) else "",
-            "Precio pack": _formatear_clp(r.get("precio_pack")) if pd.notna(r.get("precio_pack")) else "",
-            "Precio Lista": _formatear_clp(r["precio_normal"]),
-            "Precio Oferta": _formatear_clp(r["precio"]) if pd.notna(r["descuento_pct"]) else "",
-            "Descuento %": f"{int(r['descuento_pct'])}%" if pd.notna(r["descuento_pct"]) else "",
-            "Precio 2+ un (mayorista)": _formatear_clp(r.get("precio_socio2")) if pd.notna(r.get("precio_socio2")) else "",
-            "$/Metro 2+ un": f"${r['precio_metro_2un']}/m" if pd.notna(r.get("precio_metro_2un")) else "",
-            "$/Metro o $/unidad": f"${r['precio_ref']}/{r.get('ref_unidad', 'm')}" if pd.notna(r.get("precio_ref")) else "N/D",
-            "Estado": r["estado"],
-            "Última actualización": r.get("fecha_act") or "",
-            "Link": r.get("url"),
-        })
-    return pd.DataFrame(filas)
-
-
 def _fmt_formato(r):
     if r.get("categoria") == "Servilletas" and pd.notna(r.get("unidades")):
         base = f"{int(r['unidades'])} un · {r['subcategoria']}"
@@ -1068,18 +1028,6 @@ if not _ES_VENTA:
     c3.metric("Sin dato reciente", len(pendientes))
 
     st.divider()
-
-# separador ";" porque el Excel en español/Chile usa "," como separador decimal
-# y por lo tanto ";" entre columnas — con "," todo el CSV aparece amontonado en
-# una sola columna al abrirlo.
-st.sidebar.download_button(
-    "⬇️ Descargar CSV (todo)",
-    data=_armar_export(df_completo[~df_completo["retailer_desactivado"]]).to_csv(index=False, sep=";").encode("utf-8-sig"),
-    file_name="precios_dipisa.csv",
-    mime="text/csv",
-    width="stretch",
-    help="Exporta el monitor completo (todos los retailers y categorías), sin importar el filtro de pantalla.",
-)
 
 _buf_jefe = io.BytesIO()
 _df_jefe = _armar_export_formato_jefe(df_completo[~df_completo["retailer_desactivado"]])
