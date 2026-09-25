@@ -1,7 +1,7 @@
 {
-  "fecha": "25/09/2026 00:04 hrs",
+  "fecha": "25/09/2026 05:57 hrs",
   "total_skus": 541,
-  "exitosos": 527,
+  "exitosos": 525,
   "fallos": [
     {
       "retailer": "santaisabel",
@@ -39,14 +39,29 @@
       "error": "HTTP 404"
     },
     {
-      "retailer": "jumbo",
-      "sku_interno": "TC-347",
-      "error": "HTTP 404"
+      "retailer": "tottus",
+      "sku_interno": "TC-009",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-032",
+      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
       "sku_interno": "TC-104",
-      "error": "HTTP 403"
+      "error": "No se encontró el precio en el HTML"
+    },
+    {
+      "retailer": "jumbo",
+      "sku_interno": "TC-068",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "jumbo",
+      "sku_interno": "TC-347",
+      "error": "HTTP 404"
     },
     {
       "retailer": "liquimax",
@@ -67,11 +82,6 @@
       "retailer": "unimarc",
       "sku_interno": "TC-218",
       "error": "HTTP 404"
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-532",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
     }
   ],
   "overrides_url_aplicados": 0,
