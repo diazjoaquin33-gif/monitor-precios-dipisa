@@ -74,13 +74,18 @@ jobs:
           # productos.csv se incluye porque el scraper lo reescribe solo cuando
           # la planilla de Catálogo trae cambios válidos (sincronizar_desde_catalogo).
           # respaldos/ son copias fechadas de productos.csv, una por semana
-          # (guardar_respaldo_semanal en scraper.py). historial_catalogo.json
-          # son las altas/bajas/ediciones de catálogo que muestra la app
-          # (_registrar_cambios_catalogo en scraper.py) — no existe hasta la
-          # primera corrida que detecte un cambio, de ahí --ignore-errors.
+          # (guardar_respaldo_semanal en scraper.py).
           git add --ignore-errors \
             datos_procesados.json historial_precios.csv estado_scraper.json \
-            url_overrides_cache.json catalogo_cache.csv productos.csv respaldos/ \
-            historial_catalogo.json || true
+            url_overrides_cache.json catalogo_cache.csv productos.csv respaldos/ || true
+          # historial_catalogo.json (altas/bajas/ediciones de catálogo que
+          # muestra la app, ver _registrar_cambios_catalogo en scraper.py) no
+          # existe hasta la primera corrida que detecte un cambio real — un
+          # "git add" de un archivo que todavía no existe en ningún lado es
+          # SIEMPRE fatal (aborta TODO el comando, no solo ese archivo) aunque
+          # se use --ignore-errors, así que se agrega aparte y solo si existe.
+          if [ -f historial_catalogo.json ]; then
+            git add historial_catalogo.json
+          fi
           # Si hay cambios en los precios, los sube a GitHub automáticamente
           git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Actualización automática de precios" && git push)
