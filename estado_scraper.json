@@ -1,7 +1,7 @@
 {
-  "fecha": "25/09/2026 05:57 hrs",
+  "fecha": "25/09/2026 12:58 hrs",
   "total_skus": 541,
-  "exitosos": 525,
+  "exitosos": 526,
   "fallos": [
     {
       "retailer": "santaisabel",
@@ -16,6 +16,11 @@
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-386",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-391",
       "error": "Sin stock"
     },
     {
@@ -40,23 +45,13 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-009",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-032",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
       "sku_interno": "TC-104",
-      "error": "No se encontró el precio en el HTML"
+      "error": "HTTP 403"
     },
     {
-      "retailer": "jumbo",
-      "sku_interno": "TC-068",
-      "error": "HTTP 404"
+      "retailer": "acuenta",
+      "sku_interno": "TC-138",
+      "error": "SKU '4528517' no encontrado en Instaleap"
     },
     {
       "retailer": "jumbo",
