@@ -1,13 +1,8 @@
 {
-  "fecha": "26/09/2026 12:08 hrs",
+  "fecha": "26/09/2026 19:58 hrs",
   "total_skus": 541,
-  "exitosos": 528,
+  "exitosos": 529,
   "fallos": [
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-016",
-      "error": "Sin stock"
-    },
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-262",
