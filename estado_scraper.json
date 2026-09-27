@@ -1,7 +1,7 @@
 {
-  "fecha": "27/09/2026 12:48 hrs",
+  "fecha": "27/09/2026 20:12 hrs",
   "total_skus": 541,
-  "exitosos": 529,
+  "exitosos": 528,
   "fallos": [
     {
       "retailer": "santaisabel",
@@ -37,6 +37,11 @@
       "retailer": "tottus",
       "sku_interno": "TC-104",
       "error": "HTTP 403"
+    },
+    {
+      "retailer": "acuenta",
+      "sku_interno": "TC-131",
+      "error": "SKU '1103955' no encontrado en Instaleap"
     },
     {
       "retailer": "jumbo",
