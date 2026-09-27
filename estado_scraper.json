@@ -1,7 +1,7 @@
 {
-  "fecha": "27/09/2026 06:23 hrs",
+  "fecha": "27/09/2026 12:48 hrs",
   "total_skus": 541,
-  "exitosos": 528,
+  "exitosos": 529,
   "fallos": [
     {
       "retailer": "santaisabel",
@@ -62,11 +62,6 @@
       "retailer": "unimarc",
       "sku_interno": "TC-218",
       "error": "HTTP 404"
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-495",
-      "error": "HTTP 500"
     }
   ],
   "overrides_url_aplicados": 0,
