@@ -1,7 +1,7 @@
 {
-  "fecha": "27/09/2026 20:12 hrs",
+  "fecha": "28/09/2026 06:54 hrs",
   "total_skus": 541,
-  "exitosos": 528,
+  "exitosos": 527,
   "fallos": [
     {
       "retailer": "santaisabel",
@@ -39,14 +39,19 @@
       "error": "HTTP 403"
     },
     {
-      "retailer": "acuenta",
-      "sku_interno": "TC-131",
-      "error": "SKU '1103955' no encontrado en Instaleap"
+      "retailer": "tottus",
+      "sku_interno": "TC-379",
+      "error": "HTTP 403"
     },
     {
       "retailer": "jumbo",
       "sku_interno": "TC-347",
       "error": "HTTP 404"
+    },
+    {
+      "retailer": "acuenta",
+      "sku_interno": "TC-131",
+      "error": "SKU '1103955' no encontrado en Instaleap"
     },
     {
       "retailer": "liquimax",
