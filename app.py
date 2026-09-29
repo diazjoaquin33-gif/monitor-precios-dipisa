@@ -343,8 +343,18 @@ def cargar_datos():
     faltan = (df["rollos"].isna() | df["metros_rollo"].isna()) & ~es_serv
     if faltan.any():
         parsed = df.loc[faltan, "producto"].map(_parse_rollos_metros)
-        df.loc[faltan, "rollos"] = df.loc[faltan, "rollos"].fillna(parsed.map(lambda t: t[0]))
-        df.loc[faltan, "metros_rollo"] = df.loc[faltan, "metros_rollo"].fillna(parsed.map(lambda t: t[1]))
+        # pd.to_numeric (no .map crudo): _parse_rollos_metros devuelve None
+        # cuando el nombre no matchea ningún patrón (ej. un producto de
+        # prueba tipo "Testeo", sin rollos/metros ni en el nombre ni
+        # cargados a mano). Rellenar con una Serie que trae None en vez de
+        # NaN hace que pandas 2.x pase la columna entera a dtype object en
+        # silencio (con un FutureWarning), y más abajo los $/metro truenan
+        # con "Expected numeric dtype, got object instead" al hacer
+        # .round() sobre una columna que dejó de ser numérica.
+        rollos_parsed = pd.to_numeric(parsed.map(lambda t: t[0]), errors="coerce")
+        metros_parsed = pd.to_numeric(parsed.map(lambda t: t[1]), errors="coerce")
+        df.loc[faltan, "rollos"] = df.loc[faltan, "rollos"].fillna(rollos_parsed)
+        df.loc[faltan, "metros_rollo"] = df.loc[faltan, "metros_rollo"].fillna(metros_parsed)
     sin_mt = df["metros_totales"].isna() & df["rollos"].notna() & df["metros_rollo"].notna()
     df.loc[sin_mt, "metros_totales"] = df.loc[sin_mt, "rollos"] * df.loc[sin_mt, "metros_rollo"]
     df["segmento"] = df.apply(_segmento, axis=1)
