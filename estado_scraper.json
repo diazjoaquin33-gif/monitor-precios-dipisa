@@ -1,8 +1,23 @@
 {
-  "fecha": "28/09/2026 15:45 hrs",
+  "fecha": "28/09/2026 21:31 hrs",
   "total_skus": 541,
-  "exitosos": 525,
+  "exitosos": 522,
   "fallos": [
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-019",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-240",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-245",
+      "error": "Sin stock"
+    },
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-252",
@@ -11,6 +26,11 @@
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-254",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-258",
       "error": "Sin stock"
     },
     {
@@ -45,23 +65,18 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-029",
-      "error": "No se encontró el precio en el HTML"
-    },
-    {
-      "retailer": "tottus",
       "sku_interno": "TC-104",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "jumbo",
-      "sku_interno": "TC-347",
-      "error": "HTTP 404"
+      "error": "No se encontró el precio en el HTML"
     },
     {
       "retailer": "acuenta",
       "sku_interno": "TC-131",
       "error": "SKU '1103955' no encontrado en Instaleap"
+    },
+    {
+      "retailer": "jumbo",
+      "sku_interno": "TC-347",
+      "error": "HTTP 404"
     },
     {
       "retailer": "liquimax",
