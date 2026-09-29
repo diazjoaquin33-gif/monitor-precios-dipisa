@@ -1114,7 +1114,7 @@ if not _ES_VENTA:
 
             detalle["Alerta"] = detalle["dias_sin_dato"].map(_alerta)
             severidades_detalle = list(detalle["dias_sin_dato"].map(_severidad_dato))
-            vista = detalle.rename(columns={
+            vista_pendientes = detalle.rename(columns={
                 "sku_interno": "SKU", "retailer_nombre": "Retailer", "marca": "Marca",
                 "producto": "Producto", "url": "Ver",
             }).drop(columns=["dias_sin_dato"]).reset_index(drop=True)
@@ -1126,12 +1126,12 @@ if not _ES_VENTA:
 
             try:
                 st.dataframe(
-                    vista.style.apply(_resaltar_detalle, axis=1), width="stretch",
+                    vista_pendientes.style.apply(_resaltar_detalle, axis=1), width="stretch",
                     hide_index=True, column_config=COLUMN_CONFIG,
                 )
             except TypeError:
                 st.dataframe(
-                    vista.style.apply(_resaltar_detalle, axis=1), use_container_width=True,
+                    vista_pendientes.style.apply(_resaltar_detalle, axis=1), use_container_width=True,
                     hide_index=True, column_config=COLUMN_CONFIG,
                 )
 
