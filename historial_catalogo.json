@@ -1,0 +1,3254 @@
+[
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "alta",
+    "sku": "TC-568",
+    "detalle": "Testeo (Testeo)"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-001",
+    "detalle": "Sector: '' → '4 x 25 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-002",
+    "detalle": "Sector: '' → '40 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-003",
+    "detalle": "Sector: '' → '40 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-004",
+    "detalle": "Sector: '' → '40 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-006",
+    "detalle": "Sector: '' → '6 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-007",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-008",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-009",
+    "detalle": "Sector: '' → '12 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-010",
+    "detalle": "Sector: '' → '8 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-011",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-012",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-013",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-014",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-015",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-016",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-017",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-018",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-019",
+    "detalle": "Sector: '' → '4 x 25 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-020",
+    "detalle": "Sector: '' → '6 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-021",
+    "detalle": "Sector: '' → '6 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-022",
+    "detalle": "Sector: '' → '6 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-023",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-024",
+    "detalle": "Sector: '' → '8 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-025",
+    "detalle": "Sector: '' → '4 x 30 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-026",
+    "detalle": "Sector: '' → '4 x 25 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-027",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-028",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-029",
+    "detalle": "Sector: '' → '4 x 25 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-030",
+    "detalle": "Sector: '' → '4 x 25 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-031",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-032",
+    "detalle": "Sector: '' → '6 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-033",
+    "detalle": "Sector: '' → '6 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-035",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-036",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-037",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-038",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-039",
+    "detalle": "Sector: '' → '8 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-040",
+    "detalle": "Sector: '' → '24 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-041",
+    "detalle": "Sector: '' → '40 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-042",
+    "detalle": "Sector: '' → '18 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-043",
+    "detalle": "Sector: '' → '12 x 27 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-044",
+    "detalle": "Sector: '' → '24 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-045",
+    "detalle": "Sector: '' → '12 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-046",
+    "detalle": "Sector: '' → '16 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-047",
+    "detalle": "Sector: '' → '40 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-048",
+    "detalle": "Sector: '' → '16 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-049",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-050",
+    "detalle": "Sector: '' → '18 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-051",
+    "detalle": "Sector: '' → '24 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-052",
+    "detalle": "Sector: '' → '40 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-053",
+    "detalle": "Sector: '' → '24 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-054",
+    "detalle": "Sector: '' → '40 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-055",
+    "detalle": "Sector: '' → '18 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-056",
+    "detalle": "Sector: '' → '8 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-057",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-058",
+    "detalle": "Sector: '' → '8 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-059",
+    "detalle": "Sector: '' → '12 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-060",
+    "detalle": "Sector: '' → '18 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-061",
+    "detalle": "Sector: '' → '8 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-062",
+    "detalle": "Sector: '' → '8 x 30 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-063",
+    "detalle": "Sector: '' → '6 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-064",
+    "detalle": "Sector: '' → '24 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-065",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-066",
+    "detalle": "Sector: '' → '4 x 30 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-067",
+    "detalle": "Sector: '' → '8 x 110 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-068",
+    "detalle": "Sector: '' → '12 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-069",
+    "detalle": "Sector: '' → '40 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-070",
+    "detalle": "Sector: '' → '8 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-071",
+    "detalle": "Sector: '' → '8 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-072",
+    "detalle": "Sector: '' → '8 x 110 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-073",
+    "detalle": "Sector: '' → '12 x 27 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-074",
+    "detalle": "Sector: '' → '8 x 110 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-075",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-076",
+    "detalle": "Sector: '' → '8 x 110 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-077",
+    "detalle": "Sector: '' → '40 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-078",
+    "detalle": "Sector: '' → '4 x 25 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-079",
+    "detalle": "Sector: '' → '8 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-080",
+    "detalle": "Sector: '' → '40 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-081",
+    "detalle": "Sector: '' → '12 x 27 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-082",
+    "detalle": "Sector: '' → '40 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-083",
+    "detalle": "Sector: '' → '24 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-084",
+    "detalle": "Sector: '' → '18 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-085",
+    "detalle": "Sector: '' → '40 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-086",
+    "detalle": "Sector: '' → '8 x 110 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-087",
+    "detalle": "Sector: '' → '8 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-088",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-089",
+    "detalle": "Sector: '' → '12 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-090",
+    "detalle": "Sector: '' → '24 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-091",
+    "detalle": "Sector: '' → '4 x 25 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-092",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-093",
+    "detalle": "Sector: '' → '40 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-094",
+    "detalle": "Sector: '' → '24 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-095",
+    "detalle": "Sector: '' → '40 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-096",
+    "detalle": "Sector: '' → '16 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-097",
+    "detalle": "Sector: '' → '8 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-098",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-099",
+    "detalle": "Sector: '' → '18 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-100",
+    "detalle": "Sector: '' → '8 x 30 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-101",
+    "detalle": "Sector: '' → '24 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-102",
+    "detalle": "Sector: '' → '8 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-103",
+    "detalle": "Sector: '' → '8 x 110 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-104",
+    "detalle": "Sector: '' → '40 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-105",
+    "detalle": "Sector: '' → '16 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-106",
+    "detalle": "Sector: '' → '18 x 27 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-107",
+    "detalle": "Sector: '' → '18 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-108",
+    "detalle": "Sector: '' → '16 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-109",
+    "detalle": "Sector: '' → '8 x 30 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-110",
+    "detalle": "Sector: '' → '6 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-111",
+    "detalle": "Sector: '' → '40 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-112",
+    "detalle": "Sector: '' → '40 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-113",
+    "detalle": "Sector: '' → '24 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-114",
+    "detalle": "Sector: '' → '40 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-115",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-116",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-117",
+    "detalle": "Sector: '' → '16 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-118",
+    "detalle": "Sector: '' → '16 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-119",
+    "detalle": "Sector: '' → '40 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-120",
+    "detalle": "Sector: '' → '40 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-121",
+    "detalle": "Sector: '' → '24 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-122",
+    "detalle": "Sector: '' → '8 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-123",
+    "detalle": "Sector: '' → '12 x 27 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-124",
+    "detalle": "Sector: '' → '18 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-125",
+    "detalle": "Sector: '' → '40 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-126",
+    "detalle": "Sector: '' → '24 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-127",
+    "detalle": "Sector: '' → '24 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-128",
+    "detalle": "Sector: '' → '40 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-129",
+    "detalle": "Sector: '' → '8 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-130",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-131",
+    "detalle": "Sector: '' → '40 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-132",
+    "detalle": "Sector: '' → '40 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-133",
+    "detalle": "Sector: '' → '40 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-134",
+    "detalle": "Sector: '' → '8 x 110 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-135",
+    "detalle": "Sector: '' → '40 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-136",
+    "detalle": "Sector: '' → '40 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-137",
+    "detalle": "Sector: '' → '8 x 30 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-138",
+    "detalle": "Sector: '' → '18 x 27 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-139",
+    "detalle": "Sector: '' → '8 x 110 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-140",
+    "detalle": "Sector: '' → '12 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-141",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-142",
+    "detalle": "Sector: '' → '6 x 32 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-143",
+    "detalle": "Sector: '' → '12 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-144",
+    "detalle": "Sector: '' → '8 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-166",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-167",
+    "detalle": "Sector: '' → '4 x 25 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-168",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-169",
+    "detalle": "Sector: '' → '40 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-170",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-171",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-172",
+    "detalle": "Sector: '' → '6 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-173",
+    "detalle": "Sector: '' → '18 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-174",
+    "detalle": "Sector: '' → '24 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-175",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-176",
+    "detalle": "Sector: '' → '8 x 110 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-177",
+    "detalle": "Sector: '' → '12 x 27 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-178",
+    "detalle": "Sector: '' → '8 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-179",
+    "detalle": "Sector: '' → '4 x 30 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-180",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-181",
+    "detalle": "Sector: '' → '4 x 30 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-182",
+    "detalle": "Sector: '' → '6 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-183",
+    "detalle": "Sector: '' → '4 x 25 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-184",
+    "detalle": "Sector: '' → '4 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-185",
+    "detalle": "Sector: '' → '24 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-186",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-187",
+    "detalle": "Sector: '' → '12 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-188",
+    "detalle": "Sector: '' → '12 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-189",
+    "detalle": "Sector: '' → '6 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-190",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-191",
+    "detalle": "Sector: '' → '6 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-192",
+    "detalle": "Sector: '' → '8 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-193",
+    "detalle": "Sector: '' → '4 x 25 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-194",
+    "detalle": "Sector: '' → '40 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-195",
+    "detalle": "Sector: '' → '40 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-196",
+    "detalle": "Sector: '' → '40 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-197",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-198",
+    "detalle": "Sector: '' → '2 x 14 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-199",
+    "detalle": "Sector: '' → '2 x 26 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-200",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-201",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-202",
+    "detalle": "Sector: '' → '1 x 70 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-203",
+    "detalle": "Sector: '' → '1 x 70 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-204",
+    "detalle": "Sector: '' → '1 x 26 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-205",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-206",
+    "detalle": "Sector: '' → '12 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-207",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-208",
+    "detalle": "Sector: '' → '1 x 150 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-209",
+    "detalle": "Sector: '' → '2 x 24 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-210",
+    "detalle": "Sector: '' → '1 x 45 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-211",
+    "detalle": "Sector: '' → '2 x 20 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-212",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-213",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-214",
+    "detalle": "Sector: '' → '2 x 26 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-215",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-216",
+    "detalle": "Sector: '' → '2 x 26 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-217",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-218",
+    "detalle": "Sector: '' → '2 x 20 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-219",
+    "detalle": "Sector: '' → '2 x 26 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-220",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-221",
+    "detalle": "Sector: '' → '2 x 20 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-222",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-223",
+    "detalle": "Sector: '' → '1 x 45 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-224",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-225",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-226",
+    "detalle": "Sector: '' → '12 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-227",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-228",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-229",
+    "detalle": "Sector: '' → '1 x 70 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-230",
+    "detalle": "Sector: '' → '2 x 26 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-231",
+    "detalle": "Sector: '' → '2 x 24 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-232",
+    "detalle": "Sector: '' → '1 x 45 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-233",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-234",
+    "detalle": "Sector: '' → '1 x 70 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-235",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-236",
+    "detalle": "Sector: '' → '2 x 26 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-237",
+    "detalle": "Sector: '' → '2 x 14 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-238",
+    "detalle": "Sector: '' → '2 x 60 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-239",
+    "detalle": "Sector: '' → '2 x 14 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-240",
+    "detalle": "Sector: '' → '1 x 45 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-241",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-242",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-243",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-244",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-245",
+    "detalle": "Sector: '' → '2 x 26 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-246",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-247",
+    "detalle": "Sector: '' → '2 x 26 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-248",
+    "detalle": "Sector: '' → '1 x 70 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-249",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-250",
+    "detalle": "Sector: '' → '1 x 70 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-251",
+    "detalle": "Sector: '' → '2 x 20 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-252",
+    "detalle": "Sector: '' → '2 x 14 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-253",
+    "detalle": "Sector: '' → '12 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-254",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-255",
+    "detalle": "Sector: '' → '2 x 24 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-256",
+    "detalle": "Sector: '' → '2 x 14 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-257",
+    "detalle": "Sector: '' → '1 x 45 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-258",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-259",
+    "detalle": "Sector: '' → '2 x 20 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-260",
+    "detalle": "Sector: '' → '2 x 60 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-261",
+    "detalle": "Sector: '' → '1 x 70 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-262",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-263",
+    "detalle": "Sector: '' → '2 x 26 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-264",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-265",
+    "detalle": "Sector: '' → '1 x 70 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-266",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-267",
+    "detalle": "Sector: '' → '2 x 26 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-268",
+    "detalle": "Sector: '' → '1 x 45 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-269",
+    "detalle": "Sector: '' → '2 x 20 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-270",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-271",
+    "detalle": "Sector: '' → '2 x 26 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-272",
+    "detalle": "Sector: '' → '2 x 26 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-273",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-274",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-275",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-276",
+    "detalle": "Sector: '' → '1 x 26 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-277",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-278",
+    "detalle": "Sector: '' → '1 x 45 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-279",
+    "detalle": "Sector: '' → '12 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-280",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-281",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-282",
+    "detalle": "Sector: '' → '1 x 70 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-283",
+    "detalle": "Sector: '' → '2 x 14 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-284",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-285",
+    "detalle": "Sector: '' → '2 x 26 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-286",
+    "detalle": "Sector: '' → '2 x 14 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-287",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-288",
+    "detalle": "Sector: '' → '1 x 45 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-289",
+    "detalle": "Sector: '' → '2 x 26 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-290",
+    "detalle": "Sector: '' → '1 x 80 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-291",
+    "detalle": "Sector: '' → '1 x 26 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-292",
+    "detalle": "Sector: '' → '1 x 70 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-293",
+    "detalle": "Sector: '' → '2 x 20 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-294",
+    "detalle": "Sector: '' → '1 x 70 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-295",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-296",
+    "detalle": "Sector: '' → '1 x 150 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-297",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-298",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-299",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-300",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-301",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-302",
+    "detalle": "Sector: '' → '2 x 26 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-303",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-304",
+    "detalle": "Sector: '' → '1 x 26 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-305",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-306",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-307",
+    "detalle": "Sector: '' → '2 x 20 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-308",
+    "detalle": "Sector: '' → '1 x 45 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-309",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-310",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-311",
+    "detalle": "Sector: '' → '1 x 80 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-312",
+    "detalle": "Sector: '' → '2 x 14 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-313",
+    "detalle": "Sector: '' → '2 x 26 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-314",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-315",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-316",
+    "detalle": "Sector: '' → '2 x 20 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-317",
+    "detalle": "Sector: '' → '1 x 70 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-318",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-319",
+    "detalle": "Sector: '' → '2 x 20 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-320",
+    "detalle": "Sector: '' → '2 x 26 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-321",
+    "detalle": "Sector: '' → '2 x 20 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-322",
+    "detalle": "Sector: '' → '1 x 45 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-323",
+    "detalle": "Sector: '' → '1 x 70 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-324",
+    "detalle": "Sector: '' → '1 x 45 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-325",
+    "detalle": "Sector: '' → '1 x 80 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-326",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-327",
+    "detalle": "Sector: '' → '150 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-328",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-329",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-330",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-331",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-332",
+    "detalle": "Sector: '' → '150 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-333",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-334",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-335",
+    "detalle": "Sector: '' → '20 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-336",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-337",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-338",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-339",
+    "detalle": "Sector: '' → '400 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-340",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-341",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-342",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-343",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-344",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-345",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-346",
+    "detalle": "Sector: '' → '400 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-347",
+    "detalle": "Sector: '' → '20 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-348",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-349",
+    "detalle": "Sector: '' → '150 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-350",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-351",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-352",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-353",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-354",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-355",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-356",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-357",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-358",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-359",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-360",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-361",
+    "detalle": "Sector: '' → '20 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-362",
+    "detalle": "Sector: '' → '20 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-363",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-364",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-365",
+    "detalle": "Sector: '' → '150 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-366",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-367",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-368",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-369",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-370",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-371",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-372",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-373",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-374",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-375",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-376",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-377",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-378",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-379",
+    "detalle": "Sector: '' → '400 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-380",
+    "detalle": "Sector: '' → '150 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-381",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-382",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-383",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-384",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-385",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-386",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-387",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-388",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-389",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-390",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-391",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-392",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-393",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-394",
+    "detalle": "Sector: '' → '20 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-395",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-396",
+    "detalle": "Sector: '' → '400 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-397",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-398",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-399",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-400",
+    "detalle": "Sector: '' → '150 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-401",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-402",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-403",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-404",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-405",
+    "detalle": "Sector: '' → '150 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-406",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-407",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-408",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-409",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-410",
+    "detalle": "Sector: '' → '400 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-411",
+    "detalle": "Sector: '' → '150 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-412",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-413",
+    "detalle": "Sector: '' → '150 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-414",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-415",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-416",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-417",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-418",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-419",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-420",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-421",
+    "detalle": "Sector: '' → '4 x 30 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-422",
+    "detalle": "Sector: '' → '6 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-423",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-424",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-425",
+    "detalle": "Sector: '' → '4 x 25 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-426",
+    "detalle": "Sector: '' → '12 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-427",
+    "detalle": "Sector: '' → '4 x 25 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-428",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-429",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-430",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-431",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-432",
+    "detalle": "Sector: '' → '8 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-433",
+    "detalle": "Sector: '' → '6 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-434",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-435",
+    "detalle": "Sector: '' → '6 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-436",
+    "detalle": "Sector: '' → '16 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-437",
+    "detalle": "Sector: '' → 'Institucional'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-438",
+    "detalle": "Sector: '' → 'Institucional'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-439",
+    "detalle": "Sector: '' → '1 x 70 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-440",
+    "detalle": "Sector: '' → '1 x 70 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-441",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-442",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-443",
+    "detalle": "Sector: '' → '2 x 20 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-444",
+    "detalle": "Sector: '' → '2 x 26 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-445",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-446",
+    "detalle": "Sector: '' → 'Institucional'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-447",
+    "detalle": "Sector: '' → 'Institucional'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-448",
+    "detalle": "Sector: '' → '1 x 26 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-449",
+    "detalle": "Sector: '' → '1 x 80 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-450",
+    "detalle": "Sector: '' → '1 x 26 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-451",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-452",
+    "detalle": "Sector: '' → 'Institucional'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-453",
+    "detalle": "Sector: '' → '1 x 150 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-454",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-455",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-456",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-457",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-458",
+    "detalle": "Sector: '' → '400 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-459",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-460",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-461",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-462",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-463",
+    "detalle": "Sector: '' → '150 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-464",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-465",
+    "detalle": "Sector: '' → '12 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-466",
+    "detalle": "Sector: '' → '4 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-467",
+    "detalle": "Sector: '' → '4 x 30 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-468",
+    "detalle": "Sector: '' → '4 x 25 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-469",
+    "detalle": "Sector: '' → '6 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-470",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-471",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-472",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-473",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-474",
+    "detalle": "Sector: '' → '12 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-475",
+    "detalle": "Sector: '' → 'Institucional'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-476",
+    "detalle": "Sector: '' → '4 x 25 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-477",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-478",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-479",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-480",
+    "detalle": "Sector: '' → '2 x 20 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-481",
+    "detalle": "Sector: '' → '1 x 70 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-482",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-483",
+    "detalle": "Sector: '' → '2 x 20 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-484",
+    "detalle": "Sector: '' → '1 x 80 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-485",
+    "detalle": "Sector: '' → '2 x 60 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-486",
+    "detalle": "Sector: '' → '2 x 24 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-487",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-488",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-489",
+    "detalle": "Sector: '' → '150 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-490",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-491",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-492",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-493",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-494",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-495",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-496",
+    "detalle": "Sector: '' → '4 x 25 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-497",
+    "detalle": "Sector: '' → '6 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-498",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-499",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-500",
+    "detalle": "Sector: '' → '1 x 80 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-501",
+    "detalle": "Sector: '' → '6 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-502",
+    "detalle": "Sector: '' → '2 x 24 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-503",
+    "detalle": "Sector: '' → '6 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-504",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-505",
+    "detalle": "Sector: '' → '8 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-506",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-507",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-508",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-509",
+    "detalle": "Sector: '' → 'Institucional'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-510",
+    "detalle": "Sector: '' → 'Institucional'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-511",
+    "detalle": "Sector: '' → '2 x 20 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-512",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-513",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-514",
+    "detalle": "Sector: '' → '1 x 45 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-515",
+    "detalle": "Sector: '' → '4 x 22 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-516",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-517",
+    "detalle": "Sector: '' → '4 x 30 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-518",
+    "detalle": "Sector: '' → 'Institucional'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-519",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-520",
+    "detalle": "Sector: '' → 'Institucional'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-521",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-522",
+    "detalle": "Sector: '' → 'Institucional'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-523",
+    "detalle": "Sector: '' → 'Institucional'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-524",
+    "detalle": "Sector: '' → '2 x 24 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-525",
+    "detalle": "Sector: '' → 'Institucional'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-526",
+    "detalle": "Sector: '' → '1 x 70 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-527",
+    "detalle": "Sector: '' → '4 x 30 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-528",
+    "detalle": "Sector: '' → '12 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-529",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-530",
+    "detalle": "Sector: '' → 'Institucional'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-531",
+    "detalle": "Sector: '' → '1 x 45 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-532",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-533",
+    "detalle": "Sector: '' → '2 x 24 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-534",
+    "detalle": "Sector: '' → '1 x 80 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-535",
+    "detalle": "Sector: '' → '2 x 60 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-536",
+    "detalle": "Sector: '' → '1 x 80 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-537",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-538",
+    "detalle": "Sector: '' → '1 x 70 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-539",
+    "detalle": "Sector: '' → 'Institucional'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-540",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-541",
+    "detalle": "Sector: '' → '2 x 24 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-542",
+    "detalle": "Sector: '' → '1 x 100 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-543",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-544",
+    "detalle": "Sector: '' → '1 x 70 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-545",
+    "detalle": "Sector: '' → 'Institucional'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-546",
+    "detalle": "Sector: '' → '1 x 70 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-547",
+    "detalle": "Sector: '' → '3 x 12 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-548",
+    "detalle": "Sector: '' → '1 x 45 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-549",
+    "detalle": "Sector: '' → '4 x 50 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-551",
+    "detalle": "Sector: '' → 'Institucional'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-553",
+    "detalle": "Sector: '' → 'Institucional'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-554",
+    "detalle": "Sector: '' → 'Institucional'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-555",
+    "detalle": "Sector: '' → 'Institucional'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-556",
+    "detalle": "Sector: '' → '1 x 70 mt'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-557",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-558",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-559",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-560",
+    "detalle": "Sector: '' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-561",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-562",
+    "detalle": "Sector: '' → '200 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-563",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-564",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-566",
+    "detalle": "Sector: '' → '300 un'"
+  },
+  {
+    "fecha": "29/09/2026 10:32 hrs",
+    "tipo": "edicion",
+    "sku": "TC-567",
+    "detalle": "Sector: '' → '200 un'"
+  }
+]
