@@ -3940,5 +3940,17 @@
     "tipo": "edicion",
     "sku": "TC-568",
     "detalle": "Producto: 'Testeo' → 'Toallas Húmedas Aqua Baby WC 50 un.'; Marca: 'Testeo' → 'Aqua Baby'; Metros totales: '18' → ''; Retailer: 'unimarc' → 'jumbo'; Link: 'https://www.unimarc.cl/product/palta-hass-1-kg-6-u-aprox' → 'https://www.jumbo.cl/toallita-humeda-2036266/p'; Categoría: 'Cojin' → 'Toallitas Humedas'; Subcategoría: 'hola' → 'Bebé'; Unidades: '' → '50'; Grupo: '' → '222'; Nombre estándar: 'no cacho' → 'Aqua Baby WC x50'; Sector: '30' → '50 un'"
+  },
+  {
+    "fecha": "29/09/2026 13:53 hrs",
+    "tipo": "edicion",
+    "sku": "TC-575",
+    "detalle": "Unidades: '50' → '100'"
+  },
+  {
+    "fecha": "29/09/2026 13:53 hrs",
+    "tipo": "edicion",
+    "sku": "TC-587",
+    "detalle": "Unidades: '45' → '135'"
   }
 ]

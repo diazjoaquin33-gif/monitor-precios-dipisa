@@ -1,18 +1,8 @@
 {
-  "fecha": "29/09/2026 11:52 hrs",
+  "fecha": "29/09/2026 14:04 hrs",
   "total_skus": 656,
-  "exitosos": 622,
+  "exitosos": 617,
   "fallos": [
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-008",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-019",
-      "error": "Sin stock"
-    },
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-020",
@@ -26,11 +16,6 @@
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-252",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-258",
       "error": "Sin stock"
     },
     {
@@ -75,12 +60,17 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-010",
+      "sku_interno": "TC-023",
       "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-032",
+      "sku_interno": "TC-101",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-103",
       "error": "HTTP 403"
     },
     {
@@ -90,7 +80,17 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-112",
+      "sku_interno": "TC-105",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-115",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-116",
       "error": "HTTP 403"
     },
     {
@@ -100,17 +100,27 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-125",
+      "sku_interno": "TC-121",
       "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-264",
+      "sku_interno": "TC-129",
       "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-267",
+      "sku_interno": "TC-265",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-271",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-273",
       "error": "HTTP 403"
     },
     {
@@ -120,7 +130,17 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-285",
+      "sku_interno": "TC-365",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-366",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-373",
       "error": "HTTP 403"
     },
     {
@@ -130,13 +150,13 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-593",
+      "sku_interno": "TC-575",
       "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
       "sku_interno": "TC-594",
-      "error": "No se encontró el precio en el HTML"
+      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -145,13 +165,13 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-645",
+      "sku_interno": "TC-678",
       "error": "HTTP 403"
     },
     {
-      "retailer": "tottus",
-      "sku_interno": "TC-677",
-      "error": "HTTP 403"
+      "retailer": "jumbo",
+      "sku_interno": "TC-610",
+      "error": "HTTP 404"
     },
     {
       "retailer": "liquimax",
@@ -172,6 +192,11 @@
       "retailer": "unimarc",
       "sku_interno": "TC-218",
       "error": "HTTP 404"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-525",
+      "error": "Error imanweb: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without"
     }
   ],
   "overrides_url_aplicados": 0,
@@ -183,579 +208,14 @@
     "motivo_rechazo": null,
     "cambios": [
       {
-        "tipo": "alta",
-        "sku": "TC-569",
-        "detalle": "Toallitas Húmedas 99.9% WC Aqua Baby 50 Un (Aqua Baby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-570",
-        "detalle": "Toallas Húmedas Aqua Baby Bio 60 un. (Aqua Baby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-571",
-        "detalle": "Toallas Húmedas Aqua Baby Biodegradables 240 un. (Aqua Baby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-572",
-        "detalle": "Toallitas Húmedas 99.9 Agua Aqua Baby 60 Un (Aqua Baby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-573",
-        "detalle": "Toallitas Húmedas 99.9% Agua Aqua Baby 240 Un (Aqua Baby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-574",
-        "detalle": "Toallas Húmedas Babysec Ultra Fresh 100 un. (Babysec)"
-      },
-      {
-        "tipo": "alta",
+        "tipo": "edicion",
         "sku": "TC-575",
-        "detalle": "Pack Toallitas Húmedas Babysec Ultra Fresh 2 x 50 Un (Babysec)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-576",
-        "detalle": "Toallitas húmedas babysec ultra fresh pack 100 un (Babysec)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-577",
-        "detalle": "Toallas Húmedas Babysec Ultra Fresh 80 un. (Babysec)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-578",
-        "detalle": "Toallas Húmedas Babysec Ultra Fresh 80 un. (Babysec)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-579",
-        "detalle": "Toallitas Húmedas Ultra Fresh Babysec 80 un (Babysec)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-580",
-        "detalle": "Toallitas húmedas babysec ultra fresh 80 un (Babysec)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-581",
-        "detalle": "Toallas Húmedas Babysec Premium 135 un. (Babysec)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-582",
-        "detalle": "Toallas Húmedas Babysec Premium 45 un. (Babysec)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-583",
-        "detalle": "Toallas Húmedas Babysec Premium 135 un. (Babysec)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-584",
-        "detalle": "Toallas Húmedas Babysec Premium 45 un. (Babysec)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-585",
-        "detalle": "Toallitas Húmedas premium (Babysec)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-586",
-        "detalle": "Toallitas Húmedas premium (Babysec)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-587",
-        "detalle": "Toallitas húmedas babysec premium 99% agua 135 un (Babysec)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-588",
-        "detalle": "Toallas Húmedas Babysec Super Premium 40 un. (Babysec)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-589",
-        "detalle": "Toallas Húmedas Babysec Super Premium 40 un. (Babysec)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-590",
-        "detalle": "Toallitas Húmedas Super Premium 99% Agua Babysec 40 un (Babysec)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-591",
-        "detalle": "Toallitas húmedas babysec super premium 40 un (Babysec)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-592",
-        "detalle": "Toallas Húmedas Emubaby 100 un. (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-593",
-        "detalle": "Pack Toallitas Húmedas Emubaby 100 Un (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-594",
-        "detalle": "Toallitas Húmedas para Bebés Emubaby 100 Un (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-595",
-        "detalle": "Toallitas húmedas emubaby superior 100 un (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-596",
-        "detalle": "Toallas Húmedas Emubaby Premium 50 un. (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-597",
-        "detalle": "Toallas Húmedas Emubaby Premium 50 un. (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-598",
-        "detalle": "Toallitas Húmedas Emubaby para Bebés Flip Top 50 Un (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-599",
-        "detalle": "Toallitas húmedas emubaby premium 50 un (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-600",
-        "detalle": "Toallas Húmedas Superior Emubaby 3x50 un. (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-601",
-        "detalle": "Toallas Húmedas Superior Emubaby 3x50 un. (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-602",
-        "detalle": "Toallas Húmedas Emubaby 2 Paquetes de 80 un. (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-603",
-        "detalle": "Toallas Húmedas Emubaby 2 Paquetes de 80 un. (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-604",
-        "detalle": "Pack Toallitas Húmedas para Bebés Emuwipes 2 x 80 Un (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-605",
-        "detalle": "Toallitas húmedas emubaby premium 2 un de 80 un (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-606",
-        "detalle": "Toallas Húmedas Emubaby 2 Paquetes de 80 un. (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-607",
-        "detalle": "Toallas Húmedas Emubaby 2 Paquetes de 80 un. (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-608",
-        "detalle": "Pack Toallitas Húmedas Emu Baby Superior 2 x 80 Unidades (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-609",
-        "detalle": "Toallitas húmedas emubaby superior 2 un de 80 un (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-610",
-        "detalle": "Toallas Húmedas Emubaby Water 90 un. (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-611",
-        "detalle": "Toallas Húmedas Emubaby Water 90 un. (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-612",
-        "detalle": "Toallitas húmedas emubaby superior 90 un (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-613",
-        "detalle": "Toallas Húmedas Emubaby Water 2 Paquetes de 80 un. (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-614",
-        "detalle": "Toallas Húmedas Emubaby Water 320 un. (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-615",
-        "detalle": "Toallas Húmedas Emubaby Water 2 Paquetes de 80 un. (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-616",
-        "detalle": "Toallitas Húmedas Water 99% Agua Emubaby 80 un (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-617",
-        "detalle": "Toallitas húmedas emubaby water premium 2 un de 80 un (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-618",
-        "detalle": "Toallitas húmedas emubaby water premium 80 un (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-619",
-        "detalle": "Toallas Húmedas Huggies Limpieza Efectiva 96 un. (Huggies)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-620",
-        "detalle": "Toallas Húmedas Huggies Limpieza Efectiva 96 un. (Huggies)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-621",
-        "detalle": "Toallitas Húmedas Huggies Limpieza Efectiva (Huggies)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-622",
-        "detalle": "Toallitas húmedas huggies limpieza efectiva 96 un (Huggies)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-623",
-        "detalle": "Toallas Húmedas Huggies Limpieza Diaria 112 un. (Huggies)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-624",
-        "detalle": "Toallas Húmedas Huggies Limpieza Diaria 112 un. (Huggies)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-625",
-        "detalle": "Toallitas Húmedas Huggies Limpieza Diaria 112 un (Huggies)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-626",
-        "detalle": "Toallas Húmedas Huggies One & Done 48 un. (Huggies)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-627",
-        "detalle": "Toallas Húmedas Huggies One & Done 48 un. (Huggies)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-628",
-        "detalle": "Toallas Húmedas Huggies One & Done 48 Un (Huggies)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-629",
-        "detalle": "Toallas Húmedas Huggies Limpieza Efectiva 48 Un (Huggies)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-630",
-        "detalle": "Toallitas húmedas huggies one and done 48 un (Huggies)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-631",
-        "detalle": "Toallas Húmedas Huggies Cuidado 4 en 1 - 80 un. (Huggies)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-632",
-        "detalle": "Toallas Húmedas Huggies Cuidado 4 en 1 - 80 un. (Huggies)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-633",
-        "detalle": "Wipes One&Done (Huggies)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-634",
-        "detalle": "Toallitas húmedas huggies one and done 80 un (Huggies)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-635",
-        "detalle": "Toallas Húmedas Simond's Roja Vitamina E 2 Paquetes de 60 un. (Simonds)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-636",
-        "detalle": "Toallas Húmedas Simond's Roja Vitamina E 2 Paquetes de 60 un. (Simonds)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-637",
-        "detalle": "Toallas Húmedas Simonds Aqua 60 un. (Simonds)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-638",
-        "detalle": "Toallas Húmedas Simonds Aqua 60 un. (Simonds)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-639",
-        "detalle": "Toallitas Húmedas Simonds Agua 60 Un (Simonds)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-640",
-        "detalle": "Toallas Húmedas Simond's Gloss 2 Paquetes de 60 un. (Simonds)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-641",
-        "detalle": "Toallas Húmedas Simond's Gloss 60 un. (Simonds)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-642",
-        "detalle": "Toallas Húmedas Simond's Gloss 2 Paquetes de 60 un. (Simonds)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-643",
-        "detalle": "Toallas Húmedas Simond's Gloss 60 un. (Simonds)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-644",
-        "detalle": "Toallitas Húmedas Simonds Gloss 120 UN (Simonds)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-645",
-        "detalle": "Toallitas Húmedas Previene Coceduras Simonds Gloss 60 Un (Simonds)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-646",
-        "detalle": "Pack toallita húmeda simonds gloss 2 un de 60 un (Simonds)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-647",
-        "detalle": "Toallas Húmedas WaterWipes 180 un. (Waterwipes)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-648",
-        "detalle": "Toallas Húmedas WaterWipes Bio 60 un. (Waterwipes)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-649",
-        "detalle": "Toallas Húmedas WaterWipes Bio 60 un. (Waterwipes)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-650",
-        "detalle": "Toallitas húmedas waterwipes biodegradables 180 un (Waterwipes)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-651",
-        "detalle": "Toallitas húmedas waterwipes biodegradables 60 un (Waterwipes)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-652",
-        "detalle": "Toallas Húmedas WaterWipes Textured Clean 180 un. (Waterwipes)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-653",
-        "detalle": "Toallas Húmedas WaterWipes Textured Clean 60 un. (Waterwipes)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-654",
-        "detalle": "Toallas Húmedas Zeukid Aromatizadas con Tapa 2 Paquetes de 80 un. (Zeukid)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-655",
-        "detalle": "Toallas Húmedas Zeukid Sin Aroma con Tapa 2 Paquetes de 80 un. (Zeukid)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-656",
-        "detalle": "Toallas Húmedas Zeukid Aromatizadas con Tapa 2 Paquetes de 80 un. (Zeukid)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-657",
-        "detalle": "Toallas Húmedas Zeukid Sin Aroma con Tapa 2 Paquetes de 80 un. (Zeukid)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-658",
-        "detalle": "Toallas Húmedas Zeukid 99.9% Agua 30 un. (Zeukid)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-659",
-        "detalle": "Toallas Húmedas Zeukid 99.9% Agua 30 un. (Zeukid)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-660",
-        "detalle": "Toallas Húmedas Zeukid 99.9% Agua 180 un. (Zeukid)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-661",
-        "detalle": "Toallas Húmedas Zeukid 99.9% Agua 60 un. (Zeukid)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-662",
-        "detalle": "Toallas Húmedas Zeukid 99.9% Agua 180 un. (Zeukid)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-663",
-        "detalle": "Toallas Húmedas Zeukid 99.9% Agua 60 un. (Zeukid)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-664",
-        "detalle": "Caja de Toallas Húmedas Aqua Baby Bio 360 un. (Aqua Baby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-665",
-        "detalle": "Toallas para Humedecer Baby Solutions Ultra Suaves 50 un. (Baby Solutions)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-666",
-        "detalle": "Toallas Húmedas Huggies Cuidado 4 en 1 - 184 un. (Huggies)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-667",
-        "detalle": "Toallitas Húmedas Limpia Manos Bio 45 un. (Incare)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-668",
-        "detalle": "Toallitas Húmedas Terra Sport Desodorantes 30 Sachets (Terra)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-669",
-        "detalle": "Toallas Húmedas Waterwipes Soothing 60 un. (Waterwipes)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-670",
-        "detalle": "Toallas Húmedas Care Up Adulto Talla XG 60 un. (Care Up)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-671",
-        "detalle": "Toallas Húmedas Chikool Cool 50 un. (Chikool)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-672",
-        "detalle": "Toallas Húmedas Chikool Cool 80 un. (Chikool)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-673",
-        "detalle": "Toallas Húmedas The Wipes Desechables para Wc 50 un. (The Wipes)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-674",
-        "detalle": "Pack Toallitas Húmedas Portables 99% Agua Emubaby 4 un (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-675",
-        "detalle": "Toallitas Húmedas Emubaby 3X10 UN (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-676",
-        "detalle": "Toallitas Húmedas Infans Bamboo 80 un (Infans)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-677",
-        "detalle": "Toallitas Húmedas Infans 99.9% Agua 80 un (Infans)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-678",
-        "detalle": "Toallitas Húmedas Infans 99.9% Agua 30 un (Infans)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-679",
-        "detalle": "Toallitas Húmedas Nuvia 99% Agua 60 Un (Nuvia)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-680",
-        "detalle": "Toallitas Húmedas para Bebé Tottus Cuidado Esencial 160 Un (Tottus)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-681",
-        "detalle": "Toallitas Húmedas Cuidado Esencial Flow Pack Con Tapa (Tottus)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-682",
-        "detalle": "Toallitas húmedas motherna biodegradable 30 un (Motherna)"
+        "detalle": "Unidades: '50' → '100'"
       },
       {
         "tipo": "edicion",
-        "sku": "TC-568",
-        "detalle": "Producto: 'Testeo' → 'Toallas Húmedas Aqua Baby WC 50 un.'; Marca: 'Testeo' → 'Aqua Baby'; Metros totales: '18' → ''; Retailer: 'unimarc' → 'jumbo'; Link: 'https://www.unimarc.cl/product/palta-hass-1-kg-6-u-aprox' → 'https://www.jumbo.cl/toallita-humeda-2036266/p'; Categoría: 'Cojin' → 'Toallitas Humedas'; Subcategoría: 'hola' → 'Bebé'; Unidades: '' → '50'; Grupo: '' → '222'; Nombre estándar: 'no cacho' → 'Aqua Baby WC x50'; Sector: '30' → '50 un'"
+        "sku": "TC-587",
+        "detalle": "Unidades: '45' → '135'"
       }
     ]
   },
