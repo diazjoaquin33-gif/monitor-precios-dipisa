@@ -27,6 +27,12 @@ COLOR_VERDE = "#08C44E"
 COLOR_TEXTO = "#1B252C"
 COLOR_BUENO = "#0ca30c"
 COLOR_CRITICO = "#d03b3b"
+# Semáforo de "hace cuánto un SKU no consigue precio nuevo" (ver
+# _severidad_dato): leve = ruido normal (sitio caído un rato), media = ya
+# amerita revisar, y reusa COLOR_CRITICO para "probablemente el link venció
+# o el producto se descontinuó".
+COLOR_ALERTA_LEVE = "#d4a600"
+COLOR_ALERTA_MEDIA = "#e0821a"
 
 
 def _logo_base64():
@@ -388,6 +394,16 @@ def cargar_datos():
 
     df["estado"] = df["estado"].fillna("Pendiente")
 
+    # Antigüedad del último dato exitoso — para un SKU que está fallando
+    # (estado != "Disponible"), fecha_act quedó congelada en la última
+    # corrida que sí consiguió precio (ver el fallback en scraper.py).
+    # dias_sin_dato = cuántos días lleva así, se recalcula en cada carga de
+    # la página (no en el scraper) para que la antigüedad sea siempre
+    # respecto a "ahora", no a la fecha de la última corrida.
+    _fecha_dt = pd.to_datetime(df["fecha_act"], format="%d/%m/%Y %H:%M hrs", errors="coerce")
+    df["dias_sin_dato"] = (pd.Timestamp.now() - _fecha_dt).dt.days
+    df.loc[df["estado"] == "Disponible", "dias_sin_dato"] = pd.NA
+
     ovella_df = pd.read_csv(BASE_DIR / "ovella.csv", comment="#", skip_blank_lines=True)
     ovella_df = ovella_df.dropna(subset=["sku_ovella"])
     ovella_df["segmento"] = ovella_df.apply(_segmento, axis=1)
@@ -400,6 +416,28 @@ def _formatear_clp(valor):
     if pd.isna(valor):
         return "N/D"
     return f"${valor:,.0f}".replace(",", ".")
+
+
+# Umbrales del semáforo de "sin dato reciente", en días desde el último
+# precio conseguido (ver dias_sin_dato en cargar_datos). Menos de una
+# semana: normal, los sitios se caen solos de tanto en tanto. Entre una
+# semana y un mes: ya vale la pena mirarlo. Un mes o más: probablemente el
+# link venció o el producto se descontinuó — no se va a arreglar solo.
+UMBRAL_ALERTA_MEDIA = 7
+UMBRAL_ALERTA_CRITICA = 30
+
+
+def _severidad_dato(dias):
+    """Clasifica un dias_sin_dato en leve/media/crítica. Devuelve None si el
+    SKU está al día (dias_sin_dato es NaN)."""
+    if pd.isna(dias):
+        return None
+    dias = int(dias)
+    if dias >= UMBRAL_ALERTA_CRITICA:
+        return {"color": COLOR_CRITICO, "icono": "🔴", "etiqueta": "crítico"}
+    if dias >= UMBRAL_ALERTA_MEDIA:
+        return {"color": COLOR_ALERTA_MEDIA, "icono": "🟠", "etiqueta": "atención"}
+    return {"color": COLOR_ALERTA_LEVE, "icono": "🟡", "etiqueta": "leve"}
 
 
 # --- Segmento competitivo -------------------------------------------------
@@ -870,7 +908,17 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
         if hay_precio2:
             v2 = r.get("precio_metro_2un")
             fila[f"{col_ref} (2+un)"] = f"${v2}/{unidad_ref}" if pd.notna(v2) else "—"
-        fila["Estado"] = r["estado"]
+        # Semáforo por antigüedad del dato (ver _severidad_dato): un SKU
+        # recién fallando muestra "🟡 hace 2 días", uno estancado hace rato
+        # escala a 🟠 y después a 🔴 — mismo dato (dias_sin_dato) que colorea
+        # la fila más abajo, para que el texto y el color siempre cuenten la
+        # misma historia.
+        sev = _severidad_dato(r.get("dias_sin_dato"))
+        if sev:
+            dias = int(r["dias_sin_dato"])
+            fila["Estado"] = f"{sev['icono']} Sin dato hace {dias} día{'s' if dias != 1 else ''}"
+        else:
+            fila["Estado"] = r["estado"]
         fila["Ver"] = r.get("url")
         filas.append(fila)
         precios_metro.append(precio_metro)
@@ -882,12 +930,14 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
     minimo = min(validos) if validos else None
 
     marcas = list(df_grupo["marca"]) if resaltar_ovella else []
+    severidades = list(df_grupo["dias_sin_dato"].map(_severidad_dato))
 
     def resaltar(fila):
         if minimo is not None and precios_metro[fila.name] == minimo:
             return [f"background-color: {COLOR_BUENO}26"] * len(fila)
-        if fila["Estado"] != "Disponible":
-            return [f"background-color: {COLOR_CRITICO}1a"] * len(fila)
+        sev = severidades[fila.name]
+        if sev is not None:
+            return [f"background-color: {sev['color']}26"] * len(fila)
         if resaltar_ovella and str(marcas[fila.name]).strip().lower() == "ovella":
             return [f"background-color: {COLOR_MORADO}1f"] * len(fila)
         return [""] * len(fila)
@@ -1026,11 +1076,64 @@ if not _ES_VENTA:
     con_descuento = df[df["descuento_pct"].notna()]
     ofertas_agresivas = df[df["descuento_pct"] >= 20]
     pendientes = df[df["estado"] != "Disponible"]
+    criticos = pendientes[pendientes["dias_sin_dato"] >= UMBRAL_ALERTA_CRITICA]
 
     c1, c2, c3 = st.columns(3)
     c1.metric("SKU monitoreados", len(df), etiqueta_canal, delta_color="off")
     c2.metric("En oferta", len(con_descuento), f"{len(ofertas_agresivas)} con descuento ≥20%", delta_color="off")
-    c3.metric("Sin dato reciente", len(pendientes))
+    c3.metric(
+        "Sin dato reciente", len(pendientes),
+        f"{len(criticos)} llevan 30+ días — revisar link" if len(criticos) else None,
+        delta_color="off",
+    )
+
+    # Detalle SKU por SKU de quién está fallando, ordenado del más urgente al
+    # más reciente — responde directo "¿cuál SKU específicamente está
+    # fallando?" sin tener que ir a buscarlo tabla por tabla más abajo.
+    if not pendientes.empty:
+        with st.expander(f"🔍 Detalle de los {len(pendientes)} SKU sin dato reciente", expanded=len(criticos) > 0):
+            st.caption(
+                "🟡 hace menos de una semana: normal, los sitios se caen solos de tanto en tanto. "
+                "🟠 una semana o más: ya vale la pena mirarlo. "
+                "🔴 un mes o más: probablemente el link venció o el producto se descontinuó."
+            )
+            detalle = pendientes[[
+                "sku_interno", "retailer_nombre", "marca", "producto", "dias_sin_dato", "url",
+            ]].sort_values("dias_sin_dato", ascending=False).copy()
+
+            def _alerta(dias):
+                # SKU recién agregado que nunca llegó a scrapearse con éxito
+                # ni una vez (sin historial previo) no tiene fecha de la que
+                # contar los días — se marca aparte, no es lo mismo que "se
+                # cayó el link" de un SKU que antes sí funcionaba.
+                if pd.isna(dias):
+                    return "⚪ nunca se obtuvo dato"
+                sev = _severidad_dato(dias)
+                dias = int(dias)
+                return f"{sev['icono']} hace {dias} día{'s' if dias != 1 else ''} ({sev['etiqueta']})"
+
+            detalle["Alerta"] = detalle["dias_sin_dato"].map(_alerta)
+            severidades_detalle = list(detalle["dias_sin_dato"].map(_severidad_dato))
+            vista = detalle.rename(columns={
+                "sku_interno": "SKU", "retailer_nombre": "Retailer", "marca": "Marca",
+                "producto": "Producto", "url": "Ver",
+            }).drop(columns=["dias_sin_dato"]).reset_index(drop=True)
+
+            def _resaltar_detalle(fila):
+                sev = severidades_detalle[fila.name]
+                color = sev["color"] if sev is not None else "#8a8a8a"
+                return [f"background-color: {color}26"] * len(fila)
+
+            try:
+                st.dataframe(
+                    vista.style.apply(_resaltar_detalle, axis=1), width="stretch",
+                    hide_index=True, column_config=COLUMN_CONFIG,
+                )
+            except TypeError:
+                st.dataframe(
+                    vista.style.apply(_resaltar_detalle, axis=1), use_container_width=True,
+                    hide_index=True, column_config=COLUMN_CONFIG,
+                )
 
     st.divider()
 
