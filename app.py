@@ -420,10 +420,16 @@ def cargar_datos():
     _p2 = pd.to_numeric(df["precio_socio2"], errors="coerce")
     df["precio_metro_2un"] = (_p2 / df["metros_totales"]).round(1)
     df.loc[es_unidad, "precio_metro_2un"] = pd.NA
-    # $/unidad de servilletas y toallitas húmedas: sobre el precio de un pack
-    # suelto (si venía en caja mayorista, precio_pack ya lo dividió por los N
-    # paquetes).
-    df["precio_unidad"] = (df["precio_pack"] / df["unidades"]).round(1)
+    # $/unidad: en Servilletas 'unidades' YA es la cantidad por paquete, así
+    # que se divide precio_pack (precio de UN paquete) por 'unidades'. En
+    # Toallitas Húmedas 'unidades' es el total del envase completo (puede
+    # traer varios paquetes adentro — ver packs_por_bulto/precio_pack más
+    # arriba), así que hay que dividir el precio TOTAL del envase ('precio',
+    # no 'precio_pack') por 'unidades' — dividir por los N paquetes dos veces
+    # (precio_pack ya lo hizo una) daría un $/unidad varias veces más alto de
+    # lo real.
+    _precio_para_unidad = df["precio"].where(es_toallitas, df["precio_pack"])
+    df["precio_unidad"] = (_precio_para_unidad / df["unidades"]).round(1)
     df.loc[~es_unidad, "precio_unidad"] = pd.NA
     df["precio_ref"] = df["precio_metro"]
     df.loc[es_unidad, "precio_ref"] = df.loc[es_unidad, "precio_unidad"]
@@ -587,11 +593,13 @@ def _packs_por_bulto(nombre):
 
 def _packs_toallitas_nombre(nombre):
     """Para Toallitas Húmedas: cuántos paquetes trae el envase cuando el
-    nombre lo dice como 'N x M un' (ej. 'Pack ... 2 x 50 Un', '3x50 un.'),
-    formato distinto al de manga/caja de PH ('MANGAx12'). Red para cuando
-    nadie cargó ese número a mano en la columna 'Metros totales' (ver
+    nombre lo dice de alguna de estas formas (todas aparecen en el catálogo
+    real): 'N x M un' ('2 x 50 Un', '3x50 un.'), 'N Paquetes de M un.'
+    ('2 Paquetes de 80 un.'), o 'N un de M un' ('2 un de 80 un'). Formato
+    distinto al de manga/caja de PH ('MANGAx12'). Red para cuando nadie
+    cargó ese número a mano en la columna 'Metros totales' (ver
     CATEGORIAS_POR_UNIDAD en cargar_datos). Devuelve None si no matchea."""
-    m = re.search(r"(\d+)\s*x\s*\d+\s*un", str(nombre), re.I)
+    m = re.search(r"(\d+)\s*(?:x|paquetes?\s+de|un\s+de)\s*(\d+)\s*un", str(nombre), re.I)
     return int(m.group(1)) if m else None
 
 
@@ -867,7 +875,21 @@ def _aplicar_formato_jefe(ws, df_out):
 
 
 def _fmt_formato(r):
-    if r.get("categoria") in ("Servilletas", "Toallitas Humedas") and pd.notna(r.get("unidades")):
+    if r.get("categoria") == "Toallitas Humedas" and pd.notna(r.get("unidades")):
+        total = int(r["unidades"])
+        n = r.get("packs_por_bulto")
+        # 'unidades' en Toallitas Húmedas es el TOTAL del envase (a
+        # diferencia de Servilletas, donde ya es la cantidad por paquete) —
+        # ver el comentario de precio_unidad en cargar_datos. Con paquetes
+        # detectados se desglosa "N paquetes x M un = T un total"; sin eso,
+        # se asume un solo paquete (el total ES la cantidad por paquete).
+        if pd.notna(n) and n and n > 1:
+            por_paquete = round(total / n)
+            base = f"{int(n)} paq. x {por_paquete}un = {total}un total · {r['subcategoria']}"
+        else:
+            base = f"{total} un · {r['subcategoria']}"
+        return base
+    if r.get("categoria") == "Servilletas" and pd.notna(r.get("unidades")):
         base = f"{int(r['unidades'])} un · {r['subcategoria']}"
         n = r.get("packs_por_bulto")
         if pd.notna(n) and n and n > 1:
