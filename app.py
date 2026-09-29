@@ -335,12 +335,16 @@ def cargar_datos():
     df["metros_rollo"] = pd.to_numeric(df.get("metros_rollo"), errors="coerce")
     df["metros_totales"] = pd.to_numeric(df["metros_totales"], errors="coerce")
     df["unidades"] = pd.to_numeric(df.get("unidades"), errors="coerce")
-    es_serv = df["categoria"] == "Servilletas"
+    # es_unidad = categorías que se comparan por $/unidad (Servilletas,
+    # Toallitas Húmedas — ver CATEGORIAS_POR_UNIDAD), no por $/metro como
+    # Papel Higiénico/Toalla.
+    es_unidad = df["categoria"].isin(CATEGORIAS_POR_UNIDAD)
     # Red para filas de rollo (PH/toallas) que llegaron incompletas (ej. de la
     # planilla productos_nuevos): rollos/metros_rollo se intentan sacar del
-    # nombre, y con eso se completa metros_totales. Las servilletas no tienen
-    # rollos ni metros — se comparan por unidades — así que se saltan.
-    faltan = (df["rollos"].isna() | df["metros_rollo"].isna()) & ~es_serv
+    # nombre, y con eso se completa metros_totales. Servilletas/Toallitas
+    # Húmedas no tienen rollos ni metros — se comparan por unidades — así
+    # que se saltan.
+    faltan = (df["rollos"].isna() | df["metros_rollo"].isna()) & ~es_unidad
     if faltan.any():
         parsed = df.loc[faltan, "producto"].map(_parse_rollos_metros)
         # pd.to_numeric (no .map crudo): _parse_rollos_metros devuelve None
@@ -368,17 +372,29 @@ def cargar_datos():
     # venden el pack de góndola dentro de una "manga"/"caja" de N packs y
     # publican el precio de esa manga. Para comparar contra un pack suelto hay
     # que bajar todo a $/pack. N sale de la columna 'unidades' (si la cargaron
-    # a mano en un PH/toalla) o se lee del nombre ("MANGAx12"). Las servilletas
-    # usan 'unidades' para otra cosa (el conteo real del pack) y quedan afuera.
-    packs_col = pd.to_numeric(df["unidades"], errors="coerce").where(~es_serv)
-    packs_nom = pd.to_numeric(df["producto"].map(_packs_por_bulto), errors="coerce").where(~es_serv)
+    # a mano en un PH/toalla) o se lee del nombre ("MANGAx12"). Servilletas y
+    # Toallitas Húmedas usan 'unidades' para otra cosa (el conteo real del
+    # pack) y quedan afuera.
+    packs_col = pd.to_numeric(df["unidades"], errors="coerce").where(~es_unidad)
+    packs_nom = pd.to_numeric(df["producto"].map(_packs_por_bulto), errors="coerce").where(~es_unidad)
     df["packs_por_bulto"] = packs_col.fillna(packs_nom)
-    # Servilletas: 'unidades' es el conteo real del pack, así que el
-    # multiplicador de caja (N paquetes por caja mayorista) se carga en la
-    # columna 'metros_totales' — que en servilletas no se usa para nada más.
-    packs_serv = pd.to_numeric(df["metros_totales"], errors="coerce").where(es_serv)
-    df.loc[es_serv, "packs_por_bulto"] = packs_serv
-    df.loc[es_serv, "metros_totales"] = pd.NA
+    # Servilletas/Toallitas Húmedas: 'unidades' es el conteo real del pack,
+    # así que el multiplicador de caja (N paquetes por caja mayorista) se
+    # carga en la columna 'metros_totales' — que en estas categorías no se
+    # usa para nada más.
+    packs_unidad = pd.to_numeric(df["metros_totales"], errors="coerce").where(es_unidad)
+    df.loc[es_unidad, "packs_por_bulto"] = packs_unidad
+    df.loc[es_unidad, "metros_totales"] = pd.NA
+    # Toallitas Húmedas: si nadie cargó el número de paquetes a mano, se
+    # intenta sacar del nombre ("2 x 50 Un") — red igual que packs_nom más
+    # arriba, pero con el patrón propio de esta categoría.
+    es_toallitas = df["categoria"] == "Toallitas Humedas"
+    faltan_packs = es_toallitas & df["packs_por_bulto"].isna()
+    if faltan_packs.any():
+        packs_nombre = pd.to_numeric(
+            df.loc[faltan_packs, "producto"].map(_packs_toallitas_nombre), errors="coerce"
+        )
+        df.loc[faltan_packs, "packs_por_bulto"] = packs_nombre
     hay_bulto = df["packs_por_bulto"].fillna(1) > 1
 
     df["precio"] = pd.to_numeric(df["precio"], errors="coerce")
@@ -398,20 +414,21 @@ def cargar_datos():
     df["precio_pack_normal"] = (df["precio_normal"] / _div).round(0)
 
     df["precio_metro"] = (df["precio_pack"] / df["metros_totales"]).round(1)
-    df.loc[es_serv, "precio_metro"] = pd.NA
+    df.loc[es_unidad, "precio_metro"] = pd.NA
     # $/metro con el precio mayorista "desde 2 unidades" (ej. Liquimax) — se
     # muestra al lado del $/metro de lista para comparar los dos escenarios.
     _p2 = pd.to_numeric(df["precio_socio2"], errors="coerce")
     df["precio_metro_2un"] = (_p2 / df["metros_totales"]).round(1)
-    df.loc[es_serv, "precio_metro_2un"] = pd.NA
-    # $/unidad de servilletas: sobre el precio de un pack suelto (si venía en
-    # caja mayorista, precio_pack ya lo dividió por los N paquetes).
+    df.loc[es_unidad, "precio_metro_2un"] = pd.NA
+    # $/unidad de servilletas y toallitas húmedas: sobre el precio de un pack
+    # suelto (si venía en caja mayorista, precio_pack ya lo dividió por los N
+    # paquetes).
     df["precio_unidad"] = (df["precio_pack"] / df["unidades"]).round(1)
-    df.loc[~es_serv, "precio_unidad"] = pd.NA
+    df.loc[~es_unidad, "precio_unidad"] = pd.NA
     df["precio_ref"] = df["precio_metro"]
-    df.loc[es_serv, "precio_ref"] = df.loc[es_serv, "precio_unidad"]
+    df.loc[es_unidad, "precio_ref"] = df.loc[es_unidad, "precio_unidad"]
     df["ref_unidad"] = "m"
-    df.loc[es_serv, "ref_unidad"] = "u"
+    df.loc[es_unidad, "ref_unidad"] = "u"
 
     descuento = (1 - df["precio"] / df["precio_normal"]) * 100
     df["descuento_pct"] = descuento.round(0)
@@ -529,6 +546,18 @@ def _sector_servilleta(unidades):
     return None
 
 
+# Categorías que se comparan por $/unidad, no por $/metro: la columna
+# 'unidades' es la cantidad real dentro de un paquete (no un multiplicador de
+# manga/caja) y, si el retailer vende por caja mayorista, ese multiplicador
+# se carga en 'metros_totales' en su lugar (ver más abajo en cargar_datos) —
+# ese campo no se usa para nada más en estas categorías. Antes solo incluía
+# Servilletas; Toallitas Húmedas se agregó cuando el equipo cargó esa línea
+# nueva al catálogo y se detectó que estaba usando por error el modelo de
+# "unidades = paquetes por manga" de Papel Higiénico/Toalla (mezclaba la
+# cantidad de toallitas por paquete con la cantidad de paquetes por manga).
+CATEGORIAS_POR_UNIDAD = {"Servilletas", "Toallitas Humedas"}
+
+
 def _parse_rollos_metros(nombre):
     """Saca (rollos, metros_por_rollo) del nombre del producto — mismos patrones
     que se usaron para rellenar productos.csv ("22 m 4 un", "4 un 22 m",
@@ -556,6 +585,16 @@ def _packs_por_bulto(nombre):
     return int(m.group(1)) if m else None
 
 
+def _packs_toallitas_nombre(nombre):
+    """Para Toallitas Húmedas: cuántos paquetes trae el envase cuando el
+    nombre lo dice como 'N x M un' (ej. 'Pack ... 2 x 50 Un', '3x50 un.'),
+    formato distinto al de manga/caja de PH ('MANGAx12'). Red para cuando
+    nadie cargó ese número a mano en la columna 'Metros totales' (ver
+    CATEGORIAS_POR_UNIDAD en cargar_datos). Devuelve None si no matchea."""
+    m = re.search(r"(\d+)\s*x\s*\d+\s*un", str(nombre), re.I)
+    return int(m.group(1)) if m else None
+
+
 def _segmento(row):
     # Servilletas: se agrupan solo por rango de unidades (el tipo Cocktail/Mesa
     # queda visible en la columna Formato pero no arma el segmento). Excepción:
@@ -568,6 +607,18 @@ def _segmento(row):
             return f"Servilletas Dispensador · {sec}" if sec else "Servilletas Dispensador"
         sec = _sector_servilleta(row.get("unidades"))
         return f"Servilletas · {sec}" if sec else None
+    # Toallitas Húmedas: se agrupan por subcategoría (Bebé/Adulto/Multiuso —
+    # una toallita de bebé no compite con una de adulto) y cantidad EXACTA de
+    # unidades por paquete, sin rangos tolerantes como en Servilletas/Papel —
+    # todavía no hay una lista de sectores para esta línea definida por el
+    # equipo comercial (ver SECTORES/SECTORES_SERVILLETAS), así que por ahora
+    # solo se juntan los que traen exactamente el mismo conteo por paquete.
+    if row.get("categoria") == "Toallitas Humedas":
+        u = row.get("unidades")
+        sub = row.get("subcategoria")
+        if pd.isna(u):
+            return None
+        return f"{sub} · {int(u)}un" if sub else f"{int(u)}un"
     if pd.isna(row.get("rollos")) or pd.isna(row.get("metros_rollo")):
         return None
     sub = row["subcategoria"]
@@ -816,7 +867,7 @@ def _aplicar_formato_jefe(ws, df_out):
 
 
 def _fmt_formato(r):
-    if r.get("categoria") == "Servilletas" and pd.notna(r.get("unidades")):
+    if r.get("categoria") in ("Servilletas", "Toallitas Humedas") and pd.notna(r.get("unidades")):
         base = f"{int(r['unidades'])} un · {r['subcategoria']}"
         n = r.get("packs_por_bulto")
         if pd.notna(n) and n and n > 1:
@@ -876,6 +927,8 @@ def _producto_estandar(r):
         return r["nombre_estandar"]
     if r.get("categoria") == "Servilletas" and pd.notna(r.get("unidades")):
         return f"{r['marca']} Servilletas {r['subcategoria']} {int(r['unidades'])}un"
+    if r.get("categoria") == "Toallitas Humedas" and pd.notna(r.get("unidades")):
+        return f"{r['marca']} Toallitas Húmedas {r['subcategoria']} {int(r['unidades'])}un"
     if pd.notna(r.get("rollos")) and pd.notna(r.get("metros_rollo")):
         return f"{r['marca']} {r['subcategoria']} {r['metros_rollo']:g}m x{int(r['rollos'])}un"
     return f"{r['marca']} {r['producto']}"
@@ -907,7 +960,7 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
     )
     # Servilletas se comparan en $/unidad; el resto en $/metro. Si la tabla
     # mezcla (no debería, las vistas son por categoría) gana $/metro.
-    unidad_ref = "u" if (not df_grupo.empty and (df_grupo["categoria"] == "Servilletas").all()) else "m"
+    unidad_ref = "u" if (not df_grupo.empty and df_grupo["categoria"].isin(CATEGORIAS_POR_UNIDAD).all()) else "m"
     col_ref = f"$/{unidad_ref}"
     # ¿Hay algún formato mayorista (manga/caja) en este grupo? Si sí, se agregan
     # las columnas "Precio manga" y "Precio pack" para no confundir el precio
@@ -1190,7 +1243,13 @@ if not _ES_VENTA:
     st.divider()
 
 _buf_jefe = io.BytesIO()
-_df_jefe = _armar_export_formato_jefe(df_completo[~df_completo["retailer_desactivado"]])
+# "Toma de Precios Tissue" es específico de papel higiénico/toalla/
+# servilletas (columnas Rollos, Mt x Rollo, etc.) — Toallitas Húmedas es una
+# línea de producto distinta que no calza en ese formato, así que queda
+# afuera de este Excel por ahora (sigue viéndose normal en el dashboard).
+_df_jefe = _armar_export_formato_jefe(
+    df_completo[~df_completo["retailer_desactivado"] & (df_completo["categoria"] != "Toallitas Humedas")]
+)
 with pd.ExcelWriter(_buf_jefe, engine="openpyxl") as _xw:
     _df_jefe.to_excel(_xw, index=False, sheet_name="Toma de Precios Tissue")
     if not _df_jefe.empty:
@@ -1378,7 +1437,7 @@ with (contextlib.nullcontext() if _ES_VENTA else st.expander("📈 Cambios de pr
 
 st.divider()
 
-ICONO_CATEGORIA = {"Papel Higienico": "🧻", "Toalla de Papel": "🧺", "Servilletas": "🍽️"}
+ICONO_CATEGORIA = {"Papel Higienico": "🧻", "Toalla de Papel": "🧺", "Servilletas": "🍽️", "Toallitas Humedas": "🧴"}
 
 
 def _mostrar_marcas(df_sub):
