@@ -141,6 +141,10 @@ COLUMNAS_PRODUCTOS = [
 
 # Encabezados en español que ve el equipo en la planilla de Google -> nombre
 # interno que usa el código (debe ser igual al mismo mapa en scraper.py).
+# "Sector" es opcional: el sector se calcula solo a partir de Rollos/Metros
+# por rollo (ver _sector/_segmento), pero el equipo puede forzarlo a mano acá
+# para un producto que no calza en ningún sector de la lista, o que prefieren
+# agrupar distinto — ver _aplicar_sector_manual.
 ENCABEZADOS_PRODUCTOS = {
     "Código": "sku_interno", "Producto": "producto",
     "Marca": "marca", "Retailer": "retailer", "Link": "url",
@@ -148,6 +152,7 @@ ENCABEZADOS_PRODUCTOS = {
     "Rollos": "rollos", "Metros por rollo": "metros_rollo",
     "Metros totales": "metros_totales", "Unidades": "unidades",
     "Grupo": "grupo_id", "Nombre estándar": "nombre_estandar",
+    "Sector": "sector_manual",
 }
 ENCABEZADOS_URL_FIXES = {"Código": "sku_interno", "Link nuevo": "url_nuevo", "Nota": "nota"}
 COLUMNAS_NUMERICAS_PRODUCTO = ["metros_totales", "rollos", "metros_rollo", "unidades"]
@@ -338,6 +343,7 @@ def cargar_datos():
     # Tissue" (formato de pack, sin el tipo de hoja) — se usa para agrupar en
     # "Por segmento competitivo" (ver más abajo).
     df["sector"] = df["segmento"].map(_sector_plano)
+    df = _aplicar_sector_manual(df)
 
     # Formato mayorista: algunos retailers (Central Mayorista, a veces Alvi)
     # venden el pack de góndola dentro de una "manga"/"caja" de N packs y
@@ -609,6 +615,32 @@ def _sector_plano(segmento):
     if not segmento or pd.isna(segmento):
         return ""
     return str(segmento).split("·", 1)[-1].strip()
+
+
+def _aplicar_sector_manual(df):
+    """El sector se calcula solo a partir de rollos/metros_rollo (ver
+    _sector/_segmento), pero el equipo puede forzarlo a mano cargando la
+    columna "Sector" en la planilla de Catálogo — típicamente para un
+    producto cuyo pack no calza en ningún sector de la lista (_sector
+    devuelve None y por lo tanto el producto no entra a "Por segmento
+    competitivo") o que prefieren agrupar distinto. Reconstruye 'segmento'
+    (no solo 'sector') con el mismo prefijo que usaría _segmento, para que el
+    Excel "Toma de Precios Tissue" (que recalcula el Sector desde 'segmento')
+    y la columna "Formato" queden consistentes con el override."""
+    if "sector_manual" not in df.columns:
+        return df
+    manual = df["sector_manual"].astype(str).str.strip()
+    tiene_manual = manual.notna() & (manual != "") & (manual.str.lower() != "nan")
+    if not tiene_manual.any():
+        return df
+    es_serv = df["categoria"] == "Servilletas"
+    es_disp = es_serv & (df["subcategoria"] == "Dispensador")
+    prefijo = df["subcategoria"].astype(str)
+    prefijo = prefijo.where(~es_serv, "Servilletas")
+    prefijo = prefijo.where(~es_disp, "Servilletas Dispensador")
+    df.loc[tiene_manual, "segmento"] = (prefijo + " · " + manual)[tiene_manual]
+    df.loc[tiene_manual, "sector"] = manual[tiene_manual]
+    return df
 
 
 def _armar_export_formato_jefe(df_export):

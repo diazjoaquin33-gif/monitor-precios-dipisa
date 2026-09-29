@@ -62,12 +62,16 @@ ENCABEZADOS_PRODUCTOS = {
     "Rollos": "rollos", "Metros por rollo": "metros_rollo",
     "Metros totales": "metros_totales", "Unidades": "unidades",
     "Grupo": "grupo_id", "Nombre estándar": "nombre_estandar",
+    "Sector": "sector_manual",
 }
 ENCABEZADOS_URL_FIXES = {"Código": "sku_interno", "Link nuevo": "url_nuevo", "Nota": "nota"}
 
 # grupo_id/nombre_estandar son opcionales (no todo producto está cruzado con
-# otro retailer).
-COLUMNAS_GRUPO = ["grupo_id", "nombre_estandar"]
+# otro retailer). sector_manual también es opcional: el sector normalmente se
+# calcula solo desde rollos/metros_rollo (ver app.py, _sector/_segmento), esto
+# es para que el equipo lo pueda forzar a mano por fila desde la planilla —
+# ver _aplicar_sector_manual en app.py, que es quien realmente lo usa.
+COLUMNAS_GRUPO = ["grupo_id", "nombre_estandar", "sector_manual"]
 COLUMNAS_NUMERICAS = ["metros_totales", "rollos", "metros_rollo", "unidades"]
 COLUMNAS_TEXTO_OBLIGATORIAS = ["producto", "marca", "categoria", "subcategoria"]
 
