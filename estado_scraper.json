@@ -1,7 +1,7 @@
 {
-  "fecha": "29/09/2026 14:04 hrs",
+  "fecha": "29/09/2026 20:54 hrs",
   "total_skus": 656,
-  "exitosos": 617,
+  "exitosos": 640,
   "fallos": [
     {
       "retailer": "santaisabel",
@@ -54,118 +54,8 @@
       "error": "HTTP 404"
     },
     {
-      "retailer": "acuenta",
-      "sku_interno": "TC-131",
-      "error": "SKU '1103955' no encontrado en Instaleap"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-023",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-101",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-103",
-      "error": "HTTP 403"
-    },
-    {
       "retailer": "tottus",
       "sku_interno": "TC-104",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-105",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-115",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-116",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-117",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-121",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-129",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-265",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-271",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-273",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-278",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-365",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-366",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-373",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-378",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-575",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-594",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-639",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-678",
       "error": "HTTP 403"
     },
     {
@@ -192,11 +82,6 @@
       "retailer": "unimarc",
       "sku_interno": "TC-218",
       "error": "HTTP 404"
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-525",
-      "error": "Error imanweb: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without"
     }
   ],
   "overrides_url_aplicados": 0,
@@ -206,18 +91,7 @@
     "filas_aplicadas": 656,
     "problemas": [],
     "motivo_rechazo": null,
-    "cambios": [
-      {
-        "tipo": "edicion",
-        "sku": "TC-575",
-        "detalle": "Unidades: '50' → '100'"
-      },
-      {
-        "tipo": "edicion",
-        "sku": "TC-587",
-        "detalle": "Unidades: '45' → '135'"
-      }
-    ]
+    "cambios": []
   },
   "catalogo_planilla_aviso": null,
   "retailers_desactivados": [],
