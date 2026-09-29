@@ -212,6 +212,9 @@ def _validar_catalogo_planilla(df, retailers_ok):
     para revisar."""
     problemas = []
     vistos = set()
+    # Mismo criterio que validar_catalogo en scraper.py: "Jumbo"/"JUMBO"/
+    # "jumbo" se aceptan igual, no hace falta tipear la clave exacta.
+    retailers_por_minuscula = {r.lower() for r in retailers_ok}
     for _, fila in df.iterrows():
         sku = str(fila["sku_interno"]).strip()
         if sku in vistos:
@@ -219,7 +222,7 @@ def _validar_catalogo_planilla(df, retailers_ok):
             continue
         vistos.add(sku)
         errs = []
-        if str(fila.get("retailer", "")).strip() not in retailers_ok:
+        if str(fila.get("retailer", "")).strip().lower() not in retailers_por_minuscula:
             errs.append(f"retailer '{fila.get('retailer')}' no es una clave válida")
         if not str(fila.get("url", "")).strip().startswith("http"):
             errs.append("falta el Link o no empieza con http")
@@ -287,14 +290,20 @@ def cargar_datos():
     catalogo_planilla = cargar_catalogo_planilla()
     nuevos = catalogo_planilla[~catalogo_planilla["sku_interno"].isin(df_csv["sku_interno"])]
     if not nuevos.empty:
-        retailers_ok = set(retailers_cfg.keys())
+        # "Jumbo"/"JUMBO"/"jumbo" se aceptan igual (ver validar_catalogo en
+        # scraper.py) — acá además hay que reescribir el valor a la clave
+        # real en minúscula, porque retailers_cfg.get(r) más abajo (nombre,
+        # canal, deshabilitado) busca por esa clave exacta.
+        retailers_por_minuscula = {r.lower(): r for r in retailers_cfg}
+        retailer_normalizado = nuevos["retailer"].astype(str).str.strip().str.lower().map(retailers_por_minuscula)
         valido = (
-            nuevos["retailer"].astype(str).str.strip().isin(retailers_ok)
+            retailer_normalizado.notna()
             & nuevos["url"].astype(str).str.strip().str.startswith("http")
             & nuevos["producto"].notna() & nuevos["marca"].notna()
             & nuevos["categoria"].notna() & nuevos["subcategoria"].notna()
         )
         nuevos = nuevos[valido].drop_duplicates("sku_interno").copy()
+        nuevos["retailer"] = retailer_normalizado[valido]
     if not nuevos.empty:
         nuevos["origen_planilla"] = True
         df_csv = pd.concat([df_csv, nuevos], ignore_index=True)

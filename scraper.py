@@ -144,6 +144,12 @@ def validar_catalogo(df, retailers_validos):
     for col in COLUMNAS_NUMERICAS:
         if col in df.columns:
             df[col] = df[col].astype(object)
+    # Mapa minúscula -> clave real ("jumbo" -> "jumbo", pero también acepta
+    # que alguien tipee "Jumbo" o "JUMBO" en la planilla): el resto del
+    # programa (retailers.yaml, procesar_lote, retailers_desactivados, etc.)
+    # asume la clave exacta en minúscula, así que la fila se corrige acá antes
+    # de seguir, no solo se valida.
+    retailers_por_minuscula = {r.lower(): r for r in retailers_validos}
     vistos = set()
     filas_ok = []
     for idx, fila in df.iterrows():
@@ -160,8 +166,11 @@ def validar_catalogo(df, retailers_validos):
             problemas.append(f"{sku}: Código repetido en la planilla, se usó la primera fila y se ignoraron las siguientes")
             continue
         errs = []
-        if str(fila.get("retailer", "")).strip() not in retailers_validos:
+        retailer_normalizado = retailers_por_minuscula.get(str(fila.get("retailer", "")).strip().lower())
+        if retailer_normalizado is None:
             errs.append(f"Retailer '{fila.get('retailer')}' no es una clave válida")
+        else:
+            df.loc[idx, "retailer"] = retailer_normalizado
         if not str(fila.get("url", "")).strip().startswith("http"):
             errs.append("falta el Link o no empieza con http")
         for col, nombre in [("producto", "Producto"), ("marca", "Marca"), ("categoria", "Categoría"), ("subcategoria", "Subcategoría")]:
