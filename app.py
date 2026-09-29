@@ -1039,6 +1039,7 @@ with st.sidebar:
     canal_sel = st.radio(
         "Canal",
         ["Retail", "Mayorista", "Todos"],
+        index=2,  # "Todos" activado de base al entrar a la página.
         help=(
             "Retail = supermercados (Jumbo, Santa Isabel, Tottus, Unimarc, aCuenta). "
             "Mayorista = distribuidores que venden por manga/caja (Central Mayorista, "
