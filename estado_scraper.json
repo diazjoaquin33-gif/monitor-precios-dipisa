@@ -1,16 +1,11 @@
 {
-  "fecha": "01/10/2026 14:34 hrs",
+  "fecha": "01/10/2026 21:03 hrs",
   "total_skus": 656,
-  "exitosos": 630,
+  "exitosos": 635,
   "fallos": [
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-020",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-246",
       "error": "Sin stock"
     },
     {
@@ -35,8 +30,18 @@
     },
     {
       "retailer": "santaisabel",
+      "sku_interno": "TC-597",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
       "sku_interno": "TC-601",
       "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-671",
+      "error": "HTTP 404"
     },
     {
       "retailer": "alvi",
@@ -55,12 +60,22 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-033",
+      "sku_interno": "TC-104",
+      "error": "No se encontró el precio en el HTML"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-271",
       "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-104",
+      "sku_interno": "TC-371",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-585",
       "error": "HTTP 403"
     },
     {
@@ -85,48 +100,8 @@
     },
     {
       "retailer": "unimarc",
-      "sku_interno": "TC-211",
-      "error": "Error CFFI: Failed to perform, curl: (28) Operation "
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-212",
-      "error": "Error CFFI: Failed to perform, curl: (28) Operation "
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-213",
-      "error": "HTTP 502"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-214",
-      "error": "HTTP 502"
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-215",
-      "error": "Error CFFI: Failed to perform, curl: (28) Operation "
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-216",
-      "error": "Error CFFI: Failed to perform, curl: (28) Operation "
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-217",
-      "error": "Error CFFI: Failed to perform, curl: (28) Operation "
-    },
-    {
-      "retailer": "unimarc",
       "sku_interno": "TC-218",
-      "error": "Error CFFI: Failed to perform, curl: (28) Operation "
-    },
-    {
-      "retailer": "unimarc",
-      "sku_interno": "TC-327",
-      "error": "Error CFFI: Failed to perform, curl: (28) Operation "
+      "error": "HTTP 404"
     },
     {
       "retailer": "unimarc",
