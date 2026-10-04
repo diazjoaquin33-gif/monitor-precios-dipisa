@@ -1,7 +1,7 @@
 {
-  "fecha": "04/10/2026 06:57 hrs",
+  "fecha": "04/10/2026 13:05 hrs",
   "total_skus": 656,
-  "exitosos": 638,
+  "exitosos": 604,
   "fallos": [
     {
       "retailer": "santaisabel",
@@ -11,6 +11,11 @@
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-240",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-245",
       "error": "Sin stock"
     },
     {
@@ -92,6 +97,171 @@
       "retailer": "unimarc",
       "sku_interno": "TC-612",
       "error": "HTTP 404"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-497",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-498",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-499",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-500",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-501",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-502",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-503",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-504",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-505",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-506",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-507",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-508",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-509",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-510",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-511",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-512",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-513",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-514",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-515",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-516",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-517",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-518",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-519",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-520",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-521",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-522",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-523",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-524",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-525",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-526",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-527",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-528",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-529",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
     }
   ],
   "overrides_url_aplicados": 0,
