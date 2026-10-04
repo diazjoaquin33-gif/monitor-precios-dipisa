@@ -1,11 +1,16 @@
 {
-  "fecha": "03/10/2026 20:14 hrs",
+  "fecha": "04/10/2026 06:57 hrs",
   "total_skus": 656,
-  "exitosos": 639,
+  "exitosos": 638,
   "fallos": [
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-020",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-240",
       "error": "Sin stock"
     },
     {
@@ -21,11 +26,6 @@
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-592",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-643",
       "error": "Sin stock"
     },
     {
@@ -47,6 +47,11 @@
       "retailer": "acuenta",
       "sku_interno": "TC-131",
       "error": "SKU '1103955' no encontrado en Instaleap"
+    },
+    {
+      "retailer": "acuenta",
+      "sku_interno": "TC-319",
+      "error": "SKU '889609' no encontrado en Instaleap"
     },
     {
       "retailer": "acuenta",
