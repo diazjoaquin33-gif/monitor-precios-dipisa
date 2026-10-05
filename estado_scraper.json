@@ -1,11 +1,11 @@
 {
-  "fecha": "05/10/2026 07:35 hrs",
+  "fecha": "05/10/2026 16:58 hrs",
   "total_skus": 656,
-  "exitosos": 636,
+  "exitosos": 633,
   "fallos": [
     {
       "retailer": "santaisabel",
-      "sku_interno": "TC-013",
+      "sku_interno": "TC-008",
       "error": "Sin stock"
     },
     {
@@ -21,6 +21,16 @@
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-240",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-242",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-245",
       "error": "Sin stock"
     },
     {
@@ -76,6 +86,11 @@
     {
       "retailer": "liquimax",
       "sku_interno": "TC-465",
+      "error": "Error Liquimax: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-476",
       "error": "Error Liquimax: Expecting value: line 1 column 1 (char 0)"
     },
     {
