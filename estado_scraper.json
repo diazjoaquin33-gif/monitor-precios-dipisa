@@ -1,7 +1,7 @@
 {
-  "fecha": "04/10/2026 20:19 hrs",
+  "fecha": "05/10/2026 07:35 hrs",
   "total_skus": 656,
-  "exitosos": 637,
+  "exitosos": 636,
   "fallos": [
     {
       "retailer": "santaisabel",
@@ -16,6 +16,11 @@
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-022",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-240",
       "error": "Sin stock"
     },
     {
@@ -66,7 +71,7 @@
     {
       "retailer": "tottus",
       "sku_interno": "TC-104",
-      "error": "No se encontró el precio en el HTML"
+      "error": "HTTP 403"
     },
     {
       "retailer": "liquimax",
