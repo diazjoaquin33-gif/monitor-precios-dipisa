@@ -1,8 +1,13 @@
 {
-  "fecha": "06/10/2026 14:22 hrs",
+  "fecha": "06/10/2026 20:58 hrs",
   "total_skus": 656,
-  "exitosos": 634,
+  "exitosos": 636,
   "fallos": [
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-017",
+      "error": "HTTP 404"
+    },
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-020",
@@ -10,18 +15,13 @@
     },
     {
       "retailer": "santaisabel",
-      "sku_interno": "TC-022",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "santaisabel",
       "sku_interno": "TC-386",
-      "error": "Sin stock"
+      "error": "HTTP 404"
     },
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-394",
-      "error": "Sin stock"
+      "error": "HTTP 404"
     },
     {
       "retailer": "santaisabel",
@@ -50,11 +50,6 @@
     },
     {
       "retailer": "acuenta",
-      "sku_interno": "TC-136",
-      "error": "HTTP 502"
-    },
-    {
-      "retailer": "acuenta",
       "sku_interno": "TC-319",
       "error": "SKU '889609' no encontrado en Instaleap"
     },
@@ -65,17 +60,12 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-104",
-      "error": "No se encontró el precio en el HTML"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-127",
+      "sku_interno": "TC-027",
       "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-276",
+      "sku_interno": "TC-104",
       "error": "HTTP 403"
     },
     {
