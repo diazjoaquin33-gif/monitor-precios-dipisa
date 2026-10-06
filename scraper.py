@@ -471,6 +471,20 @@ def _consultar_instaleap(url: str, cfg: dict):
         if not precio:
             return None, None, False, "Sin precio en la respuesta"
         precio_normal = p.get("previousPrice") or precio
+        # aCuenta/Central Mayorista publican la oferta como promoción
+        # "specialPrice": 'price' sigue siendo el precio de lista y el precio
+        # rebajado va en promotion.conditions[].price (quantity 0 = compra de
+        # 1 unidad). previousPrice viene vacío, así que sin esto las ofertas
+        # nunca se detectaban.
+        promo = p.get("promotion") or {}
+        if promo.get("isActive"):
+            rebajas = [
+                c["price"] for c in promo.get("conditions") or []
+                if c.get("price") and (c.get("quantity") or 0) <= 1 and c["price"] < precio
+            ]
+            if rebajas:
+                precio_normal = max(precio_normal, precio)
+                precio = min(rebajas)
         disponible = bool(p.get("isAvailable")) and (p.get("stock") or 0) > 0
         return float(precio), float(precio_normal), disponible, None
     except Exception as e:
