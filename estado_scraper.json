@@ -1,5 +1,5 @@
 {
-  "fecha": "08/10/2026 10:59 hrs",
+  "fecha": "08/10/2026 11:30 hrs",
   "total_skus": 666,
   "exitosos": 643,
   "fallos": [
@@ -128,74 +128,19 @@
     "motivo_rechazo": null,
     "cambios": [
       {
-        "tipo": "alta",
-        "sku": "TC-683",
-        "detalle": "Toallas Húmedas Babysec Premium 45 un. (Babysec)"
+        "tipo": "edicion",
+        "sku": "TC-593",
+        "detalle": "Unidades: '300' → '100'; Sector: '300 un' → '3 x 100 un'"
       },
       {
-        "tipo": "alta",
-        "sku": "TC-684",
-        "detalle": "Toallitas húmedas babysec premium 99% agua 135 un (Babysec)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-685",
-        "detalle": "Toallas Húmedas Babysec Ultra Fresh 80 un. (Babysec)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-686",
-        "detalle": "Pack Toallitas Húmedas Babysec Ultra Fresh 2 x 50 Un (Babysec)"
-      },
-      {
-        "tipo": "alta",
+        "tipo": "edicion",
         "sku": "TC-687",
-        "detalle": "Pack Toallitas Húmedas Emubaby 100 Un (Emubaby)"
+        "detalle": "Unidades: '300' → '100'; Sector: '300 un' → '3 x 100 un'"
       },
       {
-        "tipo": "alta",
-        "sku": "TC-688",
-        "detalle": "Toallas Húmedas Huggies Limpieza Efectiva 48 un. (Huggies)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-689",
-        "detalle": "Toallitas húmedas huggies one and done 80 un (Huggies)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-690",
-        "detalle": "Toallas Húmedas Simond's Gloss 2 Paquetes de 60 un. (Simonds)"
-      },
-      {
-        "tipo": "alta",
+        "tipo": "edicion",
         "sku": "TC-691",
-        "detalle": "Toallitas Húmedas Simonds Gloss 120 UN (Simonds)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-692",
-        "detalle": "Toallitas húmedas emubaby water premium 2 un de 80 un (Emubaby)"
-      },
-      {
-        "tipo": "edicion",
-        "sku": "TC-619",
-        "detalle": "Nombre estándar: 'Huggies Limpieza Efectiva x96' → 'Huggies Limpieza Efectiva x48'"
-      },
-      {
-        "tipo": "edicion",
-        "sku": "TC-620",
-        "detalle": "Nombre estándar: 'Huggies Limpieza Efectiva x96' → 'Huggies Limpieza Efectiva x48'"
-      },
-      {
-        "tipo": "edicion",
-        "sku": "TC-621",
-        "detalle": "Nombre estándar: 'Huggies Limpieza Efectiva x96' → 'Huggies Limpieza Efectiva x48'"
-      },
-      {
-        "tipo": "edicion",
-        "sku": "TC-622",
-        "detalle": "Nombre estándar: 'Huggies Limpieza Efectiva x96' → 'Huggies Limpieza Efectiva x48'"
+        "detalle": "Producto: 'Toallitas Húmedas Simonds Gloss 120 UN' → 'Toallitas Húmedas Simonds Gloss 60 UN'; Unidades: '120' → '60'; Sector: '120 un' → '60 un'"
       }
     ]
   },

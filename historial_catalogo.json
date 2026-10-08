@@ -4036,5 +4036,23 @@
     "tipo": "edicion",
     "sku": "TC-622",
     "detalle": "Nombre estándar: 'Huggies Limpieza Efectiva x96' → 'Huggies Limpieza Efectiva x48'"
+  },
+  {
+    "fecha": "08/10/2026 11:18 hrs",
+    "tipo": "edicion",
+    "sku": "TC-593",
+    "detalle": "Unidades: '300' → '100'; Sector: '300 un' → '3 x 100 un'"
+  },
+  {
+    "fecha": "08/10/2026 11:18 hrs",
+    "tipo": "edicion",
+    "sku": "TC-687",
+    "detalle": "Unidades: '300' → '100'; Sector: '300 un' → '3 x 100 un'"
+  },
+  {
+    "fecha": "08/10/2026 11:18 hrs",
+    "tipo": "edicion",
+    "sku": "TC-691",
+    "detalle": "Producto: 'Toallitas Húmedas Simonds Gloss 120 UN' → 'Toallitas Húmedas Simonds Gloss 60 UN'; Unidades: '120' → '60'; Sector: '120 un' → '60 un'"
   }
 ]
