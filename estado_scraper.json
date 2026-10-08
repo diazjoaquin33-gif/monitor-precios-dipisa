@@ -1,11 +1,31 @@
 {
-  "fecha": "07/10/2026 21:23 hrs",
+  "fecha": "08/10/2026 07:44 hrs",
   "total_skus": 656,
   "exitosos": 633,
   "fallos": [
     {
       "retailer": "santaisabel",
+      "sku_interno": "TC-013",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
       "sku_interno": "TC-020",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-240",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-245",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-385",
       "error": "Sin stock"
     },
     {
@@ -24,6 +44,11 @@
       "error": "Sin stock"
     },
     {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-643",
+      "error": "Sin stock"
+    },
+    {
       "retailer": "alvi",
       "sku_interno": "TC-302",
       "error": "HTTP 404"
@@ -37,11 +62,6 @@
       "retailer": "alvi",
       "sku_interno": "TC-307",
       "error": "HTTP 404"
-    },
-    {
-      "retailer": "acuenta",
-      "sku_interno": "TC-131",
-      "error": "SKU '1103955' no encontrado en Instaleap"
     },
     {
       "retailer": "acuenta",
@@ -62,16 +82,6 @@
       "retailer": "tottus",
       "sku_interno": "TC-104",
       "error": "No se encontró el precio en el HTML"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-616",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-645",
-      "error": "HTTP 403"
     },
     {
       "retailer": "liquimax",
@@ -107,16 +117,6 @@
       "retailer": "unimarc",
       "sku_interno": "TC-612",
       "error": "HTTP 404"
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-503",
-      "error": "HTTP 500"
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-504",
-      "error": "HTTP 500"
     }
   ],
   "overrides_url_aplicados": 0,
