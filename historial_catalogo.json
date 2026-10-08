@@ -4198,5 +4198,29 @@
     "tipo": "alta",
     "sku": "TC-712",
     "detalle": "Toallas Húmedas Emubaby Paquetes de 80 un. (Emubaby)"
+  },
+  {
+    "fecha": "08/10/2026 12:48 hrs",
+    "tipo": "edicion",
+    "sku": "TC-606",
+    "detalle": "Nombre estándar: 'Emubaby x160' → 'Emubaby x80'"
+  },
+  {
+    "fecha": "08/10/2026 12:48 hrs",
+    "tipo": "edicion",
+    "sku": "TC-607",
+    "detalle": "Nombre estándar: 'Emubaby x160' → 'Emubaby x80'"
+  },
+  {
+    "fecha": "08/10/2026 12:48 hrs",
+    "tipo": "edicion",
+    "sku": "TC-608",
+    "detalle": "Nombre estándar: 'Emubaby x160' → 'Emubaby x80'"
+  },
+  {
+    "fecha": "08/10/2026 12:48 hrs",
+    "tipo": "edicion",
+    "sku": "TC-609",
+    "detalle": "Nombre estándar: 'Emubaby x160' → 'Emubaby x80'"
   }
 ]
