@@ -1,7 +1,7 @@
 {
-  "fecha": "08/10/2026 12:59 hrs",
+  "fecha": "08/10/2026 15:03 hrs",
   "total_skus": 686,
-  "exitosos": 666,
+  "exitosos": 665,
   "fallos": [
     {
       "retailer": "santaisabel",
@@ -69,6 +69,11 @@
       "error": "HTTP 403"
     },
     {
+      "retailer": "jumbo",
+      "sku_interno": "TC-053",
+      "error": "HTTP 404"
+    },
+    {
       "retailer": "liquimax",
       "sku_interno": "TC-465",
       "error": "Error Liquimax: Expecting value: line 1 column 1 (char 0)"
@@ -111,28 +116,7 @@
     "filas_aplicadas": 686,
     "problemas": [],
     "motivo_rechazo": null,
-    "cambios": [
-      {
-        "tipo": "edicion",
-        "sku": "TC-606",
-        "detalle": "Nombre estándar: 'Emubaby x160' → 'Emubaby x80'"
-      },
-      {
-        "tipo": "edicion",
-        "sku": "TC-607",
-        "detalle": "Nombre estándar: 'Emubaby x160' → 'Emubaby x80'"
-      },
-      {
-        "tipo": "edicion",
-        "sku": "TC-608",
-        "detalle": "Nombre estándar: 'Emubaby x160' → 'Emubaby x80'"
-      },
-      {
-        "tipo": "edicion",
-        "sku": "TC-609",
-        "detalle": "Nombre estándar: 'Emubaby x160' → 'Emubaby x80'"
-      }
-    ]
+    "cambios": []
   },
   "catalogo_planilla_aviso": null,
   "retailers_desactivados": [],
