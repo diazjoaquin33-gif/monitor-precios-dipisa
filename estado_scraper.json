@@ -1,7 +1,7 @@
 {
-  "fecha": "08/10/2026 11:52 hrs",
+  "fecha": "08/10/2026 12:22 hrs",
   "total_skus": 678,
-  "exitosos": 655,
+  "exitosos": 657,
   "fallos": [
     {
       "retailer": "santaisabel",
@@ -39,11 +39,6 @@
       "error": "Sin stock"
     },
     {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-643",
-      "error": "Sin stock"
-    },
-    {
       "retailer": "alvi",
       "sku_interno": "TC-302",
       "error": "HTTP 404"
@@ -76,11 +71,6 @@
     {
       "retailer": "tottus",
       "sku_interno": "TC-104",
-      "error": "No se encontró el precio en el HTML"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-371",
       "error": "HTTP 403"
     },
     {
@@ -126,88 +116,7 @@
     "filas_aplicadas": 678,
     "problemas": [],
     "motivo_rechazo": null,
-    "cambios": [
-      {
-        "tipo": "alta",
-        "sku": "TC-693",
-        "detalle": "Toallitas Húmedas Babysec Ultra Fresh, Duo Pack 100 Un (Babysec)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-694",
-        "detalle": "Toallitas Húmedas emubaby 99% Agua, Pack 64 Un (Emubaby)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-695",
-        "detalle": "Toallitas Húmedas Huggies Limpieza Efectiva 96 Un (Huggies)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-696",
-        "detalle": "Toallitas húmedas aqua regular 100 Un Parent's Choice (Parent's Choice)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-697",
-        "detalle": "Toallitas húmedas 80 Un Parents Choice (Parent's Choice)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-698",
-        "detalle": "Toallitas Húmedas infans 99,9% Agua 80 Un (Infans)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-699",
-        "detalle": "Toallitas Húmedas Parent's Choice 99% Agua, Pack 180 Un (Parent's Choice)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-700",
-        "detalle": "Toallitas Húmedas Babysec Premium, Super Pack 140 Un (Babysec)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-701",
-        "detalle": "Toallitas Húmedas Huggies Cuidado 4 en 1 80 Un (Huggies)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-702",
-        "detalle": "Toallitas Húmedas Huggies Limpieza Diaria 112 Un (Huggies)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-703",
-        "detalle": "Toallitas Húmedas Babysec Premium 70 Un (Babysec)"
-      },
-      {
-        "tipo": "alta",
-        "sku": "TC-704",
-        "detalle": "Toallitas Húmedas Babysec Super Premium 99% Agua 40 Un (Babysec)"
-      },
-      {
-        "tipo": "edicion",
-        "sku": "TC-677",
-        "detalle": "Grupo: '' → '249'"
-      },
-      {
-        "tipo": "edicion",
-        "sku": "TC-686",
-        "detalle": "Sector: '50 un' → '2 x 50 un'"
-      },
-      {
-        "tipo": "edicion",
-        "sku": "TC-687",
-        "detalle": "Unidades: '100' → '300'"
-      },
-      {
-        "tipo": "edicion",
-        "sku": "TC-692",
-        "detalle": "Sector: '160 un' → '2 x 80 un'"
-      }
-    ]
+    "cambios": []
   },
   "catalogo_planilla_aviso": null,
   "retailers_desactivados": [],
