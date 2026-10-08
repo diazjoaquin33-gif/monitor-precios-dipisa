@@ -1,7 +1,7 @@
 {
-  "fecha": "08/10/2026 12:22 hrs",
-  "total_skus": 678,
-  "exitosos": 657,
+  "fecha": "08/10/2026 12:45 hrs",
+  "total_skus": 686,
+  "exitosos": 662,
   "fallos": [
     {
       "retailer": "santaisabel",
@@ -80,6 +80,21 @@
     },
     {
       "retailer": "liquimax",
+      "sku_interno": "TC-470",
+      "error": "HTTP 502"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-474",
+      "error": "HTTP 502"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-475",
+      "error": "HTTP 502"
+    },
+    {
+      "retailer": "liquimax",
       "sku_interno": "TC-476",
       "error": "Error Liquimax: Expecting value: line 1 column 1 (char 0)"
     },
@@ -113,10 +128,53 @@
   "overrides_url_aviso": null,
   "catalogo_planilla": {
     "aplicado": true,
-    "filas_aplicadas": 678,
-    "problemas": [],
+    "filas_aplicadas": 686,
+    "problemas": [
+      "⚠️ Grupo 232: nombre estándar distinto entre sus filas (Emubaby x160, Emubaby x80), revisar cuál es el correcto"
+    ],
     "motivo_rechazo": null,
-    "cambios": []
+    "cambios": [
+      {
+        "tipo": "alta",
+        "sku": "TC-705",
+        "detalle": "Toallas Húmedas Babysec Premium 45 un. (Babysec)"
+      },
+      {
+        "tipo": "alta",
+        "sku": "TC-706",
+        "detalle": "Toallitas húmedas emubaby premium 2 un de 80 un (Emubaby)"
+      },
+      {
+        "tipo": "alta",
+        "sku": "TC-707",
+        "detalle": "TOALLA HUMEDA C/TAPA 80UN CARE UP BABY (Care Up)"
+      },
+      {
+        "tipo": "alta",
+        "sku": "TC-708",
+        "detalle": "TOALLA HUMEDA 50UN CARE UP BABY (Care Up)"
+      },
+      {
+        "tipo": "alta",
+        "sku": "TC-709",
+        "detalle": "Toallitas Húmedas Babysec Premium 70 Un (Babysec)"
+      },
+      {
+        "tipo": "alta",
+        "sku": "TC-710",
+        "detalle": "Toallas Húmedas Huggies Limpieza Efectiva 48 un. (Huggies)"
+      },
+      {
+        "tipo": "alta",
+        "sku": "TC-711",
+        "detalle": "Toallas Húmedas Babysec Ultra Fresh 80 un. (Babysec)"
+      },
+      {
+        "tipo": "alta",
+        "sku": "TC-712",
+        "detalle": "Toallas Húmedas Emubaby Paquetes de 80 un. (Emubaby)"
+      }
+    ]
   },
   "catalogo_planilla_aviso": null,
   "retailers_desactivados": [],

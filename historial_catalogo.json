@@ -4150,5 +4150,53 @@
     "tipo": "edicion",
     "sku": "TC-692",
     "detalle": "Sector: '160 un' → '2 x 80 un'"
+  },
+  {
+    "fecha": "08/10/2026 12:34 hrs",
+    "tipo": "alta",
+    "sku": "TC-705",
+    "detalle": "Toallas Húmedas Babysec Premium 45 un. (Babysec)"
+  },
+  {
+    "fecha": "08/10/2026 12:34 hrs",
+    "tipo": "alta",
+    "sku": "TC-706",
+    "detalle": "Toallitas húmedas emubaby premium 2 un de 80 un (Emubaby)"
+  },
+  {
+    "fecha": "08/10/2026 12:34 hrs",
+    "tipo": "alta",
+    "sku": "TC-707",
+    "detalle": "TOALLA HUMEDA C/TAPA 80UN CARE UP BABY (Care Up)"
+  },
+  {
+    "fecha": "08/10/2026 12:34 hrs",
+    "tipo": "alta",
+    "sku": "TC-708",
+    "detalle": "TOALLA HUMEDA 50UN CARE UP BABY (Care Up)"
+  },
+  {
+    "fecha": "08/10/2026 12:34 hrs",
+    "tipo": "alta",
+    "sku": "TC-709",
+    "detalle": "Toallitas Húmedas Babysec Premium 70 Un (Babysec)"
+  },
+  {
+    "fecha": "08/10/2026 12:34 hrs",
+    "tipo": "alta",
+    "sku": "TC-710",
+    "detalle": "Toallas Húmedas Huggies Limpieza Efectiva 48 un. (Huggies)"
+  },
+  {
+    "fecha": "08/10/2026 12:34 hrs",
+    "tipo": "alta",
+    "sku": "TC-711",
+    "detalle": "Toallas Húmedas Babysec Ultra Fresh 80 un. (Babysec)"
+  },
+  {
+    "fecha": "08/10/2026 12:34 hrs",
+    "tipo": "alta",
+    "sku": "TC-712",
+    "detalle": "Toallas Húmedas Emubaby Paquetes de 80 un. (Emubaby)"
   }
 ]
