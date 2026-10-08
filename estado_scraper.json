@@ -1,7 +1,7 @@
 {
-  "fecha": "07/10/2026 15:01 hrs",
+  "fecha": "07/10/2026 21:23 hrs",
   "total_skus": 656,
-  "exitosos": 637,
+  "exitosos": 633,
   "fallos": [
     {
       "retailer": "santaisabel",
@@ -45,6 +45,11 @@
     },
     {
       "retailer": "acuenta",
+      "sku_interno": "TC-318",
+      "error": "SKU '1142328' no encontrado en Instaleap"
+    },
+    {
+      "retailer": "acuenta",
       "sku_interno": "TC-319",
       "error": "SKU '889609' no encontrado en Instaleap"
     },
@@ -56,6 +61,16 @@
     {
       "retailer": "tottus",
       "sku_interno": "TC-104",
+      "error": "No se encontró el precio en el HTML"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-616",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-645",
       "error": "HTTP 403"
     },
     {
@@ -95,8 +110,13 @@
     },
     {
       "retailer": "imanweb",
-      "sku_interno": "TC-548",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+      "sku_interno": "TC-503",
+      "error": "HTTP 500"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-504",
+      "error": "HTTP 500"
     }
   ],
   "overrides_url_aplicados": 0,
