@@ -1,16 +1,11 @@
 {
-  "fecha": "09/10/2026 14:38 hrs",
+  "fecha": "09/10/2026 21:13 hrs",
   "total_skus": 686,
-  "exitosos": 662,
+  "exitosos": 663,
   "fallos": [
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-020",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-246",
       "error": "Sin stock"
     },
     {
@@ -36,11 +31,6 @@
     {
       "retailer": "alvi",
       "sku_interno": "TC-302",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-305",
       "error": "HTTP 404"
     },
     {
@@ -106,6 +96,11 @@
     {
       "retailer": "unimarc",
       "sku_interno": "TC-218",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "unimarc",
+      "sku_interno": "TC-595",
       "error": "HTTP 404"
     },
     {
