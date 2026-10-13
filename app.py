@@ -1289,8 +1289,8 @@ if not _ES_VENTA:
 _buf_jefe = io.BytesIO()
 # "Toma de Precios Tissue" es específico de papel higiénico/toalla/
 # servilletas (columnas Rollos, Mt x Rollo, etc.) — Toallitas Húmedas es una
-# línea de producto distinta que no calza en ese formato, así que queda
-# afuera de este Excel por ahora (sigue viéndose normal en el dashboard).
+# línea de producto distinta que no calza en ese formato, así que va en una
+# segunda hoja del mismo Excel (ver más abajo).
 _df_jefe = _armar_export_formato_jefe(
     df_completo[~df_completo["retailer_desactivado"] & (df_completo["categoria"] != "Toallitas Humedas")]
 )
@@ -1298,6 +1298,26 @@ with pd.ExcelWriter(_buf_jefe, engine="openpyxl") as _xw:
     _df_jefe.to_excel(_xw, index=False, sheet_name="Toma de Precios Tissue")
     if not _df_jefe.empty:
         _aplicar_formato_jefe(_xw.sheets["Toma de Precios Tissue"], _df_jefe)
+    # Toallitas Húmedas va en su propia hoja: no tiene rollos ni metros, se
+    # compara en $/unidad, así que no calza en las columnas de "Tissue".
+    _tw = df_completo[~df_completo["retailer_desactivado"] & (df_completo["categoria"] == "Toallitas Humedas")]
+    _df_toallitas = pd.DataFrame({
+        "Codigo": _tw["sku_interno"],
+        "Fecha": _tw["fecha_act"],
+        "Tipo": _tw["canal"].map(lambda c: "May" if c == "mayorista" else "Ret"),
+        "Local": _tw["retailer_nombre"],
+        "Marca": _tw["marca"],
+        "Producto": _tw["producto"],
+        "Subcategoría": _tw["subcategoria"],
+        "Un x Envase": _tw["unidades"],
+        "Pqtes x Caja": _tw["packs_por_bulto"],
+        "PVP": _tw["precio"],
+        "Precio Lista": _tw["precio_normal"],
+        "Descuento %": _tw["descuento_pct"],
+        "$ x Unidad": _tw["precio_unidad"],
+        "Estado": _tw["estado"],
+    })
+    _df_toallitas.to_excel(_xw, index=False, sheet_name="Toallitas Húmedas")
 st.sidebar.download_button(
     "⬇️ Descargar Toma de Precios Tissue",
     data=_buf_jefe.getvalue(),
