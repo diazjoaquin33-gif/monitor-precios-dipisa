@@ -12,6 +12,7 @@ from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 from pathlib import Path
 from curl_cffi import requests as cffi_requests
+from correcciones import autocorregir_catalogo
 
 BASE_DIR = Path(__file__).parent
 PRODUCTOS_PATH = BASE_DIR / "productos.csv"
@@ -308,9 +309,13 @@ def sincronizar_desde_catalogo(df_nuevo, retailers_cfg):
     fuerte. Los problemas puntuales de fila (ver validar_catalogo) sí se
     reportan pero no frenan al resto. Devuelve un resumen para el panel de
     salud del dashboard."""
-    resumen = {"aplicado": False, "filas_aplicadas": 0, "problemas": [], "motivo_rechazo": None, "cambios": []}
+    resumen = {"aplicado": False, "filas_aplicadas": 0, "problemas": [], "motivo_rechazo": None, "cambios": [], "correcciones": [], "avisos": []}
     if df_nuevo is None or df_nuevo.empty:
         return resumen
+
+    # Antes de validar se arreglan solo los errores de tipeo deducibles (ver
+    # correcciones.py), para que una fila con un detalle menor no quede afuera.
+    df_nuevo, resumen["correcciones"], resumen["avisos"] = autocorregir_catalogo(df_nuevo, set(retailers_cfg.keys()))
 
     texto = PRODUCTOS_PATH.read_text(encoding="utf-8")
     lineas = texto.splitlines()
@@ -359,13 +364,17 @@ def cargar_config():
     with open(RETAILERS_PATH, "r", encoding="utf-8") as f:
         retailers = yaml.safe_load(f)
     catalogo, aviso_catalogo = cargar_catalogo_planilla()
-    resumen = {"aplicado": False, "filas_aplicadas": 0, "problemas": [], "motivo_rechazo": None}
+    resumen = {"aplicado": False, "filas_aplicadas": 0, "problemas": [], "motivo_rechazo": None, "correcciones": [], "avisos": []}
     if catalogo is not None and not catalogo.empty:
         resumen = sincronizar_desde_catalogo(catalogo, retailers)
         if resumen["aplicado"]:
             print(f"📋 Catálogo aplicado desde la planilla: {resumen['filas_aplicadas']} producto(s)")
         if resumen["motivo_rechazo"]:
             print(f"🚫 Catálogo de la planilla RECHAZADO: {resumen['motivo_rechazo']}")
+        if resumen["correcciones"]:
+            print(f"🔧 {len(resumen['correcciones'])} corrección(es) automática(s) en la planilla: {resumen['correcciones']}")
+        if resumen["avisos"]:
+            print(f"🔎 Para revisar en la planilla (no se tocó): {resumen['avisos']}")
         if resumen["problemas"]:
             print(f"⚠️ Filas del catálogo con problemas (ignoradas o solo avisadas): {resumen['problemas']}")
     if aviso_catalogo:

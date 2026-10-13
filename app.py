@@ -8,6 +8,7 @@ import base64
 import contextlib
 import requests
 from pathlib import Path
+from correcciones import autocorregir_catalogo
 
 st.set_page_config(
     page_title="Monitor de Precios | Dipisa",
@@ -160,7 +161,7 @@ COLUMNAS_TEXTO_OBLIGATORIAS = ["producto", "marca", "categoria", "subcategoria"]
 
 
 @st.cache_data(ttl=600)
-def cargar_catalogo_planilla():
+def _cargar_catalogo_planilla_bruto():
     """Catálogo COMPLETO que el equipo mantiene en la pestaña 'Catálogo' de la
     planilla de Google: cada fila es un producto, sin columna 'Acción' — agregar
     una fila es un alta, borrarla es una baja, cambiar un valor es una edición.
@@ -188,6 +189,22 @@ def cargar_catalogo_planilla():
         if col not in df.columns:
             df[col] = pd.NA
     return df[COLUMNAS_PRODUCTOS]
+
+
+@st.cache_data(ttl=600)
+def cargar_catalogo_planilla_corregido():
+    """(df, correcciones, avisos): la planilla ya pasada por la autocorrección
+    de correcciones.py — la misma que aplica el scraper — para que el panel en
+    vivo y las altas provisorias muestren lo mismo que va a quedar en
+    productos.csv, y para poder avisar qué se corrigió solo."""
+    bruto = _cargar_catalogo_planilla_bruto()
+    with open(BASE_DIR / "retailers.yaml", "r", encoding="utf-8") as f:
+        retailers = set(yaml.safe_load(f).keys())
+    return autocorregir_catalogo(bruto, retailers)
+
+
+def cargar_catalogo_planilla():
+    return cargar_catalogo_planilla_corregido()[0]
 
 
 def _numero_valido(val):
@@ -875,21 +892,13 @@ def _aplicar_formato_jefe(ws, df_out):
 
 
 def _fmt_formato(r):
-    if r.get("categoria") == "Toallitas Humedas" and pd.notna(r.get("unidades")):
-        total = int(r["unidades"])
-        n = r.get("packs_por_bulto")
-        # 'unidades' en Toallitas Húmedas es el TOTAL del envase (a
-        # diferencia de Servilletas, donde ya es la cantidad por paquete) —
-        # ver el comentario de precio_unidad en cargar_datos. Con paquetes
-        # detectados se desglosa "N paquetes x M un = T un total"; sin eso,
-        # se asume un solo paquete (el total ES la cantidad por paquete).
-        if pd.notna(n) and n and n > 1:
-            por_paquete = round(total / n)
-            base = f"{int(n)} paq. x {por_paquete}un = {total}un total · {r['subcategoria']}"
-        else:
-            base = f"{total} un · {r['subcategoria']}"
-        return base
-    if r.get("categoria") == "Servilletas" and pd.notna(r.get("unidades")):
+    # 'unidades' en Toallitas Húmedas es el TOTAL del envase (a diferencia de
+    # Servilletas, donde ya es la cantidad por paquete) — ver el comentario
+    # de precio_unidad en cargar_datos. El usuario pidió que el texto de
+    # "Formato" se mantenga simple igual que Servilletas (lo usa para
+    # comparar/filtrar); el desglose de paquetes sigue disponible aparte, en
+    # las columnas "Pqtes x Caja"/"Precio pack" de la tabla cuando aplica.
+    if r.get("categoria") in ("Servilletas", "Toallitas Humedas") and pd.notna(r.get("unidades")):
         base = f"{int(r['unidades'])} un · {r['subcategoria']}"
         n = r.get("packs_por_bulto")
         if pd.notna(n) and n and n > 1:
@@ -991,6 +1000,7 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
         "packs_por_bulto" in df_grupo.columns
         and pd.to_numeric(df_grupo["packs_por_bulto"], errors="coerce").fillna(1).gt(1).any()
     )
+    es_toallitas_grupo = not df_grupo.empty and (df_grupo["categoria"] == "Toallitas Humedas").all()
     filas = []
     precios_metro = []
     for _, r in df_grupo.iterrows():
@@ -1019,7 +1029,19 @@ def _tabla_categoria(df_grupo, ocultar_columnas=None, mostrar_formato=False, res
             fila["Desc."] = f"-{int(r['descuento_pct'])}%" if pd.notna(r["descuento_pct"]) else "—"
             if hay_precio2:
                 fila["Desde 2 un"] = _formatear_clp(r.get("precio_socio2")) if pd.notna(r.get("precio_socio2")) else "—"
-        if hay_bulto_grupo:
+        if es_toallitas_grupo:
+            # Toallitas: el precio publicado es el del envase completo (ej. "2 x
+            # 50 un") y se compara por $/un, así que no hay "caja"/"precio pack"
+            # que mostrar — una sola columna dice cómo viene armado el envase.
+            n = pd.to_numeric(r.get("packs_por_bulto"), errors="coerce")
+            total = r.get("unidades")
+            if pd.isna(total):
+                fila["Paquetes"] = "—"
+            elif pd.notna(n) and n > 1:
+                fila["Paquetes"] = f"{int(n)} x {total / n:g} un"
+            else:
+                fila["Paquetes"] = f"1 x {int(total)} un"
+        elif hay_bulto_grupo:
             lbl_bulto = "Precio caja" if unidad_ref == "u" else "Precio manga"
             lbl_unidades = "Pqtes x Caja" if unidad_ref == "u" else "Pqtes x Manga"
             n = pd.to_numeric(r.get("packs_por_bulto"), errors="coerce")
@@ -1351,6 +1373,13 @@ with st.sidebar.expander("➕ Agregar, editar o sacar un producto"):
                     "Si esto no fue intencional, revisen la planilla: el scraper va a "
                     "**ignorar todo el cambio** y seguir con el catálogo actual hasta que se corrija."
                 )
+            _, correcciones_pl, avisos_pl = cargar_catalogo_planilla_corregido()
+            if correcciones_pl:
+                with st.expander(f"🔧 {len(correcciones_pl)} dato(s) de la planilla se corrigieron solos"):
+                    st.caption("Se arreglaron al leer la planilla (la planilla no se modifica: conviene corregirlos ahí también).")
+                    st.markdown("- " + "\n- ".join(correcciones_pl))
+            if avisos_pl:
+                st.info("🔎 Para revisar en la planilla (se dejó como está):\n\n- " + "\n- ".join(avisos_pl))
             if problemas:
                 st.warning("Filas de la planilla con algo para revisar (se ignoran, no frenan al resto):\n\n- " + "\n- ".join(problemas))
             elif not (base_actual and caida > len(base_actual) * 0.3):
@@ -1370,6 +1399,12 @@ if estado_scraper:
             st.error(f"🚫 La planilla de Catálogo se ignoró en la última corrida: {catalogo_sync['motivo_rechazo']}")
         elif catalogo_sync.get("aplicado"):
             st.success(f"📋 Catálogo sincronizado desde la planilla en la última corrida: {catalogo_sync.get('filas_aplicadas', 0)} producto(s).")
+        if catalogo_sync.get("correcciones"):
+            with st.popover(f"🔧 {len(catalogo_sync['correcciones'])} corrección(es) automática(s) de la última corrida"):
+                st.markdown("- " + "\n- ".join(catalogo_sync["correcciones"]))
+        if catalogo_sync.get("avisos"):
+            with st.popover("🔎 Para revisar en la planilla"):
+                st.markdown("- " + "\n- ".join(catalogo_sync["avisos"]))
         if catalogo_sync.get("problemas"):
             with st.popover("Ver filas de la planilla ignoradas en la última corrida"):
                 st.markdown("- " + "\n- ".join(catalogo_sync["problemas"]))
