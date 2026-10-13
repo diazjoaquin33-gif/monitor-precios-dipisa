@@ -1,11 +1,21 @@
 {
-  "fecha": "12/10/2026 23:26 hrs",
+  "fecha": "13/10/2026 07:44 hrs",
   "total_skus": 686,
-  "exitosos": 657,
+  "exitosos": 654,
   "fallos": [
     {
       "retailer": "santaisabel",
+      "sku_interno": "TC-008",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
       "sku_interno": "TC-020",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-240",
       "error": "Sin stock"
     },
     {
@@ -16,6 +26,11 @@
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-247",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-248",
       "error": "Sin stock"
     },
     {
