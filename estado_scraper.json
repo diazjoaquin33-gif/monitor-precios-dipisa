@@ -1,7 +1,7 @@
 {
-  "fecha": "13/10/2026 15:29 hrs",
+  "fecha": "13/10/2026 20:55 hrs",
   "total_skus": 684,
-  "exitosos": 638,
+  "exitosos": 636,
   "fallos": [
     {
       "retailer": "santaisabel",
@@ -20,12 +20,17 @@
     },
     {
       "retailer": "santaisabel",
-      "sku_interno": "TC-247",
+      "sku_interno": "TC-245",
       "error": "Sin stock"
     },
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-248",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-254",
       "error": "Sin stock"
     },
     {
@@ -57,6 +62,11 @@
       "retailer": "acuenta",
       "sku_interno": "TC-137",
       "error": "SKU '4524518' no encontrado en Instaleap"
+    },
+    {
+      "retailer": "acuenta",
+      "sku_interno": "TC-143",
+      "error": "SKU '1020215' no encontrado en Instaleap"
     },
     {
       "retailer": "acuenta",
@@ -244,13 +254,7 @@
       "(fila sin Código): se ignoró, falta el Código"
     ],
     "motivo_rechazo": null,
-    "cambios": [
-      {
-        "tipo": "baja",
-        "sku": "TC-394",
-        "detalle": "Elite Fiestas Patrias Mesa 20 un (Elite)"
-      }
-    ],
+    "cambios": [],
     "correcciones": [],
     "avisos": []
   },
