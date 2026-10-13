@@ -1,13 +1,8 @@
 {
-  "fecha": "13/10/2026 11:28 hrs",
-  "total_skus": 685,
-  "exitosos": 635,
+  "fecha": "13/10/2026 15:29 hrs",
+  "total_skus": 684,
+  "exitosos": 638,
   "fallos": [
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-008",
-      "error": "Sin stock"
-    },
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-020",
@@ -25,11 +20,6 @@
     },
     {
       "retailer": "santaisabel",
-      "sku_interno": "TC-246",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "santaisabel",
       "sku_interno": "TC-247",
       "error": "Sin stock"
     },
@@ -40,17 +30,7 @@
     },
     {
       "retailer": "santaisabel",
-      "sku_interno": "TC-251",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "santaisabel",
       "sku_interno": "TC-257",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-394",
       "error": "Sin stock"
     },
     {
@@ -258,28 +238,21 @@
   "overrides_url_aviso": null,
   "catalogo_planilla": {
     "aplicado": true,
-    "filas_aplicadas": 685,
+    "filas_aplicadas": 684,
     "problemas": [
+      "(fila sin Código): se ignoró, falta el Código",
       "(fila sin Código): se ignoró, falta el Código"
     ],
     "motivo_rechazo": null,
     "cambios": [
       {
         "tipo": "baja",
-        "sku": "TC-386",
-        "detalle": "Elite Mesa Blanca 50 un (Elite)"
-      },
-      {
-        "tipo": "edicion",
-        "sku": "TC-030",
-        "detalle": "Producto: 'Doble Hoja Soft 4 x 25 mts' → 'PAPEL HIGIENICO 22 M DH FAM SOFT 40 UN'; Marca: 'Tottus' → 'Soft'; Metros totales: '100' → '880'; Link: 'https://www.tottus.cl/tottus-cl/articulo/112988502/ph-doble-hoja-soft-tottus-4-un-x-25-mt/112988503' → 'https://www.tottus.cl/tottus-cl/articulo/153119355/papel-higienico-22-m-dh-fam-soft-40-un/153119356'; Rollos: '4' → '40'; Metros por rollo: '25' → '22'; Nombre estándar: 'Tottus Soft DH 25 mts.x4' → 'Soft DH 22 mts.x40'; Sector: '4 x 25 mt' → '40 x 22 mt'"
-      },
-      {
-        "tipo": "edicion",
-        "sku": "TC-104",
-        "detalle": "Producto: 'Tottus Doble Hoja Soft 25 m 40 un' → 'Tottus Doble Hoja Soft 25 m 12 un'; Marca: 'Tottus' → 'Soft'; Metros totales: '1000' → '300'; Link: 'https://www.tottus.cl/tottus-cl/articulo/123891417/ph-doble-hoja-25mt-soft-tottus-40-un/123891418' → 'https://www.tottus.cl/tottus-cl/articulo/153119335/papel-higienico-25-m-dh-fam-soft-12-un/153119337'; Rollos: '40' → '12'; Nombre estándar: 'Tottus Soft DH 25 mts.x40' → 'Soft DH 25 mts.x12'; Sector: '40 x 22 mt' → '12 x 25 mt'"
+        "sku": "TC-394",
+        "detalle": "Elite Fiestas Patrias Mesa 20 un (Elite)"
       }
-    ]
+    ],
+    "correcciones": [],
+    "avisos": []
   },
   "catalogo_planilla_aviso": null,
   "retailers_desactivados": [],
