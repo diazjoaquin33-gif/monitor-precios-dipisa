@@ -636,6 +636,11 @@ def _consultar_curl_cffi(url: str, cfg: dict):
 
                 # 1. FRANCOTIRADOR TOTTUS / FALABELLA
                 if "tottus" in url or "falabella" in url:
+                    # La ficha sigue mostrando precio aunque el producto esté
+                    # agotado; el stock real viene en el JSON-LD (schema.org).
+                    m_stock = re.search(r'"availability"\s*:\s*"https://schema\.org/(\w+)"', texto, re.IGNORECASE)
+                    if m_stock and m_stock.group(1).lower() == "outofstock":
+                        return None, None, False, "Sin stock"
                     m_event = re.search(r'"type"\s*:\s*"eventPrice".*?"price"\s*:\s*\[\s*"?([\d.]+)"?\s*\]', texto, re.DOTALL | re.IGNORECASE)
                     m_normal = re.search(r'"type"\s*:\s*"normalPrice".*?"price"\s*:\s*\[\s*"?([\d.]+)"?\s*\]', texto, re.DOTALL | re.IGNORECASE)
                     
