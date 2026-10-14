@@ -1,16 +1,11 @@
 {
-  "fecha": "14/10/2026 13:05 hrs",
+  "fecha": "14/10/2026 20:25 hrs",
   "total_skus": 684,
-  "exitosos": 600,
+  "exitosos": 623,
   "fallos": [
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-020",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-240",
       "error": "Sin stock"
     },
     {
@@ -20,7 +15,17 @@
     },
     {
       "retailer": "santaisabel",
+      "sku_interno": "TC-247",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
       "sku_interno": "TC-248",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-254",
       "error": "Sin stock"
     },
     {
@@ -62,6 +67,11 @@
       "retailer": "acuenta",
       "sku_interno": "TC-310",
       "error": "SKU '853185' no encontrado en Instaleap"
+    },
+    {
+      "retailer": "acuenta",
+      "sku_interno": "TC-315",
+      "error": "SKU '877805' no encontrado en Instaleap"
     },
     {
       "retailer": "acuenta",
@@ -111,7 +121,7 @@
     {
       "retailer": "tottus",
       "sku_interno": "TC-105",
-      "error": "Sin stock"
+      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -175,11 +185,6 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-279",
-      "error": "No se encontró el precio en el HTML"
-    },
-    {
-      "retailer": "tottus",
       "sku_interno": "TC-281",
       "error": "Sin stock"
     },
@@ -187,11 +192,6 @@
       "retailer": "tottus",
       "sku_interno": "TC-283",
       "error": "Sin stock"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-368",
-      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -305,123 +305,8 @@
     },
     {
       "retailer": "imanweb",
-      "sku_interno": "TC-507",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-510",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-511",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-512",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-514",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-516",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-519",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-521",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-523",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-525",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-527",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-529",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-532",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-535",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-538",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-540",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-543",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-545",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-548",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-553",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-556",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-559",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-562",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-566",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
+      "sku_interno": "TC-561",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
     }
   ],
   "overrides_url_aplicados": 0,
