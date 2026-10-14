@@ -1,16 +1,11 @@
 {
-  "fecha": "14/10/2026 05:54 hrs",
+  "fecha": "14/10/2026 13:05 hrs",
   "total_skus": 684,
-  "exitosos": 598,
+  "exitosos": 600,
   "fallos": [
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-020",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-022",
       "error": "Sin stock"
     },
     {
@@ -25,23 +20,18 @@
     },
     {
       "retailer": "santaisabel",
-      "sku_interno": "TC-247",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "santaisabel",
       "sku_interno": "TC-248",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-257",
       "error": "Sin stock"
     },
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-592",
       "error": "Sin stock"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-175",
+      "error": "HTTP 404"
     },
     {
       "retailer": "alvi",
@@ -54,14 +44,19 @@
       "error": "HTTP 404"
     },
     {
-      "retailer": "acuenta",
-      "sku_interno": "TC-137",
-      "error": "SKU '4524518' no encontrado en Instaleap"
+      "retailer": "alvi",
+      "sku_interno": "TC-687",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-691",
+      "error": "HTTP 404"
     },
     {
       "retailer": "acuenta",
-      "sku_interno": "TC-143",
-      "error": "SKU '1020215' no encontrado en Instaleap"
+      "sku_interno": "TC-137",
+      "error": "SKU '4524518' no encontrado en Instaleap"
     },
     {
       "retailer": "acuenta",
@@ -95,28 +90,8 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-009",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
       "sku_interno": "TC-011",
       "error": "Sin stock"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-025",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-026",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-027",
-      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -125,23 +100,13 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-029",
-      "error": "HTTP 403"
+      "sku_interno": "TC-033",
+      "error": "Sin stock"
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-030",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-101",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-104",
-      "error": "HTTP 403"
+      "sku_interno": "TC-103",
+      "error": "Sin stock"
     },
     {
       "retailer": "tottus",
@@ -150,23 +115,18 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-106",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-107",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
       "sku_interno": "TC-108",
-      "error": "HTTP 403"
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-112",
+      "error": "Sin stock"
     },
     {
       "retailer": "tottus",
       "sku_interno": "TC-113",
-      "error": "HTTP 403"
+      "error": "Sin stock"
     },
     {
       "retailer": "tottus",
@@ -180,28 +140,13 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-121",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-122",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-125",
-      "error": "HTTP 403"
+      "sku_interno": "TC-124",
+      "error": "Sin stock"
     },
     {
       "retailer": "tottus",
       "sku_interno": "TC-127",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-129",
-      "error": "HTTP 403"
+      "error": "Sin stock"
     },
     {
       "retailer": "tottus",
@@ -220,38 +165,23 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-267",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
       "sku_interno": "TC-268",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-269",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-270",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-273",
-      "error": "HTTP 403"
+      "error": "Sin stock"
     },
     {
       "retailer": "tottus",
       "sku_interno": "TC-276",
-      "error": "HTTP 403"
+      "error": "Sin stock"
     },
     {
       "retailer": "tottus",
       "sku_interno": "TC-279",
-      "error": "HTTP 403"
+      "error": "No se encontró el precio en el HTML"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-281",
+      "error": "Sin stock"
     },
     {
       "retailer": "tottus",
@@ -260,32 +190,7 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-365",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-366",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-367",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-369",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-370",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-374",
+      "sku_interno": "TC-368",
       "error": "HTTP 403"
     },
     {
@@ -296,12 +201,27 @@
     {
       "retailer": "tottus",
       "sku_interno": "TC-569",
-      "error": "HTTP 403"
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-572",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-573",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-594",
+      "error": "Sin stock"
     },
     {
       "retailer": "tottus",
       "sku_interno": "TC-598",
-      "error": "HTTP 403"
+      "error": "Sin stock"
     },
     {
       "retailer": "tottus",
@@ -310,33 +230,23 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-608",
-      "error": "HTTP 403"
+      "sku_interno": "TC-616",
+      "error": "Sin stock"
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-621",
-      "error": "HTTP 403"
+      "sku_interno": "TC-628",
+      "error": "Sin stock"
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-644",
-      "error": "HTTP 403"
+      "sku_interno": "TC-639",
+      "error": "Sin stock"
     },
     {
       "retailer": "tottus",
       "sku_interno": "TC-674",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-677",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-680",
-      "error": "HTTP 403"
+      "error": "Sin stock"
     },
     {
       "retailer": "liquimax",
@@ -356,6 +266,11 @@
     {
       "retailer": "unimarc",
       "sku_interno": "TC-074",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "unimarc",
+      "sku_interno": "TC-085",
       "error": "HTTP 404"
     },
     {
@@ -390,48 +305,123 @@
     },
     {
       "retailer": "imanweb",
-      "sku_interno": "TC-546",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+      "sku_interno": "TC-507",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
     },
     {
       "retailer": "imanweb",
-      "sku_interno": "TC-547",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+      "sku_interno": "TC-510",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-511",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-512",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-514",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-516",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-519",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-521",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-523",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-525",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-527",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-529",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-532",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-535",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-538",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-540",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-543",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-545",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
     },
     {
       "retailer": "imanweb",
       "sku_interno": "TC-548",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-549",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-551",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
     },
     {
       "retailer": "imanweb",
       "sku_interno": "TC-553",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-554",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-555",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
     },
     {
       "retailer": "imanweb",
       "sku_interno": "TC-556",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-559",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-562",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-566",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Max retries exceeded with "
     }
   ],
   "overrides_url_aplicados": 0,
