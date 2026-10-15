@@ -1,11 +1,16 @@
 {
-  "fecha": "14/10/2026 20:25 hrs",
+  "fecha": "15/10/2026 05:28 hrs",
   "total_skus": 684,
-  "exitosos": 623,
+  "exitosos": 621,
   "fallos": [
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-020",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-240",
       "error": "Sin stock"
     },
     {
@@ -121,7 +126,7 @@
     {
       "retailer": "tottus",
       "sku_interno": "TC-105",
-      "error": "HTTP 403"
+      "error": "Sin stock"
     },
     {
       "retailer": "tottus",
@@ -185,8 +190,18 @@
     },
     {
       "retailer": "tottus",
+      "sku_interno": "TC-278",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
       "sku_interno": "TC-281",
       "error": "Sin stock"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-282",
+      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -302,11 +317,6 @@
       "retailer": "unimarc",
       "sku_interno": "TC-618",
       "error": "HTTP 404"
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-561",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
     }
   ],
   "overrides_url_aplicados": 0,
