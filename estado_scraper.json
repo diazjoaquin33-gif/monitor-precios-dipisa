@@ -1,5 +1,5 @@
 {
-  "fecha": "17/10/2026 19:28 hrs",
+  "fecha": "18/10/2026 05:12 hrs",
   "total_skus": 684,
   "exitosos": 632,
   "fallos": [
@@ -50,12 +50,7 @@
     },
     {
       "retailer": "santaisabel",
-      "sku_interno": "TC-241",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-242",
+      "sku_interno": "TC-245",
       "error": "HTTP 404"
     },
     {
@@ -77,6 +72,11 @@
       "retailer": "acuenta",
       "sku_interno": "TC-310",
       "error": "SKU '853185' no encontrado en Instaleap"
+    },
+    {
+      "retailer": "acuenta",
+      "sku_interno": "TC-316",
+      "error": "SKU '4686435' no encontrado en Instaleap"
     },
     {
       "retailer": "acuenta",
