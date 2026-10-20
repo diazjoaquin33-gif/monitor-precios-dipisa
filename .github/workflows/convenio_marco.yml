@@ -1,0 +1,48 @@
+name: Convenio Marco (proveedores RM)
+
+on:
+  schedule:
+    # Lunes ~08:00 hora de Chile (11:23 UTC; minuto "raro" a propósito, igual
+    # que en scraper.yml: el cron de GitHub en minutos redondos se retrasa o
+    # se salta). Una vez por semana basta: los precios del Convenio Marco no
+    # se mueven a diario y son ~700 fichas (unos 12 min).
+    - cron: '23 11 * * 1'
+  workflow_dispatch: # botón para correrlo a mano desde la pestaña Actions
+
+jobs:
+  convenio_marco:
+    runs-on: ubuntu-latest
+    # Una corrida normal tarda ~12 min (700 fichas con 1 s de pausa). Si el
+    # sitio se pone lento, se corta a los 45 y se conservan los datos de la
+    # semana anterior.
+    timeout-minutes: 45
+    permissions:
+      contents: write
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias
+        run: pip install "pandas<3" requests
+
+      - name: Ejecutar lector de Convenio Marco
+        run: python convenio_marco.py
+
+      - name: Guardar y subir resultados
+        if: always()
+        run: |
+          git config --global user.name "Dipisa-Bot"
+          git config --global user.email "bot@dipisa.cl"
+          git pull --rebase --autostash origin main
+          # Solo los archivos de este flujo: no toca nada del scraper de
+          # supermercados (que tiene su propio workflow).
+          for f in convenio_marco_proveedores.csv convenio_marco_cambios.csv estado_convenio_marco.json; do
+            if [ -f "$f" ]; then git add "$f"; fi
+          done
+          git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Convenio Marco: actualización semanal" && git push)
