@@ -1,7 +1,7 @@
 {
-  "fecha": "19/10/2026 20:53 hrs",
+  "fecha": "20/10/2026 05:42 hrs",
   "total_skus": 684,
-  "exitosos": 626,
+  "exitosos": 624,
   "fallos": [
     {
       "retailer": "alvi",
@@ -40,6 +40,11 @@
     },
     {
       "retailer": "santaisabel",
+      "sku_interno": "TC-015",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
       "sku_interno": "TC-017",
       "error": "HTTP 404"
     },
@@ -56,6 +61,11 @@
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-242",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-244",
       "error": "HTTP 404"
     },
     {
