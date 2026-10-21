@@ -15,6 +15,8 @@ Uso:
     python convenio_marco.py --prueba 3   # solo los primeros 3 productos
 """
 import argparse
+import threading
+from concurrent.futures import ThreadPoolExecutor
 import json
 import re
 import sys
@@ -28,8 +30,12 @@ import requests
 BASE = "https://conveniomarco.mercadopublico.cl"
 LISTADO = BASE + "/aseo3/productos-y-articulos-de-aseo-e-higiene-personal/papel-tissue"
 REGION_ID = "13"  # Región Metropolitana de Santiago
-PAUSA_SEG = 1.0   # cortesía con el sitio: ~12 min para ~700 fichas
-REINTENTOS = 3
+PAUSA_SEG = 1.0   # cortesía con el sitio: pausa de cada hilo entre fichas
+HILOS = 4         # ~4 fichas en paralelo: ~700 fichas en ~4 min en vez de ~12
+REINTENTOS = 2
+TIMEOUT_SEG = 25
+PRESUPUESTO_MIN = 30   # si la corrida pasa de esto se aborta limpia (el workflow corta a los 45)
+FALLAS_SEGUIDAS_MAX = 15  # sitio caído/bloqueado: abortar rápido en vez de agotar el tiempo
 
 DIR = Path(__file__).parent
 ARCHIVO_ACTUAL = DIR / "convenio_marco_proveedores.csv"
@@ -41,16 +47,21 @@ COLUMNAS = ["producto_id", "producto", "proveedor_id", "proveedor", "rut",
             "precio_neto", "dias_entrega"]
 
 
+def log(msg):
+    print(msg, flush=True)
+
+
 def _get(url, params=None):
     ultimo = None
     for intento in range(REINTENTOS):
         try:
-            r = requests.get(url, params=params, headers=HEADERS, timeout=40)
+            r = requests.get(url, params=params, headers=HEADERS, timeout=TIMEOUT_SEG)
             if r.status_code == 200:
                 return r.content.decode("utf-8", errors="replace")
             ultimo = f"HTTP {r.status_code}"
         except requests.RequestException as e:
             ultimo = str(e)
+        log(f"  reintento {intento + 1}/{REINTENTOS} de {url[-60:]}: {ultimo}")
         time.sleep(2 * (intento + 1))
     raise RuntimeError(f"No se pudo leer {url}: {ultimo}")
 
@@ -207,23 +218,49 @@ def main():
     print(f"{len(productos)} productos en el listado")
 
     filas, errores = [], []
-    for i, (pid, nombre, url) in enumerate(productos, 1):
+    lock = threading.Lock()
+    estado_run = {"hechos": 0, "seguidas": 0, "abortar": None}
+    t0 = time.time()
+
+    def leer(item):
+        pid, nombre, url = item
+        if estado_run["abortar"]:
+            return
         try:
-            filas += parsear_ficha(_get(url), pid, nombre)
+            res = parsear_ficha(_get(url), pid, nombre)
+            with lock:
+                filas.extend(res)
+                estado_run["seguidas"] = 0
         except Exception as e:  # una ficha mala no tumba la corrida
-            errores.append({"producto_id": pid, "producto": nombre, "error": str(e)[:200]})
-        if i % 50 == 0:
-            print(f"  {i}/{len(productos)}")
+            with lock:
+                errores.append({"producto_id": pid, "producto": nombre, "error": str(e)[:200]})
+                estado_run["seguidas"] += 1
+                if estado_run["seguidas"] >= FALLAS_SEGUIDAS_MAX:
+                    estado_run["abortar"] = "el sitio no responde desde este servidor"
+        with lock:
+            estado_run["hechos"] += 1
+            n = estado_run["hechos"]
+            if (time.time() - t0) / 60 > PRESUPUESTO_MIN:
+                estado_run["abortar"] = f"se superaron los {PRESUPUESTO_MIN} min"
+        if n % 25 == 0:
+            log(f"  {n}/{len(productos)} ({(time.time() - t0) / 60:.1f} min, {len(errores)} errores)")
         time.sleep(PAUSA_SEG)
+
+    with ThreadPoolExecutor(max_workers=HILOS) as pool:
+        list(pool.map(leer, productos))
+    abortada = estado_run["abortar"]
+    if abortada:
+        log(f"ABORTADA: {abortada} ({estado_run['hechos']}/{len(productos)} leídas)")
+        errores.append({"producto_id": "", "producto": "", "error": f"abortada: {abortada}"})
 
     estado = {"ultima_corrida": fecha, "productos_listado": len(productos),
               "productos_con_error": len(errores), "errores": errores[:50], "ok": True}
     # Salvaguarda: si fallaron muchas fichas, algo cambió en el sitio; no se
     # pisan los datos buenos de la corrida anterior.
-    if not filas or len(errores) > max(5, 0.2 * len(productos)):
+    if abortada or not filas or len(errores) > max(5, 0.2 * len(productos)):
         estado["ok"] = False
         ARCHIVO_ESTADO.write_text(json.dumps(estado, ensure_ascii=False, indent=1), encoding="utf-8")
-        print("CORRIDA INVÁLIDA: demasiados errores, no se actualizan los datos.", file=sys.stderr)
+        log("CORRIDA INVÁLIDA: no se actualizan los datos (se conservan los de la corrida anterior).")
         sys.exit(1)
 
     actual = pd.DataFrame(filas, columns=COLUMNAS)

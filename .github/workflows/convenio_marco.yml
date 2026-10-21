@@ -32,7 +32,7 @@ jobs:
         run: pip install "pandas<3" requests
 
       - name: Ejecutar lector de Convenio Marco
-        run: python convenio_marco.py
+        run: python -u convenio_marco.py
 
       - name: Guardar y subir resultados
         if: always()
