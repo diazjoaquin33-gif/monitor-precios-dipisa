@@ -1,8 +1,33 @@
 {
-  "fecha": "21/10/2026 13:12 hrs",
+  "fecha": "21/10/2026 20:30 hrs",
   "total_skus": 684,
-  "exitosos": 625,
+  "exitosos": 628,
   "fallos": [
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-175",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-302",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-307",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-687",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-691",
+      "error": "HTTP 404"
+    },
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-017",
@@ -15,17 +40,22 @@
     },
     {
       "retailer": "santaisabel",
-      "sku_interno": "TC-240",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
       "sku_interno": "TC-241",
       "error": "HTTP 404"
     },
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-242",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-244",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-245",
       "error": "HTTP 404"
     },
     {
@@ -54,34 +84,9 @@
       "error": "HTTP 404"
     },
     {
-      "retailer": "alvi",
-      "sku_interno": "TC-175",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-302",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-307",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-687",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-691",
-      "error": "HTTP 404"
-    },
-    {
       "retailer": "acuenta",
       "sku_interno": "TC-133",
-      "error": "Error Instaleap: 'NoneType' object is not subscriptable"
+      "error": "SKU '4482278' no encontrado en Instaleap"
     },
     {
       "retailer": "acuenta",
@@ -119,6 +124,21 @@
       "error": "SKU '1081030' no encontrado en Instaleap"
     },
     {
+      "retailer": "jumbo",
+      "sku_interno": "TC-058",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "jumbo",
+      "sku_interno": "TC-228",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "jumbo",
+      "sku_interno": "TC-346",
+      "error": "HTTP 404"
+    },
+    {
       "retailer": "tottus",
       "sku_interno": "TC-105",
       "error": "Sin stock"
@@ -131,6 +151,11 @@
     {
       "retailer": "tottus",
       "sku_interno": "TC-116",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-119",
       "error": "Sin stock"
     },
     {
@@ -156,7 +181,7 @@
     {
       "retailer": "tottus",
       "sku_interno": "TC-268",
-      "error": "Sin stock"
+      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -167,6 +192,11 @@
       "retailer": "tottus",
       "sku_interno": "TC-283",
       "error": "Sin stock"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-377",
+      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -181,7 +211,7 @@
     {
       "retailer": "tottus",
       "sku_interno": "TC-572",
-      "error": "Sin stock"
+      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -197,16 +227,6 @@
       "retailer": "tottus",
       "sku_interno": "TC-616",
       "error": "Sin stock"
-    },
-    {
-      "retailer": "jumbo",
-      "sku_interno": "TC-058",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "jumbo",
-      "sku_interno": "TC-346",
-      "error": "HTTP 404"
     },
     {
       "retailer": "liquimax",
@@ -262,41 +282,6 @@
       "retailer": "unimarc",
       "sku_interno": "TC-618",
       "error": "HTTP 404"
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-523",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-524",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-525",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-526",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-527",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-528",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-529",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
     }
   ],
   "overrides_url_aplicados": 0,
