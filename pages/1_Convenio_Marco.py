@@ -127,7 +127,17 @@ c3.metric("Cambios recientes",
           int((cambios["fecha"] == ultima_fecha).sum()) if ultima_fecha else 0,
           help="Cambios detectados en la última corrida semanal (todas las regiones)")
 
-tab_prod, tab_cambios, tab_prov = st.tabs(["📦 Por producto", "🔔 Qué cambió", "🏢 Por proveedor"])
+tab_prod, tab_comp, tab_cambios, tab_prov = st.tabs(
+    ["📦 Por producto", "⚖️ Comparar", "🔔 Qué cambió", "🏢 Por proveedor"])
+
+# Lista de productos del comparador (ids). Se llena desde el botón de "Por producto"
+# o directamente en la pestaña "Comparar".
+st.session_state.setdefault("comparar", [])
+
+
+def _agregar_al_comparador(pid_nuevo):
+    if pid_nuevo not in st.session_state["comparar"]:
+        st.session_state["comparar"] = st.session_state["comparar"] + [pid_nuevo]
 
 # --- Por producto ----------------------------------------------------------
 with tab_prod:
@@ -189,6 +199,9 @@ with tab_prod:
                               else "" for _ in fila], axis=1),
             width="stretch")
         st.caption("Verde = el más barato. Los precios son netos (sin IVA).")
+        en_lista = pid in st.session_state["comparar"]
+        st.button("✅ Ya está en el comparador" if en_lista else "⚖️ Agregar al comparador",
+                  key=f"agregar_{pid}", disabled=en_lista, on_click=_agregar_al_comparador, args=(pid,))
 
         with st.expander("🗺️ Ver este producto en todas las regiones"):
             todas = largo[largo["producto_id"] == pid]
@@ -200,6 +213,65 @@ with tab_prod:
             st.dataframe(mat.style.format(clp_vacio).highlight_min(axis=0, color="#0ca30c40"),
                          width="stretch")
 
+
+# --- Comparar ---------------------------------------------------------------
+with tab_comp:
+    st.caption(f"Elige 2 o más productos y compara el **precio del proveedor más barato** en "
+               f"**{region_nombre}**. También puedes agregarlos con el botón «Agregar al comparador» "
+               "de la pestaña «Por producto».")
+    nombre_de = largo.drop_duplicates("producto_id").set_index("producto_id")["producto"].sort_values()
+    elegidos = st.multiselect("Productos a comparar", options=list(nombre_de.index),
+                              format_func=lambda i: nombre_de.get(i, i), key="comparar",
+                              placeholder="Escribe para buscar y elige varios…")
+    if len(elegidos) < 2:
+        st.info("Elige al menos 2 productos para compararlos.")
+    else:
+        filas = []
+        for i in elegidos:
+            t = lr[lr["producto_id"] == i].sort_values(["precio_neto", "dias_entrega"])
+            if t.empty:
+                filas.append({"id": i, "producto": nombre_de[i], "precio": pd.NA,
+                              "proveedor": "Sin despacho a esta región", "dias": pd.NA, "n": 0})
+            else:
+                m = t.iloc[0]
+                filas.append({"id": i, "producto": nombre_de[i], "precio": m["precio_neto"],
+                              "proveedor": m["proveedor"], "dias": m["dias_entrega"], "n": len(t)})
+        comp = pd.DataFrame(filas)
+        comp["precio"] = pd.to_numeric(comp["precio"], errors="coerce")
+        base_min = comp["precio"].min()
+        comp["dif"] = comp["precio"] - base_min
+        comp["pct"] = comp["dif"] / base_min * 100
+        comp = comp.sort_values("precio", na_position="last").reset_index(drop=True)
+
+        vista_c = pd.DataFrame({
+            "Producto": comp["producto"],
+            "Precio más bajo": comp["precio"].map(clp),
+            "Proveedor": comp["proveedor"],
+            "Días": comp["dias"].map(dias_txt),
+            "Proveedores": comp["n"],
+            "Diferencia": [("—" if pd.isna(d) else ("el más barato" if d == 0 else f"+{clp(d)} (+{p:.0f}%)"))
+                           for d, p in zip(comp["dif"], comp["pct"])],
+        })
+        vista_c.index = vista_c.index + 1
+        st.dataframe(
+            vista_c.style.apply(
+                lambda fila: ["background-color: #0ca30c26" if comp.loc[fila.name - 1, "dif"] == 0 else ""
+                              for _ in fila], axis=1),
+            width="stretch")
+        st.caption("Verde = el producto con el precio más bajo. Es el precio del pack completo (no por metro "
+                   "ni por unidad), así que conviene comparar packs de tamaño parecido. Precios netos (sin IVA).")
+        if comp["precio"].isna().any():
+            st.caption("Los productos «sin despacho» no tienen ningún proveedor que llegue a esta región.")
+
+        with st.expander("🗺️ Ver el precio más bajo de estos productos en todas las regiones"):
+            sel_largo = largo[largo["producto_id"].isin(elegidos)]
+            mat_c = sel_largo.groupby(["producto", "region_id"])["precio_neto"].min().unstack("region_id")
+            mat_c = mat_c.reindex(columns=[r for r in REGIONES if r in mat_c.columns]).rename(columns=REGIONES)
+            st.caption("Precio más bajo de cada producto en cada región. Verde = el más barato de la región.")
+            st.dataframe(mat_c.style.format(clp_vacio).highlight_min(axis=0, color="#0ca30c40"), width="stretch")
+    if elegidos and st.button("🧹 Vaciar la lista"):
+        st.session_state["comparar"] = []
+        st.rerun()
 
 # --- Qué cambió ------------------------------------------------------------
 with tab_cambios:
