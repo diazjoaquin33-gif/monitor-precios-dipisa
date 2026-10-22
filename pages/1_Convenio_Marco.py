@@ -153,56 +153,60 @@ with tab_prod:
                                         "mediana": "Mediana", "maximo": "Más caro"}).copy()
         for col in ["Más barato", "Mediana", "Más caro"]:
             vista[col] = vista[col].map(clp)
-        # La clave cambia con los filtros: al buscar o cambiar de región se limpia la
-        # selección y no queda apuntando a otra fila.
-        clave_tabla = f"tabla_{rid}_{tipo_sel}_{busqueda.strip().lower()}"
         evento = st.dataframe(vista, hide_index=True, width="stretch", height=280,
-                              on_select="rerun", selection_mode="single-row", key=clave_tabla)
+                              on_select="rerun", selection_mode="single-row", key="tabla_productos")
+
+        opciones = {f"{r.producto} (ID {r.producto_id})": r.producto_id for r in resumen.itertuples()}
+        etiquetas = list(opciones)
+        # Un clic en la tabla de arriba elige ese producto en el selector de abajo
+        # (solo cuando el clic cambia; así el selector sigue siendo usable a mano).
         filas_sel = evento.selection.rows if evento and evento.selection else []
         if filas_sel:
-            fila_sel = resumen.iloc[filas_sel[0]]
-        elif len(resumen) == 1:
-            fila_sel = resumen.iloc[0]  # una sola coincidencia: se muestra directo
+            clic = etiquetas[filas_sel[0]]
+            if st.session_state.get("_ultimo_clic") != clic:
+                st.session_state["_ultimo_clic"] = clic
+                st.session_state["producto_elegido"] = clic
         else:
-            fila_sel = None
-        if fila_sel is None:
-            st.info("👆 Haz clic en un producto de la tabla para ver sus proveedores.")
-        else:
-            pid = fila_sel["producto_id"]
-            st.subheader(fila_sel["producto"])
-            det = (lr[lr["producto_id"] == pid]
-                   .sort_values("precio_neto")[["proveedor", "rut", "precio_neto", "dias_entrega"]]
-                   .reset_index(drop=True))
-            minimo = det["precio_neto"].min()
-            det_vista = det.rename(columns={"proveedor": "Proveedor", "rut": "RUT",
-                                            "precio_neto": "Precio neto", "dias_entrega": "Días de entrega"})
-            det_vista["Precio neto"] = det_vista["Precio neto"].map(clp)
-            det_vista["Días de entrega"] = det_vista["Días de entrega"].map(dias_txt)
-            det_vista.index = det_vista.index + 1
-            st.dataframe(
-                det_vista.style.apply(
-                    lambda fila: ["background-color: #0ca30c26" if det.loc[fila.name - 1, "precio_neto"] == minimo
-                                  else "" for _ in fila], axis=1),
-                width="stretch")
-            st.caption("Verde = el más barato. Los precios son netos (sin IVA).")
+            st.session_state.pop("_ultimo_clic", None)
+        if st.session_state.get("producto_elegido") not in opciones:
+            st.session_state.pop("producto_elegido", None)  # el buscador de arriba lo dejó fuera
+        st.caption("Haz clic en un producto de la tabla (o elígelo en la lista) para ver sus proveedores. "
+                   "La lista solo muestra los productos que deja el buscador de arriba.")
+        elegido = st.selectbox("Ver proveedores de:", etiquetas, key="producto_elegido")
+        pid = opciones[elegido]
+        det = (lr[lr["producto_id"] == pid]
+               .sort_values("precio_neto")[["proveedor", "rut", "precio_neto", "dias_entrega"]]
+               .reset_index(drop=True))
+        minimo = det["precio_neto"].min()
+        det_vista = det.rename(columns={"proveedor": "Proveedor", "rut": "RUT",
+                                        "precio_neto": "Precio neto", "dias_entrega": "Días de entrega"})
+        det_vista["Precio neto"] = det_vista["Precio neto"].map(clp)
+        det_vista["Días de entrega"] = det_vista["Días de entrega"].map(dias_txt)
+        det_vista.index = det_vista.index + 1
+        st.dataframe(
+            det_vista.style.apply(
+                lambda fila: ["background-color: #0ca30c26" if det.loc[fila.name - 1, "precio_neto"] == minimo
+                              else "" for _ in fila], axis=1),
+            width="stretch")
+        st.caption("Verde = el más barato. Los precios son netos (sin IVA).")
 
-            with st.expander("🗺️ Ver este producto en todas las regiones"):
-                todas = largo[largo["producto_id"] == pid]
-                orden = [r for r in REGIONES if r in set(todas["region_id"])]
-                resumen_reg = []
-                for r in orden:
-                    t = todas[todas["region_id"] == r].sort_values("precio_neto")
-                    resumen_reg.append({"Región": REGIONES[r], "Proveedores": len(t),
-                                        "Más barato": clp(t.iloc[0]["precio_neto"]),
-                                        "Proveedor más barato": t.iloc[0]["proveedor"]})
-                st.markdown("**El más barato de cada región**")
-                st.dataframe(pd.DataFrame(resumen_reg), hide_index=True, width="stretch")
-                st.markdown("**Precio de cada proveedor por región** (verde = el más barato de la región)")
-                mat = todas.pivot_table(index="proveedor", columns="region_id", values="precio_neto", aggfunc="min")
-                mat = mat.reindex(columns=orden).rename(columns=REGIONES)
-                mat = mat.loc[mat.min(axis=1).sort_values().index]
-                st.dataframe(mat.style.format(clp_vacio).highlight_min(axis=0, color="#0ca30c40"),
-                             width="stretch")
+        with st.expander("🗺️ Ver este producto en todas las regiones"):
+            todas = largo[largo["producto_id"] == pid]
+            orden = [r for r in REGIONES if r in set(todas["region_id"])]
+            resumen_reg = []
+            for r in orden:
+                t = todas[todas["region_id"] == r].sort_values("precio_neto")
+                resumen_reg.append({"Región": REGIONES[r], "Proveedores": len(t),
+                                    "Más barato": clp(t.iloc[0]["precio_neto"]),
+                                    "Proveedor más barato": t.iloc[0]["proveedor"]})
+            st.markdown("**El más barato de cada región**")
+            st.dataframe(pd.DataFrame(resumen_reg), hide_index=True, width="stretch")
+            st.markdown("**Precio de cada proveedor por región** (verde = el más barato de la región)")
+            mat = todas.pivot_table(index="proveedor", columns="region_id", values="precio_neto", aggfunc="min")
+            mat = mat.reindex(columns=orden).rename(columns=REGIONES)
+            mat = mat.loc[mat.min(axis=1).sort_values().index]
+            st.dataframe(mat.style.format(clp_vacio).highlight_min(axis=0, color="#0ca30c40"),
+                         width="stretch")
 
 
 # --- Qué cambió ------------------------------------------------------------
