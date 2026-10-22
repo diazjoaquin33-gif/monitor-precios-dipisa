@@ -1,8 +1,8 @@
 """Monitor de proveedores de Convenio Marco (Mercado Público) — papel tissue.
 
 Baja el listado de productos de la categoría y, de la ficha de cada uno, los
-proveedores que despachan a la Región Metropolitana con su precio neto y días
-de entrega. Compara con la corrida anterior y deja un resumen de qué cambió
+proveedores que despachan a cada una de las 18 regiones, con su precio neto y
+días de entrega (todo viene en la misma ficha: no hay que pedir páginas extra). Compara con la corrida anterior y deja un resumen de qué cambió
 (proveedores nuevos, retirados, cambios de precio, productos nuevos/retirados).
 
 No usa API ni login: los datos vienen dentro del HTML público de la ficha
@@ -29,7 +29,15 @@ import requests
 
 BASE = "https://conveniomarco.mercadopublico.cl"
 LISTADO = BASE + "/aseo3/productos-y-articulos-de-aseo-e-higiene-personal/papel-tissue"
-REGION_ID = "13"  # Región Metropolitana de Santiago
+# id interno del sitio -> nombre, de norte a sur (las 2 últimas son territorios insulares)
+REGIONES = {
+    "15": "Arica y Parinacota", "1": "Tarapacá", "2": "Antofagasta", "3": "Atacama",
+    "4": "Coquimbo", "5": "Valparaíso", "13": "Metropolitana de Santiago",
+    "6": "O'Higgins", "7": "Maule", "16": "Ñuble", "8": "Biobío", "9": "La Araucanía",
+    "14": "Los Ríos", "10": "Los Lagos", "11": "Aysén", "12": "Magallanes",
+    "17": "Juan Fernández", "18": "Isla de Pascua",
+}
+REGION_REF = "13"  # región de referencia (Metropolitana): la que usa el panel por defecto
 PAUSA_SEG = 1.0   # cortesía con el sitio: pausa de cada hilo entre fichas
 HILOS = 4         # ~4 fichas en paralelo: ~700 fichas en ~4 min en vez de ~12
 REINTENTOS = 2
@@ -49,8 +57,15 @@ except Exception:  # Windows sin tzdata: se usa la hora local del equipo (Chile)
     TZ_CHILE = None
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (monitor-precios-dipisa)"}
-COLUMNAS = ["producto_id", "producto", "proveedor_id", "proveedor", "rut",
-            "precio_neto", "dias_entrega"]
+# Se guarda UNA fila por producto y proveedor, con una columna de precio (p_<id>)
+# y una de días de entrega (d_<id>) por región. Una fila por (producto, proveedor,
+# región) serían ~10 veces más filas y el repo crecería muy rápido cada semana.
+COLS_BASE = ["producto_id", "producto", "proveedor_id", "proveedor", "rut"]
+COLS_PRECIO = [f"p_{r}" for r in REGIONES]
+COLS_DIAS = [f"d_{r}" for r in REGIONES]
+COLUMNAS = COLS_BASE + COLS_PRECIO + COLS_DIAS
+COLS_CAMBIOS = ["fecha", "tipo", "producto_id", "producto", "proveedor", "rut", "regiones", "detalle"]
+DTYPES_CSV = {"producto_id": str, "proveedor_id": str, "rut": str}
 
 
 def log(msg):
@@ -110,13 +125,15 @@ def _config_json(html):
     raise RuntimeError("no se encontró el bloque de proveedores (¿cambió el sitio?)")
 
 
-def _hijo_region(html, region_id):
-    """ID del producto-hijo que representa la región (la ficha es un producto
-    configurable: cada región es una variante)."""
-    m = re.search(r'"id":"%s","label":"[^"]*","products":\["(\d+)"\]' % region_id, html)
-    if not m:
-        raise RuntimeError(f"no se encontró la variante de la región {region_id}")
-    return m.group(1)
+def _hijos_region(html):
+    """{id_region: id del producto-hijo}. La ficha es un producto configurable:
+    cada región es una variante."""
+    hijos = {rid: hijo for rid, hijo in
+             re.findall(r'"id":"(\d+)","label":"[^"]*","products":\["(\d+)"\]', html)
+             if rid in REGIONES}
+    if REGION_REF not in hijos:
+        raise RuntimeError("no se encontraron las variantes por región (¿cambió el sitio?)")
+    return hijos
 
 
 def _proveedores_html(html):
@@ -146,71 +163,120 @@ def _num(txt):
 
 
 def parsear_ficha(html, producto_id, nombre):
+    """Una fila por proveedor, con precio y días de entrega de cada región donde
+    despacha (p_<id> / d_<id>)."""
     cfg = _config_json(html)
-    hijo = _hijo_region(html, REGION_ID)
+    hijos = _hijos_region(html)
     nombres = _proveedores_html(html)
     oferta_prov = _oferta_a_proveedor(html)
-    dias_por_prov = {}
+    dias = {}
     for seller, lst in cfg["rcArray"].items():
         for rc in lst:
-            if rc.get("region_id") == REGION_ID and str(rc.get("days_sp", "")).isdigit():
-                dias_por_prov[seller] = int(rc["days_sp"])
-    # jsonResult[hijo] = ofertas vigentes de esa región; las de qty 0 no se
-    # muestran en la página (proveedor sin stock), así que tampoco acá.
-    mejor = {}
-    for oferta, d in cfg["jsonResult"].get(hijo, {}).items():
-        seller = oferta_prov.get(oferta)
-        try:
-            qty, precio = _num(d.get("qty", 0)), _num(d["price"])
-        except (TypeError, ValueError, KeyError):
-            continue
-        if seller is None or qty <= 0:
-            continue
-        mejor[seller] = min(precio, mejor.get(seller, precio))
+            if str(rc.get("days_sp", "")).isdigit():
+                dias[(seller, str(rc.get("region_id")))] = int(rc["days_sp"])
+    por_prov = {}
+    for rid, hijo in hijos.items():
+        # jsonResult[hijo] = ofertas vigentes de esa región; las de qty 0 no se
+        # muestran en la página (proveedor sin stock), así que tampoco acá.
+        for oferta, d in cfg["jsonResult"].get(hijo, {}).items():
+            seller = oferta_prov.get(oferta)
+            try:
+                qty, precio = _num(d.get("qty", 0)), _num(d["price"])
+            except (TypeError, ValueError, KeyError):
+                continue
+            if seller is None or qty <= 0:
+                continue
+            fila = por_prov.setdefault(seller, {})
+            clave = f"p_{rid}"
+            fila[clave] = min(int(round(precio)), fila.get(clave, int(round(precio))))
+            if (seller, rid) in dias:
+                fila[f"d_{rid}"] = dias[(seller, rid)]
     filas = []
-    for seller, precio in mejor.items():
+    for seller, vals in por_prov.items():
         nom, rut = nombres.get(seller, ("", ""))
-        filas.append({
-            "producto_id": producto_id, "producto": nombre, "proveedor_id": seller,
-            "proveedor": nom, "rut": rut, "precio_neto": int(round(precio)),
-            "dias_entrega": dias_por_prov.get(seller),
-        })
+        filas.append({"producto_id": producto_id, "producto": nombre, "proveedor_id": seller,
+                      "proveedor": nom, "rut": rut, **vals})
     return filas
 
 
+def a_largo(df):
+    """Pasa el formato ancho (p_<id>/d_<id>) a una fila por producto-proveedor-región."""
+    cols = COLS_BASE + ["region_id", "precio_neto", "dias_entrega"]
+    if df.empty or f"p_{REGION_REF}" not in df.columns:
+        return pd.DataFrame(columns=cols)
+    partes = []
+    for rid in REGIONES:
+        pc, dc = f"p_{rid}", f"d_{rid}"
+        if pc not in df.columns:
+            continue
+        hay = df[pc].notna()
+        sub = df.loc[hay, COLS_BASE].copy()
+        sub["region_id"] = rid
+        sub["precio_neto"] = df.loc[hay, pc]
+        sub["dias_entrega"] = df.loc[hay, dc] if dc in df.columns else pd.NA
+        partes.append(sub)
+    return pd.concat(partes, ignore_index=True)[cols] if partes else pd.DataFrame(columns=cols)
+
+
+def _regiones_txt(ids):
+    ids = set(ids)
+    return ", ".join(REGIONES[r] for r in REGIONES if r in ids)
+
+
 def calcular_cambios(anterior, actual, fecha):
-    """Compara dos corridas y devuelve un DataFrame con qué cambió."""
-    cambios = []
-    if anterior.empty:
-        return pd.DataFrame(columns=["fecha", "tipo", "producto_id", "producto",
-                                     "proveedor", "rut", "detalle"])
+    """Compara dos corridas y devuelve un DataFrame con qué cambió. Un cambio que
+    afecta a varias regiones del mismo proveedor se junta en UNA fila."""
+    la, lb = a_largo(anterior), a_largo(actual)
+    if la.empty:  # primera corrida (o migración desde el formato antiguo): no hay con qué comparar
+        return pd.DataFrame(columns=COLS_CAMBIOS)
     k = ["producto_id", "proveedor_id"]
-    ant = anterior.set_index(k)
-    act = actual.set_index(k)
-    prods_ant, prods_act = set(anterior.producto_id), set(actual.producto_id)
+    m = la.merge(lb, on=k + ["region_id"], how="outer", suffixes=("_a", "_b"), indicator=True)
+    prods_ant, prods_act = set(la.producto_id), set(lb.producto_id)
+    prov_ant = set(zip(la.producto_id, la.proveedor_id))
+    prov_act = set(zip(lb.producto_id, lb.proveedor_id))
+    solo_a, solo_b = m[m["_merge"] == "left_only"], m[m["_merge"] == "right_only"]
+    ambos = m[m["_merge"] == "both"]
+    camb = ambos[ambos["precio_neto_a"] != ambos["precio_neto_b"]]
 
-    def fila(tipo, idx, r, detalle):
-        cambios.append({"fecha": fecha, "tipo": tipo, "producto_id": idx[0],
-                        "producto": r["producto"], "proveedor": r["proveedor"],
-                        "rut": r["rut"], "detalle": detalle})
+    def nombre(r, col):
+        v = getattr(r, col + "_b")
+        return v if pd.notna(v) else getattr(r, col + "_a")
 
-    for idx in act.index.difference(ant.index):
-        if idx[0] in prods_ant:
-            fila("proveedor nuevo", idx, act.loc[idx], f"${int(act.loc[idx, 'precio_neto'])}")
-    for idx in ant.index.difference(act.index):
-        if idx[0] in prods_act:
-            fila("proveedor retirado", idx, ant.loc[idx], f"antes ${int(ant.loc[idx, 'precio_neto'])}")
-    for idx in act.index.intersection(ant.index):
-        a, b = int(ant.loc[idx, "precio_neto"]), int(act.loc[idx, "precio_neto"])
-        if a != b:
-            fila("cambio de precio", idx, act.loc[idx], f"${a} → ${b}")
+    filas = []
+
+    def fila(tipo, pid, g, detalle):
+        r = next(g.itertuples())
+        filas.append({"fecha": fecha, "tipo": tipo, "producto_id": pid, "producto": nombre(r, "producto"),
+                      "proveedor": nombre(r, "proveedor"), "rut": nombre(r, "rut"),
+                      "regiones": _regiones_txt(g["region_id"]), "detalle": detalle})
+
+    for (pid, sid), g in solo_b.groupby(k):
+        if (pid, sid) not in prov_ant and pid in prods_ant:
+            fila("proveedor nuevo", pid, g, f"desde ${int(g.precio_neto_b.min())} en {len(g)} región(es)")
+        elif (pid, sid) in prov_ant:
+            fila("nueva región", pid, g, f"ahora despacha a {len(g)} región(es) más")
+    for (pid, sid), g in solo_a.groupby(k):
+        if (pid, sid) not in prov_act and pid in prods_act:
+            fila("proveedor retirado", pid, g, f"antes desde ${int(g.precio_neto_a.min())}")
+        elif (pid, sid) in prov_act:
+            fila("región retirada", pid, g, f"dejó de despachar a {len(g)} región(es)")
+    orden = {r: i for i, r in enumerate(REGIONES)}
+    for (pid, sid), g in camb.groupby(k):
+        g = g.assign(_o=g["region_id"].map(orden)).sort_values("_o")
+        partes = [f"{REGIONES[r.region_id]}: ${int(r.precio_neto_a)} → ${int(r.precio_neto_b)}"
+                  for r in g.head(3).itertuples()]
+        extra = len(g) - 3
+        fila("cambio de precio", pid, g, "; ".join(partes) + (f"; y {extra} región(es) más" if extra > 0 else ""))
     for pid in prods_act - prods_ant:
-        r = actual[actual.producto_id == pid].iloc[0]
-        fila("producto nuevo", (pid, ""), r, f"{(actual.producto_id == pid).sum()} proveedores en la RM")
+        g = lb[lb.producto_id == pid]
+        filas.append({"fecha": fecha, "tipo": "producto nuevo", "producto_id": pid,
+                      "producto": g.iloc[0]["producto"], "proveedor": "", "rut": "", "regiones": "",
+                      "detalle": f"{g.proveedor_id.nunique()} proveedores"})
     for pid in prods_ant - prods_act:
-        r = anterior[anterior.producto_id == pid].iloc[0]
-        fila("producto retirado", (pid, ""), r, "")
-    return pd.DataFrame(cambios)
+        filas.append({"fecha": fecha, "tipo": "producto retirado", "producto_id": pid,
+                      "producto": la[la.producto_id == pid].iloc[0]["producto"], "proveedor": "",
+                      "rut": "", "regiones": "", "detalle": ""})
+    return pd.DataFrame(filas, columns=COLS_CAMBIOS)
 
 
 def main():
@@ -270,18 +336,22 @@ def main():
         sys.exit(1)
 
     actual = pd.DataFrame(filas, columns=COLUMNAS)
+    actual[COLS_PRECIO + COLS_DIAS] = actual[COLS_PRECIO + COLS_DIAS].astype("Int64")
     if args.prueba:
         actual.to_csv(DIR / "convenio_marco_prueba.csv", index=False, encoding="utf-8-sig")
-        print(actual.to_string(max_rows=60))
-        print(f"{len(actual)} filas, {len(errores)} errores")
+        print(actual[COLS_BASE[:2] + ["proveedor", f"p_{REGION_REF}", f"d_{REGION_REF}"]].head(15).to_string())
+        print(f"{len(actual)} filas, {len(errores)} errores, "
+              f"{int(actual[COLS_PRECIO].notna().sum().sum())} combinaciones proveedor-región")
         return
 
-    anterior = (pd.read_csv(ARCHIVO_ACTUAL, dtype={"producto_id": str, "proveedor_id": str})
+    anterior = (pd.read_csv(ARCHIVO_ACTUAL, dtype=DTYPES_CSV)
                 if ARCHIVO_ACTUAL.exists() else pd.DataFrame(columns=COLUMNAS))
+    if not anterior.empty and f"p_{REGION_REF}" not in anterior.columns:
+        log("Datos anteriores en formato antiguo (solo RM): se reemplazan y esta corrida no compara.")
     cambios = calcular_cambios(anterior, actual, fecha)
     if not cambios.empty:
         previos = (pd.read_csv(ARCHIVO_CAMBIOS, dtype=str)
-                   if ARCHIVO_CAMBIOS.exists() else pd.DataFrame())
+                   if ARCHIVO_CAMBIOS.exists() else pd.DataFrame(columns=COLS_CAMBIOS))
         pd.concat([previos, cambios], ignore_index=True).to_csv(
             ARCHIVO_CAMBIOS, index=False, encoding="utf-8-sig")
     actual.to_csv(ARCHIVO_ACTUAL, index=False, encoding="utf-8-sig")
