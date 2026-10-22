@@ -42,6 +42,12 @@ ARCHIVO_ACTUAL = DIR / "convenio_marco_proveedores.csv"
 ARCHIVO_CAMBIOS = DIR / "convenio_marco_cambios.csv"
 ARCHIVO_ESTADO = DIR / "estado_convenio_marco.json"
 
+try:  # GitHub Actions corre en UTC: la fecha se guarda en hora de Chile
+    from zoneinfo import ZoneInfo
+    TZ_CHILE = ZoneInfo("America/Santiago")
+except Exception:  # Windows sin tzdata: se usa la hora local del equipo (Chile)
+    TZ_CHILE = None
+
 HEADERS = {"User-Agent": "Mozilla/5.0 (monitor-precios-dipisa)"}
 COLUMNAS = ["producto_id", "producto", "proveedor_id", "proveedor", "rut",
             "precio_neto", "dias_entrega"]
@@ -212,7 +218,7 @@ def main():
     ap.add_argument("--prueba", type=int, default=0, help="solo los primeros N productos")
     args = ap.parse_args()
 
-    inicio = datetime.now()
+    inicio = datetime.now(TZ_CHILE) if TZ_CHILE else datetime.now()
     fecha = inicio.strftime("%d/%m/%Y %H:%M")
     productos = listar_productos(args.prueba or None)
     print(f"{len(productos)} productos en el listado")

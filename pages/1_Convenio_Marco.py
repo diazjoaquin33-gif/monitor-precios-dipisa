@@ -6,6 +6,7 @@ Lee los CSV que deja convenio_marco.py (corre solo en GitHub Actions, ver
 import json
 from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import pandas as pd
 import streamlit as st
@@ -58,7 +59,12 @@ prov["tipo"] = prov["producto"].map(tipo_producto)
 # --- estado de la última corrida -------------------------------------------
 ultima = estado.get("ultima_corrida")
 try:
-    dias = (datetime.now() - datetime.strptime(ultima, "%d/%m/%Y %H:%M")).days
+    # El servidor de Streamlit está en UTC; las fechas guardadas son hora de Chile.
+    try:
+        ahora = datetime.now(ZoneInfo("America/Santiago")).replace(tzinfo=None)
+    except Exception:
+        ahora = datetime.now()
+    dias = (ahora - datetime.strptime(ultima, "%d/%m/%Y %H:%M")).days
 except (TypeError, ValueError):
     dias = None
 if estado.get("ok") is False:
@@ -70,13 +76,15 @@ elif dias is not None and dias > DIAS_ALERTA:
 if estado.get("productos_con_error"):
     st.caption(f"⚠️ {estado['productos_con_error']} producto(s) no se pudieron leer en la última corrida.")
 
-c1, c2, c3, c4 = st.columns(4)
+if ultima:
+    st.caption(f"🕒 Última actualización: **{ultima} hrs** (hora de Chile)")
+c1, c2, c3 = st.columns(3)
 c1.metric("Productos", prov["producto_id"].nunique())
-c2.metric("Proveedores distintos", prov["proveedor_id"].nunique())
-c3.metric("Última actualización", ultima or "—")
+c2.metric("Proveedores", prov["proveedor_id"].nunique())
 ultima_fecha = cambios["fecha"].max() if len(cambios) else None
-c4.metric("Cambios en la última corrida",
-          int((cambios["fecha"] == ultima_fecha).sum()) if ultima_fecha else 0)
+c3.metric("Cambios recientes",
+          int((cambios["fecha"] == ultima_fecha).sum()) if ultima_fecha else 0,
+          help="Cambios detectados en la última corrida semanal")
 
 tab_prod, tab_cambios, tab_prov = st.tabs(["📦 Por producto", "🔔 Qué cambió", "🏢 Por proveedor"])
 
@@ -104,10 +112,25 @@ with tab_prod:
                                         "mediana": "Mediana", "maximo": "Más caro"}).copy()
         for col in ["Más barato", "Mediana", "Más caro"]:
             vista[col] = vista[col].map(clp)
-        st.dataframe(vista, hide_index=True, use_container_width=True, height=280)
+        evento = st.dataframe(vista, hide_index=True, width="stretch", height=280,
+                              on_select="rerun", selection_mode="single-row", key="tabla_productos")
 
         opciones = {f"{r.producto} (ID {r.producto_id})": r.producto_id for r in resumen.itertuples()}
-        elegido = st.selectbox("Ver proveedores de:", list(opciones))
+        etiquetas = list(opciones)
+        # Un clic en la tabla de arriba elige ese producto en el selector de abajo
+        # (solo cuando el clic cambia; así el selector sigue siendo usable a mano).
+        filas_sel = evento.selection.rows if evento and evento.selection else []
+        if filas_sel:
+            clic = etiquetas[filas_sel[0]]
+            if st.session_state.get("_ultimo_clic") != clic:
+                st.session_state["_ultimo_clic"] = clic
+                st.session_state["producto_elegido"] = clic
+        else:
+            st.session_state.pop("_ultimo_clic", None)
+        if st.session_state.get("producto_elegido") not in opciones:
+            st.session_state.pop("producto_elegido", None)  # el filtro lo dejó fuera
+        st.caption("Haz clic en un producto de la tabla para ver sus proveedores abajo.")
+        elegido = st.selectbox("Ver proveedores de:", etiquetas, key="producto_elegido")
         det = (prov[prov["producto_id"] == opciones[elegido]]
                .sort_values("precio_neto")[["proveedor", "rut", "precio_neto", "dias_entrega"]]
                .reset_index(drop=True))
@@ -120,7 +143,7 @@ with tab_prod:
             det_vista.style.apply(
                 lambda fila: ["background-color: #0ca30c26" if det.loc[fila.name - 1, "precio_neto"] == minimo
                               else "" for _ in fila], axis=1),
-            use_container_width=True)
+            width="stretch")
         st.caption("Verde = el más barato. Los precios son netos (sin IVA).")
 
 # --- Qué cambió ------------------------------------------------------------
@@ -140,7 +163,7 @@ with tab_cambios:
              .rename(columns={"fecha": "Fecha", "tipo": "Tipo", "producto": "Producto",
                               "proveedor": "Proveedor", "rut": "RUT", "detalle": "Detalle"})
              [["Fecha", "Tipo", "Producto", "Proveedor", "RUT", "Detalle"]],
-            hide_index=True, use_container_width=True)
+            hide_index=True, width="stretch")
 
 # --- Por proveedor ---------------------------------------------------------
 with tab_prov:
@@ -161,7 +184,7 @@ with tab_prov:
         columns={"proveedor": "Proveedor", "rut": "RUT", "productos": "Productos que vende",
                  "mas_barato_en": "Más barato en"})
     st.dataframe(vista_prov[["Proveedor", "RUT", "Productos que vende", "Más barato en"]],
-                 hide_index=True, use_container_width=True, height=360)
+                 hide_index=True, width="stretch", height=360)
 
     if len(por_prov) == 1:
         p = por_prov.iloc[0]
@@ -169,7 +192,7 @@ with tab_prov:
         d = prov[prov["proveedor_id"] == p["proveedor_id"]][["producto", "precio_neto", "dias_entrega"]]
         d = d.assign(precio_neto=d["precio_neto"].map(clp)).rename(
             columns={"producto": "Producto", "precio_neto": "Precio neto", "dias_entrega": "Días de entrega"})
-        st.dataframe(d, hide_index=True, use_container_width=True)
+        st.dataframe(d, hide_index=True, width="stretch")
 
 st.divider()
 st.download_button("⬇️ Descargar todos los datos (CSV)",
