@@ -193,15 +193,7 @@ with tab_prod:
         with st.expander("🗺️ Ver este producto en todas las regiones"):
             todas = largo[largo["producto_id"] == pid]
             orden = [r for r in REGIONES if r in set(todas["region_id"])]
-            resumen_reg = []
-            for r in orden:
-                t = todas[todas["region_id"] == r].sort_values("precio_neto")
-                resumen_reg.append({"Región": REGIONES[r], "Proveedores": len(t),
-                                    "Más barato": clp(t.iloc[0]["precio_neto"]),
-                                    "Proveedor más barato": t.iloc[0]["proveedor"]})
-            st.markdown("**El más barato de cada región**")
-            st.dataframe(pd.DataFrame(resumen_reg), hide_index=True, width="stretch")
-            st.markdown("**Precio de cada proveedor por región** (verde = el más barato de la región)")
+            st.caption("Precio neto de cada proveedor por región. Verde = el más barato de esa región.")
             mat = todas.pivot_table(index="proveedor", columns="region_id", values="precio_neto", aggfunc="min")
             mat = mat.reindex(columns=orden).rename(columns=REGIONES)
             mat = mat.loc[mat.min(axis=1).sort_values().index]
