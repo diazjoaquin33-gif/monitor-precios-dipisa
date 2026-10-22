@@ -135,6 +135,14 @@ tab_prod, tab_comp, tab_cambios, tab_prov = st.tabs(
 st.session_state.setdefault("comparar", [])
 
 
+def _agregar_varios(ids_nuevos):
+    """Agrega varios productos a la lista y limpia las casillas de la tabla
+    (cambiando su clave). Va como on_click: así el valor guardado no se pierde."""
+    st.session_state["comparar"] = st.session_state["comparar"] + [
+        i for i in ids_nuevos if i not in st.session_state["comparar"]]
+    st.session_state["comp_n"] = st.session_state.get("comp_n", 0) + 1
+
+
 def _agregar_al_comparador(pid_nuevo):
     if pid_nuevo not in st.session_state["comparar"]:
         st.session_state["comparar"] = st.session_state["comparar"] + [pid_nuevo]
@@ -216,13 +224,45 @@ with tab_prod:
 
 # --- Comparar ---------------------------------------------------------------
 with tab_comp:
-    st.caption(f"Elige 2 o más productos y compara el **precio del proveedor más barato** en "
-               f"**{region_nombre}**. También puedes agregarlos con el botón «Agregar al comparador» "
-               "de la pestaña «Por producto».")
+    st.caption(f"Compara el **precio del proveedor más barato** de varios productos en "
+               f"**{region_nombre}**. Busca, marca las casillas de los que quieras y agrégalos "
+               "todos juntos; la búsqueda se puede repetir las veces que haga falta sin perder lo ya agregado.")
     nombre_de = largo.drop_duplicates("producto_id").set_index("producto_id")["producto"].sort_values()
-    elegidos = st.multiselect("Productos a comparar", options=list(nombre_de.index),
+
+    st.markdown("**1. Busca y marca los productos**")
+    busq_c = st.text_input("Buscar productos", key="busq_comparar",
+                           placeholder="ej. ovella 4 rollos, elite doble hoja…")
+    cand = nombre_de.reset_index()
+    cand.columns = ["producto_id", "producto"]
+    # Cada palabra tiene que aparecer en el nombre, en cualquier orden.
+    for palabra in busq_c.split():
+        cand = cand[cand["producto"].str.contains(palabra, case=False, na=False, regex=False)]
+    cand = cand.reset_index(drop=True)
+    minimos = lr.groupby("producto_id")["precio_neto"].min()
+    vista_cand = pd.DataFrame({
+        "ID": cand["producto_id"], "Producto": cand["producto"],
+        "Precio más bajo": cand["producto_id"].map(minimos).map(clp),
+        "En el comparador": cand["producto_id"].map(lambda i: "✅" if i in st.session_state["comparar"] else ""),
+    })
+    st.session_state.setdefault("comp_n", 0)
+    # La clave cambia al buscar otra cosa o al agregar: así las casillas se limpian solas.
+    clave_c = f"tabla_comparar_{st.session_state['comp_n']}_{busq_c.strip().lower()}"
+    ev_c = st.dataframe(vista_cand, hide_index=True, width="stretch", height=260,
+                        on_select="rerun", selection_mode="multi-row", key=clave_c)
+    filas_c = ev_c.selection.rows if ev_c and ev_c.selection else []
+    marcados = [cand.iloc[i]["producto_id"] for i in filas_c]
+    st.caption(f"{len(cand)} resultado(s). Marca con las casillas de la izquierda (puedes marcar varios).")
+    nuevos = [m for m in marcados if m not in st.session_state["comparar"]]
+    etiqueta_btn = (f"➕ Agregar {len(nuevos)} producto(s) al comparador" if nuevos
+                    else "➕ Agregar los marcados al comparador")
+    st.button(etiqueta_btn, disabled=not nuevos, key="btn_agregar_marcados",
+              on_click=_agregar_varios, args=(nuevos,))
+
+    st.markdown("**2. Productos en el comparador** (quita uno con la ✕; hacen falta al menos 2)")
+    elegidos = st.multiselect("Productos en el comparador", options=list(nombre_de.index),
                               format_func=lambda i: nombre_de.get(i, i), key="comparar",
-                              placeholder="Escribe para buscar y elige varios…")
+                              label_visibility="collapsed",
+                              placeholder="Todavía no hay productos: márcalos arriba y agrégalos.")
     if len(elegidos) < 2:
         st.info("Elige al menos 2 productos para compararlos.")
     else:
