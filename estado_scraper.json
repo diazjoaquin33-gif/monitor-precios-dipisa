@@ -1,7 +1,7 @@
 {
-  "fecha": "24/10/2026 19:40 hrs",
+  "fecha": "25/10/2026 05:36 hrs",
   "total_skus": 684,
-  "exitosos": 632,
+  "exitosos": 631,
   "fallos": [
     {
       "retailer": "alvi",
@@ -50,6 +50,11 @@
     },
     {
       "retailer": "santaisabel",
+      "sku_interno": "TC-240",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
       "sku_interno": "TC-245",
       "error": "HTTP 404"
     },
@@ -71,6 +76,11 @@
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-592",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-611",
       "error": "HTTP 404"
     },
     {
@@ -257,11 +267,6 @@
       "retailer": "unimarc",
       "sku_interno": "TC-618",
       "error": "HTTP 404"
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-529",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
     }
   ],
   "overrides_url_aplicados": 0,
