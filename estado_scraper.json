@@ -1,7 +1,7 @@
 {
-  "fecha": "25/10/2026 19:45 hrs",
+  "fecha": "26/10/2026 06:06 hrs",
   "total_skus": 684,
-  "exitosos": 629,
+  "exitosos": 620,
   "fallos": [
     {
       "retailer": "alvi",
@@ -31,6 +31,11 @@
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-002",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-008",
       "error": "HTTP 404"
     },
     {
@@ -71,6 +76,11 @@
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-253",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-254",
       "error": "HTTP 404"
     },
     {
@@ -125,6 +135,11 @@
     },
     {
       "retailer": "acuenta",
+      "sku_interno": "TC-695",
+      "error": "HTTP 502"
+    },
+    {
+      "retailer": "acuenta",
       "sku_interno": "TC-703",
       "error": "SKU '1081030' no encontrado en Instaleap"
     },
@@ -145,8 +160,23 @@
     },
     {
       "retailer": "tottus",
+      "sku_interno": "TC-025",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-027",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
       "sku_interno": "TC-105",
       "error": "Sin stock"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-106",
+      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -160,6 +190,11 @@
     },
     {
       "retailer": "tottus",
+      "sku_interno": "TC-122",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
       "sku_interno": "TC-124",
       "error": "Sin stock"
     },
@@ -167,6 +202,11 @@
       "retailer": "tottus",
       "sku_interno": "TC-125",
       "error": "Sin stock"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-126",
+      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -221,7 +261,7 @@
     {
       "retailer": "tottus",
       "sku_interno": "TC-616",
-      "error": "HTTP 403"
+      "error": "Sin stock"
     },
     {
       "retailer": "liquimax",
@@ -277,6 +317,11 @@
       "retailer": "unimarc",
       "sku_interno": "TC-618",
       "error": "HTTP 404"
+    },
+    {
+      "retailer": "imanweb",
+      "sku_interno": "TC-518",
+      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
     }
   ],
   "overrides_url_aplicados": 0,
