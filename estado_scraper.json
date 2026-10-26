@@ -1,7 +1,7 @@
 {
-  "fecha": "26/10/2026 06:06 hrs",
+  "fecha": "26/10/2026 14:36 hrs",
   "total_skus": 684,
-  "exitosos": 620,
+  "exitosos": 621,
   "fallos": [
     {
       "retailer": "alvi",
@@ -15,7 +15,17 @@
     },
     {
       "retailer": "alvi",
+      "sku_interno": "TC-305",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
       "sku_interno": "TC-307",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-404",
       "error": "HTTP 404"
     },
     {
@@ -85,12 +95,12 @@
     },
     {
       "retailer": "santaisabel",
-      "sku_interno": "TC-592",
+      "sku_interno": "TC-256",
       "error": "HTTP 404"
     },
     {
       "retailer": "santaisabel",
-      "sku_interno": "TC-611",
+      "sku_interno": "TC-592",
       "error": "HTTP 404"
     },
     {
@@ -135,23 +145,8 @@
     },
     {
       "retailer": "acuenta",
-      "sku_interno": "TC-695",
-      "error": "HTTP 502"
-    },
-    {
-      "retailer": "acuenta",
       "sku_interno": "TC-703",
       "error": "SKU '1081030' no encontrado en Instaleap"
-    },
-    {
-      "retailer": "jumbo",
-      "sku_interno": "TC-058",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "jumbo",
-      "sku_interno": "TC-346",
-      "error": "HTTP 404"
     },
     {
       "retailer": "tottus",
@@ -160,23 +155,8 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-025",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-027",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
       "sku_interno": "TC-105",
       "error": "Sin stock"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-106",
-      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -190,11 +170,6 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-122",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
       "sku_interno": "TC-124",
       "error": "Sin stock"
     },
@@ -202,11 +177,6 @@
       "retailer": "tottus",
       "sku_interno": "TC-125",
       "error": "Sin stock"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-126",
-      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -230,8 +200,28 @@
     },
     {
       "retailer": "tottus",
+      "sku_interno": "TC-278",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-282",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
       "sku_interno": "TC-283",
       "error": "Sin stock"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-372",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-376",
+      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -241,11 +231,6 @@
     {
       "retailer": "tottus",
       "sku_interno": "TC-569",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-572",
       "error": "Sin stock"
     },
     {
@@ -262,6 +247,21 @@
       "retailer": "tottus",
       "sku_interno": "TC-616",
       "error": "Sin stock"
+    },
+    {
+      "retailer": "jumbo",
+      "sku_interno": "TC-058",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "jumbo",
+      "sku_interno": "TC-346",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "jumbo",
+      "sku_interno": "TC-641",
+      "error": "HTTP 404"
     },
     {
       "retailer": "liquimax",
@@ -317,11 +317,6 @@
       "retailer": "unimarc",
       "sku_interno": "TC-618",
       "error": "HTTP 404"
-    },
-    {
-      "retailer": "imanweb",
-      "sku_interno": "TC-518",
-      "error": "Error imanweb: HTTPSConnectionPool(host='www.imanweb.cl', port=443): Read timed out. (read time"
     }
   ],
   "overrides_url_aplicados": 0,
