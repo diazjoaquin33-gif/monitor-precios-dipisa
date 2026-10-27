@@ -1,4 +1,4 @@
-name: Convenio Marco (proveedores RM)
+name: Convenio Marco (proveedores)
 
 on:
   schedule:
@@ -31,7 +31,9 @@ jobs:
       - name: Instalar dependencias
         run: pip install "pandas<3" requests
 
-      - name: Ejecutar lector de Convenio Marco
+      - name: Ejecutar lector de Convenio Marco (tissue y resmas)
+        # Lee todos los catálogos de CATALOGOS (convenio_marco.py); si uno falla los
+        # demás igual se actualizan.
         run: python -u convenio_marco.py
 
       - name: Guardar y subir resultados
@@ -42,7 +44,8 @@ jobs:
           git pull --rebase --autostash origin main
           # Solo los archivos de este flujo: no toca nada del scraper de
           # supermercados (que tiene su propio workflow).
-          for f in convenio_marco_proveedores.csv convenio_marco_cambios.csv estado_convenio_marco.json; do
+          for f in convenio_marco_proveedores.csv convenio_marco_cambios.csv estado_convenio_marco.json \
+                   convenio_marco_resmas_proveedores.csv convenio_marco_resmas_cambios.csv estado_convenio_marco_resmas.json; do
             if [ -f "$f" ]; then git add "$f"; fi
           done
           git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Convenio Marco: actualización semanal" && git push)

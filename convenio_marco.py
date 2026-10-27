@@ -1,4 +1,4 @@
-"""Monitor de proveedores de Convenio Marco (Mercado Público) — papel tissue.
+"""Monitor de proveedores de Convenio Marco (Mercado Público): papel tissue y resmas.
 
 Baja el listado de productos de la categoría y, de la ficha de cada uno, los
 proveedores que despachan a cada una de las 18 regiones, con su precio neto y
@@ -10,11 +10,16 @@ No usa API ni login: los datos vienen dentro del HTML público de la ficha
 proveedores). Si Convenio Marco cambia ese bloque, el script falla fuerte y
 avisa en estado_convenio_marco.json en vez de dejar datos a medias.
 
+Catálogos (ver CATALOGOS): cada uno tiene sus propios archivos de datos. Para
+agregar otro basta una entrada nueva en CATALOGOS (y una página en pages/).
+
 Uso:
-    python convenio_marco.py              # corrida completa (~700 productos)
-    python convenio_marco.py --prueba 3   # solo los primeros 3 productos
+    python convenio_marco.py                      # todos los catálogos
+    python convenio_marco.py --catalogo resmas    # solo uno
+    python convenio_marco.py --prueba 3           # solo los primeros 3 productos de cada uno
 """
 import argparse
+from html import unescape
 import threading
 from concurrent.futures import ThreadPoolExecutor
 import json
@@ -29,6 +34,15 @@ import requests
 
 BASE = "https://conveniomarco.mercadopublico.cl"
 LISTADO = BASE + "/aseo3/productos-y-articulos-de-aseo-e-higiene-personal/papel-tissue"
+# Cada catálogo es una lista de productos en Convenio Marco: una categoría o una
+# búsqueda. "archivo" define los nombres de sus datos (<archivo>_proveedores.csv,
+# <archivo>_cambios.csv y estado_<archivo>.json).
+CATALOGOS = {
+    "tissue": {"nombre": "Papel tissue", "archivo": "convenio_marco",
+               "url": LISTADO, "params": {}},
+    "resmas": {"nombre": "Resmas (papel fotocopia)", "archivo": "convenio_marco_resmas",
+               "url": BASE + "/escritorio3/catalogsearch/result/index/", "params": {"q": "resmas"}},
+}
 # id interno del sitio -> nombre, de norte a sur (las 2 últimas son territorios insulares)
 REGIONES = {
     "15": "Arica y Parinacota", "1": "Tarapacá", "2": "Antofagasta", "3": "Atacama",
@@ -42,13 +56,16 @@ PAUSA_SEG = 1.0   # cortesía con el sitio: pausa de cada hilo entre fichas
 HILOS = 4         # ~4 fichas en paralelo: ~700 fichas en ~4 min en vez de ~12
 REINTENTOS = 2
 TIMEOUT_SEG = 25
-PRESUPUESTO_MIN = 30   # si la corrida pasa de esto se aborta limpia (el workflow corta a los 45)
+PRESUPUESTO_MIN = 20   # por catálogo: si pasa de esto se aborta limpia (el workflow corta a los 45 en total)
 FALLAS_SEGUIDAS_MAX = 15  # sitio caído/bloqueado: abortar rápido en vez de agotar el tiempo
 
 DIR = Path(__file__).parent
-ARCHIVO_ACTUAL = DIR / "convenio_marco_proveedores.csv"
-ARCHIVO_CAMBIOS = DIR / "convenio_marco_cambios.csv"
-ARCHIVO_ESTADO = DIR / "estado_convenio_marco.json"
+
+
+def rutas(catalogo):
+    """(proveedores.csv, cambios.csv, estado.json) del catálogo."""
+    base = CATALOGOS[catalogo]["archivo"]
+    return DIR / f"{base}_proveedores.csv", DIR / f"{base}_cambios.csv", DIR / f"estado_{base}.json"
 
 try:  # GitHub Actions corre en UTC: la fecha se guarda en hora de Chile
     from zoneinfo import ZoneInfo
@@ -87,26 +104,30 @@ def _get(url, params=None):
     raise RuntimeError(f"No se pudo leer {url}: {ultimo}")
 
 
-def listar_productos(limite=None):
-    """Recorre el listado (58 por página) y devuelve [(id, nombre, url)].
-    Valida contra el total que declara la página ("N resultados")."""
-    productos, vistos, pagina, total = [], {}, 1, None
-    href = re.compile(r'href="(' + re.escape(LISTADO) + r'/[a-z0-9-]+-(\d+))"', re.I)
-    nombre_re = re.compile(
-        r'<a[^>]+href="' + re.escape(LISTADO) + r'/[a-z0-9-]+-(\d+)"[^>]*>\s*([^<]{5,}?)\s*</a>', re.I)
+PRODUCTO_RE = re.compile(
+    r'<a[^>]+class="[^"]*product-item-link[^"]*"[^>]+href="([^"]+)"[^>]*>\s*([^<]+?)\s*</a>')
+
+
+def listar_productos(catalogo, limite=None):
+    """Recorre el listado del catálogo (58 por página) y devuelve [(id, nombre, url)].
+    Se detiene cuando una página ya no trae productos nuevos, así que se adapta
+    solo a cuántos haya. Avisa si el total que declara el sitio no coincide."""
+    cfg = CATALOGOS[catalogo]
+    productos, vistos, pagina, total = [], set(), 1, None
     while True:
-        html = _get(LISTADO, {"p": pagina, "product_list_limit": 58})
+        html = _get(cfg["url"], {**cfg["params"], "p": pagina, "product_list_limit": 58})
         if total is None:
-            m = re.search(r"de\s+(\d+)\s+resultados", html)
-            total = int(m.group(1)) if m else None
-        nombres = {pid: re.sub(r"\s+", " ", n).strip() for pid, n in nombre_re.findall(html)}
+            m = re.search(r'id="toolbar-amount">(.*?)</p>', html, re.S)
+            nums = re.findall(r"\d+", re.sub(r"<[^>]+>", " ", m.group(1))) if m else []
+            total = int(nums[-1]) if nums else None
         nuevos = 0
-        for url, pid in href.findall(html):
-            if pid in vistos:
+        for url, nombre in PRODUCTO_RE.findall(html):
+            mid = re.search(r"-(\d+)$", url.rstrip("/"))
+            if not mid or mid.group(1) in vistos:
                 continue
+            vistos.add(mid.group(1))
             nuevos += 1
-            vistos[pid] = 1
-            productos.append((pid, nombres.get(pid) or url.rsplit("/", 1)[-1], url))
+            productos.append((mid.group(1), re.sub(r"\s+", " ", unescape(nombre)).strip(), url))
         if nuevos == 0:
             break
         if limite and len(productos) >= limite:
@@ -114,7 +135,7 @@ def listar_productos(limite=None):
         pagina += 1
         time.sleep(PAUSA_SEG)
     if total and len(productos) != total:
-        print(f"AVISO: el sitio declara {total} productos y se leyeron {len(productos)}", file=sys.stderr)
+        log(f"AVISO: el sitio declara {total} productos y se leyeron {len(productos)}")
     return productos
 
 
@@ -137,11 +158,18 @@ def _hijos_region(html):
 
 
 def _proveedores_html(html):
-    """{proveedor_id: (nombre, rut)} desde las filas de la tabla."""
+    """{proveedor_id: (nombre, rut)} desde las filas de la tabla. Algunos convenios
+    no publican el RUT en la ficha: en ese caso queda vacío."""
     datos = {}
-    for m in re.finditer(
-            r'data-sellerid="(\d+)".*?data-name="([^"]*)"\s*data-rut="([^"]*)"', html, re.S):
-        datos.setdefault(m.group(1), (m.group(2).strip(), m.group(3).strip()))
+    for bloque in re.split(r'(?=<tr[^>]*flag-row-seller)', html)[1:]:
+        fin = bloque.find("</tr>")
+        bloque = bloque[:fin] if fin > 0 else bloque
+        sid = re.search(r'data-sellerid="(\d+)"', bloque)
+        nom = re.search(r'data-name="([^"]*)"', bloque)
+        rut = re.search(r'data-rut="([^"]*)"', bloque)
+        if sid and nom:
+            datos.setdefault(sid.group(1), (unescape(nom.group(1)).strip(),
+                                            rut.group(1).strip() if rut else ""))
     return datos
 
 
@@ -279,15 +307,15 @@ def calcular_cambios(anterior, actual, fecha):
     return pd.DataFrame(filas, columns=COLS_CAMBIOS)
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--prueba", type=int, default=0, help="solo los primeros N productos")
-    args = ap.parse_args()
-
+def procesar_catalogo(clave, prueba=0):
+    """Lee un catálogo completo y actualiza sus archivos. Devuelve True si salió bien;
+    si la corrida no es confiable devuelve False y NO toca los datos anteriores."""
+    cfg = CATALOGOS[clave]
+    f_prov, f_cambios, f_estado = rutas(clave)
     inicio = datetime.now(TZ_CHILE) if TZ_CHILE else datetime.now()
     fecha = inicio.strftime("%d/%m/%Y %H:%M")
-    productos = listar_productos(args.prueba or None)
-    print(f"{len(productos)} productos en el listado")
+    productos = listar_productos(clave, prueba or None)
+    log(f"{len(productos)} productos en el listado")
 
     filas, errores = [], []
     lock = threading.Lock()
@@ -331,33 +359,51 @@ def main():
     # pisan los datos buenos de la corrida anterior.
     if abortada or not filas or len(errores) > max(5, 0.2 * len(productos)):
         estado["ok"] = False
-        ARCHIVO_ESTADO.write_text(json.dumps(estado, ensure_ascii=False, indent=1), encoding="utf-8")
+        f_estado.write_text(json.dumps(estado, ensure_ascii=False, indent=1), encoding="utf-8")
         log("CORRIDA INVÁLIDA: no se actualizan los datos (se conservan los de la corrida anterior).")
-        sys.exit(1)
+        return False
 
     actual = pd.DataFrame(filas, columns=COLUMNAS)
     actual[COLS_PRECIO + COLS_DIAS] = actual[COLS_PRECIO + COLS_DIAS].astype("Int64")
-    if args.prueba:
-        actual.to_csv(DIR / "convenio_marco_prueba.csv", index=False, encoding="utf-8-sig")
-        print(actual[COLS_BASE[:2] + ["proveedor", f"p_{REGION_REF}", f"d_{REGION_REF}"]].head(15).to_string())
-        print(f"{len(actual)} filas, {len(errores)} errores, "
-              f"{int(actual[COLS_PRECIO].notna().sum().sum())} combinaciones proveedor-región")
-        return
+    if prueba:
+        actual.to_csv(DIR / f"{cfg['archivo']}_prueba.csv", index=False, encoding="utf-8-sig")
+        log(actual[COLS_BASE[:2] + ["proveedor", f"p_{REGION_REF}", f"d_{REGION_REF}"]].head(8).to_string())
+        log(f"{len(actual)} filas, {len(errores)} errores, "
+            f"{int(actual[COLS_PRECIO].notna().sum().sum())} combinaciones proveedor-región")
+        return True
 
-    anterior = (pd.read_csv(ARCHIVO_ACTUAL, dtype=DTYPES_CSV)
-                if ARCHIVO_ACTUAL.exists() else pd.DataFrame(columns=COLUMNAS))
+    anterior = (pd.read_csv(f_prov, dtype=DTYPES_CSV) if f_prov.exists()
+                else pd.DataFrame(columns=COLUMNAS))
     if not anterior.empty and f"p_{REGION_REF}" not in anterior.columns:
         log("Datos anteriores en formato antiguo (solo RM): se reemplazan y esta corrida no compara.")
     cambios = calcular_cambios(anterior, actual, fecha)
     if not cambios.empty:
-        previos = (pd.read_csv(ARCHIVO_CAMBIOS, dtype=str)
-                   if ARCHIVO_CAMBIOS.exists() else pd.DataFrame(columns=COLS_CAMBIOS))
-        pd.concat([previos, cambios], ignore_index=True).to_csv(
-            ARCHIVO_CAMBIOS, index=False, encoding="utf-8-sig")
-    actual.to_csv(ARCHIVO_ACTUAL, index=False, encoding="utf-8-sig")
+        previos = (pd.read_csv(f_cambios, dtype=str) if f_cambios.exists()
+                   else pd.DataFrame(columns=COLS_CAMBIOS))
+        pd.concat([previos, cambios], ignore_index=True).to_csv(f_cambios, index=False, encoding="utf-8-sig")
+    actual.to_csv(f_prov, index=False, encoding="utf-8-sig")
     estado["cambios_detectados"] = int(len(cambios))
-    ARCHIVO_ESTADO.write_text(json.dumps(estado, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"Listo: {len(actual)} filas, {len(cambios)} cambios, {len(errores)} errores")
+    f_estado.write_text(json.dumps(estado, ensure_ascii=False, indent=1), encoding="utf-8")
+    log(f"Listo: {len(actual)} filas, {len(cambios)} cambios, {len(errores)} errores")
+    return True
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--prueba", type=int, default=0, help="solo los primeros N productos de cada catálogo")
+    ap.add_argument("--catalogo", choices=list(CATALOGOS) + ["todos"], default="todos")
+    args = ap.parse_args()
+    claves = list(CATALOGOS) if args.catalogo == "todos" else [args.catalogo]
+    resultados = {}
+    for clave in claves:  # un catálogo que falla no impide actualizar los demás
+        log(f"=== {CATALOGOS[clave]['nombre']} ===")
+        try:
+            resultados[clave] = procesar_catalogo(clave, args.prueba)
+        except Exception as e:
+            log(f"ERROR en {clave}: {e}")
+            resultados[clave] = False
+    if not all(resultados.values()):
+        sys.exit(1)
 
 
 if __name__ == "__main__":
