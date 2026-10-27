@@ -1130,7 +1130,7 @@ with st.sidebar:
     )
     vista = st.radio(
         "Vista",
-        ["🏪 Por retailer", "🥊 Por segmento competitivo", "💼 Para vender"],
+        ["🏪 Por retailer", "🥊 Por segmento competitivo", "⚖️ Comparar", "💼 Para vender"],
     )
     st.markdown("---")
     canal_sel = st.radio(
@@ -1642,6 +1642,143 @@ def _para_vender(dfx, canal_sel):
     )
 
 
+# --- Comparador -------------------------------------------------------------
+def _fmt_ref(valor, unidad):
+    """$/metro o $/unidad con un decimal y formato chileno ($12,3/m)."""
+    if pd.isna(valor):
+        return "N/D"
+    txt = f"{valor:,.1f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    return f"${txt}/{unidad}"
+
+
+def _agregar_comparador(skus_nuevos):
+    """Agrega productos a la lista y limpia las casillas (cambiando la clave de la
+    tabla). Va como on_click para que el valor guardado no se pierda."""
+    actuales = st.session_state["cmp_skus"]
+    st.session_state["cmp_skus"] = actuales + [x for x in skus_nuevos if x not in actuales]
+    st.session_state["cmp_n"] = st.session_state.get("cmp_n", 0) + 1
+
+
+def _vaciar_comparador():
+    st.session_state["cmp_skus"] = []
+
+
+def _comparar(df_todo, canal):
+    """Vista «Comparar»: eliges varios productos (de distintos retailers y marcas) y
+    se comparan por $/metro (papel higiénico y toalla) o $/unidad (servilletas y
+    toallitas), que ya viene calculado y permite comparar packs de distinto tamaño.
+    Solo compiten los que tienen precio vigente; los demás aparecen marcados."""
+    todo = df_todo[~df_todo["retailer_desactivado"]].copy()
+    todo["_etq"] = (todo["marca"].astype(str) + " · " + todo["producto"].astype(str)
+                    + " · " + todo["retailer_nombre"].astype(str))
+    etiqueta_de = todo.set_index("sku_interno")["_etq"].to_dict()
+    base = todo
+    if canal == "Retail":
+        base = todo[todo["canal"] == "retail"]
+    elif canal == "Mayorista":
+        base = todo[todo["canal"] == "mayorista"]
+
+    st.session_state.setdefault("cmp_skus", [])
+    st.session_state.setdefault("cmp_n", 0)
+    st.caption(
+        "Compara productos de distintos retailers y marcas por **precio por metro** (o por unidad en "
+        "servilletas y toallitas). Busca, marca las casillas de los que quieras y agrégalos todos juntos; "
+        f"puedes repetir la búsqueda sin perder lo ya agregado. Usa el Canal de la barra lateral "
+        f"(**{canal}**); el buscador de la barra lateral no aplica acá."
+    )
+
+    st.markdown("**1. Busca y marca los productos**")
+    busq = st.text_input("Buscar productos", key="cmp_busq",
+                         placeholder="ej. elite doble hoja, confort 12 rollos, jumbo…")
+    cand = base
+    texto = (cand["_etq"] + " " + cand["categoria"].astype(str) + " " + cand["subcategoria"].astype(str))
+    for palabra in busq.split():  # cada palabra debe aparecer, en cualquier orden
+        cand = cand[texto.str.contains(palabra, case=False, na=False, regex=False)]
+        texto = texto.loc[cand.index]
+    cand = cand.sort_values(["marca", "producto", "retailer_nombre"]).reset_index(drop=True)
+
+    en_lista = set(st.session_state["cmp_skus"])
+    vista_c = pd.DataFrame({
+        "Retailer": cand["retailer_nombre"], "Marca": cand["marca"], "Producto": cand["producto"],
+        "Formato": [_fmt_formato(r) for r in cand.to_dict("records")],
+        "Precio ref.": [_fmt_ref(v, u) for v, u in zip(cand["precio_ref"], cand["ref_unidad"])],
+        "En el comparador": ["✅" if x in en_lista else "" for x in cand["sku_interno"]],
+    })
+    clave_tabla = f"cmp_tabla_{st.session_state['cmp_n']}_{busq.strip().lower()}"
+    ev = st.dataframe(vista_c, hide_index=True, width="stretch", height=280,
+                      on_select="rerun", selection_mode="multi-row", key=clave_tabla)
+    filas = ev.selection.rows if ev and ev.selection else []
+    marcados = [cand.iloc[i]["sku_interno"] for i in filas]
+    nuevos = [m for m in marcados if m not in en_lista]
+    st.caption(f"{len(cand)} resultado(s). Marca con las casillas de la izquierda (puedes marcar varios).")
+    st.button(f"➕ Agregar {len(nuevos)} producto(s) al comparador" if nuevos
+              else "➕ Agregar los marcados al comparador",
+              disabled=not nuevos, key="cmp_btn_agregar", on_click=_agregar_comparador, args=(nuevos,))
+
+    st.markdown("**2. Productos en el comparador** (quita uno con la ✕; hacen falta al menos 2)")
+    elegidos = st.multiselect("Productos en el comparador", options=list(etiqueta_de),
+                              format_func=lambda x: etiqueta_de.get(x, x), key="cmp_skus",
+                              label_visibility="collapsed",
+                              placeholder="Todavía no hay productos: márcalos arriba y agrégalos.")
+    if len(elegidos) < 2:
+        st.info("Elige al menos 2 productos para compararlos.")
+        return
+
+    sel = todo[todo["sku_interno"].isin(elegidos)].copy()
+    titulos = {"m": "Por $/metro (papel higiénico y toalla de papel)",
+               "u": "Por $/unidad (servilletas y toallitas húmedas)"}
+    if sel["ref_unidad"].nunique() > 1:
+        st.warning("Elegiste productos que se miden en unidades distintas ($/metro y $/unidad): "
+                   "no son comparables entre sí, así que van en tablas separadas.")
+    for unidad in ("m", "u"):
+        g = sel[sel["ref_unidad"] == unidad].copy()
+        if g.empty:
+            continue
+        vigente = (g["estado"] == "Disponible") & g["precio_ref"].notna()
+        minimo = g.loc[vigente, "precio_ref"].min() if vigente.any() else pd.NA
+        g["_vigente"] = vigente
+        g = g.sort_values(["_vigente", "precio_ref"], ascending=[False, True], na_position="last").reset_index(drop=True)
+
+        def _dif(r):
+            if not r["_vigente"]:
+                return "—"
+            d = r["precio_ref"] - minimo
+            if d <= 0:
+                return "el más barato"
+            return f"+{_fmt_ref(d, unidad)} (+{d / minimo * 100:.0f}%)"
+
+        def _estado(r):
+            if pd.isna(r["precio_ref"]):
+                return "sin precio"
+            if r["estado"] != "Disponible":
+                sev = _severidad_dato(r["dias_sin_dato"])
+                return f"{sev['icono'] if sev else '⚠️'} último precio (hace {int(r['dias_sin_dato'])} días)" \
+                    if pd.notna(r["dias_sin_dato"]) else "⚠️ sin dato reciente"
+            return "✔ vigente"
+
+        tabla = pd.DataFrame({
+            "Producto": [("⭐ " if str(m).strip().lower() == "ovella" else "") + f"{m} · {p}"
+                         for m, p in zip(g["marca"], g["producto"])],
+            "Retailer": g["retailer_nombre"],
+            "Formato": [_fmt_formato(r) for r in g.to_dict("records")],
+            "Precio pack": g["precio_pack"].map(_formatear_clp),
+            f"$/{unidad}": [_fmt_ref(v, unidad) for v in g["precio_ref"]],
+            "Diferencia": [_dif(r) for r in g.to_dict("records")],
+            "Estado": [_estado(r) for r in g.to_dict("records")],
+        })
+        tabla.index = tabla.index + 1
+        st.markdown(f"##### {titulos[unidad]}")
+        es_min = [bool(v) and (not pd.isna(minimo)) and pr == minimo
+                  for v, pr in zip(g["_vigente"], g["precio_ref"])]
+        st.dataframe(
+            tabla.style.apply(lambda fila: [f"background-color: {COLOR_BUENO}26" if es_min[fila.name - 1] else ""
+                                            for _ in fila], axis=1),
+            width="stretch")
+    st.caption("Verde = el más barato del grupo, entre los que tienen precio vigente. ⭐ = Ovella. "
+               "Los productos sin precio vigente aparecen al final y no entran al cálculo.")
+    st.button("🧹 Vaciar la lista", key="cmp_btn_vaciar", on_click=_vaciar_comparador)
+
+
 if grupo_id_sel:
     # Un grupo elegido en la barra lateral manda por sobre la Vista: una sola
     # tabla con todos los retailers de ese grupo, precio incluido.
@@ -1656,6 +1793,9 @@ if grupo_id_sel:
 
 elif vista == "💼 Para vender":
     _para_vender(df, canal_sel)
+
+elif vista == "⚖️ Comparar":
+    _comparar(df_completo, canal_sel)
 
 elif vista == "🏪 Por retailer":
     # Un tab por supermercado, y dentro de cada uno las filas agrupadas por marca.
