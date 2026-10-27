@@ -1663,6 +1663,35 @@ def _vaciar_comparador():
     st.session_state["cmp_skus"] = []
 
 
+def _antiguedad(fecha_str):
+    """Devuelve (texto, días) de cuándo se obtuvo un precio: «hoy 13:49», «ayer 08:11» o
+    «hace 5 días (22/10)». Las fechas del scraper están en hora de Chile, y el servidor
+    de Streamlit en UTC, así que "hoy" se calcula con la fecha de Chile."""
+    f = pd.to_datetime(fecha_str, format="%d/%m/%Y %H:%M hrs", errors="coerce")
+    if pd.isna(f):
+        return "sin fecha", None
+    try:
+        from zoneinfo import ZoneInfo
+        hoy = pd.Timestamp.now(tz=ZoneInfo("America/Santiago")).tz_localize(None).normalize()
+    except Exception:
+        hoy = pd.Timestamp.now().normalize()
+    dias = max((hoy - f.normalize()).days, 0)
+    if dias == 0:
+        return f"hoy {f.strftime('%H:%M')}", 0
+    if dias == 1:
+        return f"ayer {f.strftime('%H:%M')}", 1
+    return f"hace {dias} días ({f.strftime('%d/%m')})", dias
+
+
+def _precio_al(r):
+    """Texto de la columna «Precio al»: lleva semáforo si el precio no es vigente."""
+    txt, dias = _antiguedad(r.get("fecha_act"))
+    if r.get("estado") != "Disponible" and dias is not None:
+        sev = _severidad_dato(max(dias, 1))
+        return f"{sev['icono']} {txt}" if sev else txt
+    return txt
+
+
 def _comparar(df_todo, canal):
     """Vista «Comparar»: eliges varios productos (de distintos retailers y marcas) y
     se comparan por $/metro (papel higiénico y toalla) o $/unidad (servilletas y
@@ -1705,6 +1734,7 @@ def _comparar(df_todo, canal):
         "Retailer": cand["retailer_nombre"], "Marca": cand["marca"], "Producto": cand["producto"],
         "Formato": [_fmt_formato(r) for r in cand.to_dict("records")],
         "Precio ref.": [_fmt_ref(v, u) for v, u in zip(cand["precio_ref"], cand["ref_unidad"])],
+        "Precio al": [_precio_al(r) for r in cand.to_dict("records")],
         "En el comparador": ["✅" if x in en_lista else "" for x in cand["sku_interno"]],
     })
     clave_tabla = f"cmp_tabla_{st.session_state['cmp_n']}_{cat_sel}_{busq.strip().lower()}"
@@ -1733,6 +1763,11 @@ def _comparar(df_todo, canal):
     if sel["ref_unidad"].nunique() > 1:
         st.warning("Elegiste productos que se miden en unidades distintas ($/metro y $/unidad): "
                    "no son comparables entre sí, así que van en tablas separadas.")
+    viejos = sel[sel["estado"] != "Disponible"]
+    if len(viejos):
+        st.warning(f"⚠️ {len(viejos)} de los {len(sel)} productos elegidos no tiene precio de hoy: se muestra "
+                   "su último precio conocido (columna «Precio al»). Aparecen al final de la tabla y no entran "
+                   "al cálculo del más barato.")
     for unidad in ("m", "u"):
         g = sel[sel["ref_unidad"] == unidad].copy()
         if g.empty:
@@ -1754,9 +1789,7 @@ def _comparar(df_todo, canal):
             if pd.isna(r["precio_ref"]):
                 return "sin precio"
             if r["estado"] != "Disponible":
-                sev = _severidad_dato(r["dias_sin_dato"])
-                return f"{sev['icono'] if sev else '⚠️'} último precio (hace {int(r['dias_sin_dato'])} días)" \
-                    if pd.notna(r["dias_sin_dato"]) else "⚠️ sin dato reciente"
+                return "⚠️ sin precio de hoy"
             return "✔ vigente"
 
         tabla = pd.DataFrame({
@@ -1766,6 +1799,7 @@ def _comparar(df_todo, canal):
             "Formato": [_fmt_formato(r) for r in g.to_dict("records")],
             "Precio pack": g["precio_pack"].map(_formatear_clp),
             f"$/{unidad}": [_fmt_ref(v, unidad) for v in g["precio_ref"]],
+            "Precio al": [_precio_al(r) for r in g.to_dict("records")],
             "Diferencia": [_dif(r) for r in g.to_dict("records")],
             "Estado": [_estado(r) for r in g.to_dict("records")],
         })
