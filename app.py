@@ -1688,9 +1688,12 @@ def _comparar(df_todo, canal):
     )
 
     st.markdown("**1. Busca y marca los productos**")
+    categorias = ["Todas"] + sorted(base["categoria"].dropna().unique())
+    cat_sel = st.radio("Categoría", categorias, horizontal=True, key="cmp_cat",
+                       format_func=lambda c: c if c == "Todas" else f"{ICONO_CATEGORIA.get(c, '📄')} {c}")
+    cand = base if cat_sel == "Todas" else base[base["categoria"] == cat_sel]
     busq = st.text_input("Buscar productos", key="cmp_busq",
                          placeholder="ej. elite doble hoja, confort 12 rollos, jumbo…")
-    cand = base
     texto = (cand["_etq"] + " " + cand["categoria"].astype(str) + " " + cand["subcategoria"].astype(str))
     for palabra in busq.split():  # cada palabra debe aparecer, en cualquier orden
         cand = cand[texto.str.contains(palabra, case=False, na=False, regex=False)]
@@ -1704,7 +1707,7 @@ def _comparar(df_todo, canal):
         "Precio ref.": [_fmt_ref(v, u) for v, u in zip(cand["precio_ref"], cand["ref_unidad"])],
         "En el comparador": ["✅" if x in en_lista else "" for x in cand["sku_interno"]],
     })
-    clave_tabla = f"cmp_tabla_{st.session_state['cmp_n']}_{busq.strip().lower()}"
+    clave_tabla = f"cmp_tabla_{st.session_state['cmp_n']}_{cat_sel}_{busq.strip().lower()}"
     ev = st.dataframe(vista_c, hide_index=True, width="stretch", height=280,
                       on_select="rerun", selection_mode="multi-row", key=clave_tabla)
     filas = ev.selection.rows if ev and ev.selection else []
