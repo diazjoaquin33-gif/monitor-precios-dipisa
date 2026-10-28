@@ -1,7 +1,7 @@
 {
-  "fecha": "28/10/2026 06:49 hrs",
+  "fecha": "28/10/2026 14:22 hrs",
   "total_skus": 684,
-  "exitosos": 615,
+  "exitosos": 623,
   "fallos": [
     {
       "retailer": "alvi",
@@ -45,11 +45,6 @@
     },
     {
       "retailer": "santaisabel",
-      "sku_interno": "TC-012",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
       "sku_interno": "TC-017",
       "error": "HTTP 404"
     },
@@ -70,32 +65,12 @@
     },
     {
       "retailer": "santaisabel",
-      "sku_interno": "TC-245",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-247",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
       "sku_interno": "TC-252",
       "error": "HTTP 404"
     },
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-253",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-254",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-256",
       "error": "HTTP 404"
     },
     {
@@ -132,6 +107,11 @@
       "retailer": "acuenta",
       "sku_interno": "TC-133",
       "error": "SKU '4482278' no encontrado en Instaleap"
+    },
+    {
+      "retailer": "acuenta",
+      "sku_interno": "TC-144",
+      "error": "SKU '475492' no encontrado en Instaleap"
     },
     {
       "retailer": "acuenta",
@@ -240,22 +220,7 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-272",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-276",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "tottus",
       "sku_interno": "TC-278",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-281",
       "error": "Sin stock"
     },
     {
@@ -276,11 +241,6 @@
     {
       "retailer": "tottus",
       "sku_interno": "TC-569",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-586",
       "error": "Sin stock"
     },
     {
