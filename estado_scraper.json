@@ -1,7 +1,7 @@
 {
-  "fecha": "31/10/2026 13:18 hrs",
+  "fecha": "31/10/2026 20:35 hrs",
   "total_skus": 684,
-  "exitosos": 627,
+  "exitosos": 611,
   "fallos": [
     {
       "retailer": "alvi",
@@ -56,6 +56,11 @@
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-021",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-242",
       "error": "HTTP 404"
     },
     {
@@ -150,13 +155,23 @@
     },
     {
       "retailer": "tottus",
+      "sku_interno": "TC-024",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "tottus",
       "sku_interno": "TC-028",
       "error": "Sin stock"
     },
     {
       "retailer": "tottus",
+      "sku_interno": "TC-029",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
       "sku_interno": "TC-105",
-      "error": "Sin stock"
+      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -165,8 +180,18 @@
     },
     {
       "retailer": "tottus",
+      "sku_interno": "TC-119",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
       "sku_interno": "TC-120",
       "error": "Sin stock"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-121",
+      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -181,7 +206,7 @@
     {
       "retailer": "tottus",
       "sku_interno": "TC-263",
-      "error": "Sin stock"
+      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -195,13 +220,28 @@
     },
     {
       "retailer": "tottus",
+      "sku_interno": "TC-270",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-272",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
       "sku_interno": "TC-278",
       "error": "Sin stock"
     },
     {
       "retailer": "tottus",
+      "sku_interno": "TC-281",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
       "sku_interno": "TC-283",
-      "error": "Sin stock"
+      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -220,18 +260,58 @@
     },
     {
       "retailer": "tottus",
+      "sku_interno": "TC-572",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
       "sku_interno": "TC-573",
       "error": "Sin stock"
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-594",
+      "sku_interno": "TC-575",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-586",
       "error": "Sin stock"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-593",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-594",
+      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
       "sku_interno": "TC-616",
       "error": "Sin stock"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-645",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-675",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-680",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-681",
+      "error": "HTTP 403"
     },
     {
       "retailer": "liquimax",
