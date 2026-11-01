@@ -1,7 +1,7 @@
 {
-  "fecha": "01/11/2026 07:37 hrs",
+  "fecha": "01/11/2026 14:19 hrs",
   "total_skus": 684,
-  "exitosos": 615,
+  "exitosos": 621,
   "fallos": [
     {
       "retailer": "alvi",
@@ -180,16 +180,6 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-106",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-114",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
       "sku_interno": "TC-116",
       "error": "Sin stock"
     },
@@ -225,16 +215,6 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-269",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-273",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
       "sku_interno": "TC-278",
       "error": "Sin stock"
     },
@@ -245,13 +225,8 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-365",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
       "sku_interno": "TC-372",
-      "error": "HTTP 403"
+      "error": "Sin stock"
     },
     {
       "retailer": "tottus",
@@ -262,11 +237,6 @@
       "retailer": "tottus",
       "sku_interno": "TC-569",
       "error": "Sin stock"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-572",
-      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -286,7 +256,7 @@
     {
       "retailer": "tottus",
       "sku_interno": "TC-616",
-      "error": "HTTP 403"
+      "error": "Sin stock"
     },
     {
       "retailer": "centralmayorista",
