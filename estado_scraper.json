@@ -1,7 +1,7 @@
 {
-  "fecha": "02/11/2026 08:13 hrs",
+  "fecha": "02/11/2026 17:58 hrs",
   "total_skus": 684,
-  "exitosos": 623,
+  "exitosos": 616,
   "fallos": [
     {
       "retailer": "alvi",
@@ -70,6 +70,16 @@
     },
     {
       "retailer": "santaisabel",
+      "sku_interno": "TC-244",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-249",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
       "sku_interno": "TC-252",
       "error": "HTTP 404"
     },
@@ -130,6 +140,16 @@
     },
     {
       "retailer": "acuenta",
+      "sku_interno": "TC-143",
+      "error": "SKU '1020215' no encontrado en Instaleap"
+    },
+    {
+      "retailer": "acuenta",
+      "sku_interno": "TC-309",
+      "error": "SKU '1159106' no encontrado en Instaleap"
+    },
+    {
+      "retailer": "acuenta",
       "sku_interno": "TC-310",
       "error": "SKU '853185' no encontrado en Instaleap"
     },
@@ -185,6 +205,21 @@
     },
     {
       "retailer": "tottus",
+      "sku_interno": "TC-109",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-110",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-115",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
       "sku_interno": "TC-120",
       "error": "Sin stock"
     },
@@ -206,7 +241,7 @@
     {
       "retailer": "tottus",
       "sku_interno": "TC-263",
-      "error": "Sin stock"
+      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
