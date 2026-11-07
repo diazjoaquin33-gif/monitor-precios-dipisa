@@ -1,5 +1,5 @@
 {
-  "fecha": "06/11/2026 15:10 hrs",
+  "fecha": "06/11/2026 21:18 hrs",
   "total_skus": 684,
   "exitosos": 618,
   "fallos": [
@@ -291,7 +291,7 @@
     {
       "retailer": "liquimax",
       "sku_interno": "TC-494",
-      "error": "Error Liquimax: HTTPSConnectionPool(host='www.liquimax.cl', port=443): Read timed out. (read tim"
+      "error": "HTTP 404"
     },
     {
       "retailer": "unimarc",
