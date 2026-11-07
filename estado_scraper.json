@@ -1,5 +1,5 @@
 {
-  "fecha": "07/11/2026 14:01 hrs",
+  "fecha": "07/11/2026 20:50 hrs",
   "total_skus": 684,
   "exitosos": 622,
   "fallos": [
@@ -215,6 +215,11 @@
     },
     {
       "retailer": "tottus",
+      "sku_interno": "TC-267",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
       "sku_interno": "TC-276",
       "error": "Sin stock"
     },
@@ -247,11 +252,6 @@
       "retailer": "tottus",
       "sku_interno": "TC-616",
       "error": "Sin stock"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-677",
-      "error": "HTTP 403"
     },
     {
       "retailer": "centralmayorista",
