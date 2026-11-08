@@ -1,7 +1,7 @@
 {
-  "fecha": "08/11/2026 14:14 hrs",
+  "fecha": "08/11/2026 20:53 hrs",
   "total_skus": 684,
-  "exitosos": 619,
+  "exitosos": 615,
   "fallos": [
     {
       "retailer": "alvi",
@@ -90,12 +90,22 @@
     },
     {
       "retailer": "santaisabel",
+      "sku_interno": "TC-242",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
       "sku_interno": "TC-252",
       "error": "HTTP 404"
     },
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-253",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-254",
       "error": "HTTP 404"
     },
     {
@@ -155,6 +165,11 @@
     },
     {
       "retailer": "acuenta",
+      "sku_interno": "TC-134",
+      "error": "SKU '309377' no encontrado en Instaleap"
+    },
+    {
+      "retailer": "acuenta",
       "sku_interno": "TC-137",
       "error": "SKU '4524518' no encontrado en Instaleap"
     },
@@ -189,9 +204,9 @@
       "error": "SKU '113664' no encontrado en Instaleap"
     },
     {
-      "retailer": "centralmayorista",
-      "sku_interno": "TC-425",
-      "error": "SKU '760732' no encontrado en Instaleap"
+      "retailer": "jumbo",
+      "sku_interno": "TC-055",
+      "error": "HTTP 404"
     },
     {
       "retailer": "tottus",
@@ -235,6 +250,11 @@
     },
     {
       "retailer": "tottus",
+      "sku_interno": "TC-268",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
       "sku_interno": "TC-276",
       "error": "Sin stock"
     },
@@ -260,11 +280,6 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-579",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
       "sku_interno": "TC-594",
       "error": "Sin stock"
     },
@@ -272,6 +287,11 @@
       "retailer": "tottus",
       "sku_interno": "TC-616",
       "error": "Sin stock"
+    },
+    {
+      "retailer": "centralmayorista",
+      "sku_interno": "TC-425",
+      "error": "SKU '760732' no encontrado en Instaleap"
     },
     {
       "retailer": "liquimax",
