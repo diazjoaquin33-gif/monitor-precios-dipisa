@@ -1,7 +1,7 @@
 {
-  "fecha": "09/11/2026 08:40 hrs",
+  "fecha": "09/11/2026 18:50 hrs",
   "total_skus": 684,
-  "exitosos": 613,
+  "exitosos": 611,
   "fallos": [
     {
       "retailer": "santaisabel",
@@ -61,11 +61,6 @@
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-254",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-256",
       "error": "HTTP 404"
     },
     {
@@ -226,6 +221,16 @@
     {
       "retailer": "tottus",
       "sku_interno": "TC-028",
+      "error": "Sin stock"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-029",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-031",
       "error": "HTTP 403"
     },
     {
@@ -277,6 +282,11 @@
       "retailer": "tottus",
       "sku_interno": "TC-279",
       "error": "Sin stock"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-281",
+      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
