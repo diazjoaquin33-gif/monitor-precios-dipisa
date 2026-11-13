@@ -1,7 +1,7 @@
 {
-  "fecha": "13/11/2026 08:08 hrs",
+  "fecha": "13/11/2026 15:42 hrs",
   "total_skus": 684,
-  "exitosos": 608,
+  "exitosos": 612,
   "fallos": [
     {
       "retailer": "santaisabel",
@@ -30,11 +30,6 @@
     },
     {
       "retailer": "santaisabel",
-      "sku_interno": "TC-243",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
       "sku_interno": "TC-245",
       "error": "HTTP 404"
     },
@@ -46,11 +41,6 @@
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-253",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-254",
       "error": "HTTP 404"
     },
     {
@@ -90,22 +80,7 @@
     },
     {
       "retailer": "santaisabel",
-      "sku_interno": "TC-601",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
       "sku_interno": "TC-607",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-642",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-643",
       "error": "HTTP 404"
     },
     {
@@ -237,6 +212,11 @@
       "retailer": "acuenta",
       "sku_interno": "TC-410",
       "error": "SKU '113664' no encontrado en Instaleap"
+    },
+    {
+      "retailer": "acuenta",
+      "sku_interno": "TC-703",
+      "error": "SKU '1081030' no encontrado en Instaleap"
     },
     {
       "retailer": "centralmayorista",
