@@ -1,93 +1,8 @@
 {
-  "fecha": "14/11/2026 07:34 hrs",
+  "fecha": "14/11/2026 14:17 hrs",
   "total_skus": 684,
-  "exitosos": 607,
+  "exitosos": 585,
   "fallos": [
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-002",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-017",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-020",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-021",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-240",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-252",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-253",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-258",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-259",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-260",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-261",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-393",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-578",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-592",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-607",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-656",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-657",
-      "error": "HTTP 404"
-    },
     {
       "retailer": "alvi",
       "sku_interno": "TC-006",
@@ -149,9 +64,89 @@
       "error": "HTTP 404"
     },
     {
-      "retailer": "acuenta",
-      "sku_interno": "TC-131",
-      "error": "SKU '1103955' no encontrado en Instaleap"
+      "retailer": "santaisabel",
+      "sku_interno": "TC-002",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-017",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-020",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-021",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-240",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-245",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-252",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-258",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-259",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-260",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-261",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-393",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-578",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-592",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-607",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-656",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "santaisabel",
+      "sku_interno": "TC-657",
+      "error": "HTTP 404"
     },
     {
       "retailer": "acuenta",
@@ -230,16 +225,6 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-109",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-111",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
       "sku_interno": "TC-113",
       "error": "Sin stock"
     },
@@ -280,12 +265,7 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-273",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-278",
+      "sku_interno": "TC-275",
       "error": "HTTP 403"
     },
     {
@@ -305,18 +285,8 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-372",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
       "sku_interno": "TC-569",
       "error": "Sin stock"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-579",
-      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -325,28 +295,168 @@
     },
     {
       "retailer": "tottus",
+      "sku_interno": "TC-598",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
       "sku_interno": "TC-616",
       "error": "Sin stock"
     },
     {
-      "retailer": "tottus",
-      "sku_interno": "TC-639",
+      "retailer": "liquimax",
+      "sku_interno": "TC-464",
       "error": "HTTP 403"
     },
     {
       "retailer": "liquimax",
       "sku_interno": "TC-465",
-      "error": "Error Liquimax: Expecting value: line 1 column 1 (char 0)"
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-466",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-467",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-468",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-469",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-470",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-471",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-472",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-473",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-474",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-475",
+      "error": "HTTP 403"
     },
     {
       "retailer": "liquimax",
       "sku_interno": "TC-476",
-      "error": "Error Liquimax: Expecting value: line 1 column 1 (char 0)"
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-477",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-478",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-479",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-480",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-481",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-482",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-483",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-484",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-485",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-486",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-487",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-488",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-489",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-490",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-491",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-492",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-493",
+      "error": "HTTP 403"
     },
     {
       "retailer": "liquimax",
       "sku_interno": "TC-494",
-      "error": "HTTP 404"
+      "error": "HTTP 403"
     },
     {
       "retailer": "unimarc",
