@@ -1,4 +1,5 @@
 {
+<<<<<<< Updated upstream
  "ultima_corrida": "16/11/2026 18:07",
  "productos_listado": 698,
  "productos_con_error": 1,
@@ -10,4 +11,12 @@
   }
  ],
  "ok": false
+=======
+ "ultima_corrida": "17/11/2026 07:39",
+ "productos_listado": 698,
+ "productos_con_error": 0,
+ "errores": [],
+ "ok": true,
+ "cambios_detectados": 2808
+>>>>>>> Stashed changes
 }
