@@ -1,68 +1,8 @@
 {
-  "fecha": "17/11/2026 23:37 hrs",
+  "fecha": "18/11/2026 08:51 hrs",
   "total_skus": 684,
-  "exitosos": 603,
+  "exitosos": 585,
   "fallos": [
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-006",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-167",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-175",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-194",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-302",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-305",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-307",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-404",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-685",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-686",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-687",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-691",
-      "error": "HTTP 404"
-    },
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-002",
@@ -189,6 +129,66 @@
       "error": "HTTP 404"
     },
     {
+      "retailer": "alvi",
+      "sku_interno": "TC-006",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-167",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-175",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-194",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-302",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-305",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-307",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-404",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-685",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-686",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-687",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-691",
+      "error": "HTTP 404"
+    },
+    {
       "retailer": "acuenta",
       "sku_interno": "TC-133",
       "error": "SKU '4482278' no encontrado en Instaleap"
@@ -239,9 +239,9 @@
       "error": "SKU '1081030' no encontrado en Instaleap"
     },
     {
-      "retailer": "tottus",
-      "sku_interno": "TC-033",
-      "error": "HTTP 403"
+      "retailer": "centralmayorista",
+      "sku_interno": "TC-425",
+      "error": "SKU '760732' no encontrado en Instaleap"
     },
     {
       "retailer": "tottus",
@@ -250,23 +250,13 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-106",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-110",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-113",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
       "sku_interno": "TC-124",
       "error": "Sin stock"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-125",
+      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -285,38 +275,8 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-271",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-274",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-275",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-279",
-      "error": "Sin stock"
-    },
-    {
-      "retailer": "tottus",
       "sku_interno": "TC-283",
       "error": "Sin stock"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-285",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-372",
-      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -344,29 +304,159 @@
       "error": "Sin stock"
     },
     {
-      "retailer": "tottus",
-      "sku_interno": "TC-679",
+      "retailer": "liquimax",
+      "sku_interno": "TC-464",
       "error": "HTTP 403"
     },
     {
       "retailer": "liquimax",
       "sku_interno": "TC-465",
-      "error": "Error Liquimax: Expecting value: line 1 column 1 (char 0)"
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-466",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-467",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-468",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-469",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-470",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-471",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-472",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-473",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-474",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-475",
+      "error": "HTTP 403"
     },
     {
       "retailer": "liquimax",
       "sku_interno": "TC-476",
-      "error": "Error Liquimax: Expecting value: line 1 column 1 (char 0)"
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-477",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-478",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-479",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-480",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-481",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-482",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-483",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-484",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-485",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-486",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-487",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-488",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-489",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-490",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-491",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-492",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "liquimax",
+      "sku_interno": "TC-493",
+      "error": "HTTP 403"
     },
     {
       "retailer": "liquimax",
       "sku_interno": "TC-494",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "centralmayorista",
-      "sku_interno": "TC-425",
-      "error": "SKU '760732' no encontrado en Instaleap"
+      "error": "HTTP 403"
     },
     {
       "retailer": "unimarc",
