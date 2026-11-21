@@ -1,7 +1,7 @@
 {
-  "fecha": "21/11/2026 08:10 hrs",
+  "fecha": "21/11/2026 15:09 hrs",
   "total_skus": 684,
-  "exitosos": 608,
+  "exitosos": 612,
   "fallos": [
     {
       "retailer": "alvi",
@@ -234,11 +234,6 @@
       "error": "SKU '4791741' no encontrado en Instaleap"
     },
     {
-      "retailer": "acuenta",
-      "sku_interno": "TC-703",
-      "error": "SKU '1081030' no encontrado en Instaleap"
-    },
-    {
       "retailer": "centralmayorista",
       "sku_interno": "TC-425",
       "error": "SKU '760732' no encontrado en Instaleap"
@@ -250,18 +245,8 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-032",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
       "sku_interno": "TC-105",
       "error": "Sin stock"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-117",
-      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -312,11 +297,6 @@
       "retailer": "tottus",
       "sku_interno": "TC-616",
       "error": "Sin stock"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-625",
-      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
