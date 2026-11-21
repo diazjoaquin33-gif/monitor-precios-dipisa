@@ -1,7 +1,7 @@
 {
-  "fecha": "20/11/2026 22:41 hrs",
+  "fecha": "21/11/2026 08:10 hrs",
   "total_skus": 684,
-  "exitosos": 611,
+  "exitosos": 608,
   "fallos": [
     {
       "retailer": "alvi",
@@ -250,8 +250,18 @@
     },
     {
       "retailer": "tottus",
+      "sku_interno": "TC-032",
+      "error": "HTTP 403"
+    },
+    {
+      "retailer": "tottus",
       "sku_interno": "TC-105",
       "error": "Sin stock"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-117",
+      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -291,7 +301,7 @@
     {
       "retailer": "tottus",
       "sku_interno": "TC-594",
-      "error": "HTTP 403"
+      "error": "Sin stock"
     },
     {
       "retailer": "tottus",
@@ -302,6 +312,11 @@
       "retailer": "tottus",
       "sku_interno": "TC-616",
       "error": "Sin stock"
+    },
+    {
+      "retailer": "tottus",
+      "sku_interno": "TC-625",
+      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
