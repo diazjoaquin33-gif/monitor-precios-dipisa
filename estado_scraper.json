@@ -1,8 +1,68 @@
 {
-  "fecha": "22/11/2026 15:51 hrs",
+  "fecha": "22/11/2026 22:03 hrs",
   "total_skus": 684,
   "exitosos": 611,
   "fallos": [
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-006",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-167",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-175",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-194",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-302",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-305",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-307",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-404",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-685",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-686",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-687",
+      "error": "HTTP 404"
+    },
+    {
+      "retailer": "alvi",
+      "sku_interno": "TC-691",
+      "error": "HTTP 404"
+    },
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-002",
@@ -126,66 +186,6 @@
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-657",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-006",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-167",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-175",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-194",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-302",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-305",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-307",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-404",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-685",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-686",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-687",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "alvi",
-      "sku_interno": "TC-691",
       "error": "HTTP 404"
     },
     {
