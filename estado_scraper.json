@@ -1,7 +1,7 @@
 {
-  "fecha": "28/11/2026 08:54 hrs",
+  "fecha": "28/11/2026 16:20 hrs",
   "total_skus": 684,
-  "exitosos": 595,
+  "exitosos": 618,
   "fallos": [
     {
       "retailer": "alvi",
@@ -75,16 +75,6 @@
     },
     {
       "retailer": "santaisabel",
-      "sku_interno": "TC-003",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-015",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
       "sku_interno": "TC-017",
       "error": "HTTP 404"
     },
@@ -100,17 +90,7 @@
     },
     {
       "retailer": "santaisabel",
-      "sku_interno": "TC-244",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
       "sku_interno": "TC-245",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-249",
       "error": "HTTP 404"
     },
     {
@@ -141,16 +121,6 @@
     {
       "retailer": "santaisabel",
       "sku_interno": "TC-393",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-578",
-      "error": "HTTP 404"
-    },
-    {
-      "retailer": "santaisabel",
-      "sku_interno": "TC-583",
       "error": "HTTP 404"
     },
     {
@@ -225,33 +195,13 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-010",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
       "sku_interno": "TC-105",
       "error": "Sin stock"
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-107",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
       "sku_interno": "TC-108",
       "error": "Sin stock"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-110",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-115",
-      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -285,38 +235,8 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-269",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-273",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-274",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-282",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
       "sku_interno": "TC-283",
       "error": "Sin stock"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-366",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-369",
-      "error": "HTTP 403"
     },
     {
       "retailer": "tottus",
@@ -325,33 +245,13 @@
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-376",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
       "sku_interno": "TC-569",
       "error": "Sin stock"
     },
     {
       "retailer": "tottus",
-      "sku_interno": "TC-572",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-579",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-585",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-593",
-      "error": "HTTP 403"
+      "sku_interno": "TC-586",
+      "error": "Sin stock"
     },
     {
       "retailer": "tottus",
@@ -366,12 +266,7 @@
     {
       "retailer": "tottus",
       "sku_interno": "TC-616",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-625",
-      "error": "HTTP 403"
+      "error": "Sin stock"
     },
     {
       "retailer": "tottus",
@@ -381,17 +276,7 @@
     {
       "retailer": "tottus",
       "sku_interno": "TC-674",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-675",
-      "error": "HTTP 403"
-    },
-    {
-      "retailer": "tottus",
-      "sku_interno": "TC-680",
-      "error": "HTTP 403"
+      "error": "Sin stock"
     },
     {
       "retailer": "liquimax",
