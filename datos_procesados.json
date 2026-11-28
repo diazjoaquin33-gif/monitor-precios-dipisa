@@ -21,7 +21,7 @@
     "precio_normal": 12990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-004",
@@ -29,7 +29,7 @@
     "precio_normal": 12990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-006",
@@ -46,7 +46,7 @@
     "precio_normal": 4690.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-008",
@@ -54,15 +54,15 @@
     "precio_normal": 4590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-009",
-    "precio": 9350.0,
+    "precio": 7194.0,
     "precio_normal": 11990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-010",
@@ -70,13 +70,13 @@
     "precio_normal": 8190.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-011",
     "precio": 3000.0,
     "precio_normal": 4590.0,
-    "estado": "Disponible",
+    "estado": "⚠️ Últ. precio (27/11/2026)",
     "error": null,
     "fecha_act": "27/11/2026 09:30 hrs"
   },
@@ -86,7 +86,7 @@
     "precio_normal": 5090.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-013",
@@ -94,7 +94,7 @@
     "precio_normal": 3090.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-014",
@@ -102,15 +102,15 @@
     "precio_normal": 3890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-015",
-    "precio": 3890.0,
+    "precio": 3648.0,
     "precio_normal": 5790.0,
-    "estado": "⚠️ Últ. precio (16/11/2026)",
+    "estado": "Disponible",
     "error": null,
-    "fecha_act": "16/11/2026 18:26 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-016",
@@ -118,7 +118,7 @@
     "precio_normal": 1740.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-017",
@@ -134,7 +134,7 @@
     "precio_normal": 1860.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-019",
@@ -142,7 +142,7 @@
     "precio_normal": 3250.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-020",
@@ -166,7 +166,7 @@
     "precio_normal": 2130.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-023",
@@ -174,7 +174,7 @@
     "precio_normal": 5790.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-024",
@@ -182,7 +182,7 @@
     "precio_normal": 11690.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-025",
@@ -190,7 +190,7 @@
     "precio_normal": 3290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-026",
@@ -198,7 +198,7 @@
     "precio_normal": 1950.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-027",
@@ -206,15 +206,15 @@
     "precio_normal": 1740.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-028",
-    "precio": 1690.0,
+    "precio": 1050.0,
     "precio_normal": 1750.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-029",
@@ -222,7 +222,7 @@
     "precio_normal": 3250.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-030",
@@ -230,7 +230,7 @@
     "precio_normal": 10990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-031",
@@ -238,7 +238,7 @@
     "precio_normal": 1830.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-032",
@@ -246,7 +246,7 @@
     "precio_normal": 2790.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-033",
@@ -254,7 +254,7 @@
     "precio_normal": 2950.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-035",
@@ -262,7 +262,7 @@
     "precio_normal": 2000.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-036",
@@ -270,7 +270,7 @@
     "precio_normal": 1000.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-037",
@@ -278,7 +278,7 @@
     "precio_normal": 1290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-038",
@@ -286,7 +286,7 @@
     "precio_normal": 2000.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-039",
@@ -294,7 +294,7 @@
     "precio_normal": 11690.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-040",
@@ -302,7 +302,7 @@
     "precio_normal": 14390.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-041",
@@ -310,7 +310,7 @@
     "precio_normal": 10890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-042",
@@ -318,7 +318,7 @@
     "precio_normal": 24490.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-043",
@@ -326,7 +326,7 @@
     "precio_normal": 7490.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-044",
@@ -334,7 +334,7 @@
     "precio_normal": 9890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-045",
@@ -342,7 +342,7 @@
     "precio_normal": 9350.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-046",
@@ -350,7 +350,7 @@
     "precio_normal": 7250.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-047",
@@ -358,7 +358,7 @@
     "precio_normal": 17800.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-048",
@@ -366,7 +366,7 @@
     "precio_normal": 8150.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-049",
@@ -374,7 +374,7 @@
     "precio_normal": 5890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-050",
@@ -382,7 +382,7 @@
     "precio_normal": 15290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-051",
@@ -390,7 +390,7 @@
     "precio_normal": 13290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-052",
@@ -398,7 +398,7 @@
     "precio_normal": 15990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-053",
@@ -406,7 +406,7 @@
     "precio_normal": 9990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-054",
@@ -414,7 +414,7 @@
     "precio_normal": 6650.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-055",
@@ -422,7 +422,7 @@
     "precio_normal": 16490.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-056",
@@ -430,7 +430,7 @@
     "precio_normal": 4290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-057",
@@ -438,7 +438,7 @@
     "precio_normal": 3150.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-058",
@@ -446,7 +446,7 @@
     "precio_normal": 7550.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-059",
@@ -454,7 +454,7 @@
     "precio_normal": 6090.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-060",
@@ -462,7 +462,7 @@
     "precio_normal": 18590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-061",
@@ -470,7 +470,7 @@
     "precio_normal": 8190.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-062",
@@ -478,7 +478,7 @@
     "precio_normal": 5250.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-063",
@@ -486,7 +486,7 @@
     "precio_normal": 2950.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-064",
@@ -494,7 +494,7 @@
     "precio_normal": 16890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-065",
@@ -502,7 +502,7 @@
     "precio_normal": 1850.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-066",
@@ -510,7 +510,7 @@
     "precio_normal": 3290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-067",
@@ -518,7 +518,7 @@
     "precio_normal": 6990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-068",
@@ -526,7 +526,7 @@
     "precio_normal": 11990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-069",
@@ -534,7 +534,7 @@
     "precio_normal": 13990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-070",
@@ -542,7 +542,7 @@
     "precio_normal": 14180.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-071",
@@ -550,7 +550,7 @@
     "precio_normal": 7890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-072",
@@ -558,7 +558,7 @@
     "precio_normal": 8990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-073",
@@ -566,7 +566,7 @@
     "precio_normal": 6990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-074",
@@ -582,7 +582,7 @@
     "precio_normal": 1750.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-076",
@@ -590,7 +590,7 @@
     "precio_normal": 14590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-077",
@@ -598,7 +598,7 @@
     "precio_normal": 12590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-078",
@@ -606,7 +606,7 @@
     "precio_normal": 1290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-079",
@@ -614,7 +614,7 @@
     "precio_normal": 11750.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-080",
@@ -622,7 +622,7 @@
     "precio_normal": 12790.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-081",
@@ -630,7 +630,7 @@
     "precio_normal": 6950.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-082",
@@ -638,7 +638,7 @@
     "precio_normal": 20990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-083",
@@ -646,7 +646,7 @@
     "precio_normal": 13290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-084",
@@ -654,7 +654,7 @@
     "precio_normal": 17850.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-085",
@@ -670,7 +670,7 @@
     "precio_normal": 9750.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-087",
@@ -678,7 +678,7 @@
     "precio_normal": 8590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-088",
@@ -686,7 +686,7 @@
     "precio_normal": 5990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-089",
@@ -694,7 +694,7 @@
     "precio_normal": 11290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-090",
@@ -702,7 +702,7 @@
     "precio_normal": 10790.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-091",
@@ -710,7 +710,7 @@
     "precio_normal": 3290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-092",
@@ -718,7 +718,7 @@
     "precio_normal": 3690.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-093",
@@ -726,7 +726,7 @@
     "precio_normal": 6890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-094",
@@ -734,7 +734,7 @@
     "precio_normal": 9990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-095",
@@ -742,7 +742,7 @@
     "precio_normal": 17250.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-096",
@@ -758,7 +758,7 @@
     "precio_normal": 3850.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-098",
@@ -766,7 +766,7 @@
     "precio_normal": 3290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-099",
@@ -774,7 +774,7 @@
     "precio_normal": 13990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-100",
@@ -782,7 +782,7 @@
     "precio_normal": 4990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-101",
@@ -790,15 +790,15 @@
     "precio_normal": 13150.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-102",
-    "precio": 7990.0,
+    "precio": 7290.0,
     "precio_normal": 11690.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-103",
@@ -806,7 +806,7 @@
     "precio_normal": 13350.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-104",
@@ -814,7 +814,7 @@
     "precio_normal": 4990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-105",
@@ -828,23 +828,23 @@
     "sku_interno": "TC-106",
     "precio": 6354.0,
     "precio_normal": 10590.0,
-    "estado": "Disponible",
+    "estado": "⚠️ Últ. precio (27/11/2026)",
     "error": null,
     "fecha_act": "27/11/2026 09:30 hrs"
   },
   {
     "sku_interno": "TC-107",
-    "precio": 11990.0,
+    "precio": 10690.0,
     "precio_normal": 19290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-108",
     "precio": 302.0,
     "precio_normal": 6650.0,
-    "estado": "Disponible",
+    "estado": "⚠️ Últ. precio (27/11/2026)",
     "error": null,
     "fecha_act": "27/11/2026 09:30 hrs"
   },
@@ -854,7 +854,7 @@
     "precio_normal": 5190.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-110",
@@ -862,7 +862,7 @@
     "precio_normal": 2550.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-111",
@@ -870,15 +870,15 @@
     "precio_normal": 16990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-112",
-    "precio": 16590.0,
+    "precio": 9954.0,
     "precio_normal": 16590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-113",
@@ -886,7 +886,7 @@
     "precio_normal": 9750.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-114",
@@ -894,15 +894,15 @@
     "precio_normal": 15390.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-115",
-    "precio": 1690.0,
+    "precio": 1014.0,
     "precio_normal": 1690.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-116",
@@ -910,7 +910,7 @@
     "precio_normal": 3990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-117",
@@ -918,7 +918,7 @@
     "precio_normal": 6490.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-118",
@@ -926,7 +926,7 @@
     "precio_normal": 7490.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-119",
@@ -934,23 +934,23 @@
     "precio_normal": 20990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-120",
-    "precio": 12790.0,
+    "precio": 7674.0,
     "precio_normal": 12790.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-121",
-    "precio": 10990.0,
+    "precio": 10490.0,
     "precio_normal": 16690.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-122",
@@ -958,7 +958,7 @@
     "precio_normal": 13250.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-123",
@@ -966,7 +966,7 @@
     "precio_normal": 9790.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-124",
@@ -982,15 +982,15 @@
     "precio_normal": 4990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-126",
-    "precio": 10750.0,
+    "precio": 6450.0,
     "precio_normal": 10750.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-127",
@@ -1006,7 +1006,7 @@
     "precio_normal": 6550.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-129",
@@ -1022,7 +1022,7 @@
     "precio_normal": 1000.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-131",
@@ -1030,7 +1030,7 @@
     "precio_normal": 12950.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-132",
@@ -1038,7 +1038,7 @@
     "precio_normal": 9590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-133",
@@ -1046,7 +1046,7 @@
     "precio_normal": 9990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-134",
@@ -1062,7 +1062,7 @@
     "precio_normal": 11690.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-136",
@@ -1070,7 +1070,7 @@
     "precio_normal": 10990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-137",
@@ -1086,7 +1086,7 @@
     "precio_normal": 8990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-139",
@@ -1094,7 +1094,7 @@
     "precio_normal": 8990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-140",
@@ -1102,7 +1102,7 @@
     "precio_normal": 9790.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-141",
@@ -1110,7 +1110,7 @@
     "precio_normal": 2000.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-142",
@@ -1118,7 +1118,7 @@
     "precio_normal": 2000.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-143",
@@ -1126,7 +1126,7 @@
     "precio_normal": 8990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-144",
@@ -1134,7 +1134,7 @@
     "precio_normal": 7990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-166",
@@ -1143,7 +1143,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1090.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-167",
@@ -1160,7 +1160,7 @@
     "precio_normal": 1390.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-169",
@@ -1169,7 +1169,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 10790.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-170",
@@ -1178,7 +1178,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1850.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-171",
@@ -1187,7 +1187,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 860.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-172",
@@ -1195,7 +1195,7 @@
     "precio_normal": 2650.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-173",
@@ -1204,7 +1204,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 10490.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-174",
@@ -1213,7 +1213,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 6050.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-175",
@@ -1230,7 +1230,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 6990.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-177",
@@ -1239,7 +1239,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 5390.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-178",
@@ -1248,7 +1248,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 3950.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-179",
@@ -1257,7 +1257,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1190.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-180",
@@ -1266,7 +1266,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 790.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-181",
@@ -1275,7 +1275,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1470.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-182",
@@ -1284,7 +1284,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1250.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-183",
@@ -1293,7 +1293,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1620.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-184",
@@ -1302,7 +1302,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 3930.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-185",
@@ -1311,7 +1311,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 8990.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-186",
@@ -1320,7 +1320,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 2450.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-187",
@@ -1329,7 +1329,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 4840.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-188",
@@ -1338,7 +1338,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 7190.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-189",
@@ -1347,7 +1347,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1870.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-190",
@@ -1355,7 +1355,7 @@
     "precio_normal": 1260.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-191",
@@ -1363,7 +1363,7 @@
     "precio_normal": 1750.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-192",
@@ -1372,7 +1372,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 4950.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-193",
@@ -1381,7 +1381,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 890.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-194",
@@ -1399,7 +1399,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 10490.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-196",
@@ -1408,7 +1408,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 8900.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-197",
@@ -1416,7 +1416,7 @@
     "precio_normal": 2590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-198",
@@ -1424,7 +1424,7 @@
     "precio_normal": 1490.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-199",
@@ -1432,7 +1432,7 @@
     "precio_normal": 3750.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-200",
@@ -1440,7 +1440,7 @@
     "precio_normal": 3990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-201",
@@ -1448,7 +1448,7 @@
     "precio_normal": 2690.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-202",
@@ -1456,7 +1456,7 @@
     "precio_normal": 4590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-203",
@@ -1464,7 +1464,7 @@
     "precio_normal": 4290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-204",
@@ -1472,7 +1472,7 @@
     "precio_normal": 1890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-205",
@@ -1480,7 +1480,7 @@
     "precio_normal": 6750.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-206",
@@ -1488,7 +1488,7 @@
     "precio_normal": 8890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-207",
@@ -1496,7 +1496,7 @@
     "precio_normal": 2150.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-208",
@@ -1504,7 +1504,7 @@
     "precio_normal": 6090.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-209",
@@ -1512,7 +1512,7 @@
     "precio_normal": 3790.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-210",
@@ -1520,7 +1520,7 @@
     "precio_normal": 2450.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-211",
@@ -1528,7 +1528,7 @@
     "precio_normal": 4090.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-212",
@@ -1536,7 +1536,7 @@
     "precio_normal": 4090.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-213",
@@ -1544,7 +1544,7 @@
     "precio_normal": 6590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-214",
@@ -1552,7 +1552,7 @@
     "precio_normal": 4850.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-215",
@@ -1560,7 +1560,7 @@
     "precio_normal": 1690.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-216",
@@ -1568,7 +1568,7 @@
     "precio_normal": 2890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-217",
@@ -1576,7 +1576,7 @@
     "precio_normal": 5350.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-218",
@@ -1592,7 +1592,7 @@
     "precio_normal": 3750.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-220",
@@ -1600,7 +1600,7 @@
     "precio_normal": 4230.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-221",
@@ -1608,7 +1608,7 @@
     "precio_normal": 3790.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-222",
@@ -1616,7 +1616,7 @@
     "precio_normal": 6490.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-223",
@@ -1624,7 +1624,7 @@
     "precio_normal": 1890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-224",
@@ -1632,7 +1632,7 @@
     "precio_normal": 4990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-225",
@@ -1640,7 +1640,7 @@
     "precio_normal": 2590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-226",
@@ -1648,7 +1648,7 @@
     "precio_normal": 8890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-227",
@@ -1656,7 +1656,7 @@
     "precio_normal": 4250.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-228",
@@ -1664,7 +1664,7 @@
     "precio_normal": 2690.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-229",
@@ -1672,7 +1672,7 @@
     "precio_normal": 4290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-230",
@@ -1680,7 +1680,7 @@
     "precio_normal": 5000.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-231",
@@ -1688,7 +1688,7 @@
     "precio_normal": 3650.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-232",
@@ -1696,7 +1696,7 @@
     "precio_normal": 2520.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-233",
@@ -1704,7 +1704,7 @@
     "precio_normal": 1890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-234",
@@ -1712,7 +1712,7 @@
     "precio_normal": 4390.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-235",
@@ -1720,7 +1720,7 @@
     "precio_normal": 3790.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-236",
@@ -1728,7 +1728,7 @@
     "precio_normal": 2770.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-237",
@@ -1736,7 +1736,7 @@
     "precio_normal": 1950.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-238",
@@ -1744,7 +1744,7 @@
     "precio_normal": 5290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-239",
@@ -1752,7 +1752,7 @@
     "precio_normal": 1090.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-240",
@@ -1760,7 +1760,7 @@
     "precio_normal": 1880.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-241",
@@ -1768,31 +1768,31 @@
     "precio_normal": 4190.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-242",
-    "precio": 1850.0,
+    "precio": 1295.0,
     "precio_normal": 1850.0,
-    "estado": "⚠️ Últ. precio (15/11/2026)",
+    "estado": "Disponible",
     "error": null,
-    "fecha_act": "15/11/2026 21:09 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-243",
-    "precio": 3690.0,
+    "precio": 3486.0,
     "precio_normal": 4980.0,
-    "estado": "⚠️ Últ. precio (16/11/2026)",
+    "estado": "Disponible",
     "error": null,
-    "fecha_act": "16/11/2026 18:26 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-244",
     "precio": 1632.0,
     "precio_normal": 2550.0,
-    "estado": "⚠️ Últ. precio (26/11/2026)",
+    "estado": "Disponible",
     "error": null,
-    "fecha_act": "26/11/2026 09:42 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-245",
@@ -1808,15 +1808,15 @@
     "precio_normal": 1560.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-247",
-    "precio": 2690.0,
+    "precio": 2362.0,
     "precio_normal": 3690.0,
-    "estado": "⚠️ Últ. precio (16/11/2026)",
+    "estado": "Disponible",
     "error": null,
-    "fecha_act": "16/11/2026 08:26 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-248",
@@ -1824,7 +1824,7 @@
     "precio_normal": 4190.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-249",
@@ -1840,7 +1840,7 @@
     "precio_normal": 4290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-251",
@@ -1848,7 +1848,7 @@
     "precio_normal": 3750.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-252",
@@ -1864,7 +1864,7 @@
     "precio_normal": 6590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-254",
@@ -1872,7 +1872,7 @@
     "precio_normal": 2740.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-255",
@@ -1880,7 +1880,7 @@
     "precio_normal": 3590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-256",
@@ -1888,15 +1888,15 @@
     "precio_normal": 1090.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-257",
     "precio": 1690.0,
     "precio_normal": 1690.0,
-    "estado": "⚠️ Últ. precio (27/11/2026)",
+    "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 00:03 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-258",
@@ -1936,7 +1936,7 @@
     "precio_normal": 4790.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-263",
@@ -1948,11 +1948,11 @@
   },
   {
     "sku_interno": "TC-264",
-    "precio": 2790.0,
+    "precio": 2490.0,
     "precio_normal": 4190.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-265",
@@ -1960,7 +1960,7 @@
     "precio_normal": 3790.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-266",
@@ -1972,17 +1972,17 @@
   },
   {
     "sku_interno": "TC-267",
-    "precio": 2490.0,
+    "precio": 2340.0,
     "precio_normal": 3750.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-268",
     "precio": 2050.0,
     "precio_normal": 2050.0,
-    "estado": "Disponible",
+    "estado": "⚠️ Últ. precio (27/11/2026)",
     "error": null,
     "fecha_act": "27/11/2026 09:30 hrs"
   },
@@ -1990,7 +1990,7 @@
     "sku_interno": "TC-269",
     "precio": 2390.0,
     "precio_normal": 3790.0,
-    "estado": "Disponible",
+    "estado": "⚠️ Últ. precio (27/11/2026)",
     "error": null,
     "fecha_act": "27/11/2026 09:30 hrs"
   },
@@ -2000,15 +2000,15 @@
     "precio_normal": 1490.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-271",
-    "precio": 2190.0,
+    "precio": 2070.0,
     "precio_normal": 3450.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-272",
@@ -2016,7 +2016,7 @@
     "precio_normal": 4850.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-273",
@@ -2024,23 +2024,23 @@
     "precio_normal": 6390.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-274",
-    "precio": 5890.0,
+    "precio": 3534.0,
     "precio_normal": 5890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-275",
     "precio": 2890.0,
     "precio_normal": 3990.0,
-    "estado": "⚠️ Últ. precio (27/11/2026)",
+    "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 00:03 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-276",
@@ -2048,23 +2048,23 @@
     "precio_normal": 1890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-277",
     "precio": 1790.0,
     "precio_normal": 2590.0,
-    "estado": "Disponible",
+    "estado": "⚠️ Últ. precio (27/11/2026)",
     "error": null,
     "fecha_act": "27/11/2026 09:30 hrs"
   },
   {
     "sku_interno": "TC-278",
-    "precio": 1690.0,
+    "precio": 1550.0,
     "precio_normal": 2450.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-279",
@@ -2072,7 +2072,7 @@
     "precio_normal": 8790.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-280",
@@ -2080,7 +2080,7 @@
     "precio_normal": 4090.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-281",
@@ -2088,7 +2088,7 @@
     "precio_normal": 4790.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-282",
@@ -2096,7 +2096,7 @@
     "precio_normal": 4390.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-283",
@@ -2112,7 +2112,7 @@
     "precio_normal": 1490.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-285",
@@ -2120,7 +2120,7 @@
     "precio_normal": 2590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-286",
@@ -2129,7 +2129,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1100.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-287",
@@ -2138,7 +2138,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1550.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-288",
@@ -2147,7 +2147,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1120.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-289",
@@ -2156,7 +2156,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1870.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-290",
@@ -2165,7 +2165,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1900.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-291",
@@ -2174,7 +2174,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1170.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-292",
@@ -2183,7 +2183,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 2050.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-293",
@@ -2192,7 +2192,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 2390.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-294",
@@ -2201,7 +2201,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 2950.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-295",
@@ -2210,7 +2210,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 2950.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-296",
@@ -2219,7 +2219,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 2720.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-297",
@@ -2227,7 +2227,7 @@
     "precio_normal": 4190.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-298",
@@ -2235,7 +2235,7 @@
     "precio_normal": 1320.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-299",
@@ -2244,7 +2244,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 870.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-300",
@@ -2253,7 +2253,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1490.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-301",
@@ -2261,7 +2261,7 @@
     "precio_normal": 2960.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-302",
@@ -2279,7 +2279,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1500.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-304",
@@ -2288,7 +2288,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 600.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-305",
@@ -2305,7 +2305,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 4350.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-307",
@@ -2322,7 +2322,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1550.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-309",
@@ -2330,7 +2330,7 @@
     "precio_normal": 2590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-310",
@@ -2346,7 +2346,7 @@
     "precio_normal": 2000.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-312",
@@ -2354,7 +2354,7 @@
     "precio_normal": 1000.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-313",
@@ -2362,7 +2362,7 @@
     "precio_normal": 2550.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-314",
@@ -2370,7 +2370,7 @@
     "precio_normal": 1000.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-315",
@@ -2378,7 +2378,7 @@
     "precio_normal": 1090.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-316",
@@ -2394,7 +2394,7 @@
     "precio_normal": 3650.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-318",
@@ -2418,7 +2418,7 @@
     "precio_normal": 2890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-321",
@@ -2426,7 +2426,7 @@
     "precio_normal": 2950.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-322",
@@ -2450,7 +2450,7 @@
     "precio_normal": 1000.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-325",
@@ -2458,7 +2458,7 @@
     "precio_normal": 2000.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-326",
@@ -2466,7 +2466,7 @@
     "precio_normal": 3000.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-327",
@@ -2474,7 +2474,7 @@
     "precio_normal": 1390.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-328",
@@ -2482,7 +2482,7 @@
     "precio_normal": 2250.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-329",
@@ -2490,7 +2490,7 @@
     "precio_normal": 2390.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-330",
@@ -2498,7 +2498,7 @@
     "precio_normal": 1150.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-331",
@@ -2506,7 +2506,7 @@
     "precio_normal": 440.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-332",
@@ -2514,7 +2514,7 @@
     "precio_normal": 1190.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-333",
@@ -2522,7 +2522,7 @@
     "precio_normal": 1990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-334",
@@ -2530,7 +2530,7 @@
     "precio_normal": 2950.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-335",
@@ -2538,7 +2538,7 @@
     "precio_normal": 2590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-336",
@@ -2546,7 +2546,7 @@
     "precio_normal": 3850.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-337",
@@ -2554,7 +2554,7 @@
     "precio_normal": 770.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-338",
@@ -2562,7 +2562,7 @@
     "precio_normal": 470.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-339",
@@ -2570,7 +2570,7 @@
     "precio_normal": 4250.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-340",
@@ -2578,7 +2578,7 @@
     "precio_normal": 2550.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-341",
@@ -2586,7 +2586,7 @@
     "precio_normal": 2550.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-342",
@@ -2594,7 +2594,7 @@
     "precio_normal": 2150.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-343",
@@ -2602,7 +2602,7 @@
     "precio_normal": 2850.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-344",
@@ -2610,7 +2610,7 @@
     "precio_normal": 400.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-345",
@@ -2618,7 +2618,7 @@
     "precio_normal": 3290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-346",
@@ -2626,7 +2626,7 @@
     "precio_normal": 3950.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-347",
@@ -2634,7 +2634,7 @@
     "precio_normal": 1790.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-348",
@@ -2642,7 +2642,7 @@
     "precio_normal": 2450.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-349",
@@ -2650,7 +2650,7 @@
     "precio_normal": 1350.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-350",
@@ -2658,7 +2658,7 @@
     "precio_normal": 2190.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-351",
@@ -2666,7 +2666,7 @@
     "precio_normal": 2550.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-352",
@@ -2674,7 +2674,7 @@
     "precio_normal": 730.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-353",
@@ -2682,7 +2682,7 @@
     "precio_normal": 2090.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-354",
@@ -2690,7 +2690,7 @@
     "precio_normal": 2850.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-355",
@@ -2698,7 +2698,7 @@
     "precio_normal": 990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-356",
@@ -2706,7 +2706,7 @@
     "precio_normal": 3050.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-357",
@@ -2714,7 +2714,7 @@
     "precio_normal": 2390.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-358",
@@ -2722,7 +2722,7 @@
     "precio_normal": 360.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-359",
@@ -2730,7 +2730,7 @@
     "precio_normal": 440.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-360",
@@ -2738,7 +2738,7 @@
     "precio_normal": 1920.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-361",
@@ -2746,7 +2746,7 @@
     "precio_normal": 2450.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-362",
@@ -2754,7 +2754,7 @@
     "precio_normal": 2450.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-363",
@@ -2762,7 +2762,7 @@
     "precio_normal": 1290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-364",
@@ -2770,7 +2770,7 @@
     "precio_normal": 510.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-365",
@@ -2778,7 +2778,7 @@
     "precio_normal": 1350.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-366",
@@ -2786,23 +2786,23 @@
     "precio_normal": 3290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-367",
-    "precio": 1830.0,
+    "precio": 1098.0,
     "precio_normal": 1830.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-368",
     "precio": 2290.0,
     "precio_normal": 2790.0,
-    "estado": "⚠️ Últ. precio (27/11/2026)",
+    "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 00:03 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-369",
@@ -2810,7 +2810,7 @@
     "precio_normal": 410.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-370",
@@ -2818,15 +2818,15 @@
     "precio_normal": 670.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-371",
-    "precio": 540.0,
+    "precio": 324.0,
     "precio_normal": 540.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-372",
@@ -2834,7 +2834,7 @@
     "precio_normal": 2190.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-373",
@@ -2842,13 +2842,13 @@
     "precio_normal": 2390.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-374",
     "precio": 1550.0,
     "precio_normal": 1550.0,
-    "estado": "Disponible",
+    "estado": "⚠️ Últ. precio (27/11/2026)",
     "error": null,
     "fecha_act": "27/11/2026 09:30 hrs"
   },
@@ -2858,7 +2858,7 @@
     "precio_normal": 1990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-376",
@@ -2866,7 +2866,7 @@
     "precio_normal": 490.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-377",
@@ -2874,7 +2874,7 @@
     "precio_normal": 1000.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-378",
@@ -2882,13 +2882,13 @@
     "precio_normal": 2190.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-379",
     "precio": 3650.0,
     "precio_normal": 3650.0,
-    "estado": "Disponible",
+    "estado": "⚠️ Últ. precio (27/11/2026)",
     "error": null,
     "fecha_act": "27/11/2026 09:30 hrs"
   },
@@ -2898,7 +2898,7 @@
     "precio_normal": 1450.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-381",
@@ -2906,7 +2906,7 @@
     "precio_normal": 2080.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-382",
@@ -2914,7 +2914,7 @@
     "precio_normal": 1330.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-383",
@@ -2922,7 +2922,7 @@
     "precio_normal": 410.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-384",
@@ -2930,7 +2930,7 @@
     "precio_normal": 350.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-385",
@@ -2938,7 +2938,7 @@
     "precio_normal": 3450.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-387",
@@ -2946,7 +2946,7 @@
     "precio_normal": 500.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-388",
@@ -2954,7 +2954,7 @@
     "precio_normal": 1920.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-389",
@@ -2962,7 +2962,7 @@
     "precio_normal": 400.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-390",
@@ -2970,7 +2970,7 @@
     "precio_normal": 700.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-391",
@@ -2978,7 +2978,7 @@
     "precio_normal": 2190.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-392",
@@ -2986,7 +2986,7 @@
     "precio_normal": 2350.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-393",
@@ -3002,7 +3002,7 @@
     "precio_normal": 990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-396",
@@ -3011,7 +3011,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1950.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-397",
@@ -3020,7 +3020,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1350.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-398",
@@ -3029,7 +3029,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1190.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-399",
@@ -3038,7 +3038,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1490.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-400",
@@ -3047,7 +3047,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 850.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-401",
@@ -3056,7 +3056,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1350.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-402",
@@ -3064,7 +3064,7 @@
     "precio_normal": 1690.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-403",
@@ -3073,7 +3073,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 220.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-404",
@@ -3090,7 +3090,7 @@
     "precio_normal": 700.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-406",
@@ -3098,7 +3098,7 @@
     "precio_normal": 2740.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-407",
@@ -3107,7 +3107,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 2490.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-408",
@@ -3116,7 +3116,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1550.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-409",
@@ -3125,7 +3125,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 790.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-410",
@@ -3133,7 +3133,7 @@
     "precio_normal": 3590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-411",
@@ -3141,7 +3141,7 @@
     "precio_normal": 1000.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-412",
@@ -3149,7 +3149,7 @@
     "precio_normal": 2190.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-413",
@@ -3157,7 +3157,7 @@
     "precio_normal": 790.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-414",
@@ -3165,7 +3165,7 @@
     "precio_normal": 2090.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-415",
@@ -3173,7 +3173,7 @@
     "precio_normal": 1490.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-416",
@@ -3181,7 +3181,7 @@
     "precio_normal": 290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-417",
@@ -3189,7 +3189,7 @@
     "precio_normal": 2590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-418",
@@ -3197,7 +3197,7 @@
     "precio_normal": 2990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-419",
@@ -3205,7 +3205,7 @@
     "precio_normal": 490.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-420",
@@ -3213,7 +3213,7 @@
     "precio_normal": 11880.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-421",
@@ -3221,7 +3221,7 @@
     "precio_normal": 14520.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-422",
@@ -3229,7 +3229,7 @@
     "precio_normal": 9900.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-423",
@@ -3237,7 +3237,7 @@
     "precio_normal": 18320.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-424",
@@ -3245,7 +3245,7 @@
     "precio_normal": 11880.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-425",
@@ -3261,7 +3261,7 @@
     "precio_normal": 19040.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-427",
@@ -3269,7 +3269,7 @@
     "precio_normal": 17040.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-428",
@@ -3277,7 +3277,7 @@
     "precio_normal": 8760.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-429",
@@ -3285,7 +3285,7 @@
     "precio_normal": 9960.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-430",
@@ -3293,7 +3293,7 @@
     "precio_normal": 15040.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-431",
@@ -3301,7 +3301,7 @@
     "precio_normal": 13520.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-432",
@@ -3309,7 +3309,7 @@
     "precio_normal": 20000.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-433",
@@ -3317,7 +3317,7 @@
     "precio_normal": 8800.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-434",
@@ -3325,7 +3325,7 @@
     "precio_normal": 15920.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-435",
@@ -3333,7 +3333,7 @@
     "precio_normal": 11920.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-436",
@@ -3341,7 +3341,7 @@
     "precio_normal": 3830.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-437",
@@ -3349,7 +3349,7 @@
     "precio_normal": 8590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-438",
@@ -3357,7 +3357,7 @@
     "precio_normal": 10970.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-439",
@@ -3365,7 +3365,7 @@
     "precio_normal": 14160.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-440",
@@ -3373,7 +3373,7 @@
     "precio_normal": 18400.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-441",
@@ -3381,7 +3381,7 @@
     "precio_normal": 6200.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-442",
@@ -3389,7 +3389,7 @@
     "precio_normal": 14100.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-443",
@@ -3397,7 +3397,7 @@
     "precio_normal": 19400.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-444",
@@ -3405,7 +3405,7 @@
     "precio_normal": 14160.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-445",
@@ -3413,7 +3413,7 @@
     "precio_normal": 11940.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-446",
@@ -3421,7 +3421,7 @@
     "precio_normal": 5790.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-447",
@@ -3429,7 +3429,7 @@
     "precio_normal": 5050.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-448",
@@ -3437,7 +3437,7 @@
     "precio_normal": 17600.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-449",
@@ -3445,7 +3445,7 @@
     "precio_normal": 11280.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-450",
@@ -3453,7 +3453,7 @@
     "precio_normal": 13440.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-451",
@@ -3461,7 +3461,7 @@
     "precio_normal": 11440.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-452",
@@ -3469,7 +3469,7 @@
     "precio_normal": 8990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-453",
@@ -3477,7 +3477,7 @@
     "precio_normal": 1850.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-454",
@@ -3493,7 +3493,7 @@
     "precio_normal": 189.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-456",
@@ -3501,7 +3501,7 @@
     "precio_normal": 335.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-457",
@@ -3509,7 +3509,7 @@
     "precio_normal": 980.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-458",
@@ -3517,7 +3517,7 @@
     "precio_normal": 6990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-459",
@@ -3525,7 +3525,7 @@
     "precio_normal": 790.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-460",
@@ -3533,7 +3533,7 @@
     "precio_normal": 220.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-461",
@@ -3541,7 +3541,7 @@
     "precio_normal": 300.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-462",
@@ -3549,7 +3549,7 @@
     "precio_normal": 850.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-463",
@@ -3557,7 +3557,7 @@
     "precio_normal": 1190.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-464",
@@ -3566,7 +3566,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 2490.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-465",
@@ -3584,7 +3584,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 3390.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-467",
@@ -3593,7 +3593,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1290.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-468",
@@ -3602,7 +3602,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1500.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-469",
@@ -3611,7 +3611,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1690.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-470",
@@ -3620,7 +3620,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1090.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-471",
@@ -3629,7 +3629,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 2190.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-472",
@@ -3638,7 +3638,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1000.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-473",
@@ -3647,7 +3647,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 890.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-474",
@@ -3656,7 +3656,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 5990.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-475",
@@ -3665,7 +3665,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1850.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-476",
@@ -3682,7 +3682,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 2290.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-478",
@@ -3690,7 +3690,7 @@
     "precio_normal": 2590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-479",
@@ -3699,7 +3699,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1090.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-480",
@@ -3708,7 +3708,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1350.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-481",
@@ -3717,7 +3717,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 2790.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-482",
@@ -3725,7 +3725,7 @@
     "precio_normal": 1190.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-483",
@@ -3734,7 +3734,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1790.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-484",
@@ -3743,7 +3743,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 2690.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-485",
@@ -3752,7 +3752,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 3390.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-486",
@@ -3761,7 +3761,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1790.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-487",
@@ -3770,7 +3770,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 2490.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-488",
@@ -3778,7 +3778,7 @@
     "precio_normal": 1590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-489",
@@ -3787,7 +3787,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 500.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-490",
@@ -3796,7 +3796,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 260.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-491",
@@ -3805,7 +3805,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1350.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-492",
@@ -3814,7 +3814,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1550.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-493",
@@ -3823,7 +3823,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1730.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-495",
@@ -3831,7 +3831,7 @@
     "precio_normal": 13792.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-496",
@@ -3839,7 +3839,7 @@
     "precio_normal": 12474.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-497",
@@ -3847,7 +3847,7 @@
     "precio_normal": 10341.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-498",
@@ -3855,15 +3855,15 @@
     "precio_normal": 23219.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-499",
     "precio": 12990.0,
     "precio_normal": 16627.0,
-    "estado": "⚠️ Últ. precio (27/11/2026)",
+    "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 00:03 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-500",
@@ -3871,63 +3871,63 @@
     "precio_normal": 10812.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-501",
     "precio": 9790.0,
     "precio_normal": 13902.0,
-    "estado": "⚠️ Últ. precio (27/11/2026)",
+    "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 00:03 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-502",
     "precio": 8890.0,
     "precio_normal": 11290.0,
-    "estado": "⚠️ Últ. precio (27/11/2026)",
+    "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 00:03 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-503",
     "precio": 7990.0,
     "precio_normal": 10067.0,
-    "estado": "⚠️ Últ. precio (27/11/2026)",
+    "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 00:03 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-504",
     "precio": 12690.0,
     "precio_normal": 16370.0,
-    "estado": "⚠️ Últ. precio (27/11/2026)",
+    "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 00:03 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-505",
     "precio": 12490.0,
     "precio_normal": 17986.0,
-    "estado": "⚠️ Últ. precio (27/11/2026)",
+    "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 00:03 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-506",
     "precio": 17390.0,
     "precio_normal": 21390.0,
-    "estado": "⚠️ Últ. precio (27/11/2026)",
+    "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 00:03 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-507",
     "precio": 14390.0,
     "precio_normal": 18707.0,
-    "estado": "⚠️ Últ. precio (27/11/2026)",
+    "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 00:03 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-508",
@@ -3935,7 +3935,7 @@
     "precio_normal": 18738.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-509",
@@ -3943,7 +3943,7 @@
     "precio_normal": 8738.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-510",
@@ -3951,7 +3951,7 @@
     "precio_normal": 8251.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-511",
@@ -3959,7 +3959,7 @@
     "precio_normal": 25239.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-512",
@@ -3967,7 +3967,7 @@
     "precio_normal": 9232.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-513",
@@ -3975,7 +3975,7 @@
     "precio_normal": 12478.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-514",
@@ -3983,7 +3983,7 @@
     "precio_normal": 10295.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-515",
@@ -3991,7 +3991,7 @@
     "precio_normal": 11251.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-516",
@@ -3999,7 +3999,7 @@
     "precio_normal": 17139.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-517",
@@ -4007,7 +4007,7 @@
     "precio_normal": 18654.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-518",
@@ -4015,7 +4015,7 @@
     "precio_normal": 8947.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-519",
@@ -4023,7 +4023,7 @@
     "precio_normal": 12369.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-520",
@@ -4031,7 +4031,7 @@
     "precio_normal": 8614.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-521",
@@ -4039,7 +4039,7 @@
     "precio_normal": 11567.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-522",
@@ -4047,7 +4047,7 @@
     "precio_normal": 13628.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-523",
@@ -4055,7 +4055,7 @@
     "precio_normal": 7688.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-524",
@@ -4063,7 +4063,7 @@
     "precio_normal": 10647.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-525",
@@ -4071,7 +4071,7 @@
     "precio_normal": 9224.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-526",
@@ -4079,7 +4079,7 @@
     "precio_normal": 12512.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-527",
@@ -4087,7 +4087,7 @@
     "precio_normal": 14341.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-528",
@@ -4095,7 +4095,7 @@
     "precio_normal": 19386.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-529",
@@ -4103,7 +4103,7 @@
     "precio_normal": 10668.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-530",
@@ -4111,7 +4111,7 @@
     "precio_normal": 6458.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-531",
@@ -4119,7 +4119,7 @@
     "precio_normal": 13518.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-532",
@@ -4127,7 +4127,7 @@
     "precio_normal": 6832.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-533",
@@ -4135,7 +4135,7 @@
     "precio_normal": 11507.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-534",
@@ -4143,7 +4143,7 @@
     "precio_normal": 28630.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-535",
@@ -4151,7 +4151,7 @@
     "precio_normal": 16906.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-536",
@@ -4159,7 +4159,7 @@
     "precio_normal": 17705.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-537",
@@ -4167,7 +4167,7 @@
     "precio_normal": 22677.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-538",
@@ -4175,7 +4175,7 @@
     "precio_normal": 15598.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-539",
@@ -4183,7 +4183,7 @@
     "precio_normal": 4032.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-540",
@@ -4191,7 +4191,7 @@
     "precio_normal": 7593.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-541",
@@ -4199,7 +4199,7 @@
     "precio_normal": 11304.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-542",
@@ -4207,7 +4207,7 @@
     "precio_normal": 9533.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-543",
@@ -4215,7 +4215,7 @@
     "precio_normal": 6084.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-544",
@@ -4223,7 +4223,7 @@
     "precio_normal": 23008.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-545",
@@ -4231,7 +4231,7 @@
     "precio_normal": 5657.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-546",
@@ -4239,7 +4239,7 @@
     "precio_normal": 16624.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-547",
@@ -4247,7 +4247,7 @@
     "precio_normal": 6966.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-548",
@@ -4255,7 +4255,7 @@
     "precio_normal": 12588.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-549",
@@ -4263,7 +4263,7 @@
     "precio_normal": 2796.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-551",
@@ -4271,7 +4271,7 @@
     "precio_normal": 7290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-553",
@@ -4279,7 +4279,7 @@
     "precio_normal": 4700.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-554",
@@ -4287,7 +4287,7 @@
     "precio_normal": 5390.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-555",
@@ -4295,7 +4295,7 @@
     "precio_normal": 6990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-556",
@@ -4303,7 +4303,7 @@
     "precio_normal": 15390.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-557",
@@ -4311,7 +4311,7 @@
     "precio_normal": 18199.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-558",
@@ -4319,7 +4319,7 @@
     "precio_normal": 9613.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-559",
@@ -4327,7 +4327,7 @@
     "precio_normal": 9790.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-560",
@@ -4335,7 +4335,7 @@
     "precio_normal": 10140.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-561",
@@ -4343,7 +4343,7 @@
     "precio_normal": 29900.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-562",
@@ -4351,7 +4351,7 @@
     "precio_normal": 34426.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-563",
@@ -4359,7 +4359,7 @@
     "precio_normal": 14590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-564",
@@ -4367,7 +4367,7 @@
     "precio_normal": 9288.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-566",
@@ -4375,7 +4375,7 @@
     "precio_normal": 15647.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-567",
@@ -4383,7 +4383,7 @@
     "precio_normal": 31118.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-568",
@@ -4391,7 +4391,7 @@
     "precio_normal": 3090.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-569",
@@ -4407,7 +4407,7 @@
     "precio_normal": 2990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-571",
@@ -4415,7 +4415,7 @@
     "precio_normal": 11790.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-572",
@@ -4423,7 +4423,7 @@
     "precio_normal": 2650.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-573",
@@ -4431,7 +4431,7 @@
     "precio_normal": 9390.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-574",
@@ -4439,7 +4439,7 @@
     "precio_normal": 2420.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-575",
@@ -4447,7 +4447,7 @@
     "precio_normal": 2290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-576",
@@ -4455,7 +4455,7 @@
     "precio_normal": 2590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-577",
@@ -4463,7 +4463,7 @@
     "precio_normal": 1550.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-578",
@@ -4479,7 +4479,7 @@
     "precio_normal": 1500.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-580",
@@ -4487,7 +4487,7 @@
     "precio_normal": 1590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-581",
@@ -4495,7 +4495,7 @@
     "precio_normal": 4350.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-582",
@@ -4503,7 +4503,7 @@
     "precio_normal": 1750.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-583",
@@ -4511,7 +4511,7 @@
     "precio_normal": 4290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-584",
@@ -4519,7 +4519,7 @@
     "precio_normal": 1650.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-585",
@@ -4527,7 +4527,7 @@
     "precio_normal": 4290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-586",
@@ -4535,7 +4535,7 @@
     "precio_normal": 1690.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-587",
@@ -4543,7 +4543,7 @@
     "precio_normal": 4350.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-588",
@@ -4551,7 +4551,7 @@
     "precio_normal": 1890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-589",
@@ -4559,7 +4559,7 @@
     "precio_normal": 1850.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-590",
@@ -4567,7 +4567,7 @@
     "precio_normal": 1890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-591",
@@ -4575,7 +4575,7 @@
     "precio_normal": 1590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-593",
@@ -4583,7 +4583,7 @@
     "precio_normal": 4650.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-594",
@@ -4607,7 +4607,7 @@
     "precio_normal": 1710.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-597",
@@ -4615,7 +4615,7 @@
     "precio_normal": 1650.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-598",
@@ -4623,7 +4623,7 @@
     "precio_normal": 1590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-599",
@@ -4631,7 +4631,7 @@
     "precio_normal": 1690.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-600",
@@ -4639,15 +4639,15 @@
     "precio_normal": 2490.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-601",
     "precio": 1990.0,
     "precio_normal": 2490.0,
-    "estado": "⚠️ Últ. precio (16/11/2026)",
+    "estado": "Disponible",
     "error": null,
-    "fecha_act": "16/11/2026 08:26 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-602",
@@ -4655,7 +4655,7 @@
     "precio_normal": 3430.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-603",
@@ -4663,7 +4663,7 @@
     "precio_normal": 3390.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-604",
@@ -4671,7 +4671,7 @@
     "precio_normal": 3190.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-605",
@@ -4679,7 +4679,7 @@
     "precio_normal": 3550.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-606",
@@ -4687,7 +4687,7 @@
     "precio_normal": 2890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-607",
@@ -4719,15 +4719,15 @@
     "precio_normal": 2790.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-611",
     "precio": 1990.0,
     "precio_normal": 2290.0,
-    "estado": "⚠️ Últ. precio (14/11/2026)",
+    "estado": "Disponible",
     "error": null,
-    "fecha_act": "14/11/2026 21:05 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-612",
@@ -4743,7 +4743,7 @@
     "precio_normal": 4250.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-614",
@@ -4751,7 +4751,7 @@
     "precio_normal": 8690.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-615",
@@ -4775,7 +4775,7 @@
     "precio_normal": 4590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-618",
@@ -4791,7 +4791,7 @@
     "precio_normal": 2890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-620",
@@ -4799,7 +4799,7 @@
     "precio_normal": 2890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-621",
@@ -4807,7 +4807,7 @@
     "precio_normal": 2750.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-622",
@@ -4815,7 +4815,7 @@
     "precio_normal": 2990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-623",
@@ -4823,7 +4823,7 @@
     "precio_normal": 3050.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-624",
@@ -4831,7 +4831,7 @@
     "precio_normal": 2990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-625",
@@ -4839,7 +4839,7 @@
     "precio_normal": 2850.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-626",
@@ -4847,7 +4847,7 @@
     "precio_normal": 2850.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-627",
@@ -4855,7 +4855,7 @@
     "precio_normal": 2790.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-628",
@@ -4863,7 +4863,7 @@
     "precio_normal": 2790.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-629",
@@ -4871,7 +4871,7 @@
     "precio_normal": 1980.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-630",
@@ -4879,7 +4879,7 @@
     "precio_normal": 2890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-631",
@@ -4887,7 +4887,7 @@
     "precio_normal": 3650.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-632",
@@ -4895,7 +4895,7 @@
     "precio_normal": 3590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-633",
@@ -4903,7 +4903,7 @@
     "precio_normal": 3250.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-634",
@@ -4911,7 +4911,7 @@
     "precio_normal": 3590.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-635",
@@ -4919,7 +4919,7 @@
     "precio_normal": 3430.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-636",
@@ -4927,7 +4927,7 @@
     "precio_normal": 3390.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-637",
@@ -4935,7 +4935,7 @@
     "precio_normal": 2150.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-638",
@@ -4943,7 +4943,7 @@
     "precio_normal": 2260.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-639",
@@ -4951,7 +4951,7 @@
     "precio_normal": 2150.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-640",
@@ -4959,7 +4959,7 @@
     "precio_normal": 3390.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-641",
@@ -4967,7 +4967,7 @@
     "precio_normal": 1820.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-642",
@@ -4975,13 +4975,13 @@
     "precio_normal": 3390.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-643",
     "precio": 1750.0,
     "precio_normal": 1750.0,
-    "estado": "Disponible",
+    "estado": "⚠️ Últ. precio (27/11/2026)",
     "error": null,
     "fecha_act": "27/11/2026 09:30 hrs"
   },
@@ -4991,7 +4991,7 @@
     "precio_normal": 3250.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-645",
@@ -5007,7 +5007,7 @@
     "precio_normal": 3550.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-647",
@@ -5015,7 +5015,7 @@
     "precio_normal": 8950.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-648",
@@ -5023,7 +5023,7 @@
     "precio_normal": 3830.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-649",
@@ -5031,7 +5031,7 @@
     "precio_normal": 3840.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-650",
@@ -5039,7 +5039,7 @@
     "precio_normal": 9550.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-651",
@@ -5047,7 +5047,7 @@
     "precio_normal": 3990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-652",
@@ -5055,7 +5055,7 @@
     "precio_normal": 10700.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-653",
@@ -5063,7 +5063,7 @@
     "precio_normal": 3730.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-654",
@@ -5071,7 +5071,7 @@
     "precio_normal": 2890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-655",
@@ -5079,23 +5079,23 @@
     "precio_normal": 2890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-656",
     "precio": 2232.0,
     "precio_normal": 2790.0,
-    "estado": "⚠️ Últ. precio (01/11/2026)",
+    "estado": "Disponible",
     "error": null,
-    "fecha_act": "01/11/2026 20:46 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-657",
     "precio": 2232.0,
     "precio_normal": 2790.0,
-    "estado": "⚠️ Últ. precio (12/11/2026)",
+    "estado": "Disponible",
     "error": null,
-    "fecha_act": "12/11/2026 08:16 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-658",
@@ -5103,7 +5103,7 @@
     "precio_normal": 1290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-659",
@@ -5111,7 +5111,7 @@
     "precio_normal": 1250.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-660",
@@ -5119,7 +5119,7 @@
     "precio_normal": 6190.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-661",
@@ -5127,7 +5127,7 @@
     "precio_normal": 2190.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-662",
@@ -5135,7 +5135,7 @@
     "precio_normal": 5990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-663",
@@ -5143,7 +5143,7 @@
     "precio_normal": 2150.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-664",
@@ -5151,7 +5151,7 @@
     "precio_normal": 17190.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-665",
@@ -5159,7 +5159,7 @@
     "precio_normal": 1810.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-666",
@@ -5167,7 +5167,7 @@
     "precio_normal": 6450.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-667",
@@ -5175,7 +5175,7 @@
     "precio_normal": 2390.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-668",
@@ -5183,7 +5183,7 @@
     "precio_normal": 14990.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-669",
@@ -5191,7 +5191,7 @@
     "precio_normal": 3730.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-670",
@@ -5199,7 +5199,7 @@
     "precio_normal": 4290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-671",
@@ -5207,7 +5207,7 @@
     "precio_normal": 1020.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-672",
@@ -5215,7 +5215,7 @@
     "precio_normal": 1440.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-673",
@@ -5223,7 +5223,7 @@
     "precio_normal": 3230.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-674",
@@ -5239,7 +5239,7 @@
     "precio_normal": 1340.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-676",
@@ -5247,7 +5247,7 @@
     "precio_normal": 2490.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-677",
@@ -5255,7 +5255,7 @@
     "precio_normal": 2250.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-678",
@@ -5263,7 +5263,7 @@
     "precio_normal": 1000.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-679",
@@ -5271,7 +5271,7 @@
     "precio_normal": 1290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-680",
@@ -5279,7 +5279,7 @@
     "precio_normal": 2890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-681",
@@ -5287,7 +5287,7 @@
     "precio_normal": 1190.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-682",
@@ -5295,7 +5295,7 @@
     "precio_normal": 1390.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-683",
@@ -5304,7 +5304,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 750.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-684",
@@ -5313,7 +5313,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1810.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-685",
@@ -5349,7 +5349,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 1390.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-689",
@@ -5358,7 +5358,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 2450.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-690",
@@ -5367,7 +5367,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 2490.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-691",
@@ -5385,7 +5385,7 @@
     "estado": "Disponible",
     "error": null,
     "precio_socio2": 3060.0,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-693",
@@ -5393,7 +5393,7 @@
     "precio_normal": 1000.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-694",
@@ -5401,7 +5401,7 @@
     "precio_normal": 2000.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-695",
@@ -5409,7 +5409,7 @@
     "precio_normal": 2000.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-696",
@@ -5417,7 +5417,7 @@
     "precio_normal": 1000.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-697",
@@ -5425,7 +5425,7 @@
     "precio_normal": 1000.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-698",
@@ -5433,7 +5433,7 @@
     "precio_normal": 2190.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-699",
@@ -5441,7 +5441,7 @@
     "precio_normal": 5890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-700",
@@ -5449,7 +5449,7 @@
     "precio_normal": 2000.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-701",
@@ -5457,7 +5457,7 @@
     "precio_normal": 3190.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-702",
@@ -5465,15 +5465,15 @@
     "precio_normal": 2690.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-703",
     "precio": 1000.0,
     "precio_normal": 1000.0,
-    "estado": "⚠️ Últ. precio (23/11/2026)",
+    "estado": "Disponible",
     "error": null,
-    "fecha_act": "23/11/2026 09:47 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-704",
@@ -5481,7 +5481,7 @@
     "precio_normal": 1890.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-705",
@@ -5489,7 +5489,7 @@
     "precio_normal": 755.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-706",
@@ -5497,7 +5497,7 @@
     "precio_normal": 2620.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-707",
@@ -5505,7 +5505,7 @@
     "precio_normal": 1290.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-708",
@@ -5513,7 +5513,7 @@
     "precio_normal": 500.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-709",
@@ -5521,7 +5521,7 @@
     "precio_normal": 1320.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-710",
@@ -5529,7 +5529,7 @@
     "precio_normal": 1000.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-711",
@@ -5537,7 +5537,7 @@
     "precio_normal": 800.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   },
   {
     "sku_interno": "TC-712",
@@ -5545,6 +5545,6 @@
     "precio_normal": 950.0,
     "estado": "Disponible",
     "error": null,
-    "fecha_act": "27/11/2026 09:30 hrs"
+    "fecha_act": "27/11/2026 23:52 hrs"
   }
 ]
